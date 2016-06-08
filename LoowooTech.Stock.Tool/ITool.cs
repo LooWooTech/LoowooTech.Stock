@@ -10,6 +10,7 @@ namespace LoowooTech.Stock.Tool
     {
         string Name { get; }
         string ID { get; set; }
+        string TableName { get; set; }
         bool Check(OleDbConnection connection);
     }
 }

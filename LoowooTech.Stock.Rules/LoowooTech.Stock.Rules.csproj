@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="CESHI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TableEight.cs" />
     <Compile Include="TableField.cs" />
     <Compile Include="TableFive.cs" />
     <Compile Include="TableSeven.cs" />

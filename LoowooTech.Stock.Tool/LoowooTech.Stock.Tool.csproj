@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ITool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueNullTool.cs" />
     <Compile Include="ValueRangeTool.cs" />
     <Compile Include="ValueMathTool.cs" />
     <Compile Include="ValueUniqueTool.cs" />
