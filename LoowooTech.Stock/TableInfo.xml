@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Tables>
+  <Table Name="XZQ">
+    <Field Title="标识码" Name="BSM" Type="Int" Length="10"></Field>
+    <Field Title="要素代码" Name="YSDM" Type="Char" Length="10"></Field>
+    <Field Title="行政区代码" Name="XZQDM" Type="Char" Length="12"></Field>
+    <Field Title="行政区名称" Name="XZQMC" Type="Char" Length="100"></Field>
+  </Table>
+</Tables>
