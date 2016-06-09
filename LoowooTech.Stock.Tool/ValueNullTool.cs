@@ -50,20 +50,24 @@ namespace LoowooTech.Stock.Tool
                         sb.AppendFormat(",{0}", CheckFields[i]);
                     }
                     command.CommandText = string.Format("Select {0},{1} from {2} where {3}", sb.ToString(), Key, TableName, WhereCaluse);
+                    Messages = new List<string>();
+                    var str = string.Empty;
                     using (var reader = command.ExecuteReader())
                     {
+
                         while (reader.Read())
                         {
+                            str = string.Empty;
                             for(var i = 0; i < CheckFields.Count(); i++)
                             {
-                                if (Is_Nullable^string.IsNullOrEmpty(reader[i].ToString()))
+                                if (Is_Nullable^string.IsNullOrEmpty(reader[i].ToString()))//异或  Is_NULLable  ture 为空  字段不为空或者 Is_NULLable false 必填 字段为空 矛盾
                                 {
-
+                                    str += CheckFields[i]+",";
                                 }
-                                else
-                                {
-                                   
-                                }
+                            }
+                            if (!string.IsNullOrEmpty(str))
+                            {
+                                Messages.Add(string.Format("{0}对应的字段：{1}与要求的{2}不符", reader[CheckFields.Count()], str, Is_Nullable ? "为空" : "必填"));
                             }
                         }
                     }

@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.OleDb;
-using System.Linq;
-using System.Text;
+﻿using System.Data.OleDb;
 using LoowooTech.Stock.Tool;
 
 namespace LoowooTech.Stock.Rules
 {
-    public class TableFive
+    public class TableFive:TableBase
     {
         public TableFive()
         {
-            var list = new List<ITool>();
-            list.Add(new ValueRangeTool() { TableName = "XZQ", CheckFieldName = "YSDM", Key = "BSM", Values = new string[] { "1000600100" }, ID = "5001(填写规则)" });
-            list.Add(new ValueMathTool() { TableName = "XZQ", CheckFieldName = "XZQDM", Key = "BSM", RegexString = "33[0-9]{10}", ID = "5002(填写规则)" });
+            _tableName = "XZQ";
+            _key = "BSM";
+            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "YSDM", Key = _key, Values = new string[] { "1000600100" }, ID = "05001(填写规则)" });
+            list.Add(new ValueMathTool() { TableName = _tableName, CheckFieldName = "XZQDM", Key = _key, RegexString = "33[0-9]{10}", ID = "05002(填写规则)" });
         }
         public void Check(OleDbConnection connection)
         {

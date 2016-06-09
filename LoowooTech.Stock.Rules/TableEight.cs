@@ -1,23 +1,29 @@
 ﻿using LoowooTech.Stock.Tool;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace LoowooTech.Stock.Rules
 {
-    public class TableEight
+    public class TableEight:TableBase
     {
         public TableEight()
         {
-            var list = new List<ITool>();
-            list.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "YSDM", Key = "MBBSM", Values = new string[] { "2008010200" }, ID = "8001(填写规则)" });
-            list.Add(new ValueUniqueTool() { TableName = "CLZJD", CheckFieldName = "DCBH", ID = "8002(填写规则)" });
-            list.Add(new ValueUniqueTool() { TableName = "CLZJD", CheckFieldName = "TBBH", ID = "8003(填写规则)" });
-            list.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "QSLY", Key = "MBBSM", Values = new string[] { "1", "2", "3", "4" }, ID = "8004(填写规则)" });
-            list.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "JZLX", Key = "MBBSM", Values = new string[] { "1", "2", "3", "4" }, ID = "8005(填写规则)" });
-            list.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "LYZT", Key = "MBBSM", Values = new string[] { "1", "2", "3" }, ID = "8006(填写规则)" });
-            list.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "NHLX", Key = "MBBSM", Values = new string[] { "1", "2", "3", "4" }, ID = "8007(填写规则)" });
+            _tableName = "CLZJD";
+            _key = "MBBSM";
+            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010200" }, ID = "08001(填写规则)" });
+            list.Add(new ValueUniqueTool() { TableName = _tableName, CheckFieldName = "DCBH", ID = "08002(填写规则)" });
+            list.Add(new ValueUniqueTool() { TableName = _tableName, CheckFieldName = "TBBH", ID = "08003(填写规则)" });
+            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "QSLY", Key = _key, Values = new string[] { "1", "2", "3", "4" }, ID = "08004(填写规则)" });
+            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "JZLX", Key = _key, Values = new string[] { "1", "2", "3", "4" }, ID = "08005(填写规则)" });
+            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "LYZT", Key = _key, Values = new string[] { "1", "2", "3" }, ID = "08006(填写规则)" });
+            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "NHLX", Key = _key, Values = new string[] { "1", "2", "3", "4" }, ID = "08007(填写规则)" });
+            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "KZYY", Key = _key, Values = new string[] { "1", "2", "3", "4", "5", "" }, ID = "08008(填写规则)" });
+            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "FQYY", Key = _key, Values = new string[] { "1", "2", "3", "4", "" }, ID = "08009(填写规则)" });
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "RJJZYS" }, Key = _key, WhereCaluse = "LYZT='1'", Is_Nullable = false, ID = "08010(逻辑规则)" });//必填
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "KZYY", "FQYY", "QTYY" }, WhereCaluse = "LYZT='1'", Is_Nullable = true, ID = "08011(逻辑规则)" });//为空
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "KZYY" }, WhereCaluse = "LYZT='2'", Is_Nullable = false, ID = "08012(逻辑规则)" });
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "RJJZYS", "FQYY" }, WhereCaluse = "LYZT='2'", Is_Nullable = true, ID = "08013(逻辑规则)" });
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "FQYY" }, WhereCaluse = "LJZT='3'", Is_Nullable = false, ID = "08014(逻辑规则)" });
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "RJJZYS" }, WhereCaluse = "LJZT='3'", Is_Nullable = true, ID = "08015(逻辑规则)" });
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "QTYY" }, WhereCaluse = "KZYY='5'||FQYY='4'", Is_Nullable = false, ID = "08016(逻辑规则)" });
         }
     }
 }
