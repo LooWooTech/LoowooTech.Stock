@@ -18,12 +18,12 @@ namespace LoowooTech.Stock.Rules
             list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "KZYY", Key = _key, Values = new string[] { "1", "2", "3", "4", "5", "" }, ID = "08008(填写规则)" });
             list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "FQYY", Key = _key, Values = new string[] { "1", "2", "3", "4", "" }, ID = "08009(填写规则)" });
             list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "RJJZYS" }, Key = _key, WhereCaluse = "LYZT='1'", Is_Nullable = false, ID = "08010(逻辑规则)" });//必填
-            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "KZYY", "FQYY", "QTYY" }, WhereCaluse = "LYZT='1'", Is_Nullable = true, ID = "08011(逻辑规则)" });//为空
-            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "KZYY" }, WhereCaluse = "LYZT='2'", Is_Nullable = false, ID = "08012(逻辑规则)" });
-            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "RJJZYS", "FQYY" }, WhereCaluse = "LYZT='2'", Is_Nullable = true, ID = "08013(逻辑规则)" });
-            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "FQYY" }, WhereCaluse = "LJZT='3'", Is_Nullable = false, ID = "08014(逻辑规则)" });
-            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "RJJZYS" }, WhereCaluse = "LJZT='3'", Is_Nullable = true, ID = "08015(逻辑规则)" });
-            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "QTYY" }, WhereCaluse = "KZYY='5'||FQYY='4'", Is_Nullable = false, ID = "08016(逻辑规则)" });
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "KZYY", "FQYY", "QTYY" },Key=_key, WhereCaluse = "LYZT='1'", Is_Nullable = true, ID = "08011(逻辑规则)" });//为空
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "KZYY" }, Key=_key ,WhereCaluse = "LYZT='2'", Is_Nullable = false, ID = "08012(逻辑规则)" });
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "RJJZYS", "FQYY" }, Key=_key, WhereCaluse = "LYZT='2'", Is_Nullable = true, ID = "08013(逻辑规则)" });
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "FQYY" },Key=_key, WhereCaluse = "LJZT='3'", Is_Nullable = false, ID = "08014(逻辑规则)" });
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "RJJZYS" },Key=_key, WhereCaluse = "LJZT='3'", Is_Nullable = true, ID = "08015(逻辑规则)" });
+            list.Add(new ValueNullTool() { TableName = _tableName, CheckFields = new string[] { "QTYY" },Key=_key, WhereCaluse = "KZYY='5'||FQYY='4'", Is_Nullable = false, ID = "08016(逻辑规则)" });
         }
     }
 }

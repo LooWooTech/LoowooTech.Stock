@@ -41,10 +41,17 @@
   <ItemGroup>
     <Compile Include="ITool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueCombinationTool.cs" />
     <Compile Include="ValueNullTool.cs" />
     <Compile Include="ValueRangeTool.cs" />
     <Compile Include="ValueMathTool.cs" />
     <Compile Include="ValueUniqueTool.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoowooTech.Stock.Models\LoowooTech.Stock.Models.csproj">
+      <Project>{5E25CB83-BDAB-411C-998D-554710D82020}</Project>
+      <Name>LoowooTech.Stock.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

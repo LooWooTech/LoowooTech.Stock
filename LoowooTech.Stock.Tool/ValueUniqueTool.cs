@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.OleDb;
-using System.Linq;
-using System.Text;
 
 namespace LoowooTech.Stock.Tool
 {
