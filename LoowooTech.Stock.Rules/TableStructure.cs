@@ -7,7 +7,7 @@ namespace LoowooTech.Stock.Rules
     /// <summary>
     /// 检查数据库中是否存在要求的表
     /// </summary>
-    public class TableStructure
+    public class TableStructure:ITable
     {
         /// <summary>
         /// 获取的表名
@@ -17,10 +17,21 @@ namespace LoowooTech.Stock.Rules
         /// 要求的表名
         /// </summary>
         private List<string> _requireTables { get; set; }
-        public string Error { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<string> ExistTables { get; set; }
+        public List<string> Erros { get; set; }
+        public string Name
+        {
+            get
+            {
+                return "检查数据库结构定义";
+            }
+        }
         public TableStructure()
         {
-            Error = string.Empty;
+            Erros = new List<string>();
         }
 
         public void Ready(OleDbConnection connection)
@@ -36,11 +47,11 @@ namespace LoowooTech.Stock.Rules
             {
                 if (_acquireTables.Contains(table))
                 {
-
+                    ExistTables.Add(table);
                 }
                 else
                 {
-                    Error += string.Format("缺失表：{0}；", table);
+                    Erros.Add(string.Format("缺失表：{0}；", table));
                 }
             }
         }

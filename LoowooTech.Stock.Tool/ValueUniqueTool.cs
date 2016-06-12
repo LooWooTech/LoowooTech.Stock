@@ -37,6 +37,11 @@ namespace LoowooTech.Stock.Tool
         {
             if (connection != null)
             {
+                if (connection.State == System.Data.ConnectionState.Broken)
+                {
+                    connection.Close();
+                    connection.Open();
+                }
                 if (connection.State == System.Data.ConnectionState.Closed)
                 {
                     connection.Open();

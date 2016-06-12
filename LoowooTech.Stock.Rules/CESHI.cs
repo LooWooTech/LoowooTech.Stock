@@ -1,4 +1,5 @@
 ﻿using LoowooTech.Stock.Common;
+using System;
 using System.Data.OleDb;
 
 namespace LoowooTech.Stock.Rules
@@ -11,6 +12,11 @@ namespace LoowooTech.Stock.Rules
             using (var connection=new OleDbConnection(_connectionString))
             {
                 connection.Open();
+                var structure = new TableStructure();
+                Console.WriteLine(string.Format("开始检查{0}", structure.Name));
+                structure.Check(connection);
+
+
                 var list = MdbClass.GetFields(connection, "GYYD");
                 connection.Close();
             }

@@ -41,12 +41,13 @@
   <ItemGroup>
     <Compile Include="CESHI.cs" />
     <Compile Include="ClassNine.cs" />
+    <Compile Include="ITable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableBase.cs" />
     <Compile Include="TableEight.cs" />
     <Compile Include="TableEleven.cs" />
-    <Compile Include="TableField.cs" />
     <Compile Include="TableFive.cs" />
+    <Compile Include="TableHeart.cs" />
     <Compile Include="TableSeven.cs" />
     <Compile Include="TableSix.cs" />
     <Compile Include="TableStructure.cs" />

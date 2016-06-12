@@ -6,13 +6,20 @@ using System.Text;
 
 namespace LoowooTech.Stock.Rules
 {
-    public class ClassNine:TableBase
+    public class ClassNine:TableBase,ITable
     {
-
+        public override string Name
+        {
+            get
+            {
+                return "检查  表9 经营性建设用地要素基本属性结构表";
+            }
+        }
         public ClassNine()
         {
             _tableName = "JYXJSYD";
             _key = "MBBSM";
+            list.Add(new FieldStructureTool() { TableName = _tableName, ID = "09000(结构规则)" });
             list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008020200" }, ID = "09001(填写规则)" });
             list.Add(new ValueUniqueTool() { TableName = _tableName, CheckFieldName = "DCBH", ID = "09002(填写规则)" });
             list.Add(new ValueUniqueTool() { TableName = _tableName, CheckFieldName = "TBBH", ID = "09003(填写规则)" });

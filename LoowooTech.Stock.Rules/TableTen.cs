@@ -2,12 +2,20 @@
 
 namespace LoowooTech.Stock.Rules
 {
-    public class TableTen:TableBase
+    public class TableTen:TableBase,ITable
     {
+        public override string Name
+        {
+            get
+            {
+                return "检查 表10 公共管理及公共服务设施用地要素基本属性结构表";
+            }
+        }
         public TableTen()
         {
             _tableName = "GGGL-GGFWSSYD";
             _key = "MBBSM";
+            list.Add(new FieldStructureTool() { TableName = _tableName, ID = "10000(结构规则)" });
             list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008020300" }, ID = "10001(填写规则)" });
             list.Add(new ValueUniqueTool() { TableName = _tableName, CheckFieldName = "DCBH", ID = "10002(填写规则)" });
             list.Add(new ValueUniqueTool() { TableName = _tableName, CheckFieldName = "TBBH", ID = "10003(填写规则)" });

@@ -46,19 +46,40 @@ namespace LoowooTech.Stock.Common
                 var length = 0;
                 for (var i = 0; i < nodes.Count; i++)
                 {
-                    if (Enum.TryParse(nodes[i].Attributes["Type"].Value, out type))
+                    var str = nodes[i].Attributes["Type"].Value;
+                    if (str == "Date")
                     {
-                        list.Add(new Field()
-                        {
-                            Name = nodes[i].Attributes["Name"].Value,
-                            Title = nodes[i].Attributes["Title"].Value,
-                            Length = int.TryParse(nodes[i].Attributes["Length"].Value, out length) ? length : 0,
-                            Type = type
-                        });
+                        str = "DateTime";
                     }
+                    if (!string.IsNullOrEmpty(str))
+                    {
+                        if (Enum.TryParse(str, out type))
+                        {
+                            list.Add(new Field()
+                            {
+                                Name = nodes[i].Attributes["Name"].Value,
+                                Title = nodes[i].Attributes["Title"].Value,
+                                Length = int.TryParse(nodes[i].Attributes["Length"].Value, out length) ? length : 0,
+                                Type = type
+                            });
+                        }
+                    }
+                   
                 }
             }
             return list;
+        }
+
+
+        public static string GetClass(string tableName)
+        {
+            var className = string.Empty;
+            var node = _configXml.SelectSingleNode("/Tables/Table@[Name=" + tableName + "]");
+            if (node != null)
+            {
+                className = node.Attributes["Class"].Value;
+            }
+            return className;
         }
     }
 }

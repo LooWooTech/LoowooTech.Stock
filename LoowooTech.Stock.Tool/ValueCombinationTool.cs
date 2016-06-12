@@ -7,6 +7,9 @@ using System.Text;
 
 namespace LoowooTech.Stock.Tool
 {
+    /// <summary>
+    /// 检查
+    /// </summary>
     public class ValueCombinationTool:ITool
     {
         public string CheckField { get; set; }
@@ -16,12 +19,12 @@ namespace LoowooTech.Stock.Tool
         public string Name {
             get
             {
-                var sb = new StringBuilder(string.Format("规则{0}:表{1}", ID, Tables[0]));
+                var sb = new StringBuilder(string.Format("规则{0}:字段{1}在表{2}", ID,CheckField ,Tables[0]));
                 for (var i = 1; i < Tables.Count(); i++)
                 {
                     sb.AppendFormat("、{0}", Tables[i]);
                 }
-
+                sb.Append("中的值不能同时存在！");
                 return sb.ToString();
             }
         }
@@ -41,6 +44,11 @@ namespace LoowooTech.Stock.Tool
             var dict = new Dictionary<string, CombinationClass>();
             if (connection != null)
             {
+                if (connection.State == System.Data.ConnectionState.Broken)
+                {
+                    connection.Close();
+                    connection.Open();
+                }
                 if (connection.State == System.Data.ConnectionState.Closed)
                 {
                     connection.Open();

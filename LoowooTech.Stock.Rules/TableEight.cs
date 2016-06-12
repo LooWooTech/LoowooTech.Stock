@@ -2,12 +2,20 @@
 
 namespace LoowooTech.Stock.Rules
 {
-    public class TableEight:TableBase
+    public class TableEight:TableBase,ITable
     {
+        public override string Name
+        {
+            get
+            {
+                return "检查 表8 存量宅基地要素基本属性结构表";
+            }
+        }
         public TableEight()
         {
             _tableName = "CLZJD";
             _key = "MBBSM";
+            list.Add(new FieldStructureTool() { TableName = _tableName, ID = "08000(结构规则)" });
             list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010200" }, ID = "08001(填写规则)" });
             list.Add(new ValueUniqueTool() { TableName = _tableName, CheckFieldName = "DCBH", ID = "08002(填写规则)" });
             list.Add(new ValueUniqueTool() { TableName = _tableName, CheckFieldName = "TBBH", ID = "08003(填写规则)" });

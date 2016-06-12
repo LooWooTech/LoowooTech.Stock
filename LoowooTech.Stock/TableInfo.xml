@@ -1,9 +1,114 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Tables>
-  <Table Name="XZQ">
+  <Table Name="XZQ" Class="LoowooTech.Stock.Rules.TableFive">
     <Field Title="标识码" Name="BSM" Type="Int" Length="10"></Field>
     <Field Title="要素代码" Name="YSDM" Type="Char" Length="10"></Field>
     <Field Title="行政区代码" Name="XZQDM" Type="Char" Length="12"></Field>
     <Field Title="行政区名称" Name="XZQMC" Type="Char" Length="100"></Field>
+  </Table>
+  <Table Name="XZQJX" Class="LoowooTech.Stock.Rules.TableSix">
+    <Field Title="标识码" Name="BSM" Type="Int" Length="10"></Field>
+    <Field Title="要素代码" Name="YSDM" Type="Char" Length="10"></Field>
+    <Field Title="界线类型" Name="JXLX" Type="Char" Length="6"></Field>
+    <Field Title="界线性质" Name="JXXZ" Type="Char" Length="6"></Field>
+    <Field Title="界线说明" Name="JXSM" Type="Char" Length="100"></Field>
+  </Table>
+  <Table Name="DCDYTB" Class="LoowooTech.Stock.Rules.TableSeven">
+    <Field Title="目标标识码" Name="MBBSM" Type="Int" Length="10"></Field>
+    <Field Title="要素代码" Name="YSDM" Type="Char" Length="10"></Field>
+    <Field Title="乡镇代码" Name="XZDM" Type="Char" Length="9"></Field>
+    <Field Title="乡镇名称" Name="XZMC" Type="Char" Length="100"></Field>
+    <Field Title="图斑编号" Name="TBBH" Type="Char" Length="8"></Field>
+    <Field Title="调查单元类型" Name="DCDYLX" Type="Char" Length="2"></Field>
+    <Field Title="面积" Name="MJ" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="备注" Name="BZ" Type="Char" Length="100"></Field>
+  </Table>
+  <Table Name="CLZJD" Class="LoowooTech.Stock.Rules.TableEight">
+    <Field Title="目标标识码" Name="MBBSM" Type="Int" Length="10"></Field>
+    <Field Title="要素代码" Name="YSDM" Type="Char" Length="10"></Field>
+    <Field Title="行政区代码" Name="XZQDM" Type="Char" Length="12"></Field>
+    <Field Title="行政区名称" Name="XZQMC" Type="Char" Length="100"></Field>
+    <Field Title="调查编号" Name="DCBH" Type="Char" Length="4"></Field>
+    <Field Title="图斑编号" Name="TBBH" Type="Char" Length="8"></Field>
+    <Field Title="户主" Name="HZ" Type="Char" Length="100"></Field>
+    <Field Title="权属来源" Name="QSLY" Type="Char" Length="2"></Field>
+    <Field Title="建筑占地面积" Name="JZZDMJ" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="宗地号" Name="ZDH" Type="Int" Length="6"></Field>
+    <Field Title="建筑面积" Name="JZMJ" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="建筑层数" Name="JZCS" Type="Int" Length="2"></Field>
+    <Field Title="建筑类型" Name="JZLX" Type="Char" Length="2"></Field>
+    <Field Title="建造时间" Name="JZSJ" Type="Date" Length="8"></Field>
+    <Field Title="利用状态" Name="LYZT" Type="Char" Length="2"></Field>
+    <Field Title="人均在家居住月数" Name="RJJZYS" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="空置原因" Name="KZYY" Type="Char" Length="2"></Field>
+    <Field Title="废弃原因" Name="FQYY" Type="Char" Length="2"></Field>
+    <Field Title="其他原因" Name="QTYY" Type="Char" Length="200"></Field>
+    <Field Title="家庭人口" Name="JARK" Type="Int" Length="2"></Field>
+    <Field Title="从事一产占家族收入比重" Name="YCSRBZ" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="农户类型" Name="NHLX" Type="Char" Length="2"></Field>
+    <Field Title="农民退出宅基地意愿及补偿要求" Name="YYJYQ" Type="Char" Length="200"></Field>
+  </Table>
+  <Table Name="JYXJSYD" Class="LoowooTech.Stock.Rules.TableNine">
+    <Field Title="目标标识码" Name="MBBSM" Type="Int" Length="10"></Field>
+    <Field Title="行政区代码" Name="XZQDM" Type="Char" Length="12"></Field>
+    <Field Title="行政区名称" Name="XZQMC" Type="Char" Length="100"></Field>
+    <Field Title="要素代码" Name="YSDM" Type="Char" Length="10"></Field>
+    <Field Title="调查编号" Name="DCBH" Type="Char" Length="4"></Field>
+    <Field Title="图斑编号" Name="TBBH" Type="Char" Length="8"></Field>
+    <Field Title="使用权人" Name="SYQR" Type="Char" Length="100"></Field>
+    <Field Title="土地取得方式" Name="TDQDFS" Type="Char" Length="2"></Field>
+    <Field Title="建设用地面积" Name="JSYDMJ" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="宗地号" Name="ZDH" Type="Int" Length="6"></Field>
+    <Field Title="建筑面积" Name="JZMJ" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="建筑层数" Name="JZCS" Type="Int" Length="2"></Field>
+    <Field Title="建筑类型" Name="JZLX" Type="Char" Length="2"></Field>
+    <Field Title="建造时间" Name="JZSJ" Type="Date" Length="8"></Field>
+    <Field Title="利用状态" Name="LYZT" Type="Char" Length="2"></Field>
+    <Field Title="用途" Name="YT" Type="Char" Length="100"></Field>
+    <Field Title="年税收额" Name="NSSE" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="就业人数" Name="CYRS" Type="Int" Length="2"></Field>
+    <Field Title="空置原因" Name="KZYY" Type="Char" Length="200"></Field>
+    <Field Title="废弃原因" Name="FQYY" Type="Char" Length="200"></Field>
+    <Field Title="权利人对宗地入市流转意见及政策要求" Name="YJJYQ" Type="Char" Length="200"></Field>
+  </Table>
+  <Table Name="GGGL_GGFWSSYD" Class="LoowooTech.Stock.Rules.TableTen">
+    <Field Title="目标标识码" Name="MBBSM" Type="Int" Length="10"></Field>
+    <Field Title="要素代码" Name="YSDM" Type="Char" Length="10"></Field>
+    <Field Title="行政区代码" Name="XZQDM" Type="Char" Length="12"></Field>
+    <Field Title="行政区名称" Name="XZQMC" Type="Char" Length="100"></Field>
+    <Field Title="调查编号" Name="DCBH" Type="Char" Length="4"></Field>
+    <Field Title="图斑编号" Name="TBBH" Type="Char" Length="8"></Field>
+    <Field Title="使用权人" Name="SYQR" Type="Char" Length="100"></Field>
+    <Field Title="土地取得方式" Name="TDQDFS" Type="Char" Length="2"></Field>
+    <Field Title="建设用地面积" Name="JSYDMJ" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="宗地号" Name="ZDH" Type="Int" Length="6"></Field>
+    <Field Title="建筑面积" Name="JZMJ" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="建筑层数" Name="JZCS" Type="Int" Length="2"></Field>
+    <Field Title="建筑类型" Name="JZLX" Type="Char" Length="2"></Field>
+    <Field Title="建造时间" Name="JZSJ" Type="Date" Length="8"></Field>
+    <Field Title="利用状态" Name="LYZT" Type="Char" Length="2"></Field>
+    <Field Title="用途" Name="YT" Type="Char" Length="100"></Field>
+    <Field Title="服务人数" Name="FWRS" Type="Int" Length="2"></Field>
+    <Field Title="使用面积" Name="SYMJ" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="空置原因" Name="KZYY" Type="Char" Length="200"></Field>
+    <Field Title="废弃原因" Name="FQYY" Type="Char" Length="200"></Field>
+    <Field Title="权利人对宗地的处置意愿及政策期望" Name="YYJQW" Type="Char" Length="200"></Field>
+  </Table>
+  <Table Name="QTCLYD" Class="LoowooTech.Stock.Rules.TableEleven">
+    <Field Title="目标标识码" Name="MBBSM" Type="Int" Length="10"></Field>
+    <Field Title="要素代码" Name="YSDM" Type="Char" Length="10"></Field>
+    <Field Title="行政区代码" Name="XZQDM" Type="Char" Length="12"></Field>
+    <Field Title="行政区名称" Name="XZQMC" Type="Char" Length="100"></Field>
+    <Field Title="调查编号" Name="DCBH" Type="Char" Length="4"></Field>
+    <Field Title="图斑编号" Name="TBBH" Type="Char" Length="8"></Field>
+    <Field Title="建设用地面积" Name="JSYDMJ" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="建筑面积" Name="JZMJ" Type="Float" Length="15" Decimal="2"></Field>
+    <Field Title="建造时间" Name="JZSJ" Type="Date" Length="8"></Field>
+    <Field Title="建筑类型" Name="JZLX" Type="Char" Length="2"></Field>
+    <Field Title="用地类型" Name="YDLX" Type="Char" Length="100"></Field>
+    <Field Title="建筑层数" Name="JZCS" Type="Int" Length="2"></Field>
+    <Field Title="利用状态" Name="LYZT" Type="Char" Length="2"></Field>
+    <Field Title="空置原因" Name="KZYY" Type="Char" Length="200"></Field>
+    <Field Title="废弃原因" Name="FQYY" Type="Char" Length="200"></Field>
   </Table>
 </Tables>
