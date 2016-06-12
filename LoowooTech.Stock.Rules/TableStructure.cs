@@ -7,7 +7,7 @@ namespace LoowooTech.Stock.Rules
     /// <summary>
     /// 检查数据库中是否存在要求的表
     /// </summary>
-    public class TableStructure:ITable
+    public class TableStructure
     {
         /// <summary>
         /// 获取的表名
