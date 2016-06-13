@@ -1,5 +1,5 @@
-﻿using LoowooTech.Stock.Common;
-using LoowooTech.Stock.Rules;
+﻿using LoowooTech.Stock.ArcGISTool;
+using LoowooTech.Stock.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,21 +11,22 @@ using System.Windows.Forms;
 
 namespace LoowooTech.Stock
 {
-    public partial class Form1 : Form
+    public partial class Form1 : DMSkin.Main
     {
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void dmLabel1_Click(object sender, EventArgs e)
         {
-            this.textBox1.Text = DialogClass.OpenFile("数据库文件|*.mdb", "打开mdb");
+            this.metroTextBox1.Text = DialogClass.OpenFile("数据库文件|*.mdb", "打开数据库文件");
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void dmButton1_Click(object sender, EventArgs e)
         {
-            CESHI.Program(this.textBox1.Text);
+            var heart = new HeartClass() { mdbFilePath = this.metroTextBox1.Text };
+            heart.Beat();
         }
     }
 }

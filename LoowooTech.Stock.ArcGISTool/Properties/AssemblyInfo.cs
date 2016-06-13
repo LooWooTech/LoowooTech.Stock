@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LoowooTech.Stock")]
+[assembly: AssemblyTitle("LoowooTech.Stock.ArcGISTool")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LoowooTech.Stock")]
+[assembly: AssemblyProduct("LoowooTech.Stock.ArcGISTool")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7beb562e-1589-4ef8-85da-f66caf3bd0ca")]
+[assembly: Guid("e67a35e3-5cf3-40e5-bc57-0e01578e67fd")]
 
 // Version information for an assembly consists of the following four values:
 //

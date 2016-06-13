@@ -1,4 +1,5 @@
 ﻿using LoowooTech.Stock.Common;
+using LoowooTech.Stock.Tool;
 using System;
 using System.Data.OleDb;
 
@@ -13,6 +14,7 @@ namespace LoowooTech.Stock.Rules
             using (var connection=new OleDbConnection(_connectionString))
             {
                 connection.Open();
+                Console.WriteLine("开始检查");
                 #region  检查数据库是否存在要求的表
                 var tableStructure = new TableStructure();
                 Console.WriteLine(string.Format("开始检查{0}", tableStructure.Name));
@@ -69,6 +71,32 @@ namespace LoowooTech.Stock.Rules
                         }
                     }
                 }
+                #endregion
+                #region 检查图斑编号
+
+                var combination = new ValueCombinationTool() { CheckField = "TBBH", Tables = new string[] { "CLZJD", "JYXJSYD", "GGGL_GGFWSSYD", "QTCLYD" }, ID = "00000(逻辑规则)" };
+                Console.WriteLine(string.Format("开始检查：{0}", combination.Name));
+                try
+                {
+                    combination.Check(connection);
+                    if (combination.Messages.Count == 0)
+                    {
+                        Console.WriteLine(string.Format("顺利通过{0}的检查", combination.Name));
+                    }
+                    else
+                    {
+                        Console.WriteLine(string.Format("检查{0}，存在如下错误：", combination.Name));
+                        foreach(var error in combination.Messages)
+                        {
+                            Console.WriteLine(error);
+                        }
+                    }
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(string.Format("在进行检查{0}发生错误，错误信息：{1}", combination.Name, ex.Message));
+                }
+
+                Console.WriteLine("完成本次检查");
                 #endregion
                 connection.Close();
             }
