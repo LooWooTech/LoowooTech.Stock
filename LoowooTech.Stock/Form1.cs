@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace LoowooTech.Stock
 {
-    public partial class Form1 : DMSkin.Main
+    public partial class Form1 : Form
     {
         public Form1()
         {
@@ -20,13 +20,29 @@ namespace LoowooTech.Stock
 
         private void dmLabel1_Click(object sender, EventArgs e)
         {
-            this.metroTextBox1.Text = DialogClass.OpenFile("数据库文件|*.mdb", "打开数据库文件");
+            //this.metroTextBox1.Text = DialogClass.OpenFile("数据库文件|*.mdb", "打开数据库文件");
         }
 
         private void dmButton1_Click(object sender, EventArgs e)
         {
-            var heart = new HeartClass() { mdbFilePath = this.metroTextBox1.Text };
-            heart.Beat();
+            //var heart = new HeartClass() { mdbFilePath = this.metroTextBox1.Text };
+            //heart.Beat();
+        }
+
+        private void FolderButton_Click(object sender, EventArgs e)
+        {
+            this.folderText.Text = DialogClass.SelectFolder();
+
+        }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.folderText.Text))
+            {
+                MessageBox.Show("请选择质检路径");
+            }
+            var heart = new Heart(this.folderText.Text);
+            heart.Program();
         }
     }
 }

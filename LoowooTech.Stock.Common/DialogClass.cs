@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace LoowooTech.Stock.Common
 {
@@ -28,6 +31,23 @@ namespace LoowooTech.Stock.Common
                 saveFile = saveFileDialog.FileName;
             }
             return saveFile;
+        }
+
+        public static string SelectFolder()
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                return dialog.SelectedPath;
+            }
+            return string.Empty;
+        }
+
+        public static List<string> GetSpecialFiles(string folder, string filter)
+        {
+            var dir = new DirectoryInfo(folder);
+            var files = dir.GetFiles(filter);
+            return files.Select(e => e.FullName).ToList();
         }
     }
 }

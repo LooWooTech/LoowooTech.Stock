@@ -1,12 +1,14 @@
 ﻿using LoowooTech.Stock.Common;
 using LoowooTech.Stock.Tool;
 using System;
+using System.Collections.Generic;
 using System.Data.OleDb;
 
 namespace LoowooTech.Stock.Rules
 {
     public class TableHeart
     {
+        public static List<string> _errors { get; set; }
 
         public static  void Program(string mdbfilePath)
         {
@@ -21,6 +23,7 @@ namespace LoowooTech.Stock.Rules
                 tableStructure.Check(connection);
                 if (tableStructure.Erros.Count==0)
                 {
+                    
                     Console.WriteLine(string.Format("符合{0}", tableStructure.Name.Replace("检查", "")));
                 }
                 else

@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DMSkin">
-      <HintPath>..\..\DM\DMSkin.dll</HintPath>
-    </Reference>
     <Reference Include="ESRI.ArcGIS.3DAnalyst, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -68,6 +65,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -85,6 +83,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Heart.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -99,6 +98,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="App.config" />
+    <None Include="Coordinate Systems\Projected Coordinate Systems\Gauss Kruger\Xian 1980\Xian 1980 3 Degree GK CM 120E.prj" />
+    <None Include="Coordinate Systems\Projected Coordinate Systems\Gauss Kruger\Xian 1980\Xian 1980 3 Degree GK Zone 40.prj" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -118,6 +120,25 @@
       <Project>{0EF878D9-9DDC-4886-8593-006300D5B2F2}</Project>
       <Name>LoowooTech.Stock.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LoowooTech.Stock.Rules\LoowooTech.Stock.Rules.csproj">
+      <Project>{0621F42A-9359-47A9-B89F-3231BEF43844}</Project>
+      <Name>LoowooTech.Stock.Rules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoowooTech.Stock.Tool\LoowooTech.Stock.Tool.csproj">
+      <Project>{9643FE49-482A-4589-A145-8A786C5CF3A7}</Project>
+      <Name>LoowooTech.Stock.Tool</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataTree.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeCity.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FieldInfo.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
