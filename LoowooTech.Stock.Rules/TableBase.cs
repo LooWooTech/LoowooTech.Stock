@@ -21,7 +21,7 @@ namespace LoowooTech.Stock.Rules
             Results = new Dictionary<string, List<string>>();
         }
 
-        public void Check(OleDbConnection connection)
+        public virtual void Check(OleDbConnection connection)
         {
             ParallelCheck(connection);
         }

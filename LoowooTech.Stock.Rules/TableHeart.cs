@@ -23,7 +23,6 @@ namespace LoowooTech.Stock.Rules
                 tableStructure.Check(connection);
                 if (tableStructure.Erros.Count==0)
                 {
-                    
                     Console.WriteLine(string.Format("符合{0}", tableStructure.Name.Replace("检查", "")));
                 }
                 else
@@ -33,7 +32,6 @@ namespace LoowooTech.Stock.Rules
                     {
                         Console.WriteLine(error);
                     }
-
                 }
                 #endregion
 
@@ -75,6 +73,24 @@ namespace LoowooTech.Stock.Rules
                     }
                 }
                 #endregion
+
+                #region 检查图斑面积
+
+                Console.WriteLine("正在核对图斑面积一致性;");
+
+                try
+                {
+                    DCDYTBManager.Program();
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+              
+
+                Console.WriteLine("完成核对图斑面积一致性;");
+                #endregion
+
                 #region 检查图斑编号
 
                 var combination = new ValueCombinationTool() { CheckField = "TBBH", Tables = new string[] { "CLZJD", "JYXJSYD", "GGGL_GGFWSSYD", "QTCLYD" }, ID = "00000(逻辑规则)" };

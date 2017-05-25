@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace LoowooTech.Stock.Tool
+namespace LoowooTech.Stock.Common
 {
     public class XmlTool
     {
@@ -43,8 +43,18 @@ namespace LoowooTech.Stock.Tool
 
         public bool Exist(string queryString)
         {
-            var node = _configXml.SelectSingleNode(queryString);
+            var node = GetSingle(queryString);
             return node != null;
+        }
+
+        public XmlNode GetSingle(string queryString)
+        {
+            return _configXml.SelectSingleNode(queryString);
+        }
+
+        public XmlNodeList GetList(string queryString)
+        {
+            return _configXml.SelectNodes(queryString);
         }
     }
 }

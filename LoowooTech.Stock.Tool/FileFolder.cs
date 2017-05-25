@@ -24,19 +24,22 @@ namespace LoowooTech.Stock.Tool
             }
         }
         private string _folder { get; set; }
+        /// <summary>
+        /// 文件夹路径
+        /// </summary>
+        public string Folder { get { return _folder; }set { _folder = value; } }
 
-        
+        /// <summary>
+        /// 当前文件夹下要求存在的文件名
+        /// </summary>
         public List<string> FileNames { get; set; }
         public string CityName { get; set; }//行政区名称
         public string Code { get; set; }//行政区代码
 
         private List<string> _messages { get; set; }
-        private string _reportPath { get; set; }
-        public string ReportPath { get { return _reportPath; }set { _reportPath = value; } }
 
-        public FileFolder(string folder)
+        public FileFolder()
         {
-            _folder = folder;
             _messages = new List<string>();
         }
         public bool Check()
@@ -46,15 +49,16 @@ namespace LoowooTech.Stock.Tool
                 var fullPath = System.IO.Path.Combine(_folder, file.Replace("{Name}",CityName).Replace("{Code}",Code));
                 if (!System.IO.File.Exists(fullPath))
                 {
+                    Console.WriteLine(string.Format("文件路径：{0}不存在，请核对", fullPath));
                     _messages.Add(string.Format("文件路径:{0}不存在，请核对", fullPath));
                     return false;
                 }
                 if (!Open(fullPath))
                 {
+                    Console.WriteLine(string.Format("文件：{0}无法打开，请核对", fullPath));
                     _messages.Add(string.Format("文件：{0}无法打开", fullPath));
                 }
             }
-            Name.Write(_messages,ReportPath);
             return _messages.Count==0;
         }
 

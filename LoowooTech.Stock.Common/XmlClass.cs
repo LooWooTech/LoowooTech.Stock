@@ -7,39 +7,35 @@ namespace LoowooTech.Stock.Common
 {
     public static class XmlClass
     {
-        private static XmlDocument _configXml { get; set; }
+        //private static XmlDocument _configXml { get; set; }
 
-        static XmlClass()
-        {
-            _configXml = new XmlDocument();
-            _configXml.Load(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["FIELD"]));
-        }
+        //static XmlClass()
+        //{
+        //    _configXml = new XmlDocument();
+        //    _configXml.Load(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["FIELD"]));
+        //}
 
-        private static List<string> Get(string selectString, string fieldName)
-        {
-            var list = new List<string>();
-            var nodes = _configXml.SelectNodes(selectString);
-            if (nodes != null)
-            {
-                for (var i = 0; i < nodes.Count; i++)
-                {
-                    list.Add(nodes[i].Attributes[fieldName].Value);
-                }
-            }
-            return list;
-        }
-
-
+        //private static List<string> Get(string selectString, string fieldName)
+        //{
+        //    var list = new List<string>();
+        //    var nodes = _configXml.SelectNodes(selectString);
+        //    if (nodes != null)
+        //    {
+        //        for (var i = 0; i < nodes.Count; i++)
+        //        {
+        //            list.Add(nodes[i].Attributes[fieldName].Value);
+        //        }
+        //    }
+        //    return list;
+        //}
         public static List<string> GetRequireTables()
         {
-            return Get("/Tables/Table", "Name");
+            return XmlManager.Get("/Tables/Table", "Name", XmlEnum.Field); //Get("/Tables/Table", "Name");
         }
-
-
         public static List<Field> GetField(string tableName)
         {
             var list = new List<Field>();
-            var nodes = _configXml.SelectNodes("/Tables/Table@[Name=" + tableName + "]/Field");
+            var nodes = XmlManager.GetList("/Tables/Table@[Name=" + tableName + "]/Field", XmlEnum.Field); //_configXml.SelectNodes("/Tables/Table@[Name=" + tableName + "]/Field");
             if (nodes != null)
             {
                 var type = FieldType.Int;
@@ -69,12 +65,10 @@ namespace LoowooTech.Stock.Common
             }
             return list;
         }
-
-
         public static string GetClass(string tableName)
         {
             var className = string.Empty;
-            var node = _configXml.SelectSingleNode("/Tables/Table@[Name=" + tableName + "]");
+            var node = XmlManager.GetSingle("/Tables/Table@[Name=" + tableName + "]",XmlEnum.Field);//_configXml.SelectSingleNode("/Tables/Table@[Name=" + tableName + "]");
             if (node != null)
             {
                 className = node.Attributes["Class"].Value;

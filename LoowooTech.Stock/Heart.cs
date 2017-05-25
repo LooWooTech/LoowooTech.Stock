@@ -21,71 +21,42 @@ namespace LoowooTech.Stock
     {
         public string Name { get { return "质检总入口"; } }
         /// <summary>
-        /// 目录下文件夹信息
+        /// 质检起始文件夹路径
         /// </summary>
-        private string _xmlDataFilePath { get; set; }
-        public string XmlDataFilePath
-        {
-            get
-            {
-                return string.IsNullOrEmpty(_xmlDataFilePath) ? _xmlDataFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["DataTree"]) : _xmlDataFilePath;
-            }
-        }
-
-        private XmlTool _dataTreeTool { get; set; }
-        public XmlTool DataTreeTool
-        {
-            get
-            {
-                return _dataTreeTool == null ? _dataTreeTool = new XmlTool(XmlDataFilePath) : _dataTreeTool;
-            }
-        }
-        /// <summary>
-        /// 行政区划代码信息
-        /// </summary>
-        private string _xmlCityFilePath { get; set; }
-        public string XmlCityFilePath
-        {
-            get
-            {
-                return string.IsNullOrEmpty(_xmlCityFilePath) ? _xmlCityFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["CodeCity"]) : _xmlCityFilePath;
-            }
-        }
-        private XmlTool _cityTool { get; set; }
-        public XmlTool CityTool
-        {
-            get
-            {
-                return _cityTool == null ? _cityTool = new XmlTool(XmlCityFilePath) : _cityTool;
-            }
-        }
         private string _folder { get; set; }
+        public Heart(string folder)
+        {
+            _folder = folder;
+            Init();
+        }
+        public void Init()
+        {
+            _messages = new List<string>();
+            _results = new List<IResult>();
+            _folderTool = new List<IFolder>();
+
+        }
+        private string _reportPath { get; set; }
+        /// <summary>
+        /// 质检报告路径
+        /// </summary>
+        public string ReportPath { get { return _reportPath; } set { _reportPath = value; } }
+
+
         private List<string> _messages { get; set; }
         public List<string> Messages { get { return _messages; } }
         private List<IResult> _results { get; set; }
 
         protected const string Title = "农村存量建设用地调查数据成果";
         protected const string DataBase = "1空间数据库";
-        protected const string Report = "5质检报告";
 
-        private string _reportPath { get; set; }
-        public string ReportPath { get { return string.IsNullOrEmpty(_reportPath) ? _reportPath = System.IO.Path.Combine(_folder, Report) : _reportPath; } }
+
         private string _cityName { get; set; }
         public string _cityCode { get; set; }
         private List<IFolder> _folderTool { get; set; }
-        public Heart(string folder)
-        {
-            _folder = folder;
-            Init();
-        }
 
-        public void Init()
-        {
-            _messages = new List<string>();
-            _results = new List<IResult>();
-            _folderTool = new List<IFolder>();
-           
-        }
+
+
 
         /// <summary>
         /// 作用：检查当前路径正确性  路径是否存在 路径中的行政区划名称和行政区划代码信息
@@ -96,6 +67,7 @@ namespace LoowooTech.Stock
         {
             if (!System.IO.Directory.Exists(_folder))
             {
+                Console.WriteLine(string.Format("质检路径：{0}不存在", _folder));
                 _messages.Add(string.Format("质检路径：{0}不存在", _folder));
                 return false;
             }
@@ -106,13 +78,15 @@ namespace LoowooTech.Stock
             {
                 _cityName = arrays[0];
                 _cityCode = arrays[1];
-                if (!CityTool.Exist(string.Format("/Citys/City[@Code='{0}'][@Name='{1}']", _cityCode, _cityName)))
+                if (!XmlManager.Exist(string.Format("/Citys/City[@Code='{0}'][@Name='{1}']", _cityCode, _cityName),XmlEnum.City))
                 {
+                    Console.WriteLine("未查询到相关行政区划以及行政区划代码");
                     _messages.Add("未查询到相关行政区划以及行政区划代码");
                     return false;
                 }
                 return true;
             }
+            Console.WriteLine("质检路径命名要求不符");
             _messages.Add("质检路径命名要求不符");
             return false;
 
@@ -126,13 +100,14 @@ namespace LoowooTech.Stock
                 Dispose();
                 return;
             }
-            var resultComplete = new ResultComplete(_folder) { Children = DataTreeTool.Get("/Folders/Folder", "Name") };//数据完整性
+            var resultComplete = new ResultComplete(_folder) { Children = XmlManager.Get("/Folders/Folder", "Name",XmlEnum.DataTree) };//数据完整性
             resultComplete.Check();//核对质检数据文件夹下面的文件夹是否存在
             _messages.AddRange(resultComplete.Messages);
 
-            _folderTool.AddRange(resultComplete.ExistPath.Select(e => new FileFolder(e) {
-                FileNames = DataTreeTool.GetChildren(string.Format("/Folders/Folder[@Name='{0}']", new DirectoryInfo(e).Name), "Name"),
-                ReportPath=ReportPath,
+            _folderTool.AddRange(resultComplete.ExistPath.Select(e => new FileFolder() {
+                Folder=e,
+                FileNames =XmlManager.GetChildren(string.Format("/Folders/Folder[@Name='{0}']", new DirectoryInfo(e).Name), "Name",XmlEnum.DataTree),
+                //ReportPath=ReportPath,
                 CityName = _cityName,
                 Code = _cityCode }));
             foreach(var tool in _folderTool)

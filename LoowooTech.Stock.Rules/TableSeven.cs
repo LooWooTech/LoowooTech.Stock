@@ -8,17 +8,17 @@ namespace LoowooTech.Stock.Rules
         {
             get
             {
-                return "检查 表7 调查单元图斑要素基本属性结构表";
+                return "检查 表7 行政区界线要素基本属性结构表";
             }
         }
         public TableSeven()
         {
-            _tableName = "DCDYTB";
-            _key = "MBBSM";
+            _tableName = "XZQJX";
+            _key = "BSM";
             list.Add(new FieldStructureTool() { TableName = _tableName, ID = "07000(结构规则)" });
-            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010100" }, ID = "07001(填写规则)" });
-            list.Add(new ValueUniqueTool() { TableName = _tableName, CheckFieldName = "TBBH", ID = "07002(填写规则)" });
-            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "DCDYLX", Key = _key, Values = new string[] { "1", "2", "3" }, ID = "07003(填写规则)" });
+            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "YSDM", Key = _key, Values = new string[] { "1000600200","1000600220","1000600230","1000600240","1000600250","1000600260" }, ID = "07001(填写规则)" });
+            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "JXLX", Key = _key, Values = new string[] { "630200", "640200", "650200", "660200", "670500" }, ID = "07002(填写规则)" });
+            list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "JXXZ", Key = _key, Values = new string[] { "600001", "600002", "600003", "600004", "600009" }, ID = "07003(填写规则)" });
         }
     }
 }

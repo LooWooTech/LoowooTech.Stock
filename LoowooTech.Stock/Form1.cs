@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 namespace LoowooTech.Stock
 {
+    public delegate void UpdateProgressDelegate(string message);
     public partial class Form1 : Form
     {
         public Form1()
@@ -40,9 +41,26 @@ namespace LoowooTech.Stock
             if (string.IsNullOrEmpty(this.folderText.Text))
             {
                 MessageBox.Show("请选择质检路径");
+                return;
             }
+
             var heart = new Heart(this.folderText.Text);
             heart.Program();
+        }
+
+        private void UpdateProgress(string message)
+        {
+            if (string.IsNullOrEmpty(message)) return;
+            if (listBox1.InvokeRequired)
+            {
+                var d = new UpdateProgressDelegate(UpdateProgress);
+                listBox1.Invoke(d, message);
+            }
+            else
+            {
+                listBox1.Items.Add(string.Format("[{0:HH:mm:ss}] {1}", DateTime.Now, message));
+                listBox1.TopIndex = listBox1.Items.Count - listBox1.ClientSize.Height / listBox1.ItemHeight;
+            }
         }
     }
 }

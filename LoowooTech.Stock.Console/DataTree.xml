@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Folders>
+  <Folder Name="1空间数据库">
+    <File Name="{Name}({Code})农村存量建设用地调查成果元数据.xml"></File>
+    <File Name="{Name}({Code})农村存量建设用地调查成果空间数据库.mdb"></File>
+    <File Name="{Name}({Code})单位代码表.xls"></File>
+  </Folder>
+  <Folder Name="2栅格图件">
+    <Folder Name="县级成果">
+      <File Name="{Name}({Code})土地利用现状图.jpg"></File>
+      <File Name="{Name}({Code})土地利用现状图.jpg"></File>
+    </Folder>
+    <Folder Name="乡镇级成果"></Folder>
+  </Folder>
+  <Folder Name="3统计表格"></Folder>
+  <Folder Name="4文档报告"></Folder>
+</Folders>

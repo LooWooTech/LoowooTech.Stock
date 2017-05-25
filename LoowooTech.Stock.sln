@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Stock.Models", "LoowooTech.Stock.Models\LoowooTech.Stock.Models.csproj", "{5E25CB83-BDAB-411C-998D-554710D82020}"
 EndProject
@@ -14,6 +14,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Stock.ArcGISTool", "LoowooTech.Stock.ArcGISTool\LoowooTech.Stock.ArcGISTool.csproj", "{E67A35E3-5CF3-40E5-BC57-0E01578E67FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Stock", "LoowooTech.Stock\LoowooTech.Stock.csproj", "{7BEB562E-1589-4EF8-85DA-F66CAF3BD0CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Stock.Console", "LoowooTech.Stock.Console\LoowooTech.Stock.Console.csproj", "{B9A9F399-B64D-45DF-BDF6-A30FF8C745DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Stock.WorkBench", "LoowooTech.Stock.WorkBench\LoowooTech.Stock.WorkBench.csproj", "{B7D49453-9323-4E74-B1FC-56ADA5F0D99F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{7BEB562E-1589-4EF8-85DA-F66CAF3BD0CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BEB562E-1589-4EF8-85DA-F66CAF3BD0CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BEB562E-1589-4EF8-85DA-F66CAF3BD0CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9A9F399-B64D-45DF-BDF6-A30FF8C745DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9A9F399-B64D-45DF-BDF6-A30FF8C745DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9A9F399-B64D-45DF-BDF6-A30FF8C745DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9A9F399-B64D-45DF-BDF6-A30FF8C745DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7D49453-9323-4E74-B1FC-56ADA5F0D99F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7D49453-9323-4E74-B1FC-56ADA5F0D99F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7D49453-9323-4E74-B1FC-56ADA5F0D99F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7D49453-9323-4E74-B1FC-56ADA5F0D99F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

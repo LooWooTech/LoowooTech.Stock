@@ -41,7 +41,6 @@ namespace LoowooTech.Stock.Rules
         }
         public override void Check()
         {
-
             if (_children.Count > 0)
             {
                 foreach(var child in _children)
@@ -49,12 +48,12 @@ namespace LoowooTech.Stock.Rules
                     var folder = System.IO.Path.Combine(_folder, child);//子文件夹全路径
                     if (!System.IO.Directory.Exists(folder))
                     {
+                        Console.WriteLine(string.Format("缺失文件夹路径：{0}", child));
                         _messages.Add(string.Format("缺失文件夹路径：{0}", child));
                     }
                     else
                     {
                         _existPath.Add(folder);
-                        //FileTools.Add(new FileFolder(folder) { FileNames = tool.GetChildren(string.Format("/Folders/Folder@[Name='{0}']", child), Name),CityName=CityName,Code=Code });
                     }
                 }
                 

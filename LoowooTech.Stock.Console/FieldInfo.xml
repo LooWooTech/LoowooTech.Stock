@@ -1,35 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Tables>
-  <Table Name="XZQ_XZ" Class="LoowooTech.Stock.Rules.TableFive" Title="行政区（乡镇）要素基本属性结构表">
+  <Table Name="XZQ_XZ" Class="LoowooTech.Stock.Rules.TableFive" Title="行政区（乡镇）要素基本属性结构表" IsSpace="true">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
     <Field Name="XZQDM" Title="行政区代码" Length="9" Type="Char"></Field>
     <Field Name="XZQMC" Title="行政区名称" Length="100" Type="Char"></Field>
   </Table>
-  <Table Name="XZQ_XZC" Class="LoowooTech.Stock.Rules.TableSix" Title="行政区（村级）要素基本属性结构表">
+  <Table Name="XZQ_XZC" Class="LoowooTech.Stock.Rules.TableSix" Title="行政区（村级）要素基本属性结构表" IsSpace="true">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
-    <Field Name="XZQDM" Title="行政区代码" Length="12" Type="Char"></Field>
-    <Field Name="XZQMC" Title="行政区名称" Length="100" Type="Char"></Field>
+    <Field Name="XZCDM" Title="行政村代码" Length="12" Type="Char"></Field>
+    <Field Name="XZCMC" Title="行政村名称" Length="100" Type="Char"></Field>
   </Table>
-  <Table Name="XZQJX" Class="LoowooTech.Stock.Rules.TableSeven" Title="行政区界线要素基本属性结构表">
+  <Table Name="XZQJX" Class="LoowooTech.Stock.Rules.TableSeven" Title="行政区界线要素基本属性结构表" IsSpace="true">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
     <Field Name="JXLX" Title="界线类型" Length="6" Type="Char"></Field>
     <Field Name="JXXZ" Title="界线性质" Length="6" Type="Char"></Field>
     <Field Name="JXSM" Title="界线说明" Length="100" Type="Char"></Field>
   </Table>
-  <Table Name="DCDYTB" Class="LoowooTech.Stock.Rules.TableEight" Title="调查单元图斑要素基本属性结构表">
+  <Table Name="DCDYTB" Class="LoowooTech.Stock.Rules.TableEight" Title="调查单元图斑要素基本属性结构表" IsSpace="true">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
     <Field Name="XZCDM" Title="行政村代码" Length="12" Type="Char"></Field>
     <Field Name="XZCMC" Title="行政村名称" Length="100" Type="Char"></Field>
-    <Field Name="TBBH" Title="图斑编号" Length="8" Type="Char"></Field>
+    <Field Name="TBBH" Title="图斑编号" Length="4" Type="Char"></Field>
     <Field Name="DCDYLX" Title="调查单元类型" Length="2" Type="Char"></Field>
     <Field Name="MJ" Title="面积" Length="15" Type="Float"></Field>
     <Field Name="BZ" Title="备注" Length="100" Type="Char"></Field>
   </Table>
-  <Table Name="NCCLJSYDZTQK" Class="LoowooTech.Stock.Rules.TableNine" Title="农村存量建设用地总体情况基本属性结构表">
+  <Table Name="NCCLJSYDZTQK" Class="LoowooTech.Stock.Rules.TableNine" Title="农村存量建设用地总体情况基本属性结构表" IsSpace="false">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
     <Field Name="XZCDM" Title="行政村代码" Length="12" Type="Char"></Field>
@@ -47,7 +47,7 @@
     <Field Name="LCRK" Title="流出人口" Length="4" Type="Int"></Field>
     <Field Name="JTJYXQYGS" Title="集体经营性企业个数" Length="4" Type="Int"></Field>
   </Table>
-  <Table Name="CLZJD" Class="LoowooTech.Stock.Rules" Title="存量宅基地要素基本属性结构表">
+  <Table Name="CLZJD" Class="LoowooTech.Stock.Rules" Title="存量宅基地要素基本属性结构表" IsSpace="false">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
     <Field Name="XZCDM" Title="行政村代码" Length="12" Type="Char"></Field>
@@ -73,7 +73,7 @@
     <Field Name="NHLX" Title="农户类型" Length="2" Type="Char"></Field>
     <Field Name="YYJYQ" Title="农民退出宅基地意愿及补偿要求" Length="200" Type="Char"></Field>
   </Table>
-  <Table Name="JYXJSYD" Class="LoowooTech.Stock.Rules"  Title="经营性建设用地要素基本属性结构表">
+  <Table Name="JYXJSYD" Class="LoowooTech.Stock.Rules"  Title="经营性建设用地要素基本属性结构表" IsSpace="false">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
     <Field Name="XZQDM" Title="行政区代码" Length="12" Type="Char"></Field>
@@ -95,7 +95,7 @@
     <Field Name="FQYY" Title="废弃原因" Length="200" Type="Char"></Field>
     <Field Name="YJJYQ" Title="权利人对宗地入市流转意愿及政策要求" Length="200" Type="Char"></Field>
   </Table>
-  <Table Name="GGGL_GGFWSSYD" Class="LoowooTech.Stock.Rules" Title="公共管理及公共服务设施用地要素基本属性结构表">
+  <Table Name="GGGL_GGFWSSYD" Class="LoowooTech.Stock.Rules" Title="公共管理及公共服务设施用地要素基本属性结构表" IsSpace="false">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
     <Field Name="XZQDM" Title="行政区代码" Length="12" Type="Char"></Field>
@@ -117,7 +117,7 @@
     <Field Name="FQYY" Title="废弃原因" Length="200" Type="Char"></Field>
     <Field Name="YYJQW" Title="权利人对宗地的处置意愿及政策期望" Length="200" Type="Char"></Field>
   </Table>
-  <Table Name="QTCLJSYD" Class="LoowooTech.Stock.Rules" Title="其他存量建设用地要素基本属性结构表">
+  <Table Name="QTCLJSYD" Class="LoowooTech.Stock.Rules" Title="其他存量建设用地要素基本属性结构表" IsSpace="false">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
     <Field Name="XZQDM" Title="行政区代码" Length="12" Type="Char"></Field>

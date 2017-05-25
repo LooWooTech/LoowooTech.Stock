@@ -62,15 +62,21 @@
   <ItemGroup>
     <Compile Include="FieldStructureTool.cs" />
     <Compile Include="FileFolder.cs" />
+    <Compile Include="FileTool.cs" />
+    <Compile Include="FolderTool.cs" />
     <Compile Include="IFolder.cs" />
     <Compile Include="ITool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TableDCDYTB.cs" />
     <Compile Include="ValueCombinationTool.cs" />
+    <Compile Include="ValueCurrectTool.cs" />
+    <Compile Include="ValueFunctionTool.cs" />
     <Compile Include="ValueNullTool.cs" />
     <Compile Include="ValueRangeTool.cs" />
     <Compile Include="ValueMathTool.cs" />
+    <Compile Include="GainAreaTool.cs" />
     <Compile Include="ValueUniqueTool.cs" />
-    <Compile Include="XmlTool.cs" />
+    <Compile Include="ValueWhereTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoowooTech.Stock.Common\LoowooTech.Stock.Common.csproj">
