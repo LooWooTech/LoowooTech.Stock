@@ -1,4 +1,5 @@
 ﻿using ESRI.ArcGIS.AnalysisTools;
+using ESRI.ArcGIS.DataManagementTools;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessor;
@@ -65,7 +66,8 @@ namespace LoowooTech.Stock.ArcGISTool
                 {
                     var featurePath = string.Format("{0}/{1}", _mdbFilePath, className);
                     var outFeatureName = string.Format("{0}_intersect", className);
-                    if(Cross(string.Format("{0};{1}", featurePath, featurePath), string.Format("{0}/{1}", _mdbFilePath, outFeatureName)))
+                    var intersectPath = string.Format("{0}/{1}", _mdbFilePath, outFeatureName);
+                    if (Cross(string.Format("{0};{1}", featurePath, featurePath), intersectPath))
                     {
                         var intersectfeatureClass = _workspace.GetFeatureClass(outFeatureName);
                         if (intersectfeatureClass == null)
@@ -76,6 +78,7 @@ namespace LoowooTech.Stock.ArcGISTool
                         else
                         {
                             Run(intersectfeatureClass, TABLENAME, "XZCMC", "TBBH");
+                            DeleteFeatureClass(intersectPath);
                         }
 
                     }
@@ -91,15 +94,8 @@ namespace LoowooTech.Stock.ArcGISTool
             QuestionManager.AddRange(_questions);
         }
 
-         
-
-        private bool Cross(string in_features,string out_feature)
+        private bool Excute(IGPProcess tool)
         {
-            Intersect tool = new Intersect();
-            tool.in_features = in_features;
-            tool.out_feature_class = out_feature;
-            tool.join_attributes = "ALL";
-            tool.output_type = "INPUT";
             Geoprocessor gp = new Geoprocessor();
             gp.OverwriteOutput = true;
             try
@@ -113,6 +109,24 @@ namespace LoowooTech.Stock.ArcGISTool
                 return false;
             }
             return true;
+        }
+
+        private bool Cross(string in_features,string out_feature)
+        {
+            Intersect tool = new Intersect();
+            tool.in_features = in_features;
+            tool.out_feature_class = out_feature;
+            tool.join_attributes = "ALL";
+            tool.output_type = "INPUT";
+            return Excute(tool);
+        }
+
+        private bool DeleteFeatureClass(string in_feature)
+        {
+            Delete tool = new Delete();
+            tool.in_data = in_feature;
+            return Excute(tool);
+
         }
         /// <summary>
         /// 

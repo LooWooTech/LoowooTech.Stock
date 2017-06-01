@@ -81,7 +81,15 @@ namespace LoowooTech.Stock.Common
             }
             return null;
         }
-
+        public static string GetSingle(string queryString,string attribute,XmlEnum xml)
+        {
+            var node = GetSingle(queryString, xml);
+            if (node != null)
+            {
+                return node.Attributes[attribute].Value;
+            }
+            return string.Empty;
+        }
         public static XmlNodeList GetList(string queryString,XmlEnum xml)
         {
             switch (xml)

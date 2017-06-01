@@ -16,6 +16,7 @@ namespace LoowooTech.Stock.WorkBench
     {
         protected const string report = "5质检报告";
         protected const string DataBase = "1空间数据库";
+        protected const string Collect = "3统计报告";
         private string _folder { get; set; }
         /// <summary>
         /// 质检路径
@@ -90,7 +91,20 @@ namespace LoowooTech.Stock.WorkBench
                 var gisheart = new ArcGISHeart() { MDBFilePath = currentMdbFile, FeatureClassNames = XmlManager.Get("/Tables/Table[@IsSpace='true']", "Name", XmlEnum.Field) };
                 gisheart.Program();
             }
+            Console.WriteLine("开始对统计表格进行质检......");
+            var collectfolder = System.IO.Path.Combine(_folder, Collect);
+            if (!System.IO.Directory.Exists(collectfolder))
+            {
+                QuestionManager.Add(new Question { Code = "1101", Name = "统计表格文件夹", Project = CheckProject.目录及文件规范性, Description = string.Format("目录：{0}不存在", collectfolder) });
+            }
+            else
+            {
+                //汇总表质检
+                var excel = new ExcelHeart() { Folder = collectfolder, MDBFilePath = currentMdbFile };
+                excel.Program();
+            }
 
+            
             Console.WriteLine("结束");
 
 
