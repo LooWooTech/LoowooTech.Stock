@@ -119,6 +119,7 @@ namespace LoowooTech.Stock.Common
                 {
                     var str = string.Format("行政区代码：【{0}】行政村名称：【{1}】图斑编号：【{2}】面积：【{3}】在表：【{4}】中面积和不符", item.XZCDM, item.XZCMC, item.TBBH, item.MJ, string.Join(",", _keys));
                     Console.WriteLine(str);
+                    QuestionManager.Add(new Question() { Code = "3401", Name = "面积一致性",Project=CheckProject.面积一致性, TableName = "DCDYTB", BSM = item.TBBH, Description = str });
                     _messages.Add(str);
                 }
             }

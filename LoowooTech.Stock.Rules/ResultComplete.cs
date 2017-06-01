@@ -48,7 +48,8 @@ namespace LoowooTech.Stock.Rules
                     var folder = System.IO.Path.Combine(_folder, child);//子文件夹全路径
                     if (!System.IO.Directory.Exists(folder))
                     {
-                        Console.WriteLine(string.Format("缺失文件夹路径：{0}", child));
+                        var str = string.Format("缺失文件夹路径：{0}", child);
+                        Console.WriteLine(str);
                         _messages.Add(string.Format("缺失文件夹路径：{0}", child));
                     }
                     else

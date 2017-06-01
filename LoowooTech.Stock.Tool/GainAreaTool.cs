@@ -22,49 +22,33 @@ namespace LoowooTech.Stock.Tool
 
         public void Gain(OleDbConnection connection)
         {
-            if (connection != null)
+            var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("select XZCDM,XZCMC,TBBH,{0} from {1}", string.Join(",", AreaFields), TableName));
+            if (reader != null)
             {
-                if (connection.State == System.Data.ConnectionState.Broken)
+                List = new List<TB>();
+                while (reader.Read())
                 {
-                    connection.Close();
-                    connection.Open();
-                }
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = string.Format("select XZCDM,XZCMC,TBBH,{0} from {1}", string.Join(",", AreaFields), TableName);
-                    using (var reader = command.ExecuteReader())
+                    var val = new TB
                     {
-                        List = new List<TB>();
-                        while (reader.Read())
+                        XZCDM = reader[0].ToString(),
+                        XZCMC = reader[1].ToString(),
+                        TBBH = reader[2].ToString()
+                    };
+                    var sum = .0;
+                    for (var i = 3; i < AreaFields.Length + 3; i++)
+                    {
+                        var a = .0;
+                        if (double.TryParse(reader[i].ToString(), out a))
                         {
-                            var val = new TB
-                            {
-                                XZCDM = reader[0].ToString(),
-                                XZCMC = reader[1].ToString(),
-                                TBBH = reader[2].ToString()
-                            };
-                            var sum = .0;
-                            for(var i = 3; i < AreaFields.Length + 3; i++)
-                            {
-                                var a = .0;
-                                if(double.TryParse(reader[i].ToString(),out a))
-                                {
-                                    sum += a;
-                                }
-                            }
-                            val.MJ = sum;
-                            List.Add(val);
-                        }
-                        if (List.Count > 0)
-                        {
-                            DCDYTBManager.AddTB(TableName, List);
+                            sum += a;
                         }
                     }
+                    val.MJ = sum;
+                    List.Add(val);
+                }
+                if (List.Count > 0)
+                {
+                    DCDYTBManager.AddTB(TableName, List);
                 }
             }
         }

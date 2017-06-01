@@ -71,6 +71,16 @@
     <Compile Include="SpatialReferenceManager.cs" />
     <Compile Include="WorkspaceManager.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoowooTech.Stock.Common\LoowooTech.Stock.Common.csproj">
+      <Project>{0EF878D9-9DDC-4886-8593-006300D5B2F2}</Project>
+      <Name>LoowooTech.Stock.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoowooTech.Stock.Models\LoowooTech.Stock.Models.csproj">
+      <Project>{5E25CB83-BDAB-411C-998D-554710D82020}</Project>
+      <Name>LoowooTech.Stock.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

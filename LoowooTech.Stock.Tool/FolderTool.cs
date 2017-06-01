@@ -44,11 +44,14 @@ namespace LoowooTech.Stock.Tool
                 Code = array[1];
                 if (!XmlManager.Exist(string.Format("/Citys/City[@Code='{0}'][@Name='{1}']", CityName, Code), XmlEnum.City))
                 {
-                    Console.WriteLine("未查询到行政区名称：{0}；行政区代码：{1}的相关记录！", CityName, Code);
+                    var str = string.Format("未查询到行政区名称：{0}；行政区代码：{1}的相关记录！", CityName, Code);
+                    Console.WriteLine(str);
+                    QuestionManager.Add(new Models.Question { Code = "1101", Name = "质检路径命名规则", Description = str });
                     return false;
                 }
                 return true;
             }
+            QuestionManager.Add(new Models.Question { Code = "1101", Name = "质检路径命名规则", Description = "无法解析行政区名称、行政区代码信息" });
             Console.WriteLine("无法解析行政区名称、行政区代码信息");
             return false;
         }

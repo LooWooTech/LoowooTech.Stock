@@ -68,9 +68,14 @@
     <Compile Include="ITool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableDCDYTB.cs" />
+    <Compile Include="ValueAboveTool.cs" />
+    <Compile Include="ValueBaseTool.cs" />
     <Compile Include="ValueCombinationTool.cs" />
+    <Compile Include="ValueCompareTool.cs" />
+    <Compile Include="ValueCountTool.cs" />
     <Compile Include="ValueCurrectTool.cs" />
     <Compile Include="ValueFunctionTool.cs" />
+    <Compile Include="ValueLessTool.cs" />
     <Compile Include="ValueNullTool.cs" />
     <Compile Include="ValueRangeTool.cs" />
     <Compile Include="ValueMathTool.cs" />

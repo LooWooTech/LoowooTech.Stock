@@ -43,6 +43,11 @@
     <Compile Include="BaseResult.cs" />
     <Compile Include="CESHI.cs" />
     <Compile Include="ClassNine.cs" />
+    <Compile Include="ExcelFive.cs" />
+    <Compile Include="ExcelFour.cs" />
+    <Compile Include="ExcelOne.cs" />
+    <Compile Include="ExcelThree.cs" />
+    <Compile Include="ExcelTwo.cs" />
     <Compile Include="IResult.cs" />
     <Compile Include="ITable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

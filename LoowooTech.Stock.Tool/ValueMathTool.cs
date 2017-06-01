@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LoowooTech.Stock.Common;
+using LoowooTech.Stock.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Linq;
@@ -10,12 +12,9 @@ namespace LoowooTech.Stock.Tool
     /// <summary>
     /// 字段
     /// </summary>
-    public class ValueMathTool:ITool
+    public class ValueMathTool:ValueBaseTool, ITool
     {
-        /// <summary>
-        /// 表
-        /// </summary>
-        public string TableName { get; set; }
+
         /// <summary>
         /// 检查字段
         /// </summary>
@@ -25,14 +24,9 @@ namespace LoowooTech.Stock.Tool
         /// </summary>
         public string Key { get; set; }
         /// <summary>
-        /// 规则ID
-        /// </summary>
-        public string ID { get; set; }
-        /// <summary>
         /// 匹配正则表达式
         /// </summary>
         public string RegexString { get; set; }
-        public List<string> Messages { get; set; }
         public string Name
         {
             get
@@ -41,41 +35,30 @@ namespace LoowooTech.Stock.Tool
             }
         }
 
+
         public bool Check(OleDbConnection connection)
         {
-            if (connection != null)
+            var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("Select {0},{1} from {2}", CheckFieldName, Key, TableName));
+            if (reader != null)
             {
-                if (connection.State == System.Data.ConnectionState.Broken)
+                var str = string.Empty;
+                var info = string.Empty;
+                while (reader.Read())
                 {
-                    connection.Close();
-                    connection.Open();
-                }
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = string.Format("Select {0},{1} from {2}", CheckFieldName, Key, TableName);
-                    using (var reader = command.ExecuteReader())
+                    str = reader[0].ToString();
+                    if (Regex.IsMatch(str, RegexString))
                     {
-                        Messages = new List<string>();
-                        var str = string.Empty;
-                        while (reader.Read())
-                        {
-                            str = reader[0].ToString();
-                            if (Regex.IsMatch(str, RegexString))
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                Messages.Add(string.Format("{0}对应的值不正确，请核对", reader[1].ToString()));
-                            }
-                        }
-                        return true;
+                        continue;
+                    }
+                    else
+                    {
+                        info = string.Format("{0}对应的值不正确，请核对", reader[1].ToString());
+                        Messages.Add(info);
+                        _questions.Add(new Question() { Code = "3201", Name = Name, Project = CheckProject.值符合性, TableName = TableName, BSM = reader[1].ToString(), Description = info });
                     }
                 }
+                QuestionManager.AddRange(_questions);
+                return true;
             }
             return false;
         }

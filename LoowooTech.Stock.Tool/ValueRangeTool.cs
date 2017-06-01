@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using LoowooTech.Stock.Common;
+using LoowooTech.Stock.Models;
+using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Linq;
 using System.Text;
@@ -8,16 +10,9 @@ namespace LoowooTech.Stock.Tool
     /// <summary>
     /// 字段的值 只能填哪些值
     /// </summary>
-    public class ValueRangeTool:ITool
+    public class ValueRangeTool:ValueBaseTool, ITool
     {
-        /// <summary>
-        /// 表
-        /// </summary>
-        public string TableName { get; set; }
-        /// <summary>
-        /// 检查结果信息
-        /// </summary>
-        public List<string> Messages { get; set; }
+        
         /// <summary>
         /// 检查字段名
         /// </summary>
@@ -31,10 +26,6 @@ namespace LoowooTech.Stock.Tool
         /// </summary>
         public string[] Values { get; set; }
         /// <summary>
-        /// 规则ID
-        /// </summary>
-        public string ID { get; set; }
-        /// <summary>
         /// 规则名称
         /// </summary>
         public string Name { get
@@ -47,42 +38,30 @@ namespace LoowooTech.Stock.Tool
                 return sb.ToString();
             }
         }
-
         public bool Check(OleDbConnection connection)
         {
-            if (connection != null)
+            var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("select {0},{1} from {2}", CheckFieldName, Key, TableName));
+            if (reader != null)
             {
-                if (connection.State == System.Data.ConnectionState.Broken)
+                var str = string.Empty;
+                var error = string.Empty;
+                Messages = new List<string>();
+                while (reader.Read())
                 {
-                    connection.Close();
-                    connection.Open();
-                }
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = string.Format("select {0},{1} from {2}", CheckFieldName, Key, TableName);
-                    using (var reader = command.ExecuteReader())
+                    str = reader[0].ToString();
+                    if (Values.Contains(str))
                     {
-                        var str = string.Empty;
-                        Messages = new List<string>();
-                        while (reader.Read())
-                        {
-                            str = reader[0].ToString();
-                            if (Values.Contains(str))
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                Messages.Add(string.Format("{0}对应的‘{1}’值不正确", reader[1].ToString(), str));
-                            }
-                        }
-                        return true;
+                        continue;
+                    }
+                    else
+                    {
+                        error = string.Format("{0}对应的‘{1}’值不正确", reader[1].ToString(), str);
+                        Messages.Add(error);
+                        _questions.Add(new Question() { Code = "3201", Name =Name, Project = CheckProject.值符合性, TableName = TableName, BSM = reader[1].ToString(), Description = error });
                     }
                 }
+                QuestionManager.AddRange(_questions);
+                return true;
             }
             return false;
         }

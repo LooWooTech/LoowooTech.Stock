@@ -136,4 +136,16 @@
     <Field Name="KZYY" Title="空置原因" Length="200" Type="Char"></Field>
     <Field Name="FQYY" Title="废弃原因" Length="200" Type="Char"></Field>
   </Table>
+  <Execl Name="表1" Title="{Name}({Code})农村存量建设用地总体情况汇总表">
+    <Field TableName="" Name="" Title="自然村个数"></Field>
+    <Field TableName="" Name="" Title="变更调查村庄面积"></Field>
+    <Field TableName="" Name="" Title="地籍调查村庄面积"></Field>
+    <Field TableName="" Name="" Title="确权登记村庄面积"></Field>
+    <Field TableName="" Name="" Title="人口总数"></Field>
+    <Field TableName="" Name="" Title="户数"></Field>
+    <Field TableName="" Name="" Title="户籍人口"></Field>
+    <Field TableName="" Name="" Title="流入人口"></Field>
+    <Field TableName="" Name="" Title="流出人口"></Field>
+    <Field TableName="" Name="" Title="集体经营性企业个数"></Field>
+  </Execl>
 </Tables>

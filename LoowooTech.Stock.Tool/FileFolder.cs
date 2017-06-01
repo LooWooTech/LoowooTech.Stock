@@ -47,16 +47,21 @@ namespace LoowooTech.Stock.Tool
             foreach(var file in FileNames)
             {
                 var fullPath = System.IO.Path.Combine(_folder, file.Replace("{Name}",CityName).Replace("{Code}",Code));
+                var str = string.Empty;
                 if (!System.IO.File.Exists(fullPath))
                 {
-                    Console.WriteLine(string.Format("文件路径：{0}不存在，请核对", fullPath));
-                    _messages.Add(string.Format("文件路径:{0}不存在，请核对", fullPath));
+                    str = string.Format("文件路径：{0}不存在，请核对", fullPath);
+                    Console.WriteLine(str);
+                    _messages.Add(str);
+                    QuestionManager.Add(new Models.Question { Code = "1102", Name = "文件",Project=Models.CheckProject.目录及文件规范性, Description = str });
                     return false;
                 }
                 if (!Open(fullPath))
                 {
-                    Console.WriteLine(string.Format("文件：{0}无法打开，请核对", fullPath));
-                    _messages.Add(string.Format("文件：{0}无法打开", fullPath));
+                    str = string.Format("文件：{0}无法打开，请核对", fullPath);
+                    QuestionManager.Add(new Models.Question { Code = "1103", Name = "文件能否正常打开",Project=Models.CheckProject.目录及文件规范性, Description = str });
+                    Console.WriteLine(str);
+                    _messages.Add(str);
                 }
             }
             return _messages.Count==0;

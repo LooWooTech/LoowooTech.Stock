@@ -7,27 +7,6 @@ namespace LoowooTech.Stock.Common
 {
     public static class XmlClass
     {
-        //private static XmlDocument _configXml { get; set; }
-
-        //static XmlClass()
-        //{
-        //    _configXml = new XmlDocument();
-        //    _configXml.Load(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.Configuration.ConfigurationManager.AppSettings["FIELD"]));
-        //}
-
-        //private static List<string> Get(string selectString, string fieldName)
-        //{
-        //    var list = new List<string>();
-        //    var nodes = _configXml.SelectNodes(selectString);
-        //    if (nodes != null)
-        //    {
-        //        for (var i = 0; i < nodes.Count; i++)
-        //        {
-        //            list.Add(nodes[i].Attributes[fieldName].Value);
-        //        }
-        //    }
-        //    return list;
-        //}
         public static List<string> GetRequireTables()
         {
             return XmlManager.Get("/Tables/Table", "Name", XmlEnum.Field); //Get("/Tables/Table", "Name");

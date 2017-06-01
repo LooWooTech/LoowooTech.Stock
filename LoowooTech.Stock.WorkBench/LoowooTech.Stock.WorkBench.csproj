@@ -58,6 +58,10 @@
       <Project>{0EF878D9-9DDC-4886-8593-006300D5B2F2}</Project>
       <Name>LoowooTech.Stock.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LoowooTech.Stock.Models\LoowooTech.Stock.Models.csproj">
+      <Project>{5E25CB83-BDAB-411C-998D-554710D82020}</Project>
+      <Name>LoowooTech.Stock.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Stock.Rules\LoowooTech.Stock.Rules.csproj">
       <Project>{0621F42A-9359-47A9-B89F-3231BEF43844}</Project>
       <Name>LoowooTech.Stock.Rules</Name>

@@ -61,13 +61,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ADOSQLHelper.cs" />
     <Compile Include="DCDYTBManager.cs" />
     <Compile Include="DialogClass.cs" />
+    <Compile Include="EnumHelper.cs" />
     <Compile Include="ExcelClass.cs" />
     <Compile Include="ExcelManager.cs" />
     <Compile Include="MdbClass.cs" />
     <Compile Include="MessageManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuestionManager.cs" />
     <Compile Include="ReaderHelper.cs" />
     <Compile Include="XmlClass.cs" />
     <Compile Include="XmlManager.cs" />

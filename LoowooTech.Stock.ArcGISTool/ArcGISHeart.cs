@@ -2,6 +2,8 @@
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessor;
+using LoowooTech.Stock.Common;
+using LoowooTech.Stock.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +23,14 @@ namespace LoowooTech.Stock.ArcGISTool
         public List<string> FeatureClassNames { get { return _featureClassNames; }set { _featureClassNames = value; } }
         private IWorkspace _workspace { get; set; }
         private List<string> _messages { get; set; }
+        private List<Question> _questions { get; set; }
         private ISpatialReference _currentSpatialReference { get; set; }
         public ISpatialReference CurrentSpatialReference { get { return _currentSpatialReference == null ? _currentSpatialReference = SpatialReferenceManager.Get40SpatialReference() : _currentSpatialReference; } }
 
         public ArcGISHeart()
         {
             _messages = new List<string>();
+            _questions = new List<Question>();
         }
 
         public void Program()
@@ -37,18 +41,24 @@ namespace LoowooTech.Stock.ArcGISTool
                 _messages.Add("获取Access的workspace失败");
                 return;
             }
+            var str = string.Empty;
             foreach(var className in FeatureClassNames)
             {
+                
                 var featureClass = _workspace.GetFeatureClass(className);
                 if (featureClass == null)
                 {
-                    _messages.Add(string.Format("未获取图层：{0}，无法进行图层相关检查", className));
+                    str = string.Format("未获取图层：{0}，无法进行图层相关检查", className);
+                    _messages.Add(str);
+                    _questions.Add(new Question() { Code = "2101", Name = "图层完整性", Project = CheckProject.图层完整性, TableName = className, Description = str });
                     continue;
                 }
                 var spatialReference = SpatialReferenceManager.GetSpatialReference(featureClass);//检查图层坐标系
                 if (spatialReference.Name.Trim() != CurrentSpatialReference.Name.Trim())
                 {
-                    _messages.Add(string.Format("图层：{0}不符合2201（平面坐标系是否采用‘1980 西安坐标系’、3度带、带带号，检查高程系统是否采用‘1985 国家高程基准’，检查投影方式是否采用高斯-克吕格投影）"));
+                    str = string.Format("图层：{0}不符合2201（平面坐标系是否采用‘1980 西安坐标系’、3度带、带带号，检查高程系统是否采用‘1985 国家高程基准’，检查投影方式是否采用高斯-克吕格投影）",className);
+                    _messages.Add(str);
+                    _questions.Add(new Question { Code = "2201", Name = "数学基础", Project = CheckProject.数学基础, TableName = className, Description = str });
                 }
 
                 if (className == TABLENAME)//检查DCDYTB中是否存在相交
@@ -77,6 +87,8 @@ namespace LoowooTech.Stock.ArcGISTool
                 }
 
             }
+
+            QuestionManager.AddRange(_questions);
         }
 
          
@@ -131,9 +143,11 @@ namespace LoowooTech.Stock.ArcGISTool
                     var valTwo = feature.get_Value(fid2);
                     if (valOne != valTwo)//存在不相等，则表示存在相交
                     {
-                        var str1 = string.Format("{0}:【{1}】--{2}：【{3}】存在图斑相交", titleName1, feature.get_Value(title11), titleName2, feature.get_Value(title21));
+                        var val = feature.get_Value(title11).ToString();
+                        var str1 = string.Format("{0}:【{1}】--{2}：【{3}】存在图斑相交", titleName1, val, titleName2, feature.get_Value(title21));
                         Console.WriteLine(str1);
                         _messages.Add(str1);
+                        _questions.Add(new Question { Code = "4101", Name = "拓扑关系", Project = CheckProject.拓扑关系, TableName = fidName, BSM = val, Description = str1 });
                     }
                 }
                 catch(Exception ex)

@@ -3,6 +3,7 @@ using LoowooTech.Stock.Tool;
 using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
+using System.Linq;
 
 namespace LoowooTech.Stock.Rules
 {
@@ -27,6 +28,7 @@ namespace LoowooTech.Stock.Rules
                 }
                 else
                 {
+                    QuestionManager.AddRange(tableStructure.Erros.Select(e => new Models.Question { Code = "2101", Name = "矢量图层完整",Project=Models.CheckProject.图层完整性, Description = e }).ToList());
                     Console.WriteLine("存在如下错误：");
                     foreach(var error in tableStructure.Erros)
                     {
@@ -93,29 +95,29 @@ namespace LoowooTech.Stock.Rules
 
                 #region 检查图斑编号
 
-                var combination = new ValueCombinationTool() { CheckField = "TBBH", Tables = new string[] { "CLZJD", "JYXJSYD", "GGGL_GGFWSSYD", "QTCLYD" }, ID = "00000(逻辑规则)" };
-                Console.WriteLine(string.Format("开始检查：{0}", combination.Name));
-                try
-                {
-                    combination.Check(connection);
-                    if (combination.Messages.Count == 0)
-                    {
-                        Console.WriteLine(string.Format("顺利通过{0}的检查", combination.Name));
-                    }
-                    else
-                    {
-                        Console.WriteLine(string.Format("检查{0}，存在如下错误：", combination.Name));
-                        foreach(var error in combination.Messages)
-                        {
-                            Console.WriteLine(error);
-                        }
-                    }
-                }catch(Exception ex)
-                {
-                    Console.WriteLine(string.Format("在进行检查{0}发生错误，错误信息：{1}", combination.Name, ex.Message));
-                }
+                //var combination = new ValueCombinationTool() { CheckField = "TBBH", Tables = new string[] { "CLZJD", "JYXJSYD", "GGGL_GGFWSSYD", "QTCLYD" }, ID = "00000(逻辑规则)" };
+                //Console.WriteLine(string.Format("开始检查：{0}", combination.Name));
+                //try
+                //{
+                //    combination.Check(connection);
+                //    if (combination.Messages.Count == 0)
+                //    {
+                //        Console.WriteLine(string.Format("顺利通过{0}的检查", combination.Name));
+                //    }
+                //    else
+                //    {
+                //        Console.WriteLine(string.Format("检查{0}，存在如下错误：", combination.Name));
+                //        foreach(var error in combination.Messages)
+                //        {
+                //            Console.WriteLine(error);
+                //        }
+                //    }
+                //}catch(Exception ex)
+                //{
+                //    Console.WriteLine(string.Format("在进行检查{0}发生错误，错误信息：{1}", combination.Name, ex.Message));
+                //}
 
-                Console.WriteLine("完成本次检查");
+                //Console.WriteLine("完成本次检查");
                 #endregion
                 connection.Close();
             }

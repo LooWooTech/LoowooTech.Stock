@@ -11,9 +11,8 @@ namespace LoowooTech.Stock.Tool
     /// <summary>
     /// 核对表的字段
     /// </summary>
-    public class FieldStructureTool:ITool
+    public class FieldStructureTool:ValueBaseTool, ITool
     {
-        public string TableName { get; set; }
         public string Name
         {
             get
@@ -21,9 +20,6 @@ namespace LoowooTech.Stock.Tool
                 return string.Format("规则{0}:核对表{1}的数据库标准字段类型、长度",ID,TableName);
             }
         }
-        public List<string> Messages { get; set; }
-
-        public string ID { get; set; }
         public bool Check(OleDbConnection connection)
         {
             if (connection != null)
@@ -61,13 +57,16 @@ namespace LoowooTech.Stock.Tool
                     }
                 }
                 var requireField = XmlClass.GetField(TableName);
+                var str = string.Empty;
                 foreach(var field in requireField)
                 {
                     if (dict.ContainsKey(field.Name))
                     {
                         if (field != dict[field.Name])
                         {
-                            Messages.Add(string.Format("字段{0}与要求的类型或者长度不符", field.Name));
+                            str = string.Format("字段{0}与要求的类型或者长度不符", field.Name);
+                            Messages.Add(str);
+                           
                         }
                     }
                     else
@@ -75,6 +74,7 @@ namespace LoowooTech.Stock.Tool
                         Messages.Add(string.Format("缺失字段{0};", field.Name));
                     }
                 }
+                QuestionManager.AddRange(Messages.Select(e => new Question { Code = "3101", Name =Name,Project=CheckProject.结构符合性, TableName = TableName, Description = e }).ToList());
                 
             }
             return false;

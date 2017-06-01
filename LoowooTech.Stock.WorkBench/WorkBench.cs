@@ -1,5 +1,6 @@
 ﻿using LoowooTech.Stock.ArcGISTool;
 using LoowooTech.Stock.Common;
+using LoowooTech.Stock.Models;
 using LoowooTech.Stock.Rules;
 using LoowooTech.Stock.Tool;
 using System;
@@ -36,9 +37,12 @@ namespace LoowooTech.Stock.WorkBench
 
         public void Program()
         {
+            QuestionManager.Init();//质检问题初始化
+
             if (!System.IO.Directory.Exists(Folder))
             {
                 Console.WriteLine(string.Format("质检路径不存在：{0}，请核对！", Folder));
+                QuestionManager.Add(new Question() { Code = "1102", Name = "质检路径不存在",Project=CheckProject.目录及文件规范性, Description = string.Format("质检路径不存在：{0}，请核对！", Folder) });
                 return;
             }
             var folderTool = new FolderTool { Folder = Folder };//对质检路径进行命名规范检查
@@ -48,6 +52,7 @@ namespace LoowooTech.Stock.WorkBench
             }
             var resultComplete = new ResultComplete(Folder) { Children = XmlManager.Get("/Folders/Folder", "Name", XmlEnum.DataTree) };
             resultComplete.Check();//对质检路径下的文件夹、文件是否存在，是否能够打开进行检查
+            QuestionManager.AddRange(resultComplete.Messages.Select(e => new Question { Code = "1102", Name = "成果数据丢露",Project=CheckProject.目录及文件规范性, Description = e }).ToList());
             _folderTools.AddRange(resultComplete.ExistPath.Select(e => new FileFolder()
             {
                 Folder = e,
@@ -77,6 +82,7 @@ namespace LoowooTech.Stock.WorkBench
             if (string.IsNullOrEmpty(currentMdbFile))
             {
                 Console.WriteLine("未识别到数据库文件,请核对农村存量建设用地调查成功空间数据库.mdb文件");
+                QuestionManager.Add(new Question { Code = "2101", Name = "适量数据文件",Project=CheckProject.目录及文件规范性, Description = "未识别到数据库文件,请核对农村存量建设用地调查成功空间数据库.mdb文件" });
             }
             else
             {
