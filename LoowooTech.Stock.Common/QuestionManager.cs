@@ -1,5 +1,6 @@
 ﻿using LoowooTech.Stock.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,8 @@ namespace LoowooTech.Stock.Common
         /// </summary>
         private static List<Question> _questions { get; set; }
         public static List<Question> Questions { get { return _questions; } }
+        private static  ConcurrentBag<Question> _paralleQuestions { get; set; }
+        public static ConcurrentBag<Question> ParalleQuestions { get { return _paralleQuestions; } }
         public static void Init()
         {
             if (_questions == null)

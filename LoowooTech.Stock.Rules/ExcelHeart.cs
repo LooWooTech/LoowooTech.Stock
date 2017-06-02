@@ -26,6 +26,16 @@ namespace LoowooTech.Stock.Rules
         /// mdb数据库文件路径
         /// </summary>
         public string MDBFilePath { get { return _mdbFilePath; }set { _mdbFilePath = value; } }
+        private string _district { get; set; }
+        /// <summary>
+        /// 行政区  区县名称
+        /// </summary>
+        public string District { get { return _district; }set { _district = value; } }
+        private string _code { get; set; }
+        /// <summary>
+        /// 区县代码
+        /// </summary>
+        public string Code { get { return _code; }set { _code = value; } }
         private List<XZC> _List { get; set; }
         public List<XZC> List { get { return _List; } }
         public ExcelHeart()

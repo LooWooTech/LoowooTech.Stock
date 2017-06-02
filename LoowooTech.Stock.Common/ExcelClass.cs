@@ -19,7 +19,7 @@ namespace LoowooTech.Stock.Common
             }
             return workbook;
         }
-        private static string[] GetCellValues(IRow row,int start,int end)
+        public static string[] GetCellValues(IRow row,int start,int end)
         {
             var values = new string[end - start];
             for(var i = start; i < end; i++)

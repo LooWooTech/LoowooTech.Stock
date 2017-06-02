@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="CombinationClass.cs" />
     <Compile Include="DCDYTB.cs" />
+    <Compile Include="ExcelField.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Question.cs" />
