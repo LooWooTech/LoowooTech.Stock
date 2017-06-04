@@ -1,10 +1,12 @@
 ﻿using LoowooTech.Stock.Common;
 using LoowooTech.Stock.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LoowooTech.Stock.Rules
 {
@@ -38,6 +40,7 @@ namespace LoowooTech.Stock.Rules
         public string Code { get { return _code; }set { _code = value; } }
         private List<XZC> _List { get; set; }
         public List<XZC> List { get { return _List; } }
+        private List<IExcel> _tools { get; set; }
         public ExcelHeart()
         {
             _questions = new List<Question>();
@@ -73,6 +76,20 @@ namespace LoowooTech.Stock.Rules
                 catch
                 {
                     _questions.Add(new Question { Code = "", Name = "", Project = CheckProject.汇总表与数据库图层逻辑一致性, TableName = "XZQ_XZC", Description = "" });
+                }
+                _tools.Add(new ExcelOne { Connection = connection, List = _List, District = District, Code = Code, Folder = Folder });
+                _tools.Add(new ExcelTwo { Connection = connection, List = _List, District = District, Code = Code, Folder = Folder });
+                _tools.Add(new ExcelThree { Connection = connection, List = _List, District = District, Code = Code, Folder = Folder });
+                _tools.Add(new ExcelFour { Connection = connection, List = _List, District = District, Code = Code, Folder = Folder });
+
+                Parallel.ForEach(_tools, item => 
+                {
+                    item.Check();
+                    
+                });
+                foreach(var tool in _tools)
+                {
+                    _questions.AddRange(tool.ParalleQuestions.AsEnumerable());
                 }
 
                 connection.Close();

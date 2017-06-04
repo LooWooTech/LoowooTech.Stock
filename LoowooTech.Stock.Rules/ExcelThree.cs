@@ -5,7 +5,12 @@ using System.Text;
 
 namespace LoowooTech.Stock.Rules
 {
-    public class ExcelThree
+    public class ExcelThree:ExcelBase,IExcel
     {
+        public ExcelThree()
+        {
+            ExcelName = "表3";
+            Space = 1;
+        }
     }
 }

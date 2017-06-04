@@ -5,12 +5,12 @@ using System.Text;
 
 namespace LoowooTech.Stock.Rules
 {
-    public class ExcelFour:ExcelBase,IExcel
+    public class ExcelSeven:ExcelBase,IExcel
     {
-        public ExcelFour()
+        public ExcelSeven()
         {
-            ExcelName = "表4";
-            Space = 1;
+            ExcelName = "表7";
+            Space = 3;
         }
     }
 }

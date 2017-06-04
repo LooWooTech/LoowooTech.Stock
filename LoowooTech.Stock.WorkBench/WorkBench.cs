@@ -102,6 +102,7 @@ namespace LoowooTech.Stock.WorkBench
                 //汇总表质检
                 var excel = new ExcelHeart() { Folder = collectfolder, MDBFilePath = currentMdbFile };
                 excel.Program();
+                QuestionManager.AddRange(excel.Questions);
             }
 
             

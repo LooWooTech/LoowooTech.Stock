@@ -40,6 +40,11 @@ namespace LoowooTech.Stock.Common
             }
             _questions.Add(question);
         } 
+
+        public static void Save()
+        {
+
+        }
         
 
     }

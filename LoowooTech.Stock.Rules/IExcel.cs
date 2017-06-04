@@ -1,5 +1,6 @@
 ﻿using LoowooTech.Stock.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Linq;
@@ -13,11 +14,12 @@ namespace LoowooTech.Stock.Rules
         string TableName { get; }
         string Name { get; }
         List<Question> Questions { get; }
+        ConcurrentBag<Question> ParalleQuestions { get; }
         List<XZC> List { get; set; }
         Dictionary<XZC,List<ExcelField>> Dict { get; }
         string Code { get; set; }
         string District { get; set; }
         string Folder { get; set; }
-        void Check(OleDbConnection connection);
+        void Check();
     }
 }

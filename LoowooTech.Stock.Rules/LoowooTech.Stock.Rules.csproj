@@ -64,10 +64,14 @@
     <Compile Include="CESHI.cs" />
     <Compile Include="ClassNine.cs" />
     <Compile Include="ExcelBase.cs" />
+    <Compile Include="ExcelEight.cs" />
     <Compile Include="ExcelFive.cs" />
     <Compile Include="ExcelFour.cs" />
     <Compile Include="ExcelHeart.cs" />
+    <Compile Include="ExcelNine.cs" />
     <Compile Include="ExcelOne.cs" />
+    <Compile Include="ExcelSeven.cs" />
+    <Compile Include="ExcelSix.cs" />
     <Compile Include="ExcelThree.cs" />
     <Compile Include="ExcelTwo.cs" />
     <Compile Include="IExcel.cs" />

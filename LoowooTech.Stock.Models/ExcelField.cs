@@ -31,7 +31,9 @@ namespace LoowooTech.Stock.Models
             }
         }
         public string Unit { get; set; }
+        public object Val { get; set; }
         public string Value { get; set; }
+
     }
     public enum ExcelType
     {

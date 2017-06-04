@@ -5,8 +5,12 @@ using System.Text;
 
 namespace LoowooTech.Stock.Rules
 {
-    public class ExcelTwo
+    public class ExcelTwo:ExcelBase,IExcel
     {
-
+        public ExcelTwo()
+        {
+            ExcelName = "表2";
+            Space = 1;
+        }
     }
 }
