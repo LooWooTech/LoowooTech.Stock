@@ -33,6 +33,24 @@ namespace LoowooTech.Stock.Common
             return values;
         }
 
+        public static NPOI.SS.UserModel.ICell GetCell(IRow row, int line, IRow modelRow = null)
+        {
+            NPOI.SS.UserModel.ICell cell = row.GetCell(line);
+            if (cell == null)
+            {
+                if (modelRow != null)
+                {
+                    cell = row.CreateCell(line, modelRow.GetCell(line).CellType);
+                    cell.CellStyle = modelRow.GetCell(line).CellStyle;
+                }
+                else
+                {
+                    cell = row.CreateCell(line);
+                }
+            }
+            return cell;
+        }
+
         private static XZ GainXZ(IRow row)
         {
             var values = GetCellValues(row, 0, 2);

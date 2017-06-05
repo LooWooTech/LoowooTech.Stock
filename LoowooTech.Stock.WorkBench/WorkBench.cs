@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace LoowooTech.Stock.WorkBench
 {
@@ -27,7 +28,10 @@ namespace LoowooTech.Stock.WorkBench
         /// </summary>
         private string _reportPath { get; set; }
         public string ReportPath { get { return string.IsNullOrEmpty(_reportPath) ? _reportPath = System.IO.Path.Combine(Folder, report) : _reportPath; } }
-
+        private string _district { get; set; }
+        public string District { get { return _district; } }
+        private string _code { get; set; }
+        public string Code { get { return _code; } }
         private List<IFolder> _folderTools { get; set; }
 
         public WorkBench()
@@ -61,10 +65,15 @@ namespace LoowooTech.Stock.WorkBench
                 CityName = folderTool.CityName,
                 Code = folderTool.Code
             }));
-            foreach(var tool in _folderTools)
+
+            Parallel.ForEach(_folderTools, tool =>
             {
-                tool.Check();//验证每个文件夹下应存在的文件
-            }
+                tool.Check();
+            });
+            //foreach (var tool in _folderTools)
+            //{
+            //    tool.Check();//验证每个文件夹下应存在的文件
+            //}
             var path = System.IO.Path.Combine(Folder, DataBase);
             //获取空间数据库文件夹下的单位代码表文件，并获取单位代码信息
             var codefileTool = new FileTool { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]+\(\d{6}\)单位代码表.xls$" };
@@ -100,13 +109,11 @@ namespace LoowooTech.Stock.WorkBench
             else
             {
                 //汇总表质检
-                var excel = new ExcelHeart() { Folder = collectfolder, MDBFilePath = currentMdbFile };
+                var excel = new ExcelHeart() { Folder = collectfolder, MDBFilePath = currentMdbFile,District=folderTool.CityName,Code=folderTool.Code };
                 excel.Program();
                 QuestionManager.AddRange(excel.Questions);
             }
-
-            
-            Console.WriteLine("结束");
+  
 
 
         }

@@ -85,7 +85,6 @@ namespace LoowooTech.Stock.Rules
                 Parallel.ForEach(_tools, item => 
                 {
                     item.Check();
-                    
                 });
                 foreach(var tool in _tools)
                 {

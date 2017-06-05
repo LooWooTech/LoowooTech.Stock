@@ -59,8 +59,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="report.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LoowooTech.Stock.Common\LoowooTech.Stock.Common.csproj">
+      <Project>{0EF878D9-9DDC-4886-8593-006300D5B2F2}</Project>
+      <Name>LoowooTech.Stock.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Stock.WorkBench\LoowooTech.Stock.WorkBench.csproj">
       <Project>{B7D49453-9323-4E74-B1FC-56ADA5F0D99F}</Project>
       <Name>LoowooTech.Stock.WorkBench</Name>

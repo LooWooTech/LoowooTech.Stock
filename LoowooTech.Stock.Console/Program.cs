@@ -1,4 +1,5 @@
 ﻿using ESRI.ArcGIS;
+using LoowooTech.Stock.Common;
 using LoowooTech.Stock.WorkBench;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,9 @@ namespace LoowooTech.Stock.Console
             System.Console.WriteLine(string.Format("开始质检路径：{0}", folder));
             var workbench = new WorkBench.WorkBench() { Folder = folder };
             workbench.Program();
+            QuestionManager.Save(workbench.ReportPath, workbench.District, workbench.Code);
 
+            System.Console.WriteLine("结束");
         }
     }
 }
