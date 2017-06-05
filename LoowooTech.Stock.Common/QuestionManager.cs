@@ -13,20 +13,20 @@ namespace LoowooTech.Stock.Common
     public static class QuestionManager
     {
         private static string _name = "{0}({1})农村存量建设用地调查数据成果质检结果";
-        /// <summary>
-        /// 质检问题列表
-        /// </summary>
-        private static List<Question> _questions { get; set; }
-        public static List<Question> Questions { get { return _questions; } }
+        ///// <summary>
+        ///// 质检问题列表
+        ///// </summary>
+        //private static List<Question> _questions { get; set; }
+        //public static List<Question> Questions { get { return _questions; } }
         private static  ConcurrentBag<Question> _paralleQuestions { get; set; }
         public static ConcurrentBag<Question> ParalleQuestions { get { return _paralleQuestions; } }
         public static void Init()
         {
-            if (_questions == null)
-            {
-                _questions = new List<Question>();
-            }
-            _questions.Clear();
+            //if (_questions == null)
+            //{
+            //    _questions = new List<Question>();
+            //}
+            //_questions.Clear();
 
             if (_paralleQuestions == null)
             {

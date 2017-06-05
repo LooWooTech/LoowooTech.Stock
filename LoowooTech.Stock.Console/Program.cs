@@ -20,7 +20,7 @@ namespace LoowooTech.Stock.Console
                     return;
                 }
             }
-            if (args == null)
+            if (args == null||args.Length==0)
             {
                 System.Console.WriteLine("未获取文件夹路径，请联系相关人员！");
                 return;
@@ -31,6 +31,8 @@ namespace LoowooTech.Stock.Console
                 System.Console.WriteLine("当前检查文件及路径不存在，请核对文件夹路径！");
                 return;
             }
+            
+
             System.Console.WriteLine(string.Format("开始质检路径：{0}", folder));
             var workbench = new WorkBench.WorkBench() { Folder = folder };
             workbench.Program();
