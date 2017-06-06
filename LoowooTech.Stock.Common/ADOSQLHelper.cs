@@ -36,7 +36,7 @@ namespace LoowooTech.Stock.Common
             catch(SqlException ex)
             {
                 var info = string.Format("执行SQL语句：{0}发生错误，错误信息：{1}", sqlText, ex.Message);
-                Console.WriteLine(info);
+                LogManager.Log(info);
                 QuestionManager.Add(new Models.Question { Code = "1201", Project = Models.CheckProject.数据有效性, Description = info });
             }
            
@@ -68,7 +68,7 @@ namespace LoowooTech.Stock.Common
             catch(SqlException ex)
             {
                 var info = string.Format("执行SQL语句：{0}发生错误，错误信息：{1}", sqlText, ex.Message);
-                Console.WriteLine(info);
+                LogManager.Log(info);
                 QuestionManager.Add(new Models.Question { Code = "1201", Project = Models.CheckProject.数据有效性, Description = info });
             }
            

@@ -19,6 +19,10 @@ namespace LoowooTech.Stock.Tool
         /// </summary>
         public string[] AreaFields { get; set; }
         public List<TB> List { get; set; }
+        /// <summary>
+        /// 分母
+        /// </summary>
+        public double Denominator { get; set; }
 
         public void Gain(OleDbConnection connection)
         {
@@ -40,15 +44,21 @@ namespace LoowooTech.Stock.Tool
                         var a = .0;
                         if (double.TryParse(reader[i].ToString(), out a))
                         {
-                            sum += a;
+                            sum += a/Denominator;
                         }
                     }
                     val.MJ = sum;
                     List.Add(val);
                 }
-                if (List.Count > 0)
+                if (List.Count == 0)
                 {
-                    DCDYTBManager.AddTB(TableName, List);
+                    var info = string.Format("获取表【{0}】中的图斑面积时，图斑面积数据量为空", TableName);
+                    LogManager.Log(info);
+                    QuestionManager.Add(new Question { Code = "3201", Name = "检验图斑面积", TableName = TableName, Description = info });
+                }
+                else
+                {
+                    DCDYTBManager.AddTB(List);
                 }
             }
         }

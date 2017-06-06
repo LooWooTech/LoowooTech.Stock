@@ -1,4 +1,5 @@
-﻿using LoowooTech.Stock.Tool;
+﻿using LoowooTech.Stock.Common;
+using LoowooTech.Stock.Tool;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,7 +50,7 @@ namespace LoowooTech.Stock.Rules
                     if (!System.IO.Directory.Exists(folder))
                     {
                         var str = string.Format("缺失文件夹路径：{0}", child);
-                        Console.WriteLine(str);
+                        LogManager.Log(str);
                         _messages.Add(string.Format("缺失文件夹路径：{0}", child));
                     }
                     else

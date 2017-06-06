@@ -57,7 +57,7 @@ namespace LoowooTech.Stock.WorkBench
 
             if (!System.IO.Directory.Exists(Folder))
             {
-                Console.WriteLine(string.Format("质检路径不存在：{0}，请核对！", Folder));
+                LogManager.Log(string.Format("质检路径不存在：{0}，请核对！", Folder));
                 QuestionManager.Add(new Question() { Code = "1102", Name = "质检路径不存在",Project=CheckProject.目录及文件规范性, Description = string.Format("质检路径不存在：{0}，请核对！", Folder) });
                 return;
             }
@@ -80,10 +80,22 @@ namespace LoowooTech.Stock.WorkBench
                 Code = folderTool.Code
             }));
 
-            Parallel.ForEach(_folderTools, tool =>
+            try
             {
-                tool.Check();
-            });
+                Parallel.ForEach(_folderTools, tool =>
+                {
+                    tool.Check();
+                });
+            }
+            catch(AggregateException ae)
+            {
+                foreach(var exp in ae.InnerExceptions)
+                {
+                    LogManager.Log(exp.ToString());
+                    LogManager.Record(exp.ToString());
+                }
+            }
+
 
             var path = System.IO.Path.Combine(Folder, DataBase);
             //获取空间数据库文件夹下的单位代码表文件，并获取单位代码信息
@@ -91,7 +103,7 @@ namespace LoowooTech.Stock.WorkBench
             var currentCodeFile = codefileTool.GetFile();
             if (string.IsNullOrEmpty(currentCodeFile))
             {
-                Console.WriteLine("未识别到单位代码表文件，请核对空间数据库文件下的文件");
+                LogManager.Log("未识别到单位代码表文件，请核对空间数据库文件下的文件");
             }
             else
             {
@@ -102,12 +114,11 @@ namespace LoowooTech.Stock.WorkBench
             var currentMdbFile = mdbfileTool.GetFile();
             if (string.IsNullOrEmpty(currentMdbFile))
             {
-                Console.WriteLine("未识别到数据库文件,请核对农村存量建设用地调查成功空间数据库.mdb文件");
+                LogManager.Log("未识别到数据库文件,请核对农村存量建设用地调查成功空间数据库.mdb文件");
                 QuestionManager.Add(new Question { Code = "2101", Name = "适量数据文件",Project=CheckProject.目录及文件规范性, Description = "未识别到数据库文件,请核对农村存量建设用地调查成功空间数据库.mdb文件" });
             }
             else
             {
-
                 TableHeart.Program(currentMdbFile,IDS);
                 var gisheart = new ArcGISHeart() { MDBFilePath = currentMdbFile, FeatureClassNames = XmlManager.Get("/Tables/Table[@IsSpace='true']", "Name", XmlEnum.Field) };
                 gisheart.Program();

@@ -1,22 +1,26 @@
 ﻿using LoowooTech.Stock.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LoowooTech.Stock.Common
 {
     public static class DCDYTBManager
     {
         private static List<DCDYTB> _list { get; set; }
+        /// <summary>
+        /// 读取到的调查单元图斑信息
+        /// </summary>
         public static List<DCDYTB> List { get { return _list; } }
-        private static Dictionary<string,List<TB>> _dict { get; set; }
-        public static Dictionary<string,List<TB>> Dict { get { return _dict; } }
-        
-        private static List<TB> _tb { get; set; }
-
-        public static List<TB> TB { get { return _tb == null ? _tb = MergeValues<TB>(_dict) : _tb; } }
+        private static ConcurrentBag<TB> _tb { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public static ConcurrentBag<TB> TB { get { return _tb; } }
         private static string[] _keys { get; set; }
         private static List<string> _messages { get; set; }
         static DCDYTBManager()
@@ -24,18 +28,10 @@ namespace LoowooTech.Stock.Common
             _keys = new string[] { "CLZJD", "JYXJSYD", "GGGL_GGFWSSYD", "QTCLJSYD" };
         }
         
-        private static List<T> MergeValues<T>(Dictionary<string,List<T>> dict)
-        {
-            var list = new List<T>();
-            foreach(var entry in dict)
-            {
-                list.AddRange(entry.Value);
-            }
-            return list;
-        }
 
         public static void Init(OleDbConnection connection)
         {
+            _tb = new ConcurrentBag<Models.TB>();
             var reader = ADOSQLHelper.ExecuteReader(connection, "Select XZCDM,XZCMC,TBBH,DCDYLX,MJ from DCDYTB");
             if (reader != null)
             {
@@ -60,31 +56,16 @@ namespace LoowooTech.Stock.Common
             }
         }
 
-        public static void AddTB(string key,List<TB> list)
+        public static void AddTB(List<TB> list)
         {
-            if (_dict == null)
+            Parallel.ForEach(list, item =>
             {
-                _dict = new Dictionary<string, List<TB>>();
-            }
-            if (_dict.ContainsKey(key))
-            {
-                _dict[key] = list;
-            }
-            else
-            {
-                _dict.Add(key, list);
-            }
+                _tb.Add(item);
+            });
         }
 
         public static void Program()
         {
-            foreach(var key in _keys)
-            {
-                if (!_dict.ContainsKey(key))
-                {
-                    Console.WriteLine(string.Format("未读取表{0}中的图斑面积，无法进行核对图斑面积信息", key));
-                }
-            }
             if (_messages == null)
             {
                 _messages = new List<string>();
@@ -100,7 +81,7 @@ namespace LoowooTech.Stock.Common
                 if (item.MJ < currentSum)
                 {
                     var str = string.Format("行政区代码：【{0}】行政村名称：【{1}】图斑编号：【{2}】面积：【{3}】在表：【{4}】中面积和不符", item.XZCDM, item.XZCMC, item.TBBH, item.MJ, string.Join(",", _keys));
-                    Console.WriteLine(str);
+                    LogManager.Log(str);
                     QuestionManager.Add(new Question() { Code = "3401", Name = "面积一致性",Project=CheckProject.面积一致性, TableName = "DCDYTB", BSM = item.TBBH, Description = str });
                     _messages.Add(str);
                 }

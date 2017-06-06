@@ -51,7 +51,9 @@ namespace LoowooTech.Stock.Rules
                 }
                 else
                 {
-                    Erros.Add(string.Format("缺失表：{0}；", table));
+                    var info = string.Format("缺失表：{0}；", table);
+                    LogManager.Log(info);
+                    Erros.Add(info);
                 }
             }
         }

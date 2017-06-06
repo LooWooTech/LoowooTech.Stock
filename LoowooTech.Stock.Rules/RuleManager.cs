@@ -207,10 +207,22 @@ namespace LoowooTech.Stock.Rules
                     checkTools.Add(tool);
                 }
             }
-            Parallel.ForEach(checkTools, tool =>
+            try
             {
-                tool.Check(connection);
-            });
+                Parallel.ForEach(checkTools, tool =>
+                {
+                    tool.Check(connection);
+                });
+            }
+            catch(AggregateException ae)
+            {
+                foreach(var exp in ae.InnerExceptions)
+                {
+                    LogManager.Log(exp.ToString());
+                    LogManager.Record(exp.ToString());
+                }
+            }
+
             //var dict = checkTools.GroupBy(e => e.TableName).ToDictionary(e => e.Key, e => e.ToList());
             //Parallel.ForEach(dict, entry =>
             //{

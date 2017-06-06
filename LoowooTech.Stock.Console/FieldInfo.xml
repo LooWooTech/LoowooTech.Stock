@@ -143,7 +143,7 @@
     <Field Name="FQYY" Title="废弃原因" Length="200" Type="Char"></Field>
    
   </Table>
-  <Execl Name="表1" Title="{Name}({Code})农村存量建设用地总体情况汇总表.xls" TableName="NCCLJSYDZTQK">
+  <Execl Name="表1" Title="{Name}({Code})农村存量建设用地总体情况汇总表.xls" TableName="NCCLJSYDZTQK" Model="ExcelOne.xls">
     <Field  Name="ZRCGS" Title="自然村个数" Index="2" Type="Int" Compute="Sum"></Field>
     <Field  Name="XZCZYDMJ" Title="变更调查村庄面积" Index="3" Type="double" Compute="Sum" Unit="亩"></Field>
     <Field  Name="DJCZYDMJ" Title="地籍调查村庄面积" Index="4" Type="double" Compute="Sum" Unit="亩"></Field>
@@ -155,12 +155,12 @@
     <Field  Name="LCRK" Title="流出人口" Index="10" Type="Int" Compute="Sum"></Field>
     <Field  Name="JTJYXQYGS" Title="集体经营性企业个数" Index="11" Type="Int" Compute="Sum"></Field>
   </Execl>
-  <Excel Name="表2" Title="{Name}({Code})农村存量宅基地基本情况汇总表.xls" TableName="CLZJD">
-    <Field  Name="" Title="建筑占地总面积" Index="" Type="double"></Field>
-    <Field  Name="" Title="附属用地总面积" Index="" Type="double"></Field>
-    <Field  Name="" Title="建筑总面积" Index="" Type="double"></Field>
-    <Field  Name="" Title="家庭人口总数" Index="" Type=""></Field>
-    <Field  Name="" Title="调查单元类型-撤并型-户数" WhereClause="" Index=""></Field>
+  <Excel Name="表2" Title="{Name}({Code})农村存量宅基地基本情况汇总表.xls" TableName="CLZJD" Model="ExcelTwo.xls">
+    <Field  Name="JZZDMJ" Title="建筑占地总面积" Index="" Type="double" Compute="Sum" Unit="平方米"></Field>
+    <Field  Name="FSYDMJ" Title="附属用地总面积" Index="" Type="double" Compute="Sum" Unit="平方米"></Field>
+    <Field  Name="JZMJ" Title="建筑总面积" Index="" Type="double" Compute="Sum" Unit="平方米"></Field>
+    <Field  Name="JTRK" Title="家庭人口总数" Index="" Type="Int" Compute="Sum"></Field>
+    <Field  Name="" Title="调查单元类型-撤并型-户数" WhereClause="" Compute="Count" Index=""></Field>
     <Field  Name="" Title="调查单元类型-撤并型-人口数" WhereClause="" Index=""></Field>
     <Field  Name="" Title="调查单元类型-撤并型-建筑总面积" WhereClause="" Index=""></Field>
     <Field  Name="" Title="调查单元类型-保留型-户数" WhereClause="" Index=""></Field>
@@ -182,7 +182,7 @@
     <Field  Name="" Title="建筑类型-其他-人口数" WhereClause="" Index=""></Field>
     <Field  Name="" Title="建筑类型-其他-建筑总面积" WhereClause="" Index=""></Field>
   </Excel>
-  <Excel Name="表3" Title="{Name}({Code})农村存量经营性建设用地基本情况汇总表.xls" TableName="JYXJSYD">
+  <Excel Name="表3" Title="{Name}({Code})农村存量经营性建设用地基本情况汇总表.xls" TableName="JYXJSYD" Model="ExcelThree.xls">
     <Field  Name="" Title="建设用地总面积" WhereClause="" Index=""></Field>
     <Field  Name="" Title="建筑总面积" WhereClause="" Index=""></Field>
     <Field  Name="" Title="正常使用面积" WhereClause="" Index=""></Field>
@@ -203,7 +203,7 @@
     <Field  Name="" Title="建筑类型-其他-宗数" WhereClause="" Index=""></Field>
     <Field  Name="" Title="建筑类型-其他-建设用地总面积" WhereClause="" Index=""></Field>
   </Excel>
-  <Excel Name="表4" Title="{Name}({Code})农村存量公共管理及公共服务设施用地基本情况汇总表.xls" TableName="GGGL_GGFWSSYD">
+  <Excel Name="表4" Title="{Name}({Code})农村存量公共管理及公共服务设施用地基本情况汇总表.xls" TableName="GGGL_GGFWSSYD" Model="ExcelFour.xls">
     <Field  Name="" Title="建设用地总面积" WhereClause="" Index=""></Field>
     <Field TableName="GGGL_GGFWSSYD" Name="" Title="建筑总面积" WhereClause="" Index=""></Field>
     <Field TableName="GGGL_GGFWSSYD" Name="" Title="正常使用面积" WhereClause="" Index=""></Field>
@@ -225,7 +225,7 @@
     <Field TableName="GGGL_GGFWSSYD" Name="" Title="建筑类型-其他-宗数" WhereClause="" Index=""></Field>
     <Field TableName="GGGL_GGFWSSYD" Name="" Title="建筑类型-其他-建设用地总面积" WhereClause="" Index=""></Field>
   </Excel>
-  <Excel Name="表5" Title="{Name}({Code})农村其他存量建设用地基本情况汇总表.xls" TableName="QTCLJSYD">
+  <Excel Name="表5" Title="{Name}({Code})农村其他存量建设用地基本情况汇总表.xls" TableName="QTCLJSYD" Model="ExcelFive.xls">
     <Field  Name="" Title="建设用地总面积" WhereClause="" Index=""></Field>
     <Field  Name="" Title="建筑总面积" WhereClause="" Index=""></Field>
     <Field  Name="" Title="有效使用总面积" WhereClause="" Index=""></Field>
