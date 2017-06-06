@@ -27,7 +27,9 @@ namespace LoowooTech.Stock.Rules
             list.Add(new ValueUniqueTool() { TableName = _tableName, CheckFieldName = _key, ID = "09002(填写规则)",Code="3302" });
             list.Add(new ValueRangeTool() { TableName = _tableName, CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010200" }, ID = "09003(填写规则)" });
             list.Add(new ValueCurrectTool() { TableName = _tableName, Fields = new string[] { "XZCDM", "XZCMC", "SSXZMC" }, Split = "/", Values = ExcelManager.XZDC.Select(e => string.Format("{0}/{1}/{2}", e.XZQDM, e.XZQMC, e.XZQ.XZQMC)).ToList(), ID = "09004(逻辑规则)" });
-            list.Add(new ValueCompareTool() { TableName = _tableName, Key = _key, Field = "XZCZYDMJ", FieldArray = new string[] { "DJCZYDMJ", "QQCZYDMJ" }, Compare = Compare.Above, ID = "09005(逻辑规则)" });
+            list.Add(new ValueCompareTool() { TableName = _tableName, Key = _key, FieldArray1 =new string[]{ "XZCZYDMJ" }, FieldArray2 = new string[] { "DJCZYDMJ"  }, Compare = Compare.Above, ID = "09005(逻辑规则)" });
+            list.Add(new ValueCompareTool() { TableName = _tableName, Key = _key, FieldArray1 = new string[] { "XZCZYDMJ" }, FieldArray2 = new string[] { "QQCZYDMJ" }, Compare = Compare.Above, ID = "09006" });
+            list.Add(new ValueCompareTool() { TableName = _tableName, Key = _key, FieldArray1 = new string[] {"RKZS","LCRK" }, FieldArray2 = new string[] {"HJRK","LRRK" }, Compare = Compare.Equal, ID = "09007" });
 
         }
         private bool Logic(int[] array)
@@ -43,25 +45,7 @@ namespace LoowooTech.Stock.Rules
         public override void Check(OleDbConnection connection)
         {
             base.Check(connection);
-            var rule = "规则：总人口=户籍人口+流入人口-流出人口";
-            var messages = new List<string>();
-            var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("Select RLZS,HJRK,LRRK,LCRK,{0} from {1}", _key, _tableName));
-            if (reader != null)
-            {
-                while (reader.Read())
-                {
-                    var array = reader.GetIntArray(4);
-                    var key = reader[4].ToString();
-                    if (!Logic(array))
-                    {
-                        messages.Add(string.Format("{0}对应的总人口、户籍人口、流入人口和流出人口不符", key));
-                    }
-                }
-                if (!Results.ContainsKey(rule))
-                {
-                    Results.Add(rule, messages);
-                }
-            }
+           
         }
     }
 }

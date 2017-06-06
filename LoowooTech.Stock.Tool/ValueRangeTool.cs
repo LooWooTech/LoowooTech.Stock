@@ -38,7 +38,42 @@ namespace LoowooTech.Stock.Tool
                 return sb.ToString();
             }
         }
-        public bool Check(OleDbConnection connection)
+
+        public string[] WhereFields { get; set; }
+        public List<string> WhereList { get; set; }
+        public string Split { get; set; }
+
+      
+        private bool CheckWhere(OleDbConnection connection)
+        {
+            var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("Select {0},{1},{2} from {3}", CheckFieldName, Key, string.Join(",", WhereFields), TableName));
+            if (reader != null)
+            {
+                var str = string.Empty;
+                var error = string.Empty;
+                var array = new string[WhereFields.Length];
+                while (reader.Read())
+                {
+                    str = reader[0].ToString();
+                    for(var i = 0; i < WhereFields.Length; i++)
+                    {
+                        array[i] = reader[i + 2].ToString();
+                    }
+                    var key = string.Join(Split, array);
+                    if (WhereList.Contains(key))
+                    {
+                        if (!Values.Contains(str))
+                        {
+                            error = string.Format("{0}对应的‘{1}’不正确", reader[1].ToString(), str);
+                            _questions.Add(new Question { Code = "3201", Name = Name, Project = CheckProject.值符合性, TableName = TableName, BSM = reader[1].ToString(), Description = error });
+                        }
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+        private bool CheckNoWhere(OleDbConnection connection)
         {
             var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("select {0},{1} from {2}", CheckFieldName, Key, TableName));
             if (reader != null)
@@ -57,13 +92,21 @@ namespace LoowooTech.Stock.Tool
                     {
                         error = string.Format("{0}对应的‘{1}’值不正确", reader[1].ToString(), str);
                         Messages.Add(error);
-                        _questions.Add(new Question() { Code = "3201", Name =Name, Project = CheckProject.值符合性, TableName = TableName, BSM = reader[1].ToString(), Description = error });
+                        _questions.Add(new Question() { Code = "3201", Name = Name, Project = CheckProject.值符合性, TableName = TableName, BSM = reader[1].ToString(), Description = error });
                     }
                 }
                 QuestionManager.AddRange(_questions);
                 return true;
             }
             return false;
+        }
+        public bool Check(OleDbConnection connection)
+        {
+            if (WhereFields != null)
+            {
+                return CheckWhere(connection);
+            }
+            return CheckNoWhere(connection);
         }
     }
 }

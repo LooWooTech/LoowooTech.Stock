@@ -79,6 +79,7 @@
     <Compile Include="ITable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultComplete.cs" />
+    <Compile Include="RuleManager.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="TableBase.cs" />
     <Compile Include="TableEight.cs" />

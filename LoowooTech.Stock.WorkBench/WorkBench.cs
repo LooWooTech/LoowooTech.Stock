@@ -29,9 +29,20 @@ namespace LoowooTech.Stock.WorkBench
         private string _reportPath { get; set; }
         public string ReportPath { get { return string.IsNullOrEmpty(_reportPath) ? _reportPath = System.IO.Path.Combine(Folder, report) : _reportPath; } }
         private string _district { get; set; }
+        /// <summary>
+        /// 行政区名称
+        /// </summary>
         public string District { get { return _district; } }
         private string _code { get; set; }
+        /// <summary>
+        /// 当前行政区代码
+        /// </summary>
         public string Code { get { return _code; } }
+        private string[] _ids { get; set; }
+        /// <summary>
+        /// 质检规则的ID
+        /// </summary>
+        public string[] IDS { get { return _ids; } set { _ids = value; } }
         private List<IFolder> _folderTools { get; set; }
 
         public WorkBench()
@@ -55,6 +66,9 @@ namespace LoowooTech.Stock.WorkBench
             {
                 return;
             }
+            _code = folderTool.Code;
+            _district = folderTool.CityName;
+
             var resultComplete = new ResultComplete(Folder) { Children = XmlManager.Get("/Folders/Folder", "Name", XmlEnum.DataTree) };
             resultComplete.Check();//对质检路径下的文件夹、文件是否存在，是否能够打开进行检查
             QuestionManager.AddRange(resultComplete.Messages.Select(e => new Question { Code = "1102", Name = "成果数据丢露",Project=CheckProject.目录及文件规范性, Description = e }).ToList());
@@ -70,10 +84,7 @@ namespace LoowooTech.Stock.WorkBench
             {
                 tool.Check();
             });
-            //foreach (var tool in _folderTools)
-            //{
-            //    tool.Check();//验证每个文件夹下应存在的文件
-            //}
+
             var path = System.IO.Path.Combine(Folder, DataBase);
             //获取空间数据库文件夹下的单位代码表文件，并获取单位代码信息
             var codefileTool = new FileTool { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]+\(\d{6}\)单位代码表.xls$" };
@@ -96,7 +107,8 @@ namespace LoowooTech.Stock.WorkBench
             }
             else
             {
-                TableHeart.Program(currentMdbFile);
+
+                TableHeart.Program(currentMdbFile,IDS);
                 var gisheart = new ArcGISHeart() { MDBFilePath = currentMdbFile, FeatureClassNames = XmlManager.Get("/Tables/Table[@IsSpace='true']", "Name", XmlEnum.Field) };
                 gisheart.Program();
             }
