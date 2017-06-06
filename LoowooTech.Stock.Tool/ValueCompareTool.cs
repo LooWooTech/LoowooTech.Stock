@@ -14,61 +14,65 @@ namespace LoowooTech.Stock.Tool
         {
             get
             {
-                return  string.Format("规则{0}：表‘{1}’中字段‘{2}’值{3}字段‘{4}’值", ID, TableName, Field, Compare.GetDescription(), string.Join(",", FieldArray)); 
+                return  string.Format("规则{0}：表‘{1}’中字段‘{2}’值{3}字段‘{4}’值", ID, TableName, string.Format(",",FieldArray1), Compare.GetDescription(), string.Join(",", FieldArray2)); 
             }
         }
         public string Key { get; set; }
         public Compare Compare { get; set; }
-        public string Field { get; set; }
-        public string[] FieldArray { get; set; }
+        public string[] FieldArray1 { get; set; }
+        public string[] FieldArray2 { get; set; }
 
         public bool Check(OleDbConnection connection)
         {
-            var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("Select {0},{1},{2} from {3}",Key, Field,string.Join(",",FieldArray), TableName));
+            var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("Select {0},{1},{2} from {3}",Key, string.Join(",",FieldArray1),string.Join(",",FieldArray2), TableName));
             if (reader != null)
             {
                 var val1 = .0;
                 var val2 = .0;
+                var a = .0;
                 var info = string.Empty;
                 while (reader.Read())
                 {
                     var str = reader[0].ToString().Trim();
-                    
-                    double.TryParse(reader[1].ToString(), out val1);
-                    for(var i = 0; i < FieldArray.Length; i++)
+                    for(var i = 0; i < FieldArray1.Length; i++)
                     {
-                        var a = reader[i+2].ToString();
-                        val2 = .0;
-                        var flag = false;
-                        if (!string.IsNullOrEmpty(a))
+                        if(double.TryParse(reader[i+1].ToString(),out a))
                         {
-                            double.TryParse(a, out val2);
-                            switch (Compare)
-                            {
-                                case Compare.Above:// >
-                                    flag = val1 > val2;
-                                    break;
-                                case Compare.MoreEqual:// >=
-                                    flag = val1 >= val2;
-                                    break;
-                                case Compare.Equal:// ==
-                                    flag = Math.Abs(val1 - val2) < 0.01;
-                                    break;
-                                case Compare.Less:
-                                    flag = val1 < val2;
-                                    break;
-                                case Compare.SmarllerEqual:
-                                    flag = val1 <= val2;
-                                    break;
-                            }
-                            if (flag)
-                            {
-                                info = string.Format("{0}对应的{1}不符合", str, FieldArray[i]);
-                                Messages.Add(info);
-                                _questions.Add(new Models.Question { Code = "3201", Name = Name, TableName = TableName, BSM = str, Description = info });
-                            }
+                            val1 += a;
                         }
-                    }   
+                    }
+                    for(var i = 0; i < FieldArray2.Length; i++)
+                    {
+                        if (double.TryParse(reader[i+1+FieldArray1.Length].ToString(),out a))
+                        {
+                            val2 += a;
+                        }
+                    }
+                    var flag = false;
+                    switch (Compare)
+                    {
+                        case Compare.Above:
+                            flag = val1 > val2;
+                            break;
+                        case Compare.MoreEqual:
+                            flag = val1 >= val2;
+                            break;
+                        case Compare.Equal:
+                            flag = Math.Abs(val1 - val2) < 0.001;
+                            break;
+                        case Compare.Less:
+                            flag = val1 < val2;
+                            break;
+                        case Compare.SmarllerEqual:
+                            flag = val1 <= val2;
+                            break;
+                    }
+                    if (flag)
+                    {
+                        info = string.Format("{0}对应的不符合{1}", str, Name);
+                        Messages.Add(info);
+                        _questions.Add(new Models.Question { Code = "3201", Name = Name, TableName = TableName, BSM = str, Description = info });
+                    }
                 }
                 QuestionManager.AddRange(_questions);
                 return true;

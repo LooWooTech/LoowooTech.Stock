@@ -72,7 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionManager.cs" />
     <Compile Include="ReaderHelper.cs" />
-    <Compile Include="RuleManager.cs" />
     <Compile Include="XmlClass.cs" />
     <Compile Include="XmlManager.cs" />
     <Compile Include="XmlTool.cs" />

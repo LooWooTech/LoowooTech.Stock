@@ -12,6 +12,7 @@ namespace LoowooTech.Stock.Tool
     /// </summary>
     public class ValueCombinationTool:ITool
     {
+        public string TableName { get; set; }
         public string CheckField { get; set; }
         public string[] Tables { get; set; }
         public List<string> Messages { get; set; }

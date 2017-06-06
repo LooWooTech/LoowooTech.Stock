@@ -36,45 +36,27 @@ namespace LoowooTech.Stock.Common
 
         public static void Init(OleDbConnection connection)
         {
-            if (connection != null)
+            var reader = ADOSQLHelper.ExecuteReader(connection, "Select XZCDM,XZCMC,TBBH,DCDYLX,MJ from DCDYTB");
+            if (reader != null)
             {
-                if (connection.State == System.Data.ConnectionState.Broken)
+                var temp = new List<DCDYTB>();
+                while (reader.Read())
                 {
-                    connection.Close();
-                    connection.Open();
-                }
-
-
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = "Select XZCDM,XZCMC,TBBH,DCDYLX,MJ from DCDYTB";
-                    using (var reader = command.ExecuteReader())
+                    var a = .0;
+                    if (double.TryParse(reader[4].ToString(), out a))
                     {
-                        var temp = new List<DCDYTB>();
-                        while (reader.Read())
+                        temp.Add(new DCDYTB
                         {
-                            var a = .0;
-                            if(double.TryParse(reader[4].ToString(),out a))
-                            {
-                                temp.Add(new DCDYTB
-                                {
-                                    XZCDM = reader[0].ToString().Trim(),
-                                    XZCMC = reader[1].ToString().Trim(),
-                                    TBBH = reader[2].ToString().Trim(),
-                                    DCDYLX = reader[3].ToString().Trim(),
-                                    MJ = a
-                                });
-                            }
-                        
-                        }
-                        _list = temp;
-                        
+                            XZCDM = reader[0].ToString().Trim(),
+                            XZCMC = reader[1].ToString().Trim(),
+                            TBBH = reader[2].ToString().Trim(),
+                            DCDYLX = reader[3].ToString().Trim(),
+                            MJ = a
+                        });
                     }
+
                 }
+                _list = temp;
             }
         }
 
