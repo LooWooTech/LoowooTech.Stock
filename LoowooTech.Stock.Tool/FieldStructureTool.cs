@@ -65,13 +65,16 @@ namespace LoowooTech.Stock.Tool
                         if (field != dict[field.Name])
                         {
                             str = string.Format("字段{0}与要求的类型或者长度不符", field.Name);
+                            Console.WriteLine(str);
                             Messages.Add(str);
                            
                         }
                     }
                     else
                     {
-                        Messages.Add(string.Format("缺失字段{0};", field.Name));
+                        str = string.Format("缺失字段{0};", field.Name);
+                        Console.WriteLine(str);
+                        Messages.Add(str);
                     }
                 }
                 QuestionManager.AddRange(Messages.Select(e => new Question { Code = "3101", Name =Name,Project=CheckProject.结构符合性, TableName = TableName, Description = e }).ToList());

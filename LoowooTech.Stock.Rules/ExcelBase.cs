@@ -479,6 +479,10 @@ namespace LoowooTech.Stock.Rules
             }
         }
 
+        private void WriteAccess()
+        {
+
+        }
         public virtual void Check()
         {
             var info = string.Empty;

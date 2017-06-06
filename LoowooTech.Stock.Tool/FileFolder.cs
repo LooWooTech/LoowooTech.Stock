@@ -51,7 +51,7 @@ namespace LoowooTech.Stock.Tool
                 if (!System.IO.File.Exists(fullPath))
                 {
                     str = string.Format("文件路径：{0}不存在，请核对", fullPath);
-                    Console.WriteLine(str);
+                    LogManager.Log(str);
                     _messages.Add(str);
                     QuestionManager.Add(new Models.Question { Code = "1102", Name = "文件",Project=Models.CheckProject.目录及文件规范性, Description = str });
                     return false;
@@ -60,7 +60,7 @@ namespace LoowooTech.Stock.Tool
                 {
                     str = string.Format("文件：{0}无法打开，请核对", fullPath);
                     QuestionManager.Add(new Models.Question { Code = "1103", Name = "文件能否正常打开",Project=Models.CheckProject.目录及文件规范性, Description = str });
-                    Console.WriteLine(str);
+                    LogManager.Log(str);
                     _messages.Add(str);
                 }
             }

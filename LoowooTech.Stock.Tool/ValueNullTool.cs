@@ -15,6 +15,8 @@ namespace LoowooTech.Stock.Tool
         public string Key { get; set; }
         public string WhereCaluse { get; set; }
         public bool Is_Nullable { get; set; }//true  为空  false  必填
+
+        
         
         public string Name
         {

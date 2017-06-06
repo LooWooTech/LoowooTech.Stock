@@ -46,6 +46,8 @@ namespace LoowooTech.Stock
         private List<string> _messages { get; set; }
         public List<string> Messages { get { return _messages; } }
         private List<IResult> _results { get; set; }
+        private string[] _ids { get; set; }
+        public string[] IDS { get { return _ids; }set { _ids = value; } }
 
         protected const string Title = "农村存量建设用地调查数据成果";
         protected const string DataBase = "1空间数据库";
@@ -140,7 +142,7 @@ namespace LoowooTech.Stock
                     }
                     else
                     {
-                        TableHeart.Program(currentMdbFile);
+                        TableHeart.Program(currentMdbFile,IDS);
 
                         var gisheart = new ArcGISHeart() { MDBFilePath = currentMdbFile, FeatureClassNames = XmlClass.GetRequireTables() };
                         gisheart.Program();
