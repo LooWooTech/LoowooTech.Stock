@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Rules>
+  <RuleGroup Name="成果完整性" Code="1" >
+    <RuleGroup Name="目录及文件规范性" Code="11">
+      <Rule Name="否满足对目录和文件的命名要求" Code="1101" />
+    </RuleGroup>
+  </RuleGroup>
+</Rules>
