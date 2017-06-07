@@ -1,34 +1,39 @@
 ﻿using LoowooTech.Stock.Models;
 using NPOI.SS.UserModel;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoowooTech.Stock.Common
 {
     public static class QuestionManager
     {
         private static string _name = "{0}({1})农村存量建设用地调查数据成果质检结果";
-        private static  ConcurrentBag<Question> _paralleQuestions { get; set; }
-        public static ConcurrentBag<Question> ParalleQuestions { get { return _paralleQuestions; } }
-        public static void Init()
+
+        private static object _syncRoot = new object();
+        
+        public static List<Question> Questions { get; private set; }
+
+        static QuestionManager()
         {
-            _paralleQuestions = new ConcurrentBag<Question>();
+            Questions = new List<Question>();
         }
+
         public static void AddRange(List<Question> questions)
         {
-            Parallel.ForEach(questions, item =>
+            lock(_syncRoot)
             {
-                _paralleQuestions.Add(item);
-            });
+                Questions.AddRange(questions);
+            }
+            
         }
         public static void Add(Question question)
         {
-            _paralleQuestions.Add(question);
+            lock (_syncRoot)
+            {
+                Questions.Add(question);
+            }
         } 
 
         private static string _modelFile { get; set; }
@@ -43,10 +48,11 @@ namespace LoowooTech.Stock.Common
                 return _modelFile;
             }
         }
+
         public static void Save(string folder,string district,string code)
         {
             var info = string.Empty;
-            if (string.IsNullOrEmpty(ModelFile)||!System.IO.File.Exists(ModelFile))
+            if (string.IsNullOrEmpty(ModelFile)||!File.Exists(ModelFile))
             {
                 info = string.Format("质检报告格式文件为空或者格式文件不存在");
                 Console.WriteLine(info);
@@ -62,15 +68,15 @@ namespace LoowooTech.Stock.Common
             }
             var sheet1 = workbook.GetSheetAt(0);
             var sheet2 = workbook.GetSheetAt(1);
-            SaveCollect(sheet1, _paralleQuestions);
-            SaveList(sheet2, _paralleQuestions);
-            using (var fs=new FileStream(System.IO.Path.Combine(folder, string.Format(_name + ".xls", district, code)), FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            SaveCollect(sheet1);
+            SaveList(sheet2);
+            using (var fs=new FileStream(Path.Combine(folder, string.Format(_name + ".xls", district, code)), FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 workbook.Write(fs);
             }
         }
 
-        private static void SaveCollect(ISheet sheet,ConcurrentBag<Question> concurrentBag)
+        private static void SaveCollect(ISheet sheet)
         {
             IRow row = null;
             for(var i = 1; i <= sheet.LastRowNum; i++)
@@ -88,15 +94,16 @@ namespace LoowooTech.Stock.Common
                     if (!string.IsNullOrEmpty(str) && str.Contains("{") && str.Contains("}"))
                     {
                         var key = str.Replace("{", "").Replace("}", "");
-                        var val = concurrentBag.Where(e => e.Code.ToLower() == key.ToLower()).LongCount();
+                        var val = Questions.Where(e => e.Code.ToLower() == key.ToLower()).LongCount();
                         cell.SetCellValue(val);
                     }
                 }
             }
         }
-        private static void SaveList(ISheet sheet,ConcurrentBag<Question> concurrentBag)
+
+        private static void SaveList(ISheet sheet)
         {
-            var list = concurrentBag.OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
+            var list = Questions.OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
             var i = 1;
             IRow row = null;
             var modelrow = sheet.GetRow(i);

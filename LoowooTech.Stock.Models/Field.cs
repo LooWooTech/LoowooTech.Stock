@@ -25,12 +25,13 @@ namespace LoowooTech.Stock.Models
         public FieldType Type { get; set; }
         public static bool operator !=(Field a,Field b)
         {
-            return a.Type != b.Type || a.Length != b.Length || a.Name != b.Name;
+            return !(a == b);
         }
         public static bool operator ==(Field a,Field b)
         {
             return a.Type == b.Type && a.Length == b.Length && a.Name == b.Name;
         }
+       
     }
 
     public enum FieldType
