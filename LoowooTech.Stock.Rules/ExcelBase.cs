@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,6 +111,9 @@ namespace LoowooTech.Stock.Rules
         /// excel-核对数值
         /// </summary>
         public Dictionary<XZC,List<ExcelField>> ExcelDict { get { return _excelDict; } }
+        /// <summary>
+        /// 获取到的Excel所有列表值
+        /// </summary>
         private List<ExcelField> _excelList { get; set; }
         
         private string _district { get; set; }
@@ -144,9 +148,30 @@ namespace LoowooTech.Stock.Rules
         }
         private ISheet _sheet { get; set; }
         /// <summary>
-        /// 数据起始行
+        /// 数据起始行 表格表头所在的行号  在校验的时候，自动读取
         /// </summary>
         private int _startline { get; set; }
+        private string _modelExcel { get; set; }
+        /// <summary>
+        /// 用于生成统计表格的模型文件路径
+        /// </summary>
+        public string ModelExcel
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_modelExcel) || !System.IO.File.Exists(_modelExcel) ? _modelExcel = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Excels", XmlNode.Attributes["Model"].Value) : _modelExcel;
+            }
+        }
+        private int _mStartLine { get; set; }
+        /// <summary>
+        /// 模型Excel文件
+        /// </summary>
+        public int MStartLine { get { return _mStartLine; } set { _mStartLine = value; } }
+        private string _saveFolder { get; set; }
+        /// <summary>
+        /// 生成表格的保存文件夹
+        /// </summary>
+        public string SaveFolder { get { return _saveFolder; }set { _saveFolder = value; } }
         public ExcelBase()
         {
             _paralleQuestions = new ConcurrentBag<Question>();
@@ -160,6 +185,7 @@ namespace LoowooTech.Stock.Rules
             var list = new List<ExcelField>();
             if (XmlNode != null)
             {
+                var tableName = TableName;
                 var nodes = XmlNode.SelectNodes("/Field");
                 if (nodes != null && nodes.Count > 0)
                 {
@@ -168,15 +194,17 @@ namespace LoowooTech.Stock.Rules
                         var node = nodes[i];
                         var val = new ExcelField
                         {
-                            Name = node.Attributes["Name"].Value,
+                            TableName = tableName,
+                            Name =  node.Attributes["Name"].Value,
                             Title = node.Attributes["Title"].Value,
                             Index = int.Parse(node.Attributes["Index"].Value),
-                            Type = node.Attributes["Type"].Value == "Int" ? ExcelType.Int : ExcelType.Double,
-                            Compute = node.Attributes["Compute"].Value == "Sum" ? Compute.Sum : Compute.Count
+                            Type = node.Attributes["Type"].Value.ToLower() == "int" ? ExcelType.Int : ExcelType.Double,
+                            Compute = node.Attributes["Compute"].Value.ToLower() == "sum" ? Compute.Sum : Compute.Count,
                         };
                         try
                         {
                             val.Unit = node.Attributes["Unit"].Value.Trim();
+                            val.View = node.Attributes["View"].Value;
                         }
                         catch
                         {
@@ -399,6 +427,10 @@ namespace LoowooTech.Stock.Rules
                 }
             }
         }
+        /// <summary>
+        /// 作用：核对表格中的合计是否正确
+        /// </summary>
+        /// <param name="list"></param>
         private void CheckTotal(List<ExcelField> list)
         {
             var info = string.Empty;
@@ -439,41 +471,60 @@ namespace LoowooTech.Stock.Rules
             }
         }
 
-        private void GainAccess()
+        private ExcelField GainCommon(ExcelField field,string xzcdm,string xzcmc)
         {
             var a = 0;
             var b = .0;
             var val = string.Empty;
+            var sb = new StringBuilder(string.Format("Select {0} from ", field.SQL));
+            if (string.IsNullOrEmpty(field.View))
+            {
+                sb.Append(TableName);
+            }
+            else
+            {
+                sb.Append(field.View);
+            }
+            sb.AppendFormat(" Where {0}.XZCDM = '{1}' AND {0}.XZCMC = '{2}'", TableName, xzcdm, xzcmc);
+            if (!string.IsNullOrEmpty(field.WhereClause))
+            {
+                sb.AppendFormat(" AND {0}", field.WhereClause);
+            }
+            var obj = ADOSQLHelper.ExecuteScalar(Connection, sb.ToString());
+            if (field.Type == ExcelType.Double)
+            {
+                double.TryParse(obj.ToString(), out b);
+                switch (field.Unit)
+                {
+                    case "亩":
+                        b = b / 15;
+                        break;
+                    case "平方米":
+                        b = b / 10000;
+                        break;
+                    default:
+                        break;
+                }
+                val = Math.Round(b, 4).ToString();
+            }
+            else
+            {
+                int.TryParse(obj.ToString(), out a);
+                val = a.ToString();
+            }
+            field.Val = val;
+            return field;
+        }
+
+        private void GainAccess()
+        {
             foreach (var xzc in List)
             {
                 var result = new List<ExcelField>();
                 foreach (var field in Fields)
                 {
-                    var obj = ADOSQLHelper.ExecuteScalar(Connection, string.Format("Select {0} from {1} where XZCDM = '{2}' AND XZCMC = '{3}'", field.SQL, TableName, xzc.XZCDM, xzc.XZCMC));
-                    if (field.Type == ExcelType.Double)
-                    {
-                        double.TryParse(obj.ToString(), out b);
-                        switch (field.Unit)
-                        {
-                            case "亩":
-                                b = b / 15;
-                                break;
-                            case "平方米":
-                                b = b / 10000;
-                                break;
-                            default:
-                                break;
-                        }
-                        val = Math.Round(b, 4).ToString();
-                    }
-                    else
-                    {
-                        int.TryParse(obj.ToString(), out a);
-                        val = a.ToString();
-                    }
-                    field.Val = val;
-                    //field.Value = val;
-                    result.Add(field);
+                    var val = GainCommon(field, xzc.XZCDM, xzc.XZCMC);
+                    result.Add(val);
                 }
                 _dict.Add(xzc, result);
             }
@@ -481,6 +532,66 @@ namespace LoowooTech.Stock.Rules
 
         private void WriteAccess()
         {
+            var filePath = ModelExcel;
+            if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
+            {
+                LogManager.Log("模型Excel文件不存在，无法进行生成操作");
+                return;
+            }
+
+            IWorkbook workbook = filePath.OpenExcel();
+            if (workbook == null)
+            {
+                LogManager.Log("无法打开模型Excel文件，无法进行生成操作");
+                return;
+            }
+            ISheet sheet = workbook.GetSheetAt(0);
+            if (sheet == null)
+            {
+                LogManager.Log("未获取模型Excel文件中的工作表");
+                return;
+            }
+            var head = string.Format("{0} {1}", ExcelName, Title.Replace("{Name}", District).Replace("{Code}", Code));
+            sheet.GetRow(0).GetCell(0).SetCellValue(head);
+            var i = MStartLine;
+            var modelRow = sheet.GetRow(i);
+            IRow row = null;
+            var list = new List<ExcelField>();
+            sheet.ShiftRows(i+1, i+5, Dict.Count - 1);
+            foreach(var entry in Dict)
+            {
+                row = sheet.GetRow(i) ?? sheet.CreateRow(i);
+                var cell = ExcelClass.GetCell(row, 0, modelRow);
+                cell.SetCellValue(entry.Key.XZCDM);
+                ExcelClass.GetCell(row, 1, modelRow).SetCellValue(entry.Key.XZCMC);
+                list.AddRange(entry.Value);
+                foreach(var field in entry.Value)
+                {
+                    ExcelClass.GetCell(row, field.Index, modelRow).SetCellValue(field.Value);
+                }
+                i++;
+            }
+            row = sheet.GetRow(i);
+            foreach(var field in Fields)
+            {
+                var cell = row.GetCell(field.Index);
+                var temp = list.Where(e => e.Index == field.Index);
+                switch (field.Type)
+                {
+                    case ExcelType.Double:
+                        var a = temp.Sum(e => (double)e.Val);
+                        cell.SetCellValue(a);
+                        break;
+                    case ExcelType.Int:
+                        var b = temp.Sum(e => (int)e.Val);
+                        cell.SetCellValue(b);
+                        break;
+                }
+            }
+            using (var fs=new FileStream(System.IO.Path.Combine(SaveFolder, ExcelName + ".xls"), FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            {
+                workbook.Write(fs);
+            }
 
         }
         public virtual void Check()
