@@ -13,22 +13,29 @@ namespace LoowooTech.Stock.Common
     public static class QuestionManager
     {
         private static string _name = "{0}({1})农村存量建设用地调查数据成果质检结果";
-        private static  ConcurrentBag<Question> _paralleQuestions { get; set; }
-        public static ConcurrentBag<Question> ParalleQuestions { get { return _paralleQuestions; } }
-        public static void Init()
-        {
-            _paralleQuestions = new ConcurrentBag<Question>();
+
+        private static readonly object _syncRoot = new object();
+
+        public static List<Question> Questions { get; private set; }
+
+        static QuestionManager() {
+            Questions = new List<Question>();
         }
+
         public static void AddRange(List<Question> questions)
         {
-            Parallel.ForEach(questions, item =>
+            lock(_syncRoot)
             {
-                _paralleQuestions.Add(item);
-            });
+                Questions.AddRange(questions);
+            }
         }
         public static void Add(Question question)
         {
-            _paralleQuestions.Add(question);
+            lock(_syncRoot)
+            {
+                Questions.Add(question);
+            }
+            
         } 
 
         private static string _modelFile { get; set; }
@@ -63,8 +70,8 @@ namespace LoowooTech.Stock.Common
             var sheet1 = workbook.GetSheetAt(0);
             var sheet2 = workbook.GetSheetAt(1);
             var sheet3 = workbook.GetSheetAt(2);
-            SaveCollect(sheet1, _paralleQuestions);
-            SaveList(sheet2, _paralleQuestions);
+            SaveCollect(sheet1);
+            SaveList(sheet2);
             SaveInfo(sheet3, LogManager.List);
             using (var fs=new FileStream(System.IO.Path.Combine(folder, string.Format(_name + ".xls", district, code)), FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
@@ -77,7 +84,7 @@ namespace LoowooTech.Stock.Common
         /// </summary>
         /// <param name="sheet"></param>
         /// <param name="concurrentBag"></param>
-        private static void SaveCollect(ISheet sheet,ConcurrentBag<Question> concurrentBag)
+        private static void SaveCollect(ISheet sheet)
         {
             IRow row = null;
             for(var i = 1; i <= sheet.LastRowNum; i++)
@@ -95,7 +102,7 @@ namespace LoowooTech.Stock.Common
                     if (!string.IsNullOrEmpty(str) && str.Contains("{") && str.Contains("}"))
                     {
                         var key = str.Replace("{", "").Replace("}", "");
-                        var val = concurrentBag.Where(e => e.Code.ToLower() == key.ToLower()).LongCount();
+                        var val = Questions.Where(e => e.Code.ToLower() == key.ToLower()).LongCount();
                         cell.SetCellValue(val);
                     }
                 }
@@ -106,9 +113,9 @@ namespace LoowooTech.Stock.Common
         /// </summary>
         /// <param name="sheet"></param>
         /// <param name="concurrentBag"></param>
-        private static void SaveList(ISheet sheet,ConcurrentBag<Question> concurrentBag)
+        private static void SaveList(ISheet sheet)
         {
-            var list = concurrentBag.OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
+            var list = Questions.OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
             var i = 1;
             IRow row = null;
             var modelrow = sheet.GetRow(i);
