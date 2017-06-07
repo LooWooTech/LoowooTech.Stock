@@ -21,6 +21,13 @@ namespace LoowooTech.Stock.Common
         static QuestionManager() {
             Questions = new List<Question>();
         }
+        public static void Clear()
+        {
+            lock(_syncRoot)
+            {
+                Questions.Clear();
+            }
+        }
 
         public static void AddRange(List<Question> questions)
         {

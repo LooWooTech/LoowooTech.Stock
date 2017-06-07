@@ -7,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LoowooTech.Stock.WorkBench
@@ -41,30 +39,30 @@ namespace LoowooTech.Stock.WorkBench
         protected const string report = "5质检报告";
         protected const string DataBase = "1空间数据库";
         protected const string Collect = "3统计报告";
-        private string _folder { get; set; }
+        
         /// <summary>
         /// 质检路径
         /// </summary>
-        public string Folder { get { return _folder; }set { _folder = value; } }
+        public string Folder { get; set; }
         /// <summary>
         /// 质检报告路径
         /// </summary>
-        private string _reportPath { get; set; }
+        private string _reportPath;
         public string ReportPath { get { return string.IsNullOrEmpty(_reportPath) ? _reportPath = System.IO.Path.Combine(Folder, report) : _reportPath; } }
-        private string _district { get; set; }
         /// <summary>
         /// 行政区名称
         /// </summary>
-        public string District { get { return _district; } }
-        private string _code { get; set; }
+        public string District { get; private set; }
         /// <summary>
         /// 当前行政区代码
         /// </summary>
+        public string Code { get; private set; }
         /// <summary>
         /// 质检规则的ID
         /// </summary>
-        public string[] IDS { get { return _ids; } set { _ids = value; } }
-        private List<IFolder> _folderTools { get; set; }
+        public string[] IDS { get; set; }
+
+        private List<IFolder> _folderTools;
 
         public WorkBench()
         {
@@ -74,7 +72,7 @@ namespace LoowooTech.Stock.WorkBench
 
         public void Program()
         {
-            QuestionManager.Init();//质检问题初始化
+            QuestionManager.Clear();//质检问题初始化
 
             if (!System.IO.Directory.Exists(Folder))
             {
@@ -87,8 +85,8 @@ namespace LoowooTech.Stock.WorkBench
             {
                 return;
             }
-            _code = folderTool.Code;
-            _district = folderTool.CityName;
+            Code = folderTool.Code;
+            District = folderTool.CityName;
 
             var resultComplete = new ResultComplete(Folder) { Children = XmlManager.Get("/Folders/Folder", "Name", XmlEnum.DataTree) };
             resultComplete.Check();//对质检路径下的文件夹、文件是否存在，是否能够打开进行检查
@@ -153,7 +151,7 @@ namespace LoowooTech.Stock.WorkBench
                 gisheart.Program();
             }
             Console.WriteLine("开始对统计表格进行质检......");
-            var collectfolder = System.IO.Path.Combine(_folder, Collect);
+            var collectfolder = System.IO.Path.Combine(Folder, Collect);
             if (!System.IO.Directory.Exists(collectfolder))
             {
                 QuestionManager.Add(new Question { Code = "1101", Name = "统计表格文件夹", Project = CheckProject.目录及文件规范性, Description = string.Format("目录：{0}不存在", collectfolder) });
