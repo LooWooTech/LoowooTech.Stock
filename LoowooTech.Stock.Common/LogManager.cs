@@ -23,5 +23,10 @@ namespace LoowooTech.Stock.Common
         {
             _list.Add(message);
         }
+        public static void LogRecord(string message)
+        {
+            Log(message);
+            Record(message);
+        }
     }
 }

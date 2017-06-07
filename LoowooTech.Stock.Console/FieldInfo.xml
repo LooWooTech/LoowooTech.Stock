@@ -156,94 +156,93 @@
     <Field  Name="JTJYXQYGS" Title="集体经营性企业个数" Index="11" Type="Int" Compute="Sum"></Field>
   </Execl>
   <Excel Name="表2" Title="{Name}({Code})农村存量宅基地基本情况汇总表.xls" TableName="CLZJD" Model="ExcelTwo.xls">
-    <Field  Name="JZZDMJ" Title="建筑占地总面积" Index="" Type="double" Compute="Sum" Unit="平方米"></Field>
-    <Field  Name="FSYDMJ" Title="附属用地总面积" Index="" Type="double" Compute="Sum" Unit="平方米"></Field>
-    <Field  Name="JZMJ" Title="建筑总面积" Index="" Type="double" Compute="Sum" Unit="平方米"></Field>
-    <Field  Name="JTRK" Title="家庭人口总数" Index="" Type="Int" Compute="Sum"></Field>
-    <Field  Name="" Title="调查单元类型-撤并型-户数" WhereClause="" Compute="Count" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-撤并型-人口数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-撤并型-建筑总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-保留型-户数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-保留型-人口数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-保留型-建筑总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-集聚型-户数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-集聚型-人口数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-集聚型-建筑总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖混-户数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖混-人口数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖混-建筑总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-钢混-户数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-钢混-人口数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-钢混-建筑总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖木-户数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖木-人口数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖木-建筑总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-其他-户数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-其他-人口数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-其他-建筑总面积" WhereClause="" Index=""></Field>
+    <Field  Name="JZZDMJ" Title="建筑占地总面积" Index="2" Type="double" Compute="Sum" Unit="平方米"></Field>
+    <Field  Name="FSYDMJ" Title="附属用地总面积" Index="3" Type="double" Compute="Sum" Unit="平方米"></Field>
+    <Field  Name="JZMJ" Title="建筑总面积" Index="4" Type="double" Compute="Sum" Unit="平方米"></Field>
+    <Field  Name="JTRK" Title="家庭人口总数" Index="5" Type="Int" Compute="Sum"></Field>
+    <Field  Name="" Title="调查单元类型-撤并型-户数"  WhereClause="DCDYTB.DCDYLX='1'" Type="int" Compute="Count" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="6"></Field>
+    <Field  Name="JTRK" Title="调查单元类型-撤并型-人口数" WhereClause="DCDYTB.DCDYLX='1'" Type="int" Compute="Sum" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="7"></Field>
+    <Field  Name="JZMJ" Title="调查单元类型-撤并型-建筑总面积" WhereClause="DCDYTB.DCDYLX='1'" Type="double" Compute="Sum" Unit="平方米" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="8"></Field>
+    <Field  Name="" Title="调查单元类型-保留型-户数" WhereClause="DCDYTB.DCDYLX='2'" Type="int" Compute="Count" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="9"></Field>
+    <Field  Name="JTRK" Title="调查单元类型-保留型-人口数" WhereClause="DCDYTB.DCDYLX='2'" Type="int" Compute="Sum" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="10"></Field>
+    <Field  Name="JZMJ" Title="调查单元类型-保留型-建筑总面积" WhereClause="DDCDYTB.CDYLX='2'" Type="double" Compute="Sum" Unit="平方米" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="11"></Field>
+    <Field  Name="" Title="调查单元类型-集聚型-户数" WhereClause="DCDYTB.DCDYLX='3'" Type="int" Compute="Count" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="12"></Field>
+    <Field  Name="JTRK" Title="调查单元类型-集聚型-人口数" WhereClause="DCDYTB.DCDYLX='3'" Type="int" Compute="Sum" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="13"></Field>
+    <Field  Name="JZMJ" Title="调查单元类型-集聚型-建筑总面积" WhereClause="DCDYTB.DCDYLX='3'" Type="double" Compute="Sum" Unit="平方米" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="14"></Field>
+    <Field  Name="" Title="建筑类型-砖混-户数" WhereClause="JZLX='1'" Index="15" Compute="Count"></Field>
+    <Field  Name="JTRK" Title="建筑类型-砖混-人口数" Type="Int" WhereClause="JZLX='1'" Index="16" Compute="Sum"></Field>
+    <Field  Name="JZMJ" Title="建筑类型-砖混-建筑总面积" Type="double" WhereClause="JZLX='1'" Index="17" Compute="Sum" Unit="平方米"></Field>
+    <Field  Name="" Title="建筑类型-钢混-户数" WhereClause="JZLX='2'" Index="18" Compute="Count"></Field>
+    <Field  Name="JTRK" Title="建筑类型-钢混-人口数" Type="int" WhereClause="JZLX='2'" Index="19" Compute="Sum"></Field>
+    <Field  Name="JZMJ" Title="建筑类型-钢混-建筑总面积" Type="double" WhereClause="JZLX='2'" Index="20" Compute="Sum" Unit="平方米"></Field>
+    <Field  Name="" Title="建筑类型-砖木-户数" WhereClause="JZLX='3'" Index="21" Compute="Count"></Field>
+    <Field  Name="JTRK" Title="建筑类型-砖木-人口数" Type="Int" WhereClause="JZLX='3'" Index="22" Compute="Sum"></Field>
+    <Field  Name="JZMJ" Title="建筑类型-砖木-建筑总面积" Type="double" WhereClause="JZLX='3'" Index="23" Compute="Sum" Unit="平方米"></Field>
+    <Field  Name="" Title="建筑类型-其他-户数" WhereClause="JZLX='4'" Index="24" Compute="Count"></Field>
+    <Field  Name="JTRK" Title="建筑类型-其他-人口数" Type="int" WhereClause="JZLX='4'" Index="25" Compute="Sum"></Field>
+    <Field  Name="JZMJ" Title="建筑类型-其他-建筑总面积" Type="double" WhereClause="JZLX='4'" Index="26" Compute="Sum" Unit="平方米"></Field>
   </Excel>
   <Excel Name="表3" Title="{Name}({Code})农村存量经营性建设用地基本情况汇总表.xls" TableName="JYXJSYD" Model="ExcelThree.xls">
-    <Field  Name="" Title="建设用地总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="正常使用面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="控制面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="废弃面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-撤并型-宗数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-撤并型-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-保留型-宗数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-保留型-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-集聚型-宗数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="调查单元类型-集聚型-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖混-宗数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖混-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-钢混-宗数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-钢混-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖木-宗数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖木-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-其他-宗数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-其他-建设用地总面积" WhereClause="" Index=""></Field>
+    <Field  Name="JSYDMJ" Title="建设用地总面积"  Index="2" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="JZMJ" Title="建筑总面积"  Index="3" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="JSYDMJ" Title="正常使用面积" WhereClause="LYZT='1'" Index="4" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="JSYDMJ" Title="空置面积" WhereClause="LYZT='2'" Index="5" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="JSYDMJ" Title="废弃面积" WhereClause="LYZT='3'" Index="6" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="" Title="调查单元类型-撤并型-宗数" WhereClause="" View="Select JYXJSYD.XZCDM,JYXJSYD.XZCMC,JYXJSYD.TBBH,JYXJSYD.JSYDMJ,JYXJSYD.JZMJ,DCDYTB.DCDYLX From JYXJSYD inner join DCDYTB on JYXJSYD.XZCDM=DCDYTB.XZCDM AND JYXJSYD.TBBH=DCDYTB.TBBH" Index="7"></Field>
+    <Field  Name="" Title="调查单元类型-撤并型-建设用地总面积" WhereClause="" Index="8"></Field>
+    <Field  Name="" Title="调查单元类型-保留型-宗数" WhereClause="" Index="9"></Field>
+    <Field  Name="" Title="调查单元类型-保留型-建设用地总面积" WhereClause="" Index="10"></Field>
+    <Field  Name="" Title="调查单元类型-集聚型-宗数" WhereClause="" Index="11"></Field>
+    <Field  Name="" Title="调查单元类型-集聚型-建设用地总面积" WhereClause="" Index="12"></Field>
+    <Field  Name="" Title="建筑类型-砖混-宗数" WhereClause="JZLX='1'" Index="13" Compute="count"></Field>
+    <Field  Name="JSYDMJ" Title="建筑类型-砖混-建设用地总面积" WhereClause="JZLX='1'" Index="14" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="" Title="建筑类型-钢混-宗数" WhereClause="JZLX='2'" Index="15" Compute="count"></Field>
+    <Field  Name="JSYDMJ" Title="建筑类型-钢混-建设用地总面积" WhereClause="JZLX=''2" Index="16" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="" Title="建筑类型-砖木-宗数" WhereClause="JZLX='3'" Index="17" Compute="count"></Field>
+    <Field  Name="JSYDMJ" Title="建筑类型-砖木-建设用地总面积" WhereClause="JZLX='3'" Index="18" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="" Title="建筑类型-其他-宗数" WhereClause="JZLX='4'" Index="19" Compute="count"></Field>
+    <Field  Name="JSYDMJ" Title="建筑类型-其他-建设用地总面积" WhereClause="JZLX='4'" Index="20" Type="double" Unit="平方米" Compute="Sum"></Field>
   </Excel>
   <Excel Name="表4" Title="{Name}({Code})农村存量公共管理及公共服务设施用地基本情况汇总表.xls" TableName="GGGL_GGFWSSYD" Model="ExcelFour.xls">
-    <Field  Name="" Title="建设用地总面积" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="建筑总面积" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="正常使用面积" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="服务人数" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="空置面积" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="废弃面积" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="调查单元类型-撤并型-宗数" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="调查单元类型-撤并型-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="调查单元类型-保留型-宗数" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="调查单元类型-保留型-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="调查单元类型-集聚型-宗数" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="调查单元类型-集聚型-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="建筑类型-砖混-宗数" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="建筑类型-砖混-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="建筑类型-钢混-宗数" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="建筑类型-钢混-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="建筑类型-砖木-宗数" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="建筑类型-砖木-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="建筑类型-其他-宗数" WhereClause="" Index=""></Field>
-    <Field TableName="GGGL_GGFWSSYD" Name="" Title="建筑类型-其他-建设用地总面积" WhereClause="" Index=""></Field>
+    <Field  Name="JSYDMJ" Title="建设用地总面积" WhereClause="" Index="2"></Field>
+    <Field  Name="JZMJ" Title="建筑总面积" WhereClause="" Index="3"></Field>
+    <Field  Name="JSYDMJ" Title="正常使用面积" WhereClause="LYZT='1'" Index="4"></Field>
+    <Field  Name="FWRS" Title="服务人数" WhereClause="" Index="5"></Field>
+    <Field  Name="JSYDMJ" Title="空置面积" WhereClause="LYZT='2'" Index="6"></Field>
+    <Field  Name="JSYDMJ" Title="废弃面积" WhereClause="LYZT='3'" Index="7"></Field>
+    <Field  Name="" Title="调查单元类型-撤并型-宗数" WhereClause="" View="Select GGGL_GGFWSSYD.XZCDM,GGGL_GGFWSSYD.XZCMC,GGGL_GGFWSSYD.TBBH,GGGL_GGFWSSYD.JSYDMJ,GGGL_GGFWSSYD.JZMJ,DCDYTB.DCDYLX From GGGL_GGFWSSYD inner join GGGL_GGFWSSYD.XZCDM=DCDYTB.XZCDM AND GGGL_GGFWSSYD.TBBH=DCDYTB.TBBH" Index="8"></Field>
+    <Field  Name="" Title="调查单元类型-撤并型-建设用地总面积" WhereClause="" Index="9"></Field>
+    <Field  Name="" Title="调查单元类型-保留型-宗数" WhereClause="" Index="10"></Field>
+    <Field  Name="" Title="调查单元类型-保留型-建设用地总面积" WhereClause="" Index="11"></Field>
+    <Field  Name="" Title="调查单元类型-集聚型-宗数" WhereClause="" Index="12"></Field>
+    <Field  Name="" Title="调查单元类型-集聚型-建设用地总面积" WhereClause="" Index="13"></Field>
+    <Field  Name="" Title="建筑类型-砖混-宗数" WhereClause="JZLX='1'" Index="14" Compute="count"></Field>
+    <Field  Name="JSYDMJ" Title="建筑类型-砖混-建设用地总面积" WhereClause="JZLX='1'" Index="15" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="" Title="建筑类型-钢混-宗数" WhereClause="JZLX='2'" Index="16" Compute="count"></Field>
+    <Field  Name="JSYDMJ" Title="建筑类型-钢混-建设用地总面积" WhereClause="JZLX='2'" Index="17" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="" Title="建筑类型-砖木-宗数" WhereClause="JZLX='3'" Index="18" Compute="count"></Field>
+    <Field  Name="JSYDMJ" Title="建筑类型-砖木-建设用地总面积" WhereClause="JZLX='3'" Index="19" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="" Title="建筑类型-其他-宗数" WhereClause="JZLX='4'" Index="20" Compute="count"></Field>
+    <Field  Name="JSYDMJ" Title="建筑类型-其他-建设用地总面积" WhereClause="JZLX='4'" Index="21" Type="double" Unit="平方米" Compute="Sum"></Field>
   </Excel>
   <Excel Name="表5" Title="{Name}({Code})农村其他存量建设用地基本情况汇总表.xls" TableName="QTCLJSYD" Model="ExcelFive.xls">
-    <Field  Name="" Title="建设用地总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="有效使用总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="空置面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="废弃面积"></Field>
-    <Field  Name="" Title="建筑类型-砖混-宗数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖混-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-钢混-宗数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-钢混-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖木-宗数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-砖木-建设用地总面积" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-其他-宗数" WhereClause="" Index=""></Field>
-    <Field  Name="" Title="建筑类型-其他-建设用地总面积" WhereClause="" Index=""></Field>
+    <Field  Name="" Title="建设用地总面积" WhereClause="" Index="2"></Field>
+    <Field  Name="" Title="建筑总面积" WhereClause="" Index="3"></Field>
+    <Field  Name="" Title="有效使用总面积" WhereClause="" Index="4"></Field>
+    <Field  Name="" Title="空置面积" WhereClause="" Index="5"></Field>
+    <Field  Name="" Title="废弃面积" Index="6"></Field>
+    <Field  Name="" Title="建筑类型-砖混-宗数" WhereClause="JZLX='1'" Index="7" Compute="Count"></Field>
+    <Field  Name="JSYDMJ" Title="建筑类型-砖混-建设用地总面积" WhereClause="JZLX='1'" Index="8" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="" Title="建筑类型-钢混-宗数" WhereClause="JZLX='2'" Index="9" Compute="Count"></Field>
+    <Field  Name="JSYDMJ" Title="建筑类型-钢混-建设用地总面积" WhereClause="JZLX='2'" Index="10" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="" Title="建筑类型-砖木-宗数" WhereClause="JZLX='3'" Index="11" Compute="Count"></Field>
+    <Field  Name="JSYDMJ" Title="建筑类型-砖木-建设用地总面积" WhereClause="JZLX='3'" Index="12" Type="double" Unit="平方米" Compute="Sum"></Field>
+    <Field  Name="" Title="建筑类型-其他-宗数" WhereClause="JZLX='4'" Index="13" Compute="Count"></Field>
+    <Field  Name="JSYDMJ" Title="建筑类型-其他-建设用地总面积" WhereClause="JZLX='4'" Index="14" Type="double" Unit="平方米" Compute="Sum"></Field>
   </Excel>
   <Rules>
     <Category Name="成功完整性">
       <Rule ID="" Title="成果数据是否满足《浙江省农村存量建设用地调查数据成果规范》对目录和文件的命名要求"></Rule>
-      
     </Category>
     <Category Name="行政区（乡镇）要素基本属性结构表">
       <Rule ID="05000" Title="基本属性结构"></Rule>

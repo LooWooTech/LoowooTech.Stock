@@ -7,6 +7,7 @@ namespace LoowooTech.Stock.Models
 {
     public class ExcelField
     {
+        public string TableName { get; set; }
         public string Name { get; set; }
         public string Title { get; set; }
         public int Index { get; set; }
@@ -21,7 +22,7 @@ namespace LoowooTech.Stock.Models
                 switch (Compute)
                 {
                     case Compute.Sum:
-                        str = string.Format("Sum({0})", Name);
+                        str = string.Format("Sum({0}.{1})",TableName, Name);
                         break;
                     case Compute.Count:
                         str = "Count(*)";
@@ -31,9 +32,19 @@ namespace LoowooTech.Stock.Models
             }
         }
         public string Unit { get; set; }
+        public string View { get; set; }
         public object Val { get; set; }
-        public string Value { get; set; }
-
+        public string Value
+        {
+            get
+            {
+                if (Val != null)
+                {
+                    return Val.ToString();
+                }
+                return string.Empty;
+            }
+        }
     }
     public enum ExcelType
     {

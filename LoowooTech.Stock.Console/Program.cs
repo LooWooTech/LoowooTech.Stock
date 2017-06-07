@@ -14,6 +14,12 @@ namespace LoowooTech.Stock.Console
         static void Main(string[] args)
         {
             LogManager.Init();
+            Excute(args);
+            LogManager.Log("质检结束");
+        }
+
+        static void Excute(string[] args)
+        {
             if (!RuntimeManager.Bind(ProductCode.Engine))
             {
                 if (!RuntimeManager.Bind(ProductCode.Desktop))
@@ -22,7 +28,7 @@ namespace LoowooTech.Stock.Console
                     return;
                 }
             }
-            if (args == null||args.Length==0)
+            if (args == null || args.Length == 0)
             {
                 LogManager.Log("未获取文件夹路径，请联系相关人员！");
                 return;
@@ -36,10 +42,9 @@ namespace LoowooTech.Stock.Console
             var ids = args.Skip(1).ToArray();
 
             LogManager.Log(string.Format("开始质检路径：{0}", folder));
-            var workbench = new WorkBench.WorkBench() { Folder = folder,IDS=ids };
+            var workbench = new WorkBench.WorkBench() { Folder = folder, IDS = ids };
             workbench.Program();
             QuestionManager.Save(workbench.ReportPath, workbench.District, workbench.Code);
-            LogManager.Log("质检结束");
         }
     }
 }
