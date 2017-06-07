@@ -60,6 +60,8 @@ namespace LoowooTech.Stock.WorkBench
         /// <summary>
         /// 当前行政区代码
         /// </summary>
+        public string Code { get { return _code; } }
+        private string[] _ids { get; set; }
         /// <summary>
         /// 质检规则的ID
         /// </summary>
