@@ -172,7 +172,9 @@
     <Content Include="FieldInfo.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Rules.xml" />
+    <Content Include="Rules.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\ExportToExcel_32x32.png" />
     <None Include="Resources\Refresh_16x16.png" />
     <None Include="Resources\Info_16x16.png" />

@@ -1,4 +1,4 @@
-﻿namespace LoowooTech.Traffic.TForms
+﻿namespace LoowooTech.Stock
 {
     partial class MainForm
     {
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Node3");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Node4");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Node5");
@@ -49,11 +50,28 @@
             System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Node2", new System.Windows.Forms.TreeNode[] {
             treeNode10,
             treeNode11});
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ribbon1 = new System.Windows.Forms.Ribbon();
+            this.btnZoomIn = new System.Windows.Forms.RibbonButton();
+            this.btnZoomOut = new System.Windows.Forms.RibbonButton();
+            this.btnIdentify = new System.Windows.Forms.RibbonButton();
+            this.btnGlobe = new System.Windows.Forms.RibbonButton();
+            this.btnIdentity = new System.Windows.Forms.RibbonButton();
             this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel1 = new System.Windows.Forms.RibbonPanel();
+            this.btnZoomIn2 = new System.Windows.Forms.RibbonButton();
+            this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
+            this.btnZoomOut2 = new System.Windows.Forms.RibbonButton();
+            this.btnPan2 = new System.Windows.Forms.RibbonButton();
+            this.btnPrevious = new System.Windows.Forms.RibbonButton();
+            this.btnNext = new System.Windows.Forms.RibbonButton();
+            this.btnGlobe2 = new System.Windows.Forms.RibbonButton();
+            this.ribbonButton6 = new System.Windows.Forms.RibbonButton();
+            this.btnIdentity2 = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
+            this.btnOpen = new System.Windows.Forms.RibbonButton();
+            this.btnStart = new System.Windows.Forms.RibbonButton();
+            this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
+            this.ribbonButton3 = new System.Windows.Forms.RibbonButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.OperatorTxt = new System.Windows.Forms.ToolStripStatusLabel();
@@ -73,24 +91,6 @@
             this.treeView2 = new System.Windows.Forms.TreeView();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.btnZoomIn = new System.Windows.Forms.RibbonButton();
-            this.btnZoomOut = new System.Windows.Forms.RibbonButton();
-            this.btnIdentify = new System.Windows.Forms.RibbonButton();
-            this.btnGlobe = new System.Windows.Forms.RibbonButton();
-            this.btnIdentity = new System.Windows.Forms.RibbonButton();
-            this.btnZoomIn2 = new System.Windows.Forms.RibbonButton();
-            this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
-            this.btnZoomOut2 = new System.Windows.Forms.RibbonButton();
-            this.btnPan2 = new System.Windows.Forms.RibbonButton();
-            this.btnPrevious = new System.Windows.Forms.RibbonButton();
-            this.btnNext = new System.Windows.Forms.RibbonButton();
-            this.btnGlobe2 = new System.Windows.Forms.RibbonButton();
-            this.ribbonButton6 = new System.Windows.Forms.RibbonButton();
-            this.btnIdentity2 = new System.Windows.Forms.RibbonButton();
-            this.btnOpen = new System.Windows.Forms.RibbonButton();
-            this.btnStart = new System.Windows.Forms.RibbonButton();
-            this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
-            this.ribbonButton3 = new System.Windows.Forms.RibbonButton();
             this.btnPan = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
@@ -142,6 +142,51 @@
             this.ribbon1.Text = "ribbon1";
             this.ribbon1.ThemeColor = System.Windows.Forms.RibbonTheme.Blue;
             // 
+            // btnZoomIn
+            // 
+            this.btnZoomIn.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomIn.Image")));
+            this.btnZoomIn.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
+            this.btnZoomIn.SmallImage = global::LoowooTech.Stock.Properties.Resources.ZoomIn_16x16;
+            this.btnZoomIn.Tag = "ZoomIn";
+            this.btnZoomIn.Text = "ribbonButton3";
+            this.btnZoomIn.ToolTip = "放大";
+            this.btnZoomIn.Click += new System.EventHandler(this.btnZoomIn_Click);
+            // 
+            // btnZoomOut
+            // 
+            this.btnZoomOut.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomOut.Image")));
+            this.btnZoomOut.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
+            this.btnZoomOut.SmallImage = global::LoowooTech.Stock.Properties.Resources.ZoomOut_16x16;
+            this.btnZoomOut.Tag = "ZoomOut";
+            this.btnZoomOut.Text = "ribbonButton4";
+            this.btnZoomOut.ToolTip = "缩小";
+            // 
+            // btnIdentify
+            // 
+            this.btnIdentify.Image = ((System.Drawing.Image)(resources.GetObject("btnIdentify.Image")));
+            this.btnIdentify.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
+            this.btnIdentify.SmallImage = global::LoowooTech.Stock.Properties.Resources.MapTool_Pan;
+            this.btnIdentify.Tag = "Pan";
+            this.btnIdentify.Text = "ribbonButton5";
+            this.btnIdentify.ToolTip = "点击查看";
+            // 
+            // btnGlobe
+            // 
+            this.btnGlobe.Image = ((System.Drawing.Image)(resources.GetObject("btnGlobe.Image")));
+            this.btnGlobe.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
+            this.btnGlobe.SmallImage = global::LoowooTech.Stock.Properties.Resources.Zoom100_16x16;
+            this.btnGlobe.Tag = "Globe";
+            this.btnGlobe.Text = "ribbonButton12";
+            this.btnGlobe.ToolTip = "全图显示";
+            // 
+            // btnIdentity
+            // 
+            this.btnIdentity.Image = ((System.Drawing.Image)(resources.GetObject("btnIdentity.Image")));
+            this.btnIdentity.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
+            this.btnIdentity.SmallImage = global::LoowooTech.Stock.Properties.Resources.Info_16x16;
+            this.btnIdentity.Tag = "Identity";
+            this.btnIdentity.Text = "ribbonButton3";
+            // 
             // ribbonTab1
             // 
             this.ribbonTab1.Panels.Add(this.ribbonPanel1);
@@ -159,12 +204,108 @@
             this.ribbonPanel1.Items.Add(this.btnIdentity2);
             this.ribbonPanel1.Text = "地图操作";
             // 
+            // btnZoomIn2
+            // 
+            this.btnZoomIn2.DropDownItems.Add(this.ribbonButton1);
+            this.btnZoomIn2.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomIn2.Image")));
+            this.btnZoomIn2.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Medium;
+            this.btnZoomIn2.SmallImage = global::LoowooTech.Stock.Properties.Resources.ZoomIn_16x16;
+            this.btnZoomIn2.Tag = "ZoomIn";
+            this.btnZoomIn2.Text = "放大";
+            this.btnZoomIn2.Click += new System.EventHandler(this.ToolButton_Click);
+            // 
+            // ribbonButton1
+            // 
+            this.ribbonButton1.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButton1.Image")));
+            this.ribbonButton1.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton1.SmallImage")));
+            this.ribbonButton1.Text = "ribbonButton1";
+            // 
+            // btnZoomOut2
+            // 
+            this.btnZoomOut2.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomOut2.Image")));
+            this.btnZoomOut2.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Medium;
+            this.btnZoomOut2.SmallImage = global::LoowooTech.Stock.Properties.Resources.ZoomOut_16x16;
+            this.btnZoomOut2.Tag = "ZoomOut";
+            this.btnZoomOut2.Text = "缩小";
+            // 
+            // btnPan2
+            // 
+            this.btnPan2.Image = ((System.Drawing.Image)(resources.GetObject("btnPan2.Image")));
+            this.btnPan2.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Medium;
+            this.btnPan2.SmallImage = global::LoowooTech.Stock.Properties.Resources.MapTool_Pan;
+            this.btnPan2.Tag = "Pan";
+            this.btnPan2.Text = "平移";
+            // 
+            // btnPrevious
+            // 
+            this.btnPrevious.Image = ((System.Drawing.Image)(resources.GetObject("btnPrevious.Image")));
+            this.btnPrevious.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Medium;
+            this.btnPrevious.SmallImage = global::LoowooTech.Stock.Properties.Resources.Backward_16x16;
+            this.btnPrevious.Tag = "Previous";
+            this.btnPrevious.Text = "上一视图";
+            // 
+            // btnNext
+            // 
+            this.btnNext.Image = ((System.Drawing.Image)(resources.GetObject("btnNext.Image")));
+            this.btnNext.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Medium;
+            this.btnNext.SmallImage = global::LoowooTech.Stock.Properties.Resources.Forward_16x16;
+            this.btnNext.Tag = "Next";
+            this.btnNext.Text = "下一视图";
+            // 
+            // btnGlobe2
+            // 
+            this.btnGlobe2.DropDownItems.Add(this.ribbonButton6);
+            this.btnGlobe2.Image = ((System.Drawing.Image)(resources.GetObject("btnGlobe2.Image")));
+            this.btnGlobe2.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Medium;
+            this.btnGlobe2.SmallImage = global::LoowooTech.Stock.Properties.Resources.Zoom100_16x16;
+            this.btnGlobe2.Tag = "Globe";
+            this.btnGlobe2.Text = "全图显示";
+            // 
+            // ribbonButton6
+            // 
+            this.ribbonButton6.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButton6.Image")));
+            this.ribbonButton6.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton6.SmallImage")));
+            this.ribbonButton6.Text = "ribbonButton6";
+            // 
+            // btnIdentity2
+            // 
+            this.btnIdentity2.Image = global::LoowooTech.Stock.Properties.Resources.Info_32x32;
+            this.btnIdentity2.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Large;
+            this.btnIdentity2.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnIdentity2.SmallImage")));
+            this.btnIdentity2.Tag = "Identity";
+            this.btnIdentity2.Text = "点击查询";
+            // 
             // ribbonPanel2
             // 
             this.ribbonPanel2.Items.Add(this.btnOpen);
             this.ribbonPanel2.Items.Add(this.btnStart);
             this.ribbonPanel2.Items.Add(this.ribbonButton3);
             this.ribbonPanel2.Text = "质检操作";
+            // 
+            // btnOpen
+            // 
+            this.btnOpen.Image = global::LoowooTech.Stock.Properties.Resources.Open_32x32;
+            this.btnOpen.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnOpen.SmallImage")));
+            this.btnOpen.Text = "打开文件";
+            // 
+            // btnStart
+            // 
+            this.btnStart.DropDownItems.Add(this.ribbonButton2);
+            this.btnStart.Image = global::LoowooTech.Stock.Properties.Resources.Task_32x32;
+            this.btnStart.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnStart.SmallImage")));
+            this.btnStart.Text = "开始质检";
+            // 
+            // ribbonButton2
+            // 
+            this.ribbonButton2.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButton2.Image")));
+            this.ribbonButton2.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton2.SmallImage")));
+            this.ribbonButton2.Text = "ribbonButton2";
+            // 
+            // ribbonButton3
+            // 
+            this.ribbonButton3.Image = global::LoowooTech.Stock.Properties.Resources.ExportToExcel_32x32;
+            this.ribbonButton3.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton3.SmallImage")));
+            this.ribbonButton3.Text = "ribbonButton3";
             // 
             // statusStrip1
             // 
@@ -329,6 +470,7 @@
             this.treeView1.ShowNodeToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(251, 545);
             this.treeView1.TabIndex = 0;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
             // tabControl2
             // 
@@ -391,147 +533,6 @@
             this.listView1.Size = new System.Drawing.Size(909, 545);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
-            // 
-            // btnZoomIn
-            // 
-            this.btnZoomIn.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomIn.Image")));
-            this.btnZoomIn.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
-            this.btnZoomIn.SmallImage = global::LoowooTech.Stock.Properties.Resources.ZoomIn_16x16;
-            this.btnZoomIn.Tag = "ZoomIn";
-            this.btnZoomIn.Text = "ribbonButton3";
-            this.btnZoomIn.ToolTip = "放大";
-            this.btnZoomIn.Click += new System.EventHandler(this.btnZoomIn_Click);
-            // 
-            // btnZoomOut
-            // 
-            this.btnZoomOut.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomOut.Image")));
-            this.btnZoomOut.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
-            this.btnZoomOut.SmallImage = global::LoowooTech.Stock.Properties.Resources.ZoomOut_16x16;
-            this.btnZoomOut.Tag = "ZoomOut";
-            this.btnZoomOut.Text = "ribbonButton4";
-            this.btnZoomOut.ToolTip = "缩小";
-            // 
-            // btnIdentify
-            // 
-            this.btnIdentify.Image = ((System.Drawing.Image)(resources.GetObject("btnIdentify.Image")));
-            this.btnIdentify.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
-            this.btnIdentify.SmallImage = global::LoowooTech.Stock.Properties.Resources.MapTool_Pan;
-            this.btnIdentify.Tag = "Pan";
-            this.btnIdentify.Text = "ribbonButton5";
-            this.btnIdentify.ToolTip = "点击查看";
-            // 
-            // btnGlobe
-            // 
-            this.btnGlobe.Image = ((System.Drawing.Image)(resources.GetObject("btnGlobe.Image")));
-            this.btnGlobe.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
-            this.btnGlobe.SmallImage = global::LoowooTech.Stock.Properties.Resources.Zoom100_16x16;
-            this.btnGlobe.Tag = "Globe";
-            this.btnGlobe.Text = "ribbonButton12";
-            this.btnGlobe.ToolTip = "全图显示";
-            // 
-            // btnIdentity
-            // 
-            this.btnIdentity.Image = ((System.Drawing.Image)(resources.GetObject("btnIdentity.Image")));
-            this.btnIdentity.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact;
-            this.btnIdentity.SmallImage = global::LoowooTech.Stock.Properties.Resources.Info_16x16;
-            this.btnIdentity.Tag = "Identity";
-            this.btnIdentity.Text = "ribbonButton3";
-            // 
-            // btnZoomIn2
-            // 
-            this.btnZoomIn2.DropDownItems.Add(this.ribbonButton1);
-            this.btnZoomIn2.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomIn2.Image")));
-            this.btnZoomIn2.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Medium;
-            this.btnZoomIn2.SmallImage = global::LoowooTech.Stock.Properties.Resources.ZoomIn_16x16;
-            this.btnZoomIn2.Tag = "ZoomIn";
-            this.btnZoomIn2.Text = "放大";
-            this.btnZoomIn2.Click += new System.EventHandler(this.ToolButton_Click);
-            // 
-            // ribbonButton1
-            // 
-            this.ribbonButton1.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButton1.Image")));
-            this.ribbonButton1.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton1.SmallImage")));
-            this.ribbonButton1.Text = "ribbonButton1";
-            // 
-            // btnZoomOut2
-            // 
-            this.btnZoomOut2.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomOut2.Image")));
-            this.btnZoomOut2.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Medium;
-            this.btnZoomOut2.SmallImage = global::LoowooTech.Stock.Properties.Resources.ZoomOut_16x16;
-            this.btnZoomOut2.Tag = "ZoomOut";
-            this.btnZoomOut2.Text = "缩小";
-            // 
-            // btnPan2
-            // 
-            this.btnPan2.Image = ((System.Drawing.Image)(resources.GetObject("btnPan2.Image")));
-            this.btnPan2.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Medium;
-            this.btnPan2.SmallImage = global::LoowooTech.Stock.Properties.Resources.MapTool_Pan;
-            this.btnPan2.Tag = "Pan";
-            this.btnPan2.Text = "平移";
-            // 
-            // btnPrevious
-            // 
-            this.btnPrevious.Image = ((System.Drawing.Image)(resources.GetObject("btnPrevious.Image")));
-            this.btnPrevious.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Medium;
-            this.btnPrevious.SmallImage = global::LoowooTech.Stock.Properties.Resources.Backward_16x16;
-            this.btnPrevious.Tag = "Previous";
-            this.btnPrevious.Text = "上一视图";
-            // 
-            // btnNext
-            // 
-            this.btnNext.Image = ((System.Drawing.Image)(resources.GetObject("btnNext.Image")));
-            this.btnNext.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Medium;
-            this.btnNext.SmallImage = global::LoowooTech.Stock.Properties.Resources.Forward_16x16;
-            this.btnNext.Tag = "Next";
-            this.btnNext.Text = "下一视图";
-            // 
-            // btnGlobe2
-            // 
-            this.btnGlobe2.DropDownItems.Add(this.ribbonButton6);
-            this.btnGlobe2.Image = ((System.Drawing.Image)(resources.GetObject("btnGlobe2.Image")));
-            this.btnGlobe2.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Medium;
-            this.btnGlobe2.SmallImage = global::LoowooTech.Stock.Properties.Resources.Zoom100_16x16;
-            this.btnGlobe2.Tag = "Globe";
-            this.btnGlobe2.Text = "全图显示";
-            // 
-            // ribbonButton6
-            // 
-            this.ribbonButton6.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButton6.Image")));
-            this.ribbonButton6.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton6.SmallImage")));
-            this.ribbonButton6.Text = "ribbonButton6";
-            // 
-            // btnIdentity2
-            // 
-            this.btnIdentity2.Image = global::LoowooTech.Stock.Properties.Resources.Info_32x32;
-            this.btnIdentity2.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Large;
-            this.btnIdentity2.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnIdentity2.SmallImage")));
-            this.btnIdentity2.Tag = "Identity";
-            this.btnIdentity2.Text = "点击查询";
-            // 
-            // btnOpen
-            // 
-            this.btnOpen.Image = global::LoowooTech.Stock.Properties.Resources.Open_32x32;
-            this.btnOpen.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnOpen.SmallImage")));
-            this.btnOpen.Text = "打开文件";
-            // 
-            // btnStart
-            // 
-            this.btnStart.DropDownItems.Add(this.ribbonButton2);
-            this.btnStart.Image = global::LoowooTech.Stock.Properties.Resources.Task_32x32;
-            this.btnStart.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnStart.SmallImage")));
-            this.btnStart.Text = "开始质检";
-            // 
-            // ribbonButton2
-            // 
-            this.ribbonButton2.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButton2.Image")));
-            this.ribbonButton2.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton2.SmallImage")));
-            this.ribbonButton2.Text = "ribbonButton2";
-            // 
-            // ribbonButton3
-            // 
-            this.ribbonButton3.Image = global::LoowooTech.Stock.Properties.Resources.ExportToExcel_32x32;
-            this.ribbonButton3.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton3.SmallImage")));
-            this.ribbonButton3.Text = "ribbonButton3";
             // 
             // btnPan
             // 

@@ -13,8 +13,31 @@ using System.Threading.Tasks;
 
 namespace LoowooTech.Stock.WorkBench
 {
+    public class ProgressEventArgs : EventArgs
+    {
+        /// <summary>
+        /// 是否取消后续任务
+        /// </summary>
+        public bool Cancel { get; set; }
+        
+        /// <summary>
+        /// 已完成任务的编码
+        /// </summary>
+        public string Code { get; set; }
+
+        
+        /// <summary>
+        /// 已完成任务的详情（可以是空）
+        /// </summary>
+        public string Message { get; set; }
+    }
+
     public class WorkBench
     {
+        public delegate void ProgramProgressHandler(object sender, ProgressEventArgs e);
+
+        public event ProgramProgressHandler OnProgramProcess;
+
         protected const string report = "5质检报告";
         protected const string DataBase = "1空间数据库";
         protected const string Collect = "3统计报告";
@@ -37,8 +60,6 @@ namespace LoowooTech.Stock.WorkBench
         /// <summary>
         /// 当前行政区代码
         /// </summary>
-        public string Code { get { return _code; } }
-        private string[] _ids { get; set; }
         /// <summary>
         /// 质检规则的ID
         /// </summary>
@@ -72,6 +93,14 @@ namespace LoowooTech.Stock.WorkBench
             var resultComplete = new ResultComplete(Folder) { Children = XmlManager.Get("/Folders/Folder", "Name", XmlEnum.DataTree) };
             resultComplete.Check();//对质检路径下的文件夹、文件是否存在，是否能够打开进行检查
             QuestionManager.AddRange(resultComplete.Messages.Select(e => new Question { Code = "1102", Name = "成果数据丢露",Project=CheckProject.目录及文件规范性, Description = e }).ToList());
+
+            if(OnProgramProcess != null)
+            {
+                var args = new ProgressEventArgs() { Code = "11", Cancel = false, Message = string.Empty };
+                OnProgramProcess(this, args);
+                if (args.Cancel) return;
+            }
+
             _folderTools.AddRange(resultComplete.ExistPath.Select(e => new FileFolder()
             {
                 Folder = e,

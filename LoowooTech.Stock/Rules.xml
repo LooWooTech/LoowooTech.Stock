@@ -2,7 +2,64 @@
 <Rules>
   <RuleGroup Name="成果完整性" Code="1" >
     <RuleGroup Name="目录及文件规范性" Code="11">
-      <Rule Name="否满足对目录和文件的命名要求" Code="1101" />
+      <Rule Name="成果数据否满足对目录和文件的命名要求" Code="1101" />
+      <Rule Name="成果数据是否存在丢漏" Code="1102"/>
+    </RuleGroup>
+    <RuleGroup Name="数据有效性" Code="12">
+      <Rule Name="提交成果数据是否能够正常打开" Code="1201" />
     </RuleGroup>
   </RuleGroup>
+
+  <RuleGroup Name="矢量数据-基本检查" Code="2" >
+    <RuleGroup Name="图层完整性" Code="21">
+      <Rule Name="矢量图层是否完整" Code="2101" />
+    </RuleGroup>
+    <RuleGroup Name="数学基础" Code="22">
+      <Rule Name="坐标系统是否满足要求" Code="2201" />
+    </RuleGroup>
+  </RuleGroup>
+
+  <RuleGroup Name="矢量数据-属性检查" Code="3" >
+    <RuleGroup Name="结构符合性" Code="31">
+      <Rule Name="图层名称与图层中属性字段是否符合要求" Code="3101" />
+    </RuleGroup>
+    <RuleGroup Name="值符合性" Code="32">
+      <Rule Name="检查属性字段的值是否符合值域范围要求" Code="3201" />
+    </RuleGroup>
+    <RuleGroup Name="属性正确性" Code="33">
+      <Rule Name="行政区编码一致性检查" Code="3301" />
+      <Rule Name="标识码唯一性检查" Code="3302" />
+    </RuleGroup>
+    <RuleGroup Name="面积一致性" Code="34">
+      <Rule Name="数据库计算面积与属性填写面积一致性" Code="3401" />
+    </RuleGroup>
+  </RuleGroup>
+
+  <RuleGroup Name="矢量数据-图形检查" Code="4" >
+    <RuleGroup Name="拓扑关系" Code="41">
+      <Rule Name="面层内拓扑关系" Code="4101" />
+    </RuleGroup>
+    <RuleGroup Name="碎片多边形" Code="42">
+      <Rule Name="是否存在不符合上图要求的碎片多边形" Code="4201" />
+    </RuleGroup>
+    <RuleGroup Name="单要素空间不连续" Code="43">
+      <Rule Name="检查面层单个图斑要素的空间不连续" Code="4301" />
+    </RuleGroup>
+  </RuleGroup>
+  
+  <RuleGroup Name="矢量数据-逻辑一致性" Code="5" >
+    <RuleGroup Name="图层内属性一致性" Code="51">
+      <Rule Name="一个图层（表）内的属性一致性" Code="5101" />
+    </RuleGroup>
+  </RuleGroup>
+  
+  <RuleGroup Name="汇总表格检查" Code="6" >
+    <RuleGroup Name="汇总表与数据库图层逻辑一致性" Code="61">
+      <Rule Name="汇总表数据与数据库图层属性值是否一致" Code="6101" />
+    </RuleGroup>
+    <RuleGroup Name="表格汇总面积和数据库汇总面积一致性" Code="62">
+      <Rule Name="各级汇总面积和数据库汇总面积的一致性" Code="6201" />
+    </RuleGroup>
+  </RuleGroup>
+  
 </Rules>
