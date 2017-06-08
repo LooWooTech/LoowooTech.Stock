@@ -56,74 +56,8 @@ namespace LoowooTech.Stock.Tool
                     QuestionManager.Add(new Models.Question { Code = "1102", Name = "文件",Project=Models.CheckProject.目录及文件规范性, Description = str });
                     return false;
                 }
-                if (!Open(fullPath))
-                {
-                    str = string.Format("文件：{0}无法打开，请核对", fullPath);
-                    QuestionManager.Add(new Models.Question { Code = "1103", Name = "文件能否正常打开",Project=Models.CheckProject.目录及文件规范性, Description = str });
-                    LogManager.Log(str);
-                    _messages.Add(str);
-                }
             }
             return _messages.Count==0;
-        }
-
-        /// <summary>
-        /// 作用：验证文件是否能打开  主要对.xml .mdb .xls文件进行验证
-        /// 作者：汪建龙
-        /// 编写时间：2017年4月7日09:26:42
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        public bool Open(string filePath)
-        {
-            var ext = System.IO.Path.GetExtension(filePath);
-            switch (ext)
-            {
-                case ".xml":
-                    try
-                    {
-                        StreamReader reader = new StreamReader(filePath);
-                        return true;
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                case ".mdb":
-                    try
-                    {
-                        var connection = new OleDbConnection(string.Format("Provider = Microsoft.Jet.OLEDB.4.0; Data Source = {0}", filePath));
-                        return true;
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                    
-                case ".xls":
-
-                    try
-                    {
-                        IWorkbook workbook = filePath.OpenExcel();
-                        if (workbook == null)
-                        {
-                            return false;
-                        }
-                        ISheet sheet = workbook.GetSheetAt(0);
-                        if (sheet == null)
-                        {
-                            return false;
-                        }
-
-                        return true;
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-
-            }
-            return true;
         }
     }
 }

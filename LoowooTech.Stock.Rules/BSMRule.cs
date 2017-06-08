@@ -7,8 +7,22 @@ using System.Text;
 
 namespace LoowooTech.Stock.Rules
 {
-    public class BSMRule:ValueRule,IRule
+    public class BSMRule:ValueBaseRule,IRule
     {
+        public override string RuleName
+        {
+            get
+            {
+                return "标识码唯一性检查";
+            }
+        }
+        public override string ID
+        {
+            get
+            {
+                return "3302";
+            }
+        }
         public override void Init()
         {
             Tools.Add(new ValueUniqueTool() { TableName = "XZQ_XZ", CheckFieldName = _key, ID = "05002", Code = "3302" });

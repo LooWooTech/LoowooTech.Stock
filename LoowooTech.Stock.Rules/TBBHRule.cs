@@ -8,8 +8,22 @@ using System.Text;
 
 namespace LoowooTech.Stock.Rules
 {
-    public class TBBHRule:ValueRule,IRule
+    public class TBBHRule:ValueBaseRule,IRule
     {
+        public override string RuleName
+        {
+            get
+            {
+                return "图层内属性一致性";
+            }
+        }
+        public override string ID
+        {
+            get
+            {
+                return "5101";
+            }
+        }
         public override void Init()
         {
             Tools.Add(new ValueCurrectTool() { TableName = "CLZJD", Fields = new string[] { "XZCDM", "TBBH" }, Values = DCDYTBManager.List.Select(e => string.Format("{0}/{1}", e.XZCDM, e.TBBH)).ToList(), Split = "/", ID = "10006" });

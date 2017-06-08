@@ -14,8 +14,8 @@ namespace LoowooTech.Stock.Rules
     /// </summary>
     public class VectorRule:IRule
     {
-        public string RuleName { get; set; }
-        public string ID { get; set; }
+        public string RuleName { get { return "矢量图层是否完整，是否符合《浙江省农村存量建设用地调查数据库标准》的要求"; } }
+        public string ID { get { return "2101"; } }
         public void Check()
         {
             var tool = new TableStructure();

@@ -12,8 +12,8 @@ namespace LoowooTech.Stock.Rules
 {
     public class TBAreaRule:IRule
     {
-        public string RuleName { get; set; }
-        public string ID { get; set; }
+        public string RuleName { get { return "数据库计算面积与属性填写面积一致性"; } }
+        public string ID { get { return "3401"; } }
         public void Check()
         {
             var tools = new List<GainAreaTool>()

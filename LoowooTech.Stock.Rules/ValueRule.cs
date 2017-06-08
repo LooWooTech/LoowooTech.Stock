@@ -16,6 +16,20 @@ namespace LoowooTech.Stock.Rules
     /// </summary>
     public class ValueRule:ValueBaseRule, IRule
     {
+        public override string RuleName
+        {
+            get
+            {
+                return "属性字段的值是否符合《浙江省农村存量建设用地调查数据库标准》规定的值域范围";
+            }
+        }
+        public override string ID
+        {
+            get
+            {
+                return "3201";
+            }
+        }
         public override void Init()
         {
             #region 行政区（乡镇）要素基本属性结构表

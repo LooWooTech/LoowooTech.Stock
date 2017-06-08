@@ -71,7 +71,7 @@ namespace LoowooTech.Stock.Rules
             _tools.Add(new ValueMathTool() { TableName = "XZQ_XZ", CheckFieldName = "XZQDM", Key = _key, RegexString = "33[0-9]{7}", ID = "05004" });
             _tools.Add(new ValueUniqueTool() { TableName = "XZQ_XZ", CheckFieldName = "XZQDM", ID = "05005", Code = "3301" });
             _tools.Add(new ValueUniqueTool() { TableName = "XZQ_XZ", CheckFieldName = "XZQMC", ID = "05006", Code = "3301" });
-            _tools.Add(new ValueCurrectTool() { TableName = "XZQ_XZ", Fields = new string[] { "XZQDM", "XZQMC" }, Split = "/", Values = ExcelManager.XZQ.Select(e => string.Format("{0}/{1}", e.XZQDM, e.XZQMC)).ToList(), ID = "05007", Code = "3301" });
+
             #endregion
 
             #region  行政区（村级）要素基本属性结构表
@@ -82,7 +82,7 @@ namespace LoowooTech.Stock.Rules
             _tools.Add(new ValueMathTool() { TableName = "XZQ_XZC", CheckFieldName = "XZQDM", Key = _key, RegexString = "33[0-9]{10}", ID = "06004" });
             _tools.Add(new ValueUniqueTool() { TableName = "XZQ_XZC", CheckFieldName = "XZQDM", ID = "06005", Code = "3301" });
             _tools.Add(new ValueUniqueTool() { TableName = "XZQ_XZC", CheckFieldName = "XZQMC", ID = "06006", Code = "3301" });
-            _tools.Add(new ValueCurrectTool() { TableName = "XZQ_XZC", Fields = new string[] { "XZQDM", "XZQMC" }, Split = "/", Values = ExcelManager.XZC.Select(e => string.Format("{0}/{1}", e.XZQDM, e.XZQMC)).ToList(), ID = "06007", Code = "3301" });
+           // _tools.Add(new ValueCurrectTool() { TableName = "XZQ_XZC", Fields = new string[] { "XZQDM", "XZQMC" }, Split = "/", Values = ExcelManager.XZC.Select(e => string.Format("{0}/{1}", e.XZQDM, e.XZQMC)).ToList(), ID = "06007", Code = "3301" });
             #endregion
 
             #region 行政区界线要素基本属性结构表
@@ -102,7 +102,7 @@ namespace LoowooTech.Stock.Rules
             _tools.Add(new ValueRangeTool() { TableName = "DCDYTB", CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010100" }, ID = "08003" });
             _tools.Add(new ValueUniqueTool() { TableName = "DCDYTB", CheckFieldName = "TBBH", WhereFieldName = "XZCDM", ID = "08004", Code = "" });
             _tools.Add(new ValueRangeTool() { TableName = "DCDYTB", CheckFieldName = "DCDYLX", Key = _key, Values = new string[] { "1", "2", "3" }, ID = "08005" });
-            _tools.Add(new ValueCurrectTool() { TableName = "DCDYTB", Fields = new string[] { "XZCDM", "XZCMC" }, Split = "/", Values = ExcelManager.XZC.Select(e => string.Format("{0}/{1}", e.XZQDM, e.XZQMC)).ToList(), ID = "08006", Code = "3301" });
+            //_tools.Add(new ValueCurrectTool() { TableName = "DCDYTB", Fields = new string[] { "XZCDM", "XZCMC" }, Split = "/", Values = ExcelManager.XZC.Select(e => string.Format("{0}/{1}", e.XZQDM, e.XZQMC)).ToList(), ID = "08006", Code = "3301" });
             #endregion
 
 
@@ -111,7 +111,7 @@ namespace LoowooTech.Stock.Rules
             _tools.Add(new ValueCountTool() { TableName = "NCCLJSYDZTQK", ID = "09001" });
             _tools.Add(new ValueUniqueTool() { TableName = "NCCLJSYDZTQK", CheckFieldName = _key, ID = "09002", Code = "3302" });
             _tools.Add(new ValueRangeTool() { TableName = "NCCLJSYDZTQK", CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010200" }, ID = "09003" });
-            _tools.Add(new ValueCurrectTool() { TableName = "NCCLJSYDZTQK", Fields = new string[] { "XZCDM", "XZCMC", "SSXZMC" }, Split = "/", Values = ExcelManager.XZDC.Select(e => string.Format("{0}/{1}/{2}", e.XZQDM, e.XZQMC, e.XZQ.XZQMC)).ToList(), ID = "09004" });
+            //_tools.Add(new ValueCurrectTool() { TableName = "NCCLJSYDZTQK", Fields = new string[] { "XZCDM", "XZCMC", "SSXZMC" }, Split = "/", Values = ExcelManager.XZDC.Select(e => string.Format("{0}/{1}/{2}", e.XZQDM, e.XZQMC, e.XZQ.XZQMC)).ToList(), ID = "09004" });
             _tools.Add(new ValueCompareTool() { TableName = "NCCLJSYDZTQK", Key = _key, FieldArray1 = new string[] { "XZCZYDMJ" }, FieldArray2 = new string[] { "DJCZYDMJ" }, Compare = Compare.Above, ID = "09005" });
             _tools.Add(new ValueCompareTool() { TableName = "NCCLJSYDZTQK", Key = _key, FieldArray1 = new string[] { "XZCZYDMJ" }, FieldArray2 = new string[] { "QQCZYDMJ" }, Compare = Compare.Above, ID = "09006" });
             _tools.Add(new ValueCompareTool() { TableName = "NCCLJSYDZTQK", Key = _key, FieldArray1 = new string[] { "RKZS", "LCRK" }, FieldArray2 = new string[] { "HJRK", "LRRK" }, Compare = Compare.Equal, ID = "09007" });
@@ -123,7 +123,7 @@ namespace LoowooTech.Stock.Rules
             _tools.Add(new ValueCountTool() { TableName = "CLZJD", ID = "10001" });
             _tools.Add(new ValueUniqueTool() { TableName = "CLZJD", CheckFieldName = _key, ID = "10002", Code = "3302" });
             _tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010300" }, ID = "10003" });
-            _tools.Add(new ValueCurrectTool() { TableName = "CLZJD", Fields = new string[] { "XZCDM", "XZCMC" }, Values = ExcelManager.XZC.Select(e => string.Format("{0}/{1}", e.XZQDM, e.XZQMC)).ToList(), Split = "/", ID = "10004" });
+
             _tools.Add(new ValueUniqueTool() { TableName = "CLZJD", CheckFieldName = "DCBH", WhereFieldName = "XZCDM", ID = "10005", Code = "3201" });
             _tools.Add(new ValueCurrectTool() { TableName = "CLZJD", Fields = new string[] { "XZCDM", "TBBH" }, Values = DCDYTBManager.List.Select(e => string.Format("{0}/{1}", e.XZCDM, e.TBBH)).ToList(), Split = "/", ID = "10006" });
             _tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "JZLX", Key = _key, Values = new string[] { "1", "2", "3", "4" }, ID = "10007" });
@@ -145,7 +145,7 @@ namespace LoowooTech.Stock.Rules
             _tools.Add(new ValueCountTool() { TableName = "JYXJSYD", ID = "11001" });
             _tools.Add(new ValueUniqueTool() { TableName = "JYXJSYD", CheckFieldName = _key, ID = "11002", Code = "3302" });
             _tools.Add(new ValueRangeTool() { TableName = "JYXJSYD", CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010400" }, ID = "11003" });
-            _tools.Add(new ValueCurrectTool() { TableName = "JYXJSYD", Fields = new string[] { "XZCDM", "XZCMC" }, Split = "/", Values = ExcelManager.XZC.Select(e => string.Format("{0}/{1}", e.XZQDM, e.XZQMC)).ToList(), ID = "11004" });
+            //_tools.Add(new ValueCurrectTool() { TableName = "JYXJSYD", Fields = new string[] { "XZCDM", "XZCMC" }, Split = "/", Values = ExcelManager.XZC.Select(e => string.Format("{0}/{1}", e.XZQDM, e.XZQMC)).ToList(), ID = "11004" });
             _tools.Add(new ValueUniqueTool() { TableName = "JYXJSYD", CheckFieldName = "DCBH", WhereFieldName = "XZCDM", ID = "11005", Code = "3201" });
             _tools.Add(new ValueCurrectTool() { TableName = "JYXJSYD", Fields = new string[] { "XZCDM", "TBBH" }, Values = DCDYTBManager.List.Select(e => string.Format("{0}/{1}", e.XZCDM, e.TBBH)).ToList(), Split = "/", ID = "11006" });
             _tools.Add(new ValueRangeTool() { TableName = "JYXJSYD", CheckFieldName = "JZLX", Key = _key, Values = new string[] { "1", "2", "3", "4" }, ID = "11007" });
@@ -164,7 +164,7 @@ namespace LoowooTech.Stock.Rules
             _tools.Add(new ValueCountTool() { TableName = "GGGL_GGFWSSYD", ID = "12001" });
             _tools.Add(new ValueUniqueTool() { TableName = "GGGL_GGFWSSYD", CheckFieldName = _key, ID = "12002", Code = "3302" });
             _tools.Add(new ValueRangeTool() { TableName = "GGGL_GGFWSSYD", CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010500" }, ID = "12003" });
-            _tools.Add(new ValueCurrectTool() { TableName = "GGGL_GGFWSSYD", Fields = new string[] { "XZCDM", "XZCMC" }, Split = "/", Values = ExcelManager.XZC.Select(e => string.Format("{0}/{1}", e.XZQDM, e.XZQMC)).ToList(), ID = "12004" });
+            //_tools.Add(new ValueCurrectTool() { TableName = "GGGL_GGFWSSYD", Fields = new string[] { "XZCDM", "XZCMC" }, Split = "/", Values = ExcelManager.XZC.Select(e => string.Format("{0}/{1}", e.XZQDM, e.XZQMC)).ToList(), ID = "12004" });
             _tools.Add(new ValueUniqueTool() { TableName = "GGGL_GGFWSSYD", CheckFieldName = "DCBH", WhereFieldName = "XZCDM", ID = "12005", Code = "3201" });
             _tools.Add(new ValueCurrectTool() { TableName = "GGGL_GGFWSSYD", Fields = new string[] { "XZCDM", "TBBH" }, Values = DCDYTBManager.List.Select(e => string.Format("{0}/{1}", e.XZCDM, e.TBBH)).ToList(), Split = "/", ID = "12006" });
             _tools.Add(new ValueRangeTool() { TableName = "GGGL_GGFWSSYD", CheckFieldName = "JZLX", Key = _key, Values = new string[] { "1", "2", "3", "4" }, ID = "12007" });
@@ -182,7 +182,7 @@ namespace LoowooTech.Stock.Rules
             _tools.Add(new ValueCountTool() { TableName = "QTCLJSYD", ID = "13001" });
             _tools.Add(new ValueUniqueTool() { TableName = "QTCLJSYD", CheckFieldName = _key, ID = "13002", Code = "3302" });
             _tools.Add(new ValueRangeTool() { TableName = "QTCLJSYD", CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010600" }, ID = "13003" });
-            _tools.Add(new ValueCurrectTool() { TableName = "QTCLJSYD", Fields = new string[] { "XZCDM", "XZCMC" }, Split = "/", Values = ExcelManager.XZC.Select(e => string.Format("{0}/{1}", e.XZQDM, e.XZQMC)).ToList(), ID = "13004" });
+           // _tools.Add(new ValueCurrectTool() { TableName = "QTCLJSYD", Fields = new string[] { "XZCDM", "XZCMC" }, Split = "/", Values = ExcelManager.XZC.Select(e => string.Format("{0}/{1}", e.XZQDM, e.XZQMC)).ToList(), ID = "13004" });
             _tools.Add(new ValueUniqueTool() { TableName = "QTCLJSYD", CheckFieldName = "DCBH", WhereFieldName = "XZCDM", ID = "13005", Code = "3201" });
             _tools.Add(new ValueCurrectTool() { TableName = "QTCLJSYD", Fields = new string[] { "XZCDM", "TBBH" }, Values = DCDYTBManager.List.Select(e => string.Format("{0}/{1}", e.XZCDM, e.TBBH)).ToList(), Split = "/", ID = "13006" });
             _tools.Add(new ValueRangeTool() { TableName = "QTCLJSYD", CheckFieldName = "JZLX", Key = _key, Values = new string[] { "1", "2", "3", "4" }, ID = "13007" });

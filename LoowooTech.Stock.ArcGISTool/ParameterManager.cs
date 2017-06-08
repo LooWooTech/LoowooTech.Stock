@@ -6,11 +6,18 @@ using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace LoowooTech.Stock.ArcGISTool
 {
     public static class ParameterManager
     {
+         static string Collect = "3统计报告";
+        private static string _folder { get; set; }
+        /// <summary>
+        /// 质检路径
+        /// </summary>
+        public static string Folder { get { return _folder; }set { _folder = value; } }
         private static string _mdbFilePath { get; set; }
         /// <summary>
         /// 数据库文件
@@ -56,8 +63,50 @@ namespace LoowooTech.Stock.ArcGISTool
         /// <summary>
         /// 质检子目录
         /// </summary>
-        public static List<string> ChildrenFolder { get { return _childrenFolder == null ? _childrenFolder = XmlManager.Get("/Folders/Folder", "Name", XmlEnum.DataTree) : _childrenFolder; } }
+        public static List<string> ChildrenFolder { get { return _childrenFolder == null ? _childrenFolder = GetChildFolder() : _childrenFolder; } }
 
+        private static List<string> GetChildFolder()
+        {
+            var list = new List<string>();
+            var nodes = XmlManager.GetList("/Folders/Folder", XmlEnum.DataTree);
+            if (nodes != null && nodes.Count > 0)
+            {
+                for(var i = 0; i < nodes.Count; i++)
+                {
+                    var node = nodes[i];
+                    list.AddRange(GetChildFolder(node,null));
+                }
+            }
+            return list;
+        }
+        private static List<string> GetChildFolder(XmlNode node,string path)
+        {
+            var list = new List<string>();
+            var str = System.IO.Path.Combine(path, node.Attributes["Name"].Value);
+            list.Add(str);
+            var nodes = node.SelectNodes("/Folder");
+            if (nodes != null && nodes.Count > 0)
+            {
+                for(var i = 0; i < nodes.Count; i++)
+                {
+                    var child = nodes[i];
+                    list.AddRange(GetChildFolder(child,str));
+                }
+            }
+            return list;
+            
+        }
+
+        private static List<string> _TopoFeatures { get; set; }
+        /// <summary>
+        /// 需要进行拓扑检查的图层
+        /// </summary>
+        public static List<string> TopoFeatures { get { return _TopoFeatures == null ? _TopoFeatures = XmlManager.Get("/Tables/Table[@Topo='true']", "Name", XmlEnum.Field) : _TopoFeatures; } }
         
+        private static string _collectFolder { get; set; }
+        /// <summary>
+        /// 统计表格路径
+        /// </summary>
+        public static string CollectFolder { get { return string.IsNullOrEmpty(_collectFolder) ? _collectFolder = System.IO.Path.Combine(Folder, Collect) : _collectFolder; } }
     }
 }

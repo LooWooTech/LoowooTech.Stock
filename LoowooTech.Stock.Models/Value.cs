@@ -16,14 +16,9 @@ namespace LoowooTech.Stock.Models
         public string XZCMC { get; set; }
     }
 
-    public class XZ
-    {
-        public string XZQDM { get; set; }
-        public string XZQMC { get; set; }
-    }
 
-    public class XZDC:XZ
+    public class XZDC:XZC
     {
-        public XZ XZQ { get; set; }
+        public XZC XZQ { get; set; }
     }
 }

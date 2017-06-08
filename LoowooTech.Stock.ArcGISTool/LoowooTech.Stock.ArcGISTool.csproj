@@ -65,7 +65,7 @@
     <Compile Include="ArcClass.cs" />
     <Compile Include="ArcGISFileHelper.cs" />
     <Compile Include="ArcGISHeart.cs" />
-    <Compile Include="CoordinateRule.cs" />
+    <Compile Include="ArcGISManager.cs" />
     <Compile Include="GISField.cs" />
     <Compile Include="HeartClass.cs" />
     <Compile Include="LicenseClass.cs" />

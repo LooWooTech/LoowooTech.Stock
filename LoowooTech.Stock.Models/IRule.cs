@@ -7,8 +7,8 @@ namespace LoowooTech.Stock.Models
 {
     public interface IRule
     {
-        string ID { get; set; }
-        string RuleName { get; set; }
+        string ID { get;  }
+        string RuleName { get;  }
         void Check();
     }
 }

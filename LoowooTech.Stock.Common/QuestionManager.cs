@@ -57,14 +57,14 @@ namespace LoowooTech.Stock.Common
                 return _modelFile;
             }
         }
-        public static void Save(string folder,string district,string code)
+        public static string Save(string folder,string district,string code)
         {
             var info = string.Empty;
             if (string.IsNullOrEmpty(ModelFile)||!System.IO.File.Exists(ModelFile))
             {
                 info = string.Format("质检报告格式文件为空或者格式文件不存在");
                 Console.WriteLine(info);
-                return;
+                return string.Empty;
             }
 
             IWorkbook workbook = ModelFile.OpenExcel();
@@ -72,7 +72,7 @@ namespace LoowooTech.Stock.Common
             {
                 info = "打开质检报告格式文件失败";
                 Console.WriteLine(info);
-                return;
+                return string.Empty;
             }
             var sheet1 = workbook.GetSheetAt(0);
             var sheet2 = workbook.GetSheetAt(1);
@@ -80,10 +80,12 @@ namespace LoowooTech.Stock.Common
             SaveCollect(sheet1);
             SaveList(sheet2);
             SaveInfo(sheet3, LogManager.List);
-            using (var fs=new FileStream(System.IO.Path.Combine(folder, string.Format(_name + ".xls", district, code)), FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            var filePath = System.IO.Path.Combine(folder, string.Format(_name + ".xls", district, code));
+            using (var fs=new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 workbook.Write(fs);
             }
+            return filePath;
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ using System.Text;
 
 namespace LoowooTech.Stock.WorkBench
 {
-    public class WorkBench2
+    public class WorkBench2:IWorkBench
     {
         protected const string report = "5质检报告";
         protected const string DataBase = "1空间数据库";
@@ -64,22 +64,36 @@ namespace LoowooTech.Stock.WorkBench
             return !string.IsNullOrEmpty(_codeFile) && !string.IsNullOrEmpty(_mdbFile) && System.IO.File.Exists(_codeFile) && System.IO.File.Exists(_mdbFile);
         }
         private List<IRule> _rules { get; set; }
+        private List<int> _ruleIds { get; set; }
+        public List<int> RulsIds { get { return _ruleIds; }set { _ruleIds = value; } }
+        public List<Question> Results { get { return QuestionManager.Questions; } }
+        public string DistrictName { get { return ParameterManager.District; } }
+        public string DistrictCode { get { return ParameterManager.Code; } }
         
+        private string _reportPath { get; set; }
+        
+        public string ReportPath { get { return _reportPath; } }
+
+        public event ProgramProgressHandler OnProgramProcess;
+
         private void InitRules()
         {
             _rules = new List<IRule>();
-            _rules.Add(new VectorRule { ID = "2101", RuleName = "矢量图层是否完整，是否符合《浙江省农村存量建设用地调查数据库标准》的要求" });
-            _rules.Add(new CoordinateRule { ID = "2201", RuleName = "平面坐标系统是否采用‘1980’西安坐标系、3度带、带带号，检查高程系统是否采用‘1985’国家高程基准，检查投影方式是否采用高斯-克吕格投影" });
-            _rules.Add(new StructureRule { ID = "3101", RuleName = "检查图层名称、图层中属性字段的数量和属性字段代码、类型、长度、小数位数是否符合《浙江省农村存量建设用地调查数据库标注》要求" });
-            _rules.Add(new ValueRule { ID = "3201", RuleName = "属性字段的值是否符合《浙江省农村存量建设用地调查数据库标准》规定的值域范围" });
-            _rules.Add(new XZCDMRule { ID = "3301", RuleName = "行政区编码一致性检查" });
-            _rules.Add(new BSMRule { ID = "3302", RuleName = "标识码唯一性检查" });
-            _rules.Add(new TBAreaRule { ID = "3401", RuleName = "数据库计算面积与属性填写面积一致性" });
-            _rules.Add(new TBBHRule { ID = "5101", RuleName = "图层内属性一致性" });
 
-
-
-            _rules.Add(new DirectoryFileRule { ID = "", RuleName = "" });
+            _rules.Add(new FileFolderStandardRule());
+            _rules.Add(new FileOpenRule());
+            _rules.Add(new VectorRule ());
+            _rules.Add(new CoordinateRule ());
+            _rules.Add(new StructureRule ());
+            _rules.Add(new ValueRule());
+            _rules.Add(new XZCDMRule());
+            _rules.Add(new BSMRule ());
+            _rules.Add(new TBAreaRule ());
+            _rules.Add(new TopologyRule ());
+            _rules.Add(new SplinterRule());
+            _rules.Add(new ContinuousRule());
+            _rules.Add(new TBBHRule());
+            _rules.Add(new ExcelValueLogicRule());
         }
         private void Init()
         {
@@ -103,6 +117,18 @@ namespace LoowooTech.Stock.WorkBench
             QuestionManager.Clear();
             Init();
 
+            foreach(var rule in _rules)
+            {
+                rule.Check();
+                if (OnProgramProcess != null)
+                {
+                    var args = new ProgressEventArgs() { Code = rule.ID, Cancel = false, Message = rule.RuleName };
+                    OnProgramProcess(this, args);
+                    if (args.Cancel)
+                        return;
+                }
+            }
+            _reportPath = QuestionManager.Save(System.IO.Path.Combine(Folder, report), ParameterManager.District, ParameterManager.Code);
 
         }
     }

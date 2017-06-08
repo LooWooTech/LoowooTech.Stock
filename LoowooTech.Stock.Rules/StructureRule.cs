@@ -15,8 +15,8 @@ namespace LoowooTech.Stock.Rules
     /// </summary>
     public class StructureRule:IRule
     {
-        public string RuleName { get; set; }
-        public string ID { get; set; }
+        public string RuleName { get { return "检查图层名称、图层中属性字段的数量和属性字段代码、类型、长度、小数位数是否符合《浙江省农村存量建设用地调查数据库标注》要求"; } }
+        public string ID { get { return "3101"; } }
         public void Check()
         {
             Parallel.ForEach(ParameterManager.TableNames, table =>

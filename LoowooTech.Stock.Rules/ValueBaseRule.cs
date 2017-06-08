@@ -14,8 +14,8 @@ namespace LoowooTech.Stock.Rules
         protected const string _key = "BSM";
         private List<ITool> _tools { get; set; }
         public List<ITool> Tools { get { return _tools == null ? _tools = new List<ITool>() : _tools; } }
-        public string RuleName { get; set; }
-        public string ID { get; set; }
+        public virtual string RuleName { get; }
+        public virtual string ID { get; }
         public virtual void Init()
         {
 

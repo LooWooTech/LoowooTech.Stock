@@ -10,7 +10,7 @@
       <File Name="{Name}({Code})农村存量建设用地调查单元分布图.jpg"></File>
     </Folder>
     <Folder Name="乡镇级成果" Filter="*.jpg">
-      <File Name="{Name}({Code})农村存量加上你和用地调查单元分布图.jpg"></File>
+      <File Name="{Name}({Code}){n}农村存量加上你和用地调查单元分布图.jpg" ></File>
     </Folder>
   </Folder>
   <Folder Name="3统计表格" Filter="*.xls">
