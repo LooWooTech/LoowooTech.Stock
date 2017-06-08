@@ -4,6 +4,7 @@ using LoowooTech.Stock.WorkBench;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -25,11 +26,6 @@ namespace LoowooTech.Stock
             {"Pan", typeof(ControlsMapZoomToLastExtentBackCommandClass) },
             {"Identity", typeof(ControlsMapIdentifyToolClass) }
         };
-
-        static MainForm()
-        {
-            
-        }
 
         public MainForm()
         {
@@ -161,10 +157,13 @@ namespace LoowooTech.Stock
                 return;
             }
 
+            lblOperator.Text = "正在进行质检...";
             var ids = new List<int>();
             RuleHelper.GetCheckedRuleIDs(treeView1.Nodes, ids);
+            _workBench = new WorkBench2();
             _workBench.RulsIds = ids;
             btnStart.Enabled = false;
+            btnExport.Enabled = false;
             var form = new ProgressForm(_workBench);
             form.ShowDialog();
             if(form.StopRequested == false)
@@ -174,6 +173,8 @@ namespace LoowooTech.Stock
                 btnExport.Enabled = true;
                 MessageBox.Show("已经完成质检", "完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            
+            lblOperator.Text = "就绪";
             btnStart.Enabled = true;
         }
 
@@ -187,6 +188,24 @@ namespace LoowooTech.Stock
                     q.Code, q.Name, q.Project.ToString(),
                     q.TableName, q.BSM, q.Description, q.Remark
                 }));
+            }
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            var dialog = new SaveFileDialog { Filter = "Excel文件(*.xls)|*.xls", Title = "请选择质检结果导出文件" };
+            if(dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    File.Copy(_workBench.ReportPath, dialog.FileName);
+                    MessageBox.Show("导出质检结果文件成功", "导出", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("导出文件时出现错误:" +ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                
             }
         }
     }
