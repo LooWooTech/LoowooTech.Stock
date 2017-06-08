@@ -63,12 +63,16 @@ namespace LoowooTech.Stock.WorkBench
                 return;
             }
             var folderTool = new FolderTool { Folder = Folder };//对质检路径进行命名规范检查
-            if (!folderTool.Check())
-            {
-                return;
-            }
+            folderTool.Check();
+            //if (!folderTool.Check())
+            //{
+            //    return;
+            //}
             Code = folderTool.Code;
             District = folderTool.CityName;
+
+
+
 
             var resultComplete = new ResultComplete(Folder) { Children = XmlManager.Get("/Folders/Folder", "Name", XmlEnum.DataTree) };
             resultComplete.Check();//对质检路径下的文件夹、文件是否存在，是否能够打开进行检查
@@ -108,7 +112,7 @@ namespace LoowooTech.Stock.WorkBench
 
             var path = System.IO.Path.Combine(Folder, DataBase);
             //获取空间数据库文件夹下的单位代码表文件，并获取单位代码信息
-            var codefileTool = new FileTool { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]+\(\d{6}\)单位代码表.xls$" };
+            var codefileTool = new Tool.FileTool { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]+\(\d{6}\)单位代码表.xls$" };
             var currentCodeFile = codefileTool.GetFile();
             if (string.IsNullOrEmpty(currentCodeFile))
             {
@@ -119,7 +123,7 @@ namespace LoowooTech.Stock.WorkBench
                 ExcelManager.Init(currentCodeFile);
             }
             //获取空间数据库文件夹下的空间数据库文件，并对数据库进行检查
-            var mdbfileTool = new FileTool() { Folder = path, Filter = "*.mdb", RegexString = @"^[\u4e00-\u9fa5]+\(\d{6}\)农村存量建设用地调查成功空间数据库.mdb$" };
+            var mdbfileTool = new Tool.FileTool() { Folder = path, Filter = "*.mdb", RegexString = @"^[\u4e00-\u9fa5]+\(\d{6}\)农村存量建设用地调查成功空间数据库.mdb$" };
             var currentMdbFile = mdbfileTool.GetFile();
             if (string.IsNullOrEmpty(currentMdbFile))
             {

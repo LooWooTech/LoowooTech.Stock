@@ -51,18 +51,18 @@ namespace LoowooTech.Stock.Common
             return cell;
         }
 
-        private static XZ GainXZ(IRow row)
+        private static XZC GainXZ(IRow row)
         {
             var values = GetCellValues(row, 0, 2);
-            return new XZ
+            return new XZC
             {
-                XZQMC = values[0],
-                XZQDM = values[1]
+                XZCMC = values[0],
+                XZCDM = values[1]
             };
         }
-        public static List<XZ> GainXZ(string filePath)
+        public static List<XZC> GainXZ(string filePath)
         {
-            var list = new List<XZ>();
+            var list = new List<XZC>();
             IWorkbook workbook = filePath.OpenExcel();
             if (workbook != null)
             {

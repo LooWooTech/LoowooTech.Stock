@@ -1,4 +1,5 @@
 ﻿using LoowooTech.Stock.Common;
+using LoowooTech.Stock.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,8 +13,11 @@ namespace LoowooTech.Stock.Tool
     /// 作者：汪建龙
     /// 编写时间：2017年5月2日14:45:17
     /// </summary>
-    public class FolderTool
+    public class FolderTool:IRule
     {
+        public string ID { get; set; }
+        public string RuleName { get; set; }
+
         private const string Title = "农村存量建设用地调查数据成果";
         private string _folder { get; set; }
         /// <summary>
@@ -33,7 +37,7 @@ namespace LoowooTech.Stock.Tool
         /// </summary>
         public string Code { get { return _code; }  private set { _code = value; } }
 
-        public bool Check()
+        public void Check()
         {
             DirectoryInfo info = new DirectoryInfo(Folder);
             var folderName=info.Name.Replace(Title,"").Replace("（", ",").Replace("）", "").Replace("(", ",").Replace(")", "");
@@ -47,13 +51,10 @@ namespace LoowooTech.Stock.Tool
                     var str = string.Format("未查询到行政区名称：{0}；行政区代码：{1}的相关记录！", CityName, Code);
                     LogManager.Record(str);
                     QuestionManager.Add(new Models.Question { Code = "1101", Name = "质检路径命名规则", Description = str });
-                    return false;
                 }
-                return true;
             }
             QuestionManager.Add(new Models.Question { Code = "1101", Name = "质检路径命名规则", Description = "无法解析行政区名称、行政区代码信息" });
             LogManager.Log("无法解析行政区名称、行政区代码信息");
-            return false;
         }
     }
 }

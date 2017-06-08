@@ -106,6 +106,7 @@ namespace LoowooTech.Stock.Rules
         /// 数据库 ——获取的统计值【正确值】
         /// </summary>
         public Dictionary<XZC,List<ExcelField>> Dict { get { return _dict; } }
+        private List<ExcelField> _accessList { get; set; }
         private Dictionary<XZC,List<ExcelField>> _excelDict { get; set; }
         /// <summary>
         /// excel-核对数值
@@ -178,6 +179,7 @@ namespace LoowooTech.Stock.Rules
             _dict = new Dictionary<XZC, List<ExcelField>>();
             _excelDict = new Dictionary<XZC, List<ExcelField>>();
             _excelList = new List<ExcelField>();
+            _accessList = new List<ExcelField>();
         }
         private List<ExcelField> GetFields()
         {
@@ -526,6 +528,7 @@ namespace LoowooTech.Stock.Rules
                     var val = GainCommon(field, xzc.XZCDM, xzc.XZCMC);
                     result.Add(val);
                 }
+                _accessList.AddRange(result);
                 _dict.Add(xzc, result);
             }
         }
@@ -606,11 +609,8 @@ namespace LoowooTech.Stock.Rules
             else
             {
                 _dict.Clear();
-
                 Parallel.Invoke(GainExcel, GainAccess);
                 CheckData();
-                //GainExcel();//对excel 文件进行读取并打开  
-                //GainAccess();//获取数据库统计数值信息
             }
         }
 
@@ -708,6 +708,34 @@ namespace LoowooTech.Stock.Rules
                             }
                             break;
                     }
+                }
+            }
+        }
+        private void CheckCollect()
+        {
+            var info = string.Empty;
+            foreach(var field in Fields)
+            {
+                var excels = _excelList.Where(e => e.Index == field.Index);
+                var access = _accessList.Where(e => e.Index == field.Index);
+                var flag = false;
+                switch (field.Type)
+                {
+                    case ExcelType.Double:
+                        var a = excels.Sum(e => (double)e.Val);
+                        var b = access.Sum(e => (double)e.Val);
+                        flag = Math.Abs(a - b) > 0.001;
+                        break;
+                    case ExcelType.Int:
+                        var m = excels.Sum(e => (int)e.Val);
+                        var n = access.Sum(e => (int)e.Val);
+                        flag = m != n;
+                        break;
+                }
+                if (flag)//不想等或者容差率超了
+                {
+                    info = string.Format("{0}中字段：{1}汇总面积和与数据库汇总面积和不符", ExcelName, field.Title);
+                    _paralleQuestions.Add(new Question { Code = "6201", Name = "检查表格数据中，各级汇总面积和数据库汇总面积的一致性", Project = CheckProject.表格汇总面积和数据库汇总面积一致性, TableName = ExcelName, BSM = field.Title, Description = info });
                 }
             }
         }
