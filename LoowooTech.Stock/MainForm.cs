@@ -64,11 +64,11 @@ namespace LoowooTech.Stock
             }
             else
             {
-                var ruleGroupNodes = xmlNode.SelectNodes("RuleGroup");
+                var ruleGroupNodes = xmlNode.SelectNodes("Category");
                 for(var i=0;i<ruleGroupNodes.Count;i++)
                 {
                     var node = ruleGroupNodes[i];
-                    var childNode = parentSubNodes.Add(node.Attributes["Code"].Value, string.Format("[{0}]{1}", node.Attributes["Code"].Value, node.Attributes["Name"].Value));
+                    var childNode = parentSubNodes.Add(string.Format("[{0}]{1}", node.Attributes["Code"].Value, node.Attributes["Name"].Value));
                     childNode.Checked = true;
                     LoadNode(node, childNode.Nodes);
                     childNode.Expand();

@@ -11,25 +11,7 @@ using System.Threading.Tasks;
 
 namespace LoowooTech.Stock.WorkBench
 {
-    public class ProgressEventArgs : EventArgs
-    {
-        /// <summary>
-        /// 是否取消后续任务
-        /// </summary>
-        public bool Cancel { get; set; }
-        
-        /// <summary>
-        /// 已完成任务的编码
-        /// </summary>
-        public string Code { get; set; }
-
-        
-        /// <summary>
-        /// 已完成任务的详情（可以是空）
-        /// </summary>
-        public string Message { get; set; }
-    }
-
+  
     public class WorkBench
     {
         public delegate void ProgramProgressHandler(object sender, ProgressEventArgs e);

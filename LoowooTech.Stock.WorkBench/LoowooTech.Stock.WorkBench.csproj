@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IWorkBench.cs" />
     <Compile Include="WorkBench.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
