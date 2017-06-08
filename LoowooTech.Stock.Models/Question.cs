@@ -12,6 +12,9 @@ namespace LoowooTech.Stock.Models
         /// </summary>
         public string Code { get; set; }
         
+        /// <summary>
+        /// 名称
+        /// </summary>
         public string Name { get; set; }
         /// <summary>
         /// 图层名称

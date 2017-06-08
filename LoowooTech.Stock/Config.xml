@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Config>
+  <Layers>
+    <Layer Name="XZQ_XZ" NameInMap="XZQ_XZ"></Layer>
+    <Layer Name="XZQ_XZC" NameInMap="XZQ_XZC"></Layer>
+    <Layer Name="XZQJX" NameInMap="XZQJX"></Layer>
+    <Layer Name="DCDYTB" NameInMap="DCDYTB"></Layer>
+  </Layers>
+  <Folders>
+    <Folder Regex="^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量建设用地数据调查成果$" Name="调查成果目录">
+      <Folder Name="1空间数据库">
+        <File Regex="^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量建设用地调查成果元数据.xml$" Name="农村存量建设用地调查成果元数据.xml" ></File>
+        <File Regex="^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量建设用地调查成果空间数据库.mdb$" Name="农村存量建设用地调查成果空间数据库.mdb"></File>
+        <File Regex="^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)单位代码表.xls$" Name="单位代码表.xls"></File>
+      </Folder>
+      <Folder Name="2栅格图件">
+        <Folder Name="县级成果">
+          <File Regex="^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量建设用地调查单元分布图.jpg$" Name="农村存量建设用地调查单元分布图.jpg"></File>
+
+        </Folder>
+        <Folder Name="乡镇级成果">
+          <File Regex="^[\u4e00-\u9fa5]{3,}\(330[0-9]{6}\)农村存量建设用地调查单元分布图.jpg$" Multiple="True" Name="农村存量建设用地调查单元分布图.jpg" ></File>
+        </Folder>
+      </Folder>
+      <Folder Name="3统计表格">
+        <File Regex="^1 [\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量建设用地总体情况汇总表.xls$" Name="农村存量建设用地总体情况汇总表.xls"></File>
+        <File Regex="^2 [\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量宅基地基本情况汇总表.xls$" Name="农村存量宅基地基本情况汇总表.xls"></File>
+        <File Regex="^3 [\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量经营性建设用地基本情况汇总表.xls$" Name="农村存量经营性建设用地基本情况汇总表.xls"></File>
+        <File Regex="^4 [\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量公共管理及公共服务设施用地基本情况汇总表.xls$" Name="农村存量公共管理及公共服务设施用地基本情况汇总表.xls"></File>
+        <File Regex="^5 [\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村其它存量建设用地基本情况汇总表.xls$" Name="农村其它存量建设用地基本情况汇总表.xls"></File>
+      </Folder>
+      <Folder Name="4文档报告">
+        <File Regex="^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量建设用地调查工作报告.doc$" Name="农村存量建设用地调查工作报告.doc"></File>
+        <File Regex="^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量建设用地调查技术报告.doc$" Name="农村存量建设用地调查技术报告.doc"></File>
+      </Folder>
+    </Folder>
+  </Folders>
+  <Rules>
+    <Category Name="成功完整性">
+      <Rule ID="" Title="成果数据是否满足《浙江省农村存量建设用地调查数据成果规范》对目录和文件的命名要求"></Rule>
+    </Category>
+    <Category Name="行政区（乡镇）要素基本属性结构表">
+      <Rule ID="05000" Title="基本属性结构"></Rule>
+      <Rule ID="05001" Title="图层数据量不能为空"></Rule>
+      <Rule ID="05002" Title="标识码唯一性"></Rule>
+      <Rule ID="05003" Title="要素代码为1000600100"></Rule>
+      <Rule ID="05004" Title="行政区代码为33XXXXXXX（9位数值）"></Rule>
+      <Rule ID="05005" Title="行政区代码唯一性"></Rule>
+      <Rule ID="05006" Title="行政区名称唯一性"></Rule>
+      <Rule ID="05007" Title="行政区代码、行政区名称与单位代码一致性"></Rule>
+    </Category>
+    <Category Name="行政村（村级）要素基本属性结构表">
+      <Rule ID="06000" Title="基本属性结构"></Rule>
+      <Rule ID="06001" Title="图层数据量不能为空"></Rule>
+      <Rule ID="06002" Title="标识码唯一性"></Rule>
+      <Rule ID="06003" Title="要素代码为1000600100"></Rule>
+      <Rule ID="06004" Title="行政区代码为33XXXXXXXXXX(12位数值)"></Rule>
+      <Rule ID="06005" Title="行政区代码唯一性"></Rule>
+      <Rule ID="06006" Title="行政区名称唯一性"></Rule>
+      <Rule ID="06007" Title="行政区代码、行政区名称与单位代码表一致性"></Rule>
+    </Category>
+    <Category Name="行政区界线要素基本属性结构表">
+      <Rule ID="07000" Title="基本属性结构"></Rule>
+      <Rule ID="07001" Title="数据量不能为空"></Rule>
+      <Rule ID="07002" Title="标识码唯一性"></Rule>
+      <Rule ID="07003" Title="要素代码为：1000600200，1000600220，1000600230，1000600240，1000600250，1000600260"></Rule>
+      <Rule ID="07004" Title="界限类型为：630200（省、直辖市界），640200（地区、地级市界），650200（县、区、县级市界），660200（街道、乡、镇界），670200（村界）"></Rule>
+      <Rule ID="07005" Title="界限性质为：600001（已定界），600002（未定界），600003（争议界），600004（工作界），600009（其他）"></Rule>
+    </Category>
+    <Category Name="调查单元图斑要素基本属性结构表">
+      <Rule ID="08000" Title="基本属性结构"></Rule>
+      <Rule ID="08001" Title="图层数据量不能为空"></Rule>
+      <Rule ID="08002" Title="标识码唯一性"></Rule>
+      <Rule ID="08003" Title="要素代码为2008010100"></Rule>
+      <Rule ID="08004" Title="图斑编号在同一个行政村代码内唯一性"></Rule>
+      <Rule ID="08005" Title="调查单元类型为：1（撤并型），2（保留型），3（集聚型）"></Rule>
+      <Rule ID="08006" Title="行政区代码、行政区名称与单位代码表一致性"></Rule>
+    </Category>
+    <Category Name="农村存量建设用地总体情况调查表基本属性结构表">
+      <Rule ID="09000" Title="基本属性结构"></Rule>
+      <Rule ID="09001" Title="图层数据量不能为空"></Rule>
+      <Rule ID="09002" Title="标识码唯一性"></Rule>
+      <Rule ID="09003" Title="要素代码为2008010200"></Rule>
+      <Rule ID="09004" Title="行政村代码、行政区名称、所属乡镇名称与单位代码表一致性"></Rule>
+      <Rule ID="09005" Title="村庄用地面积1大于村庄用地面积2"></Rule>
+      <Rule ID="09006" Title="村庄用地面积1大于村庄用地面积3"></Rule>
+      <Rule ID="09007" Title="总人口=户籍人口+流入人口-流出人口"></Rule>
+    </Category>
+    <Category Name="农村存量宅基地利用现状调查表基本属性结构表">
+      <Rule ID="10000" Title="基本属性结构"></Rule>
+      <Rule ID="10001" Title="图层数据量不能为空"></Rule>
+      <Rule ID="10002" Title="标识码唯一性"></Rule>
+      <Rule ID="10003" Title="要素代码为2008010300"></Rule>
+      <Rule ID="10004" Title="行政区代码、行政区名称与单位代码表一致性"></Rule>
+      <Rule ID="10005" Title="调查编号在同一个行政区代码中唯一性"></Rule>
+      <Rule ID="10006" Title="行政区代码、图斑编号与调查单元图斑要素基本属性结构表一致性"></Rule>
+      <Rule ID="10007" Title="建筑类型为1（砖混），2（钢混），3（砖木），4（其他）"></Rule>
+      <Rule ID="10008" Title="复垦点依据为1（土地利用总体规划），2（土地整治规划）或者空"></Rule>
+      <Rule ID="10009" Title="利用状态为1（正常使用），2（空置），3（废弃）"></Rule>
+      <Rule ID="10010" Title="空置原因为1（迁走）、2（常年在外），3（一户多宅）、4（将来盖房）、5（其他）或者空"></Rule>
+      <Rule ID="10011" Title="废弃原因为1（迁走），2（无继承人），3（另建新住宅），4（其他）或者空"></Rule>
+      <Rule ID="10012" Title="利用状态为1（正常使用）时，空置原因、废弃原因和其他原因为空"></Rule>
+      <Rule ID="10013" Title="利用状态为2（空置）时，空置原因不为空"></Rule>
+      <Rule ID="10014" Title="利用状态为2（空置）时，废弃原因为空"></Rule>
+      <Rule ID="10015" Title="利用状态为3（废弃）时，废弃原因不为空"></Rule>
+      <Rule ID="10016" Title="利用状态为3（废弃）时，空置原因为空"></Rule>
+      <Rule ID="10017" Title="空置原因为5（其他）或者废弃原因为4（其他）时，其他原因不为空"></Rule>
+      <Rule ID="10018" Title="图斑编号对应的调查单元类型未撤并型时，是否为复垦点填写：是、否()"></Rule>
+    </Category>
+    <Category Name="农村存量经营性建设用地利用现状调查表基本属性结构表">
+      <Rule ID="11000" Title="基本属性结构"></Rule>
+      <Rule ID="11001" Title="图层数据量不能为空"></Rule>
+      <Rule ID="11002" Title="标识码唯一性"></Rule>
+      <Rule ID="11003" Title="要素代码为2008010400"></Rule>
+      <Rule ID="11004" Title="行政区代码、行政区名称与单位代码表一致性"></Rule>
+      <Rule ID="11005" Title="调查编号在同一行政区代码中唯一性"></Rule>
+      <Rule ID="11006" Title="图斑编号与调查单元要素基本结构表一致性"></Rule>
+      <Rule ID="11007" Title="建筑类型为1（砖混），2（钢混），3（砖木），4（其他）"></Rule>
+      <Rule ID="11008" Title="利用状态为1（正常使用），2（空置），3（废弃）"></Rule>
+      <Rule ID="11009" Title="利用状态为1（正常使用）时，土地用途、年税收额、就业人数必填；"></Rule>
+      <Rule ID="11010" Title="利用状态为1（正常使用）时，空置原因、废弃原因为空"></Rule>
+      <Rule ID="11011" Title="利用状态为2（空置）时，空置原因必填"></Rule>
+      <Rule ID="11012" Title="利用状态为2（空置）时，废弃原因、土地用途、年税收额、就业人数为空"></Rule>
+      <Rule ID="11013" Title="利用状态为3（废弃）时，废弃原因必填"></Rule>
+      <Rule ID="11014" Title="利用状态为（废弃）时，空置原因、土地用途、年税收额、就业人数为空"></Rule>
+    </Category>
+    <Category Name="农村存量公共管理及公共服务设施用地利用现状调查表基本属性结构表">
+      <Rule ID="12000" Title="基本属性结构"></Rule>
+      <Rule ID="12001" Title="图层数据量不能为空"></Rule>
+      <Rule ID="12002" Title="标识码唯一性"></Rule>
+      <Rule ID="12003" Title="要素代码为2008010500"></Rule>
+      <Rule ID="12004" Title="行政区代码、行政区名称与单位代码表一致性"></Rule>
+      <Rule ID="12005" Title="调查编号在同一行政区代码内唯一性"></Rule>
+      <Rule ID="12006" Title="图斑编号在调查单元基本要素结构表一致性"></Rule>
+      <Rule ID="12007" Title="建筑类型为1（砖混），2（钢混），3（砖木），4（其他）"></Rule>
+      <Rule ID="12008" Title="利用状态为1（正常使用），2（空置），3（废弃）"></Rule>
+      <Rule ID="12009" Title="利用状态为1（正常使用）时，土地用途、服务人数、使用面积必填"></Rule>
+      <Rule ID="12010" Title="利用状态为1（正常使用）时，空置原因、废弃原因为空"></Rule>
+      <Rule ID="12011" Title="利用状态为2（空置）时，空置原因必填"></Rule>
+      <Rule ID="12012" Title="利用状态为2（空置）时，废弃原因、土地用途、服务人数、使用面积为空"></Rule>
+      <Rule ID="12013" Title="利用状态为3（废弃）时，废弃原因必填"></Rule>
+      <Rule ID="12014" Title="利用状态为3（废弃）时，空置原因、土地用途、服务人数、使用面积为空"></Rule>
+    </Category>
+    <Category Name="农村其他存量建设用地利用现状调查表基本属性结构表">
+      <Rule ID="13000" Title="基本属性结构"></Rule>
+      <Rule ID="13001" Title="图层数据量不能为空"></Rule>
+      <Rule ID="13002" Title="标识码唯一性"></Rule>
+      <Rule ID="13003" Title="要素代码为2008010600"></Rule>
+      <Rule ID="13004" Title="行政区代码、行政区名称与单位代码表一致性"></Rule>
+      <Rule ID="13005" Title="调查编号在同一行政区代码唯一性"></Rule>
+      <Rule ID="13006" Title="图斑编号与调查单元基本要素结构表一致性"></Rule>
+      <Rule ID="13007" Title="建筑类型为1（砖混），2（钢混），3（砖木），4（其他）"></Rule>
+      <Rule ID="13008" Title="利用状态为1（正常使用），2（空置），3（废弃）"></Rule>
+      <Rule ID="13009" Title="利用状态为1（正常使用）时，有效使用面积必填"></Rule>
+      <Rule ID="13010" Title="利用状态为1（正常使用）时，空置原因、废弃原因为空"></Rule>
+      <Rule ID="13011" Title="利用状态为2（空置）时，空置原因必填"></Rule>
+      <Rule ID="13012" Title="利用状态为2（空置）时，废弃原因为空"></Rule>
+      <Rule ID="13013" Title="利用状态为3（废弃）时，废弃原因必填"></Rule>
+      <Rule ID="13014" Title="利用状态为3（废弃）时，空置原因为空"></Rule>
+    </Category>
+    <Category Name="空间矢量">
+      <Rule ID="14000" Title="行政区（乡镇）、行政区（村级）行政区界线、调查单元图斑采用1980西安坐标系统，3度分带，带号40，高斯正形投影"></Rule>
+      <Rule ID="14001" Title="图层内拓扑关系"></Rule>
+    </Category>
+  </Rules>
+</Config>
