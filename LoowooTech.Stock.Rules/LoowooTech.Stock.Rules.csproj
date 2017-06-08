@@ -62,8 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseResult.cs" />
+    <Compile Include="BSMRule.cs" />
     <Compile Include="CESHI.cs" />
     <Compile Include="ClassNine.cs" />
+    <Compile Include="DirectoryFileRule.cs" />
+    <Compile Include="DirectoryTool.cs" />
     <Compile Include="ExcelBase.cs" />
     <Compile Include="ExcelEight.cs" />
     <Compile Include="ExcelFive.cs" />
@@ -75,12 +78,14 @@
     <Compile Include="ExcelSix.cs" />
     <Compile Include="ExcelThree.cs" />
     <Compile Include="ExcelTwo.cs" />
+    <Compile Include="FileOpenRule.cs" />
     <Compile Include="IExcel.cs" />
     <Compile Include="IResult.cs" />
     <Compile Include="ITable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultComplete.cs" />
     <Compile Include="RuleManager.cs" />
+    <Compile Include="StructureRule.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="TableBase.cs" />
     <Compile Include="TableEight.cs" />
@@ -94,10 +99,22 @@
     <Compile Include="TableTen.cs" />
     <Compile Include="TableThirteen.cs" />
     <Compile Include="TableTwelve.cs" />
+    <Compile Include="TBAreaRule.cs" />
+    <Compile Include="TBBHRule.cs" />
+    <Compile Include="TopologyRule.cs" />
+    <Compile Include="ValueBaseRule.cs" />
+    <Compile Include="ValueRule.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="VectorBase.cs" />
+    <Compile Include="VectorRule.cs" />
+    <Compile Include="XZCDMRule.cs" />
+    <Compile Include="XZRule.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LoowooTech.Stock.ArcGISTool\LoowooTech.Stock.ArcGISTool.csproj">
+      <Project>{E67A35E3-5CF3-40E5-BC57-0E01578E67FD}</Project>
+      <Name>LoowooTech.Stock.ArcGISTool</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Stock.Common\LoowooTech.Stock.Common.csproj">
       <Project>{0EF878D9-9DDC-4886-8593-006300D5B2F2}</Project>
       <Name>LoowooTech.Stock.Common</Name>

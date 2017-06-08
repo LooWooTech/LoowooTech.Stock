@@ -195,7 +195,6 @@ namespace LoowooTech.Stock.Rules
             _tools.Add(new ValueNullTool() { TableName = "QTCLJSYD", CheckFields = new string[] { "KZYY" }, Key = _key, WhereCaluse = "LYZT='3'", ID = "13014", Is_Nullable = true });
             #endregion
         }
-
         public void Program(OleDbConnection connection)
         {
             var checkTools = new List<ITool>();
@@ -222,15 +221,6 @@ namespace LoowooTech.Stock.Rules
                     LogManager.Record(exp.ToString());
                 }
             }
-
-            //var dict = checkTools.GroupBy(e => e.TableName).ToDictionary(e => e.Key, e => e.ToList());
-            //Parallel.ForEach(dict, entry =>
-            //{
-            //    foreach(var tool in entry.Value)
-            //    {
-            //        tool.Check(connection);
-            //    }
-            //});
         }
     }
 }
