@@ -18,6 +18,7 @@ namespace LoowooTech.Stock.Rules
     {
         public string RuleName { get { return "目录及文件规范性"; } }
         public string ID { get { return "11"; } }
+        public bool Space { get { return false; } }
         public void Check()
         {
             #region  检查目录文件夹

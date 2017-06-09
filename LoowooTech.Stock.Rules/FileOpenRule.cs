@@ -17,6 +17,7 @@ namespace LoowooTech.Stock.Rules
     {
         public string RuleName { get { return "提交成果数据是否能够正常打开"; } }
         public string ID { get { return "1201"; } }
+        public bool Space { get { return false; } }
         public void Check()
         {
             var nodes = XmlManager.GetList("/Folders/Folder", XmlEnum.DataTree);

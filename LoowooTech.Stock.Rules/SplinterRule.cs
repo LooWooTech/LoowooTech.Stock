@@ -10,6 +10,7 @@ namespace LoowooTech.Stock.Rules
     {
         public string RuleName { get { return "面层是否存在不符合上图要求的碎片多边形"; } }
         public string ID { get { return "4201"; } }
+        public bool Space { get { return false; } }
         public void Check()
         {
 

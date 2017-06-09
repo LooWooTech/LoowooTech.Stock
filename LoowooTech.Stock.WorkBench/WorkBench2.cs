@@ -23,16 +23,6 @@ namespace LoowooTech.Stock.WorkBench
         /// 质检文件夹路径
         /// </summary>
         public string Folder { get { return _folder; }set { _folder = value; } }
-        private string _codeFile { get; set; }
-        /// <summary>
-        /// 单位代码表文件路径
-        /// </summary>
-        public string CodeFile { get { return _codeFile; } }
-        private string _mdbFile { get; set; }
-        /// <summary>
-        /// 数据库文件路径
-        /// </summary>
-        public string MDBFile { get { return _mdbFile; } }
         /// <summary>
         /// 作用：通过质检路径获取行政区代码以及行政区名称信息
         /// </summary>
@@ -57,11 +47,14 @@ namespace LoowooTech.Stock.WorkBench
         {
             var path = System.IO.Path.Combine(Folder, DataBase);
             var codeFileTool = new FileTool() { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]+\(\d{6}\)单位代码表.xls$" };
-            _codeFile = codeFileTool.GetFile();
+            ParameterManager.CodeFilePath = codeFileTool.GetFile();
             var mdbfileTool = new FileTool() { Folder = path, Filter = "*.mdb", RegexString = @"^[\u4e00-\u9fa5]+\(\d{6}\)农村存量建设用地调查成功空间数据库.mdb$" };
-            _mdbFile = mdbfileTool.GetFile();
+            ParameterManager.MDBFilePath = mdbfileTool.GetFile();
 
-            return !string.IsNullOrEmpty(_codeFile) && !string.IsNullOrEmpty(_mdbFile) && System.IO.File.Exists(_codeFile) && System.IO.File.Exists(_mdbFile);
+            return !string.IsNullOrEmpty(ParameterManager.CodeFilePath) 
+                && !string.IsNullOrEmpty(ParameterManager.MDBFilePath) 
+                && System.IO.File.Exists(ParameterManager.CodeFilePath) 
+                && System.IO.File.Exists(ParameterManager.MDBFilePath);
         }
         private List<IRule> _rules { get; set; }
         private List<int> _ruleIds { get; set; }
@@ -94,38 +87,49 @@ namespace LoowooTech.Stock.WorkBench
             _rules.Add(new ContinuousRule());
             _rules.Add(new TBBHRule());
             _rules.Add(new ExcelValueLogicRule());
+            _rules.Add(new ExcelValueCollectRule());
         }
-        private void Init()
+        private bool Init()
         {
-            if (!ReadXZQ())
+            if (!ReadXZQ())//分析读取行政区
             {
                 LogManager.LogRecord("无法解析到行政区代码和行政区名称");
+                return false;
             }
-            if (!SearchFile())
+            if (!SearchFile())//查找单位代码表和数据库文件
             {
                 LogManager.LogRecord("未找到单位代码表文件或者数据库文件");
+                return false;
             }
-            else
-            {
-                ExcelManager.Init(_codeFile);
-            }
+            ParameterManager.Init(Folder);
+            ExcelManager.Init(ParameterManager.CodeFilePath);//初始化单位代码信息列表
+
             DCDYTBManager.Init(ParameterManager.Connection);//获取DCDYTB中的信息;
+            InitRules();
+            return true;
 
         }
         public void Program()
         {
             QuestionManager.Clear();
-            Init();
-
-            foreach(var rule in _rules)
+            if (!Init())
             {
-                rule.Check();
-                if (OnProgramProcess != null)
+                LogManager.LogRecord("初始化失败");
+                return;
+            }
+            foreach(var id in _ruleIds)
+            {
+                var rule = _rules.FirstOrDefault(e => e.ID == id.ToString());
+                if (rule != null)
                 {
-                    var args = new ProgressEventArgs() { Code = rule.ID, Cancel = false, Message = rule.RuleName };
-                    OnProgramProcess(this, args);
-                    if (args.Cancel)
-                        return;
+                    rule.Check();
+                    if (OnProgramProcess != null)
+                    {
+                        var args = new ProgressEventArgs() { Code = rule.ID, Cancel = false, Message = rule.RuleName };
+                        OnProgramProcess(this, args);
+                        if (args.Cancel)
+                            break;
+                    }
                 }
             }
             _reportPath = QuestionManager.Save(System.IO.Path.Combine(Folder, report), ParameterManager.District, ParameterManager.Code);

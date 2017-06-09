@@ -14,6 +14,7 @@ namespace LoowooTech.Stock.Rules
     {
         public string RuleName { get { return "数据库计算面积与属性填写面积一致性"; } }
         public string ID { get { return "3401"; } }
+        public bool Space { get { return false; } }
         public void Check()
         {
             var tools = new List<GainAreaTool>()

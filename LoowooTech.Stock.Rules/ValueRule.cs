@@ -30,6 +30,7 @@ namespace LoowooTech.Stock.Rules
                 return "3201";
             }
         }
+        
         public override void Init()
         {
             #region 行政区（乡镇）要素基本属性结构表

@@ -173,6 +173,8 @@ namespace LoowooTech.Stock.Rules
         /// 生成表格的保存文件夹
         /// </summary>
         public string SaveFolder { get { return _saveFolder; }set { _saveFolder = value; } }
+        private string _checkCode { get; set; }
+        public string CheckCode { get { return _checkCode; }set { _checkCode = value; } }
         public ExcelBase()
         {
             _paralleQuestions = new ConcurrentBag<Question>();
@@ -610,7 +612,15 @@ namespace LoowooTech.Stock.Rules
             {
                 _dict.Clear();
                 Parallel.Invoke(GainExcel, GainAccess);
-                CheckData();
+                if (CheckCode == "6101")
+                {
+                    CheckData();
+                }
+                else if (CheckCode == "6201")
+                {
+                    CheckCollect();
+                }
+                
             }
         }
 
