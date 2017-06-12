@@ -29,6 +29,8 @@ namespace LoowooTech.Stock
         {
             _workBench = workbench;
             _workBench.OnProgramProcess += WorkBench_OnProgramProcess;
+            InitializeComponent();
+            Results = new Dictionary<string, ProgressResultTypeEnum>();
         }
 
         private void ShowInfo(string message)

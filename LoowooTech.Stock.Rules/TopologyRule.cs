@@ -13,6 +13,7 @@ namespace LoowooTech.Stock.Rules
             foreach(var className in ParameterManager.TopoFeatures)
             {
                 ArcGISManager.Topo(className);
+                ArcGISManager.XZQ("XZQ_XZC", className);
             }
         }
  

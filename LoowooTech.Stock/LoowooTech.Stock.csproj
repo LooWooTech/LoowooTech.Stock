@@ -135,6 +135,11 @@
     <None Include="App.config" />
     <None Include="Coordinate Systems\Projected Coordinate Systems\Gauss Kruger\Xian 1980\Xian 1980 3 Degree GK CM 120E.prj" />
     <None Include="Coordinate Systems\Projected Coordinate Systems\Gauss Kruger\Xian 1980\Xian 1980 3 Degree GK Zone 40.prj" />
+    <None Include="Excels\ExcelFive.xls" />
+    <None Include="Excels\ExcelFour.xls" />
+    <None Include="Excels\ExcelOne.xls" />
+    <None Include="Excels\ExcelThree.xls" />
+    <None Include="Excels\ExcelTwo.xls" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -180,6 +185,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="CodeCity.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DataTree.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FieldInfo.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\Close_16x16.png" />

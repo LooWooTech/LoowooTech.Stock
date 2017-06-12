@@ -46,9 +46,9 @@ namespace LoowooTech.Stock.WorkBench
         private bool SearchFile()
         {
             var path = System.IO.Path.Combine(Folder, DataBase);
-            var codeFileTool = new FileTool() { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]+\(\d{6}\)单位代码表.xls$" };
+            var codeFileTool = new FileTool() { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)单位代码表.xls$" };
             ParameterManager.CodeFilePath = codeFileTool.GetFile();
-            var mdbfileTool = new FileTool() { Folder = path, Filter = "*.mdb", RegexString = @"^[\u4e00-\u9fa5]+\(\d{6}\)农村存量建设用地调查成功空间数据库.mdb$" };
+            var mdbfileTool = new FileTool() { Folder = path, Filter = "*.mdb", RegexString = @"^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量建设用地调查成果空间数据库.mdb$" };
             ParameterManager.MDBFilePath = mdbfileTool.GetFile();
 
             return !string.IsNullOrEmpty(ParameterManager.CodeFilePath) 
@@ -93,15 +93,19 @@ namespace LoowooTech.Stock.WorkBench
         {
             if (!ReadXZQ())//分析读取行政区
             {
-                LogManager.LogRecord("无法解析到行政区代码和行政区名称");
+                OutputMessage("无法解析到行政区代码和行政区名称");
+                //LogManager.LogRecord("无法解析到行政区代码和行政区名称");
                 return false;
             }
             if (!SearchFile())//查找单位代码表和数据库文件
             {
-                LogManager.LogRecord("未找到单位代码表文件或者数据库文件");
+                OutputMessage("未找到单位代码表文件或者数据库文件");
+                //LogManager.LogRecord("未找到单位代码表文件或者数据库文件");
                 return false;
             }
             ParameterManager.Init(Folder);
+            OutputMessage("完成参数管理器初始化");
+            OutputMessage("开始初始化单位代码表管理器......");
             ExcelManager.Init(ParameterManager.CodeFilePath);//初始化单位代码信息列表
 
             DCDYTBManager.Init(ParameterManager.Connection);//获取DCDYTB中的信息;
@@ -134,6 +138,15 @@ namespace LoowooTech.Stock.WorkBench
             }
             _reportPath = QuestionManager.Save(System.IO.Path.Combine(Folder, report), ParameterManager.District, ParameterManager.Code);
 
+        }
+        private void OutputMessage(string message)
+        {
+            var args = new ProgressEventArgs() { Message = message };
+            OnProgramProcess(this, args);
+            if (args.Cancel)
+            {
+
+            }
         }
     }
 }

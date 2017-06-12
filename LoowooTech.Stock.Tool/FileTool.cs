@@ -49,7 +49,8 @@ namespace LoowooTech.Stock.Tool
             foreach(var item in files)
             {
                 var info = new FileInfo(item);
-                if (Regex.IsMatch(info.Name, RegexString))
+                var name = info.Name.Replace("（", "(").Replace("）", ")");
+                if (Regex.IsMatch(name, RegexString))
                 {
                     currentFile = item;
                     break;
