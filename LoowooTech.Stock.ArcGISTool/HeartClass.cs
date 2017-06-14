@@ -71,7 +71,7 @@ namespace LoowooTech.Stock.ArcGISTool
                 IEnvelope envelop = geoDataset.Extent;
                 ValidateTopology(topology, envelop);
 
-            }catch(COMException comEx)
+            }catch(COMException)
             {
 
             }

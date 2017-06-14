@@ -482,7 +482,7 @@
             treeNode5,
             treeNode9,
             treeNode12});
-            this.treeView1.SelectedImageIndex = 0;
+            this.treeView1.SelectedImageIndex = 4;
             this.treeView1.ShowNodeToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(251, 545);
             this.treeView1.TabIndex = 0;
@@ -495,6 +495,7 @@
             this.imageList1.Images.SetKeyName(1, "Task_16x16.png");
             this.imageList1.Images.SetKeyName(2, "Delete_16x16.png");
             this.imageList1.Images.SetKeyName(3, "PackageProduct_16x16.png");
+            this.imageList1.Images.SetKeyName(4, "Next_16x16.png");
             // 
             // tabControl2
             // 
@@ -537,7 +538,7 @@
             this.treeView2.ImageList = this.imageList2;
             this.treeView2.Location = new System.Drawing.Point(3, 3);
             this.treeView2.Name = "treeView2";
-            this.treeView2.SelectedImageIndex = 0;
+            this.treeView2.SelectedImageIndex = 2;
             this.treeView2.Size = new System.Drawing.Size(909, 545);
             this.treeView2.TabIndex = 1;
             this.treeView2.DoubleClick += new System.EventHandler(this.treeView2_DoubleClick);
@@ -548,6 +549,7 @@
             this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList2.Images.SetKeyName(0, "Delete_16x16.png");
             this.imageList2.Images.SetKeyName(1, "Apply_16x16.png");
+            this.imageList2.Images.SetKeyName(2, "Next_16x16.png");
             // 
             // tabPage4
             // 
@@ -632,9 +634,10 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.axLicenseControl1);
             this.Controls.Add(this.ribbon1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "质检软件";
+            this.Text = "农村存量建设用地调查成果数据质检软件";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.statusStrip1.ResumeLayout(false);

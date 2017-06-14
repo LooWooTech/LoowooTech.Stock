@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>LoowooTech.pfx</AssemblyOriginatorKeyFile>
@@ -49,11 +49,13 @@
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>..\..\..\Windows\assembly\GAC_MSIL\ESRI.ArcGIS.DataSourcesFile\10.2.0.0__8fc3cc631e44ad86\ESRI.ArcGIS.DataSourcesFile.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.DataSourcesGDB, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>..\..\..\Windows\assembly\GAC_MSIL\ESRI.ArcGIS.DataSourcesGDB\10.2.0.0__8fc3cc631e44ad86\ESRI.ArcGIS.DataSourcesGDB.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.Display, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -62,6 +64,7 @@
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>..\..\..\Windows\assembly\GAC_MSIL\ESRI.ArcGIS.Geodatabase\10.2.0.0__8fc3cc631e44ad86\ESRI.ArcGIS.Geodatabase.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.Geometry, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -81,29 +84,15 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.Ribbon35">
       <HintPath>3rd\System.Windows.Forms.Ribbon35.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileListHelper.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Generted.cs" />
-    <Compile Include="Heart.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,9 +108,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleHelper.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -139,11 +125,12 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="App.config" />
-
     <None Include="Coordinate Systems\Projected Coordinate Systems\Gauss Kruger\Xian 1980\Xian 1980 3 Degree GK CM 120E.prj" />
     <None Include="Coordinate Systems\Projected Coordinate Systems\Gauss Kruger\Xian 1980\Xian 1980 3 Degree GK Zone 40.prj" />
     <None Include="LoowooTech.pfx" />
-
+    <None Include="Map.mxd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -158,26 +145,32 @@
     <ProjectReference Include="..\LoowooTech.Stock.ArcGISTool\LoowooTech.Stock.ArcGISTool.csproj">
       <Project>{E67A35E3-5CF3-40E5-BC57-0E01578E67FD}</Project>
       <Name>LoowooTech.Stock.ArcGISTool</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Stock.Common\LoowooTech.Stock.Common.csproj">
       <Project>{0EF878D9-9DDC-4886-8593-006300D5B2F2}</Project>
       <Name>LoowooTech.Stock.Common</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Stock.Models\LoowooTech.Stock.Models.csproj">
       <Project>{5e25cb83-bdab-411c-998d-554710d82020}</Project>
       <Name>LoowooTech.Stock.Models</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Stock.Rules\LoowooTech.Stock.Rules.csproj">
       <Project>{0621F42A-9359-47A9-B89F-3231BEF43844}</Project>
       <Name>LoowooTech.Stock.Rules</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Stock.Tool\LoowooTech.Stock.Tool.csproj">
       <Project>{9643FE49-482A-4589-A145-8A786C5CF3A7}</Project>
       <Name>LoowooTech.Stock.Tool</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Stock.WorkBench\LoowooTech.Stock.WorkBench.csproj">
       <Project>{b7d49453-9323-4e74-b1fc-56ada5f0d99f}</Project>
       <Name>LoowooTech.Stock.WorkBench</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -191,13 +184,8 @@
     <Content Include="CodeCity.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DataTree.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="FieldInfo.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="DataTree.xml" />
+    <Content Include="FieldInfo.xml" />
     <None Include="report.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
