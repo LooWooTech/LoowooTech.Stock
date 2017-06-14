@@ -13,7 +13,7 @@ namespace LoowooTech.Stock.WorkBench
 {
     public class WorkBench2:IWorkBench
     {
-        protected const string report = "5质检报告";
+        protected const string report = "5质检结果";
         protected const string DataBase = "1空间数据库";
         protected const string Collect = "3统计报告";
         protected const string Title = "农村存量建设用地调查数据成果";
@@ -23,16 +23,6 @@ namespace LoowooTech.Stock.WorkBench
         /// 质检文件夹路径
         /// </summary>
         public string Folder { get { return _folder; }set { _folder = value; } }
-        private string _codeFile { get; set; }
-        /// <summary>
-        /// 单位代码表文件路径
-        /// </summary>
-        public string CodeFile { get { return _codeFile; } }
-        private string _mdbFile { get; set; }
-        /// <summary>
-        /// 数据库文件路径
-        /// </summary>
-        public string MDBFile { get { return _mdbFile; } }
         /// <summary>
         /// 作用：通过质检路径获取行政区代码以及行政区名称信息
         /// </summary>
@@ -56,12 +46,15 @@ namespace LoowooTech.Stock.WorkBench
         private bool SearchFile()
         {
             var path = System.IO.Path.Combine(Folder, DataBase);
-            var codeFileTool = new FileTool() { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]+\(\d{6}\)单位代码表.xls$" };
-            _codeFile = codeFileTool.GetFile();
-            var mdbfileTool = new FileTool() { Folder = path, Filter = "*.mdb", RegexString = @"^[\u4e00-\u9fa5]+\(\d{6}\)农村存量建设用地调查成功空间数据库.mdb$" };
-            _mdbFile = mdbfileTool.GetFile();
+            var codeFileTool = new FileTool() { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)单位代码表.xls$" };
+            ParameterManager.CodeFilePath = codeFileTool.GetFile();
+            var mdbfileTool = new FileTool() { Folder = path, Filter = "*.mdb", RegexString = @"^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量建设用地调查成果空间数据库.mdb$" };
+            ParameterManager.MDBFilePath = mdbfileTool.GetFile();
 
-            return !string.IsNullOrEmpty(_codeFile) && !string.IsNullOrEmpty(_mdbFile) && System.IO.File.Exists(_codeFile) && System.IO.File.Exists(_mdbFile);
+            return !string.IsNullOrEmpty(ParameterManager.CodeFilePath) 
+                && !string.IsNullOrEmpty(ParameterManager.MDBFilePath) 
+                && System.IO.File.Exists(ParameterManager.CodeFilePath) 
+                && System.IO.File.Exists(ParameterManager.MDBFilePath);
         }
         private List<IRule> _rules { get; set; }
         private List<int> _ruleIds { get; set; }
@@ -94,42 +87,85 @@ namespace LoowooTech.Stock.WorkBench
             _rules.Add(new ContinuousRule());
             _rules.Add(new TBBHRule());
             _rules.Add(new ExcelValueLogicRule());
+            _rules.Add(new ExcelValueCollectRule());
         }
-        private void Init()
+        private bool Init()
         {
-            if (!ReadXZQ())
+            OutputMessage("00","正在初始化检查机制", ProgressResultTypeEnum.Other);
+            if (!ReadXZQ())//分析读取行政区
             {
-                LogManager.LogRecord("无法解析到行政区代码和行政区名称");
+                OutputMessage("00","未分析读取到行政区名称和行政区代码",  ProgressResultTypeEnum.Fail );
+                return false;
             }
-            if (!SearchFile())
+            if (!SearchFile())//查找单位代码表和数据库文件
             {
-                LogManager.LogRecord("未找到单位代码表文件或者数据库文件");
+                OutputMessage("00", "未找到单位代码表或者数据库文件", ProgressResultTypeEnum.Fail);   
+                return false;
             }
-            else
-            {
-                ExcelManager.Init(_codeFile);
-            }
+            ParameterManager.Init(Folder);
+            OutputMessage("00", "参数管理器初始化完毕", ProgressResultTypeEnum.Other);
+            ExcelManager.Init(ParameterManager.CodeFilePath);//初始化单位代码信息列表
+            OutputMessage("00", "成功读取单位代码表信息", ProgressResultTypeEnum.Other);
             DCDYTBManager.Init(ParameterManager.Connection);//获取DCDYTB中的信息;
+            OutputMessage("00", "成功读取调查单元图斑信息", ProgressResultTypeEnum.Other);
+            InitRules();
+            ParameterManager.Folder = Folder;
+            return true;
 
         }
         public void Program()
         {
             QuestionManager.Clear();
-            Init();
-
-            foreach(var rule in _rules)
+            LogManager.Init();
+            if (!Init())
             {
-                rule.Check();
-                if (OnProgramProcess != null)
+                OutputMessage("00", "初始化失败，程序终止", ProgressResultTypeEnum.Fail);
+                return;
+            }
+            OutputMessage("00", "成功初始化", ProgressResultTypeEnum.Pass);
+            foreach(var id in _ruleIds)
+            {
+                var rule = _rules.FirstOrDefault(e => e.ID == id.ToString());
+                if (rule != null)
                 {
-                    var args = new ProgressEventArgs() { Code = rule.ID, Cancel = false, Message = rule.RuleName };
-                    OnProgramProcess(this, args);
-                    if (args.Cancel)
-                        return;
+                    var sb = new StringBuilder(rule.RuleName);
+                    var result = ProgressResultTypeEnum.Pass;
+                    try
+                    {
+                        rule.Check();
+                    }
+                    catch(AggregateException ae)
+                    {
+                        foreach(var exp in ae.InnerExceptions)
+                        {
+                            sb.Append(exp.Message+"\r\n");
+                        }
+                        result = ProgressResultTypeEnum.Fail;
+
+                    }
+                    catch(Exception ex)
+                    {
+                        result = ProgressResultTypeEnum.Fail;
+                        sb.Append(ex.ToString());
+
+                    }
+                    OutputMessage(rule.ID, sb.ToString(), result);
+                    if (result != ProgressResultTypeEnum.Pass)
+                    {
+                        QuestionManager.Add(new Question { Code = rule.ID, Name = rule.RuleName, Description = sb.ToString() });
+                    }
                 }
             }
             _reportPath = QuestionManager.Save(System.IO.Path.Combine(Folder, report), ParameterManager.District, ParameterManager.Code);
 
+        }
+        private void OutputMessage(string code,string message,ProgressResultTypeEnum result)
+        {
+            OutputMessage(new ProgressEventArgs { Code = code, Message = message, Result = result });
+        }
+        private void OutputMessage(ProgressEventArgs e)
+        {
+            OnProgramProcess(this, e);
         }
     }
 }

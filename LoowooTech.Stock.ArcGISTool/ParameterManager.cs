@@ -12,7 +12,7 @@ namespace LoowooTech.Stock.ArcGISTool
 {
     public static class ParameterManager
     {
-         static string Collect = "3统计报告";
+        static string Collect = "3统计表格";
         private static string _folder { get; set; }
         /// <summary>
         /// 质检路径
@@ -23,6 +23,15 @@ namespace LoowooTech.Stock.ArcGISTool
         /// 数据库文件
         /// </summary>
         public static string MDBFilePath { get { return _mdbFilePath; }set { _mdbFilePath = value; } }
+        private static string _codeFilePath { get; set; }
+        /// <summary>
+        /// 单位代码表
+        /// </summary>
+        public static string CodeFilePath { get { return _codeFilePath; }set { _codeFilePath = value; } }
+        /// <summary>
+        /// 数据库连接字符串
+        /// </summary>
+        public static string ConnectionString { get { return  string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", _mdbFilePath); } }
         private static string _district { get; set; }
         /// <summary>
         /// 行政区名称
@@ -37,12 +46,12 @@ namespace LoowooTech.Stock.ArcGISTool
         /// <summary>
         /// 数据库连接字符串
         /// </summary>
-        public static OleDbConnection Connection { get { return _connection; } }
+        public static OleDbConnection Connection { get { return _connection == null ? _connection = new OleDbConnection(ConnectionString) : _connection; } }
         private static IWorkspace _workspace { get; set; }
         /// <summary>
         /// ArcGIS工作空间
         /// </summary>
-        public static IWorkspace Workspace { get { return _workspace; } }
+        public static IWorkspace Workspace { get { return _workspace == null ? _workspace = MDBFilePath.OpenAccessFileWorkSpace() : _workspace; } }
 
         private static List<string> _featureClassNames { get; set; }
         /// <summary>
@@ -74,7 +83,7 @@ namespace LoowooTech.Stock.ArcGISTool
                 for(var i = 0; i < nodes.Count; i++)
                 {
                     var node = nodes[i];
-                    list.AddRange(GetChildFolder(node,null));
+                    list.AddRange(GetChildFolder(node,Folder));
                 }
             }
             return list;
@@ -108,5 +117,15 @@ namespace LoowooTech.Stock.ArcGISTool
         /// 统计表格路径
         /// </summary>
         public static string CollectFolder { get { return string.IsNullOrEmpty(_collectFolder) ? _collectFolder = System.IO.Path.Combine(Folder, Collect) : _collectFolder; } }
+        public static void Init(string folder)
+        {
+            Folder = _folder;
+            _connection = null;
+            _workspace = null;
+            _tableNames = null;
+            _childrenFolder = null;
+            _TopoFeatures = null;
+            _collectFolder = string.Empty;
+        }
     }
 }

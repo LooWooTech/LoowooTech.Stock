@@ -24,6 +24,7 @@ namespace LoowooTech.Stock.Rules
                 return "5101";
             }
         }
+        
         public override void Init()
         {
             Tools.Add(new ValueCurrectTool() { TableName = "CLZJD", Fields = new string[] { "XZCDM", "TBBH" }, Values = DCDYTBManager.List.Select(e => string.Format("{0}/{1}", e.XZCDM, e.TBBH)).ToList(), Split = "/", ID = "10006" });

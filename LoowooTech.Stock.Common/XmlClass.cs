@@ -14,7 +14,7 @@ namespace LoowooTech.Stock.Common
         public static List<Field> GetField(string tableName)
         {
             var list = new List<Field>();
-            var nodes = XmlManager.GetList("/Tables/Table@[Name=" + tableName + "]/Field", XmlEnum.Field); //_configXml.SelectNodes("/Tables/Table@[Name=" + tableName + "]/Field");
+            var nodes = XmlManager.GetList("/Tables/Table[@Name='" + tableName + "']/Field", XmlEnum.Field); //_configXml.SelectNodes("/Tables/Table@[Name=" + tableName + "]/Field");
             if (nodes != null)
             {
                 var type = FieldType.Int;

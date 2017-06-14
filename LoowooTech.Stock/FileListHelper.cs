@@ -87,7 +87,7 @@ namespace LoowooTech.Stock
             {
                 var regex = fileNode.Attributes["Regex"] == null ? fileNode.Attributes["Name"].Value : fileNode.Attributes["Regex"].Value;
 
-                var list = files.Where(x => Regex.IsMatch(Path.GetFileName(x), regex)).ToList();
+                var list = files.Where(x => Regex.IsMatch(Path.GetFileName(x).Replace("（", "(").Replace("）", ")"), regex)).ToList();
 
                 var multiple = fileNode.Attributes["Multiple"] != null && fileNode.Attributes["Multiple"].Value == "True";
                 if (list.Count == 0)
@@ -116,11 +116,15 @@ namespace LoowooTech.Stock
             var ret = true;
             foreach(XmlNode fNode in folderNodes)
             {
-                var newNode = node.Nodes.Add(fNode.Attributes["Name"].Value);
-                if(LoadFileList(Path.Combine(basePath, fNode.Attributes["Name"].Value), fNode, newNode, ref mdbPath) == false)
+                if (fNode.Attributes["Name"] != null)
                 {
-                    ret = false;
+                    var newNode = node.Nodes.Add(fNode.Attributes["Name"].Value);
+                    if (LoadFileList(Path.Combine(basePath, fNode.Attributes["Name"].Value), fNode, newNode, ref mdbPath) == false)
+                    {
+                        ret = false;
+                    }
                 }
+               
             }
             return ret;
         }

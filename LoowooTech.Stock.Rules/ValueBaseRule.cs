@@ -16,6 +16,7 @@ namespace LoowooTech.Stock.Rules
         public List<ITool> Tools { get { return _tools == null ? _tools = new List<ITool>() : _tools; } }
         public virtual string RuleName { get; }
         public virtual string ID { get; }
+        public bool Space { get { return false; } }
         public virtual void Init()
         {
 

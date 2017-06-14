@@ -16,6 +16,7 @@ namespace LoowooTech.Stock.Rules
     {
         public string RuleName { get { return "矢量图层是否完整，是否符合《浙江省农村存量建设用地调查数据库标准》的要求"; } }
         public string ID { get { return "2101"; } }
+        public bool Space { get { return false; } }
         public void Check()
         {
             var tool = new TableStructure();

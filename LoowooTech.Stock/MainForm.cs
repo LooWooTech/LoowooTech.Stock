@@ -158,10 +158,12 @@ namespace LoowooTech.Stock
             }
 
             lblOperator.Text = "正在进行质检...";
+            //var ids = new List<int>() { 11, 1201, 2101, 2201, 3101, 3201, 3301, 3401, 4101, 4201, 4301, 5101, 6101, 6201 };
             var ids = new List<int>();
             RuleHelper.GetCheckedRuleIDs(treeView1.Nodes, ids);
             _workBench = new WorkBench2();
             _workBench.RulsIds = ids;
+            _workBench.Folder = _dataPath;
             btnStart.Enabled = false;
             btnExport.Enabled = false;
             var form = new ProgressForm(_workBench);

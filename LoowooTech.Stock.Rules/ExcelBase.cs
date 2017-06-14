@@ -1,5 +1,6 @@
 ﻿using LoowooTech.Stock.Common;
 using LoowooTech.Stock.Models;
+using LoowooTech.Stock.Tool;
 using NPOI.SS.UserModel;
 using System;
 using System.Collections.Concurrent;
@@ -52,7 +53,7 @@ namespace LoowooTech.Stock.Rules
         {
             get
             {
-                return _xmlNode == null ? _xmlNode = XmlManager.GetSingle(string.Format("/Tbales/Exlce[@Name='{0}']", ExcelName), XmlEnum.Field) : _xmlNode;
+                return _xmlNode == null ? _xmlNode = XmlManager.GetSingle(string.Format("/Tables/Excel[@Name='{0}']", ExcelName), XmlEnum.Field) : _xmlNode;
             }
         }
         private string _title { get; set; }
@@ -80,7 +81,7 @@ namespace LoowooTech.Stock.Rules
         public List<XZC> List { get { return _list; }set { _list = value; } }
         private List<ExcelField> _fields { get; set; }
         /// <summary>
-        /// 表格要求字段
+        /// 表格要求字段  配置文件读取的
         /// </summary>
         public List<ExcelField> Fields
         {
@@ -93,6 +94,12 @@ namespace LoowooTech.Stock.Rules
                 return _fields;
             }
         }
+
+        //private List<ExcelField> _excelFields { get; set; }
+        ///// <summary>
+        ///// Excel表格读取
+        ///// </summary>
+        //public List<ExcelField> ExcelFields { get { return _excelFields; } set { _excelFields = value; } }
         private List<Question> _questions { get; set; }
         /// <summary>
         /// 问题
@@ -139,10 +146,15 @@ namespace LoowooTech.Stock.Rules
             {
                 if (string.IsNullOrEmpty(_excelFilePath))
                 {
-                    if (!string.IsNullOrEmpty(Title))
+                    if (XmlNode.Attributes["Regex"] != null)
                     {
-                        _excelFilePath = System.IO.Path.Combine(Folder, Title.Replace("{Name}", District).Replace("{Code}", Code));
+                        _excelFilePath = new FileTool { Folder = Folder, Filter = "*.xls", RegexString = XmlNode.Attributes["Regex"].Value }.GetFile();
                     }
+                   
+                    //if (!string.IsNullOrEmpty(Title))
+                    //{
+                    //    _excelFilePath = System.IO.Path.Combine(Folder,ExcelName+" "+ Title.Replace("{Name}", District).Replace("{Code}", Code));
+                    //}
                 }
                 return _excelFilePath;
             }
@@ -173,6 +185,8 @@ namespace LoowooTech.Stock.Rules
         /// 生成表格的保存文件夹
         /// </summary>
         public string SaveFolder { get { return _saveFolder; }set { _saveFolder = value; } }
+        private string _checkCode { get; set; }
+        public string CheckCode { get { return _checkCode; }set { _checkCode = value; } }
         public ExcelBase()
         {
             _paralleQuestions = new ConcurrentBag<Question>();
@@ -188,7 +202,7 @@ namespace LoowooTech.Stock.Rules
             if (XmlNode != null)
             {
                 var tableName = TableName;
-                var nodes = XmlNode.SelectNodes("/Field");
+                var nodes = XmlNode.SelectNodes("Field");
                 if (nodes != null && nodes.Count > 0)
                 {
                     for(var i = 0; i < nodes.Count; i++)
@@ -248,13 +262,15 @@ namespace LoowooTech.Stock.Rules
                                 if (heads[0] == DM && heads[1] == MC)
                                 {
                                     flag = true;
+                                 
                                     #region  验证每个表头名称
                                     for (var j = 2; j < heads.Length; j++)
                                     {
                                         info = heads[j];
                                         if (!string.IsNullOrEmpty(info))
                                         {
-                                            var field = Fields.FirstOrDefault(e => e.Index == j);
+                                            var field = Fields.FirstOrDefault(e => e.Index==j);
+
                                             if (field == null)
                                             {
                                                 flag = false;
@@ -302,7 +318,7 @@ namespace LoowooTech.Stock.Rules
         }
         private XZC GetXZC(IRow row)
         {
-            var array = row.GetCellValues(0, 1);
+            var array = row.GetCellValues(0, 2);
             return new XZC { XZCDM = array[0], XZCMC = array[1] };
             
         }
@@ -317,23 +333,6 @@ namespace LoowooTech.Stock.Rules
                 switch (cell.CellType)
                 {
                     case CellType.Formula:
-                        //try
-                        //{
-                        //    switch (field.Type)
-                        //    {
-                        //        case ExcelType.Double:
-
-                        //            field.Value = Math.Round(cell.NumericCellValue, 4).ToString();
-                        //            break;
-                        //        case ExcelType.Int:
-                        //           field.Value = cell.NumericCellValue.ToString();
-                        //            break;
-                        //    }
-                        //}
-                        //catch
-                        //{
-                        //    field.Value = cell.ToString();
-                        //}
                         field.Val = cell.NumericCellValue;
                         break;
                     case CellType.Numeric:
@@ -343,7 +342,6 @@ namespace LoowooTech.Stock.Rules
                     default:
 
                         field.Val = cell.ToString();
-                        //field.Value = cell.ToString();
                         break;
                 }
                 list.Add(field);
@@ -487,7 +485,7 @@ namespace LoowooTech.Stock.Rules
             {
                 sb.Append(field.View);
             }
-            sb.AppendFormat(" Where {0}.XZCDM = '{1}' AND {0}.XZCMC = '{2}'", TableName, xzcdm, xzcmc);
+            sb.AppendFormat(" Where LEFT({0}.XZCDM,9) = '{1}'", TableName, xzcdm);
             if (!string.IsNullOrEmpty(field.WhereClause))
             {
                 sb.AppendFormat(" AND {0}", field.WhereClause);
@@ -610,7 +608,15 @@ namespace LoowooTech.Stock.Rules
             {
                 _dict.Clear();
                 Parallel.Invoke(GainExcel, GainAccess);
-                CheckData();
+                if (CheckCode == "6101")
+                {
+                    CheckData();
+                }
+                else if (CheckCode == "6201")
+                {
+                    CheckCollect();
+                }
+                
             }
         }
 

@@ -17,6 +17,7 @@ namespace LoowooTech.Stock.Rules
     {
         public string RuleName { get { return "提交成果数据是否能够正常打开"; } }
         public string ID { get { return "1201"; } }
+        public bool Space { get { return false; } }
         public void Check()
         {
             var nodes = XmlManager.GetList("/Folders/Folder", XmlEnum.DataTree);
@@ -43,12 +44,16 @@ namespace LoowooTech.Stock.Rules
                     Check(str, System.IO.Path.Combine(path, name),child);
                 }
             }
-            var files = node.SelectNodes("/File");
-            var filters = node.Attributes["Filter"].Value.Split('/');
-            Parallel.ForEach(filters, filter =>
+            //var files = node.SelectNodes("/File");
+            if (node.Attributes["Filter"]!= null)
             {
-                Check(path, filter);
-            });
+                var filters = node.Attributes["Filter"].Value.Split('/');
+                Parallel.ForEach(filters, filter =>
+                {
+                    Check(path, filter);
+                });
+            }
+           
         }
         private void Check(string folder,string filter)
         {

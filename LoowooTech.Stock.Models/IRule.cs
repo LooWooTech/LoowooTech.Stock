@@ -9,6 +9,7 @@ namespace LoowooTech.Stock.Models
     {
         string ID { get;  }
         string RuleName { get;  }
+        bool Space { get; }
         void Check();
     }
 }

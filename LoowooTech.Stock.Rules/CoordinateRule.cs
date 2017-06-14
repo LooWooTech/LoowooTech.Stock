@@ -11,6 +11,7 @@ namespace LoowooTech.Stock.Rules
     {
         public string RuleName { get { return "平面坐标系统是否采用‘1980’西安坐标系、3度带、带带号，检查高程系统是否采用‘1985’国家高程基准，检查投影方式是否采用高斯-克吕格投影"; } }
         public string ID { get { return "2201"; } }
+        public bool Space { get { return true; } }
 
         public void Check()
         {

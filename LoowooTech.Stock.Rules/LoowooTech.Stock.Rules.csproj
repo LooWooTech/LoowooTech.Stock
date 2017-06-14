@@ -73,7 +73,6 @@
     <Compile Include="ClassNine.cs" />
     <Compile Include="ContinuousRule.cs" />
     <Compile Include="CoordinateRule.cs" />
-    <Compile Include="DirectoryFileRule.cs" />
     <Compile Include="DirectoryTool.cs" />
     <Compile Include="ExcelBase.cs" />
     <Compile Include="ExcelEight.cs" />
@@ -86,6 +85,7 @@
     <Compile Include="ExcelSix.cs" />
     <Compile Include="ExcelThree.cs" />
     <Compile Include="ExcelTwo.cs" />
+    <Compile Include="ExcelValueCollectRule.cs" />
     <Compile Include="ExcelValueLogicRule.cs" />
     <Compile Include="FileFolderStandardRule.cs" />
     <Compile Include="FileOpenRule.cs" />
@@ -110,7 +110,6 @@
     <Compile Include="VectorBase.cs" />
     <Compile Include="VectorRule.cs" />
     <Compile Include="XZCDMRule.cs" />
-    <Compile Include="XZRule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoowooTech.Stock.ArcGISTool\LoowooTech.Stock.ArcGISTool.csproj">

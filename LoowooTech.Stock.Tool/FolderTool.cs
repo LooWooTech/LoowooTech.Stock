@@ -17,6 +17,7 @@ namespace LoowooTech.Stock.Tool
     {
         public string ID { get; set; }
         public string RuleName { get; set; }
+        public bool Space { get; }
 
         private const string Title = "农村存量建设用地调查数据成果";
         private string _folder { get; set; }

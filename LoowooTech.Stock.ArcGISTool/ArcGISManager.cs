@@ -27,6 +27,30 @@ namespace LoowooTech.Stock.ArcGISTool
                 }
             }
         }
+        public static void XZQ(string className1,string className2)
+        {
+            var featurePath1 = string.Format("{0}/{1}", ParameterManager.MDBFilePath, className1);//XZQ_XZC
+            var featurePath2 = string.Format("{0}/{1}", ParameterManager.MDBFilePath, className2);//DCDYTB
+            var outfeatureClassName = string.Format("{0}_intersect", className1);
+            var outfeaturePath = string.Format("{0}/{1}", ParameterManager.MDBFilePath, outfeatureClassName);
+            if (Cross(string.Format("{0};{1}", featurePath1, featurePath2), outfeaturePath))
+            {
+                var outfeatureClass = ParameterManager.Workspace.GetFeatureClass(outfeatureClassName);
+                if (outfeatureClass == null)
+                {
+                    QuestionManager.Add(new Question { Code = "", Name = "", Project = CheckProject.图层内属性一致性, Description = "" });
+                }
+                else
+                {
+                    var list = RunXZQ(outfeatureClass);
+                    QuestionManager.AddRange(list.Select(e => new Question { Code = "5101", Name = "行政区（空间）", TableName = className1, Description = e }).ToList());
+                }
+            }
+            else
+            {
+                QuestionManager.Add(new Question { Code = "", Name = "", Project = CheckProject.图层内属性一致性, Description = "" });
+            }
+        }
         public static void Topo(string className)
         {
             var featurePath = string.Format("{0}/{1}", ParameterManager.MDBFilePath, className);
@@ -49,6 +73,9 @@ namespace LoowooTech.Stock.ArcGISTool
                 QuestionManager.Add(new Question { Code = "4101", Name = "拓扑关系", Project = CheckProject.拓扑关系, Description = "执行intersect发生错误" });
             }
         }
+
+
+
         private static bool DeleteFeatureClass(string in_feature)
         {
             Delete tool = new Delete();
@@ -82,6 +109,48 @@ namespace LoowooTech.Stock.ArcGISTool
             tool.output_type = "INPUT";
             return Excute(tool);
         }
+        /// <summary>
+        /// 作用：分析行政区范围
+        /// 作者：
+        /// 编写时间：
+        /// </summary>
+        /// <param name="featureClass"></param>
+        /// <param name="fidName"></param>
+        /// <param name="titleName"></param>
+        private static List<string> RunXZQ(IFeatureClass featureClass)
+        {
+            var list = new List<string>();
+            var title1 = featureClass.Fields.FindField("XZCMC");
+            var title2 = featureClass.Fields.FindField("XZCMC_1");
+
+           
+
+            var index = featureClass.Fields.FindField("TBBH");
+
+            IFeatureCursor featureCursor = featureClass.Search(null, false);
+            IFeature feature = featureCursor.NextFeature();
+            while (feature != null)
+            {
+                try
+                {
+                    var valOne = feature.get_Value(title1).ToString();//
+                    var valTwo = feature.get_Value(title2).ToString();
+                    if (valOne != valTwo)
+                    {
+                        var key = feature.get_Value(index);
+                        list.Add(string.Format("行政区名称：【{0}】图斑编号：【{1}】空间范围不符（不在行政区范围内）", valTwo, key));
+                    }
+                }
+                catch(Exception ex)
+                {
+                    list.Add(ex.ToString());
+                }
+                feature = featureCursor.NextFeature();
+            }
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+            return list;
+
+        }
         private static void Run(IFeatureClass featureClass, string fidName, string titleName1, string titleName2)
         {
             var fid1 = featureClass.Fields.FindField(string.Format("FID_{0}", fidName));
@@ -103,7 +172,7 @@ namespace LoowooTech.Stock.ArcGISTool
                 {
                     var valOne = feature.get_Value(fid1);
                     var valTwo = feature.get_Value(fid2);
-                    if (valOne != valTwo)//存在不相等，则表示存在相交
+                    if (valOne.ToString() != valTwo.ToString())//存在不相等，则表示存在相交
                     {
                         var val = feature.get_Value(title11).ToString();
                         var str1 = string.Format("{0}:【{1}】--{2}：【{3}】存在图斑相交", titleName1, val, titleName2, feature.get_Value(title21));

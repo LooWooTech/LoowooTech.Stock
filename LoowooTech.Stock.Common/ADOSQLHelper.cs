@@ -22,7 +22,7 @@ namespace LoowooTech.Stock.Common
                     }
                     if (connection.State == System.Data.ConnectionState.Closed)
                     {
-                        connection.Close();
+                        connection.Open();
                     }
 
                     using (var command = connection.CreateCommand())
@@ -55,7 +55,7 @@ namespace LoowooTech.Stock.Common
                     }
                     if (connection.State == System.Data.ConnectionState.Closed)
                     {
-                        connection.Close();
+                        connection.Open();
                     }
                     using (var command = connection.CreateCommand())
                     {
