@@ -22,6 +22,7 @@ namespace LoowooTech.Stock.Common
         /// </summary>
         public static ConcurrentBag<TB> TB { get { return _tb; } }
         private static string[] _keys { get; set; }
+        private static readonly object _syncRoot = new object();
         private static List<string> _messages { get; set; }
         static DCDYTBManager()
         {
@@ -74,7 +75,35 @@ namespace LoowooTech.Stock.Common
             {
                 _messages.Clear();
             }
-            foreach(var item in _list)
+            var dict = _list.GroupBy(e => e.XZCDM.Substring(0,9)).ToDictionary(e => e.Key, e => e.ToList());
+            Parallel.ForEach(dict, entry =>
+            {
+                Program(entry.Value);
+            });
+            //foreach(var item in _list)
+            //{
+            //    Console.WriteLine(string.Format("正在验证行政区代码【{0}】行政区名称：【{1}】图斑编号：【{2}】的面积一致性；", item.XZCDM, item.XZCMC, item.TBBH));
+            //    var currentSum = TB.Where(e => e.XZCDM == item.XZCDM && e.TBBH == item.TBBH).Sum(e => e.MJ);
+            //    if (item.MJ < currentSum)
+            //    {
+            //        var str = string.Format("行政区代码：【{0}】行政村名称：【{1}】图斑编号：【{2}】面积：【{3}】在表：【{4}】中面积和不符", item.XZCDM, item.XZCMC, item.TBBH, item.MJ, string.Join(",", _keys));
+            //        LogManager.Log(str);
+            //        QuestionManager.Add(new Question() { Code = "3401", Name = "面积一致性",Project=CheckProject.面积一致性, TableName = "DCDYTB", BSM = item.TBBH, Description = str });
+            //        _messages.Add(str);
+            //    }
+            //}
+        }
+        private static void AddMessage(string message)
+        {
+            lock (_syncRoot)
+            {
+                _messages.Add(message);
+            }
+        }
+
+        private static void Program(List<DCDYTB> list)
+        {
+            foreach(var item in list)
             {
                 Console.WriteLine(string.Format("正在验证行政区代码【{0}】行政区名称：【{1}】图斑编号：【{2}】的面积一致性；", item.XZCDM, item.XZCMC, item.TBBH));
                 var currentSum = TB.Where(e => e.XZCDM == item.XZCDM && e.TBBH == item.TBBH).Sum(e => e.MJ);
@@ -82,8 +111,8 @@ namespace LoowooTech.Stock.Common
                 {
                     var str = string.Format("行政区代码：【{0}】行政村名称：【{1}】图斑编号：【{2}】面积：【{3}】在表：【{4}】中面积和不符", item.XZCDM, item.XZCMC, item.TBBH, item.MJ, string.Join(",", _keys));
                     LogManager.Log(str);
-                    QuestionManager.Add(new Question() { Code = "3401", Name = "面积一致性",Project=CheckProject.面积一致性, TableName = "DCDYTB", BSM = item.TBBH, Description = str });
-                    _messages.Add(str);
+                    QuestionManager.Add(new Question() { Code = "3401", Name = "面积一致性", Project = CheckProject.面积一致性, TableName = "DCDYTB", BSM = item.TBBH, Description = str });
+                    AddMessage(str);
                 }
             }
         }

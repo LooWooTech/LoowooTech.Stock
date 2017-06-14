@@ -172,7 +172,7 @@ namespace LoowooTech.Stock.ArcGISTool
                 {
                     var valOne = feature.get_Value(fid1);
                     var valTwo = feature.get_Value(fid2);
-                    if (valOne != valTwo)//存在不相等，则表示存在相交
+                    if (valOne.ToString() != valTwo.ToString())//存在不相等，则表示存在相交
                     {
                         var val = feature.get_Value(title11).ToString();
                         var str1 = string.Format("{0}:【{1}】--{2}：【{3}】存在图斑相交", titleName1, val, titleName2, feature.get_Value(title21));

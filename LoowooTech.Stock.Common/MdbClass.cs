@@ -25,7 +25,7 @@ namespace LoowooTech.Stock.Common
                 {
                     connection.Open();
                 }
-                var Tables = connection.GetSchema("TABLE");
+                var Tables = connection.GetSchema("Tables");
                 foreach(DataRow row in Tables.Rows)
                 {
                     if (row[3].ToString().ToUpper() == "TABLE")

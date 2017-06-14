@@ -12,7 +12,7 @@ namespace LoowooTech.Stock.ArcGISTool
 {
     public static class ParameterManager
     {
-        static string Collect = "3统计报告";
+        static string Collect = "3统计表格";
         private static string _folder { get; set; }
         /// <summary>
         /// 质检路径
@@ -83,7 +83,7 @@ namespace LoowooTech.Stock.ArcGISTool
                 for(var i = 0; i < nodes.Count; i++)
                 {
                     var node = nodes[i];
-                    list.AddRange(GetChildFolder(node,null));
+                    list.AddRange(GetChildFolder(node,Folder));
                 }
             }
             return list;

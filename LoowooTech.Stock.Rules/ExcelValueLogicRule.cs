@@ -18,11 +18,11 @@ namespace LoowooTech.Stock.Rules
         {
             var tools = new List<IExcel>
             {
-                new ExcelOne { Connection = ParameterManager.Connection, List = ExcelManager.XZC, District = ParameterManager.District, Code = ParameterManager.Code, Folder = ParameterManager.CollectFolder,CheckCode=ID },
-                new ExcelOne { Connection=ParameterManager.Connection,List=ExcelManager.XZC,District=ParameterManager.District,Code=ParameterManager.Code,Folder=ParameterManager.CollectFolder,CheckCode=ID },
-                new ExcelThree { Connection=ParameterManager.Connection,List=ExcelManager.XZC,District=ParameterManager.District,Code=ParameterManager.Code,Folder=ParameterManager.CollectFolder,CheckCode=ID},
-                new ExcelFour { Connection=ParameterManager.Connection,List=ExcelManager.XZC,District=ParameterManager.District,Code=ParameterManager.Code,Folder=ParameterManager.CollectFolder,CheckCode=ID},
-                new ExcelFive { Connection=ParameterManager.Connection,List=ExcelManager.XZC,District=ParameterManager.District,Code=ParameterManager.Code,Folder=ParameterManager.CollectFolder,CheckCode=ID}
+                new ExcelOne { Connection = ParameterManager.Connection, List = ExcelManager.XZQ, District = ParameterManager.District, Code = ParameterManager.Code, Folder = ParameterManager.CollectFolder,CheckCode=ID },
+                new ExcelTwo { Connection=ParameterManager.Connection,List=ExcelManager.XZQ,District=ParameterManager.District,Code=ParameterManager.Code,Folder=ParameterManager.CollectFolder,CheckCode=ID },
+                new ExcelThree { Connection=ParameterManager.Connection,List=ExcelManager.XZQ,District=ParameterManager.District,Code=ParameterManager.Code,Folder=ParameterManager.CollectFolder,CheckCode=ID},
+                new ExcelFour { Connection=ParameterManager.Connection,List=ExcelManager.XZQ,District=ParameterManager.District,Code=ParameterManager.Code,Folder=ParameterManager.CollectFolder,CheckCode=ID},
+                new ExcelFive { Connection=ParameterManager.Connection,List=ExcelManager.XZQ,District=ParameterManager.District,Code=ParameterManager.Code,Folder=ParameterManager.CollectFolder,CheckCode=ID}
             };
             Parallel.ForEach(tools, item =>
             {

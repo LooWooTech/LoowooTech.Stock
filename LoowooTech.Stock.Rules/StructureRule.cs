@@ -24,7 +24,7 @@ namespace LoowooTech.Stock.Rules
             {
                 var tool = new FieldStructureTool { TableName = table, ID = "3101" };
                 tool.Check(ParameterManager.Connection);
-            });
+            }); 
         }
     }
 }

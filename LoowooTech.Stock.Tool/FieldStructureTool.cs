@@ -39,6 +39,7 @@ namespace LoowooTech.Stock.Tool
                 var m = table.Columns.IndexOf("COLUMN_NAME");
                 var n = table.Columns.IndexOf("NUMERIC_PRECISION");
                 var l = table.Columns.IndexOf("CHARACTER_MAXIMUM_LENGTH");
+                //var l = table.Columns.IndexOf("CHARACTER_OCTET_LENGTH");
                 var a = table.Columns.IndexOf("DATA_TYPE");
                 var length = 0;
                 for(var i = 0; i < table.Rows.Count; i++)
@@ -47,13 +48,14 @@ namespace LoowooTech.Stock.Tool
                     var name = row.ItemArray.GetValue(m).ToString().Trim();
                     if (!dict.ContainsKey(name))
                     {
-                        dict.Add(name, new Field()
+                        var field = new Field()
                         {
                             Name = name,
                             Title = row.ItemArray.GetValue(n).ToString().Trim(),
-                            Length = int.TryParse(row.ItemArray.GetValue(l).ToString().Trim(), out length) ? length : 0,
+                            Length = int.TryParse(row.ItemArray.GetValue(l).ToString().Trim(), out length) ? length : int.TryParse(row.ItemArray.GetValue(n).ToString().Trim(), out length) ? length : 0,
                             Type = (FieldType)Enum.Parse(typeof(FieldType), row.ItemArray.GetValue(a).ToString().Trim())
-                        });
+                        };
+                        dict.Add(name,field );
                     }
                 }
                 var requireField = XmlClass.GetField(TableName);
@@ -62,8 +64,11 @@ namespace LoowooTech.Stock.Tool
                 {
                     if (dict.ContainsKey(field.Name))
                     {
+                        var currentfield = dict[field.Name];
+                        
                         if (field != dict[field.Name])
                         {
+                            
                             str = string.Format("字段{0}与要求的类型或者长度不符", field.Name);
                             Console.WriteLine(str);
                             Messages.Add(str);

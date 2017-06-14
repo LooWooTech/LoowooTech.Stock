@@ -79,8 +79,8 @@
   <Table Name="JYXJSYD" Class="LoowooTech.Stock.Rules"  Title="经营性建设用地要素基本属性结构表" IsSpace="false" Topo="fasle">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
-    <Field Name="XZQDM" Title="行政区代码" Length="12" Type="Char"></Field>
-    <Field Name="XZQMC" Title="行政区名称" Length="100" Type="Char"></Field>
+    <Field Name="XZCDM" Title="行政区代码" Length="12" Type="Char"></Field>
+    <Field Name="XZCMC" Title="行政区名称" Length="100" Type="Char"></Field>
     <Field Name="DCBH" Title="调查编号" Length="4" Type="Char"></Field>
     <Field Name="TBBH" Title="图斑编号" Length="8" Type="Char"></Field>
     <Field Name="SYQR" Title="使用权人" Length="100" Type="Char"></Field>
@@ -101,8 +101,8 @@
   <Table Name="GGGL_GGFWSSYD" Class="LoowooTech.Stock.Rules" Title="公共管理及公共服务设施用地要素基本属性结构表" IsSpace="false" Topo="fasle">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
-    <Field Name="XZQDM" Title="行政区代码" Length="12" Type="Char"></Field>
-    <Field Name="XZQMC" Title="行政区名称" Length="100" Type="Char"></Field>
+    <Field Name="XZCDM" Title="行政区代码" Length="12" Type="Char"></Field>
+    <Field Name="XZCMC" Title="行政区名称" Length="100" Type="Char"></Field>
     <Field Name="DCBH" Title="调查编号" Length="4" Type="Char"></Field>
     <Field Name="TBBH" Title="图斑编号" Length="8" Type="Char"></Field>
     <Field Name="SYQR" Title="使用权人" Length="100" Type="Char"></Field>
@@ -124,8 +124,8 @@
   <Table Name="QTCLJSYD" Class="LoowooTech.Stock.Rules" Title="其他存量建设用地要素基本属性结构表" IsSpace="false" Topo="fasle">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
-    <Field Name="XZQDM" Title="行政区代码" Length="12" Type="Char"></Field>
-    <Field Name="XZQMC" Title="行政区名称" Length="100" Type="Char"></Field>
+    <Field Name="XZCDM" Title="行政区代码" Length="12" Type="Char"></Field>
+    <Field Name="XZCMC" Title="行政区名称" Length="100" Type="Char"></Field>
     <Field Name="DCBH" Title="调查编号" Length="4" Type="Char"></Field>
     <Field Name="TBBH" Title="图斑编号" Length="8" Type="Char"></Field>
     <Field Name="ZDH" Title="宗地号" Length="50" Type="Char"></Field>
@@ -141,7 +141,7 @@
     <Field Name="FQYY" Title="废弃原因" Length="200" Type="Char"></Field>
    
   </Table>
-  <Execl Name="表1" Title="{Name}({Code})农村存量建设用地总体情况汇总表.xls" TableName="NCCLJSYDZTQK" Model="ExcelOne.xls">
+  <Excel Name="表1" Title="{Name}({Code})农村存量建设用地总体情况汇总表.xls" Regex="^表1 [\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量建设用地总体情况汇总表.xls$"  TableName="NCCLJSYDZTQK" Model="ExcelOne.xls">
     <Field  Name="ZRCGS" Title="自然村个数" Index="2" Type="Int" Compute="Sum"></Field>
     <Field  Name="XZCZYDMJ" Title="变更调查村庄面积" Index="3" Type="double" Compute="Sum" Unit="亩"></Field>
     <Field  Name="DJCZYDMJ" Title="地籍调查村庄面积" Index="4" Type="double" Compute="Sum" Unit="亩"></Field>
@@ -152,8 +152,8 @@
     <Field  Name="LRRK" Title="流入人口" Index="9" Type="Int" Compute="Sum"></Field>
     <Field  Name="LCRK" Title="流出人口" Index="10" Type="Int" Compute="Sum"></Field>
     <Field  Name="JTJYXQYGS" Title="集体经营性企业个数" Index="11" Type="Int" Compute="Sum"></Field>
-  </Execl>
-  <Excel Name="表2" Title="{Name}({Code})农村存量宅基地基本情况汇总表.xls" TableName="CLZJD" Model="ExcelTwo.xls">
+  </Excel>
+  <Excel Name="表2" Title="{Name}({Code})农村存量宅基地基本情况汇总表.xls" Regex="^表2 [\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量宅基地基本情况汇总表.xls$" TableName="CLZJD" Model="ExcelTwo.xls">
     <Field  Name="JZZDMJ" Title="建筑占地总面积" Index="2" Type="double" Compute="Sum" Unit="平方米"></Field>
     <Field  Name="FSYDMJ" Title="附属用地总面积" Index="3" Type="double" Compute="Sum" Unit="平方米"></Field>
     <Field  Name="JZMJ" Title="建筑总面积" Index="4" Type="double" Compute="Sum" Unit="平方米"></Field>
@@ -180,7 +180,7 @@
     <Field  Name="JTRK" Title="建筑类型-其他-人口数" Type="int" WhereClause="JZLX='4'" Index="25" Compute="Sum"></Field>
     <Field  Name="JZMJ" Title="建筑类型-其他-建筑总面积" Type="double" WhereClause="JZLX='4'" Index="26" Compute="Sum" Unit="平方米"></Field>
   </Excel>
-  <Excel Name="表3" Title="{Name}({Code})农村存量经营性建设用地基本情况汇总表.xls" TableName="JYXJSYD" Model="ExcelThree.xls">
+  <Excel Name="表3" Title="{Name}({Code})农村存量经营性建设用地基本情况汇总表.xls" Regex="^表3 [\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量经营性建设用地基本情况汇总表.xls$" TableName="JYXJSYD" Model="ExcelThree.xls">
     <Field  Name="JSYDMJ" Title="建设用地总面积"  Index="2" Type="double" Unit="平方米" Compute="Sum"></Field>
     <Field  Name="JZMJ" Title="建筑总面积"  Index="3" Type="double" Unit="平方米" Compute="Sum"></Field>
     <Field  Name="JSYDMJ" Title="正常使用面积" WhereClause="LYZT='1'" Index="4" Type="double" Unit="平方米" Compute="Sum"></Field>
@@ -201,7 +201,7 @@
     <Field  Name="" Title="建筑类型-其他-宗数" WhereClause="JZLX='4'" Index="19" Compute="count"></Field>
     <Field  Name="JSYDMJ" Title="建筑类型-其他-建设用地总面积" WhereClause="JZLX='4'" Index="20" Type="double" Unit="平方米" Compute="Sum"></Field>
   </Excel>
-  <Excel Name="表4" Title="{Name}({Code})农村存量公共管理及公共服务设施用地基本情况汇总表.xls" TableName="GGGL_GGFWSSYD" Model="ExcelFour.xls">
+  <Excel Name="表4" Title="{Name}({Code})农村存量公共管理及公共服务设施用地基本情况汇总表.xls" Regex="^表4 [\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量公共管理及公共服务设施用地基本情况汇总表.xls$" TableName="GGGL_GGFWSSYD" Model="ExcelFour.xls">
     <Field  Name="JSYDMJ" Title="建设用地总面积" WhereClause="" Index="2"></Field>
     <Field  Name="JZMJ" Title="建筑总面积" WhereClause="" Index="3"></Field>
     <Field  Name="JSYDMJ" Title="正常使用面积" WhereClause="LYZT='1'" Index="4"></Field>
@@ -223,7 +223,7 @@
     <Field  Name="" Title="建筑类型-其他-宗数" WhereClause="JZLX='4'" Index="20" Compute="count"></Field>
     <Field  Name="JSYDMJ" Title="建筑类型-其他-建设用地总面积" WhereClause="JZLX='4'" Index="21" Type="double" Unit="平方米" Compute="Sum"></Field>
   </Excel>
-  <Excel Name="表5" Title="{Name}({Code})农村其他存量建设用地基本情况汇总表.xls" TableName="QTCLJSYD" Model="ExcelFive.xls">
+  <Excel Name="表5" Title="{Name}({Code})农村其它存量建设用地基本情况汇总表.xls" Regex="^表5 [\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村其它存量建设用地基本情况汇总表.xls$" TableName="QTCLJSYD" Model="ExcelFive.xls">
     <Field  Name="" Title="建设用地总面积" WhereClause="" Index="2"></Field>
     <Field  Name="" Title="建筑总面积" WhereClause="" Index="3"></Field>
     <Field  Name="" Title="有效使用总面积" WhereClause="" Index="4"></Field>

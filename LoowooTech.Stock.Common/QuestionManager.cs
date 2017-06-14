@@ -80,6 +80,10 @@ namespace LoowooTech.Stock.Common
             SaveCollect(sheet1);
             SaveList(sheet2);
             SaveInfo(sheet3, LogManager.List);
+            if (!System.IO.Directory.Exists(folder))
+            {
+                System.IO.Directory.CreateDirectory(folder);
+            }
             var filePath = System.IO.Path.Combine(folder, string.Format(_name + ".xls", district, code));
             using (var fs=new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {

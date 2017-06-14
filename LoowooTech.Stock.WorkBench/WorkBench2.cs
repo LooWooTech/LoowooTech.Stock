@@ -13,7 +13,7 @@ namespace LoowooTech.Stock.WorkBench
 {
     public class WorkBench2:IWorkBench
     {
-        protected const string report = "5质检报告";
+        protected const string report = "5质检结果";
         protected const string DataBase = "1空间数据库";
         protected const string Collect = "3统计报告";
         protected const string Title = "农村存量建设用地调查数据成果";
@@ -91,62 +91,81 @@ namespace LoowooTech.Stock.WorkBench
         }
         private bool Init()
         {
+            OutputMessage("00","正在初始化检查机制", ProgressResultTypeEnum.Other);
             if (!ReadXZQ())//分析读取行政区
             {
-                OutputMessage("无法解析到行政区代码和行政区名称");
-                //LogManager.LogRecord("无法解析到行政区代码和行政区名称");
+                OutputMessage("00","未分析读取到行政区名称和行政区代码",  ProgressResultTypeEnum.Fail );
                 return false;
             }
             if (!SearchFile())//查找单位代码表和数据库文件
             {
-                OutputMessage("未找到单位代码表文件或者数据库文件");
-                //LogManager.LogRecord("未找到单位代码表文件或者数据库文件");
+                OutputMessage("00", "未找到单位代码表或者数据库文件", ProgressResultTypeEnum.Fail);   
                 return false;
             }
             ParameterManager.Init(Folder);
-            OutputMessage("完成参数管理器初始化");
-            OutputMessage("开始初始化单位代码表管理器......");
+            OutputMessage("00", "参数管理器初始化完毕", ProgressResultTypeEnum.Other);
             ExcelManager.Init(ParameterManager.CodeFilePath);//初始化单位代码信息列表
-
+            OutputMessage("00", "成功读取单位代码表信息", ProgressResultTypeEnum.Other);
             DCDYTBManager.Init(ParameterManager.Connection);//获取DCDYTB中的信息;
+            OutputMessage("00", "成功读取调查单元图斑信息", ProgressResultTypeEnum.Other);
             InitRules();
+            ParameterManager.Folder = Folder;
             return true;
 
         }
         public void Program()
         {
             QuestionManager.Clear();
+            LogManager.Init();
             if (!Init())
             {
-                LogManager.LogRecord("初始化失败");
+                OutputMessage("00", "初始化失败，程序终止", ProgressResultTypeEnum.Fail);
                 return;
             }
+            OutputMessage("00", "成功初始化", ProgressResultTypeEnum.Pass);
             foreach(var id in _ruleIds)
             {
                 var rule = _rules.FirstOrDefault(e => e.ID == id.ToString());
                 if (rule != null)
                 {
-                    rule.Check();
-                    if (OnProgramProcess != null)
+                    var sb = new StringBuilder(rule.RuleName);
+                    var result = ProgressResultTypeEnum.Pass;
+                    try
                     {
-                        var args = new ProgressEventArgs() { Code = rule.ID, Cancel = false, Message = rule.RuleName };
-                        OnProgramProcess(this, args);
-                        if (args.Cancel)
-                            break;
+                        rule.Check();
+                    }
+                    catch(AggregateException ae)
+                    {
+                        foreach(var exp in ae.InnerExceptions)
+                        {
+                            sb.Append(exp.Message+"\r\n");
+                        }
+                        result = ProgressResultTypeEnum.Fail;
+
+                    }
+                    catch(Exception ex)
+                    {
+                        result = ProgressResultTypeEnum.Fail;
+                        sb.Append(ex.ToString());
+
+                    }
+                    OutputMessage(rule.ID, sb.ToString(), result);
+                    if (result != ProgressResultTypeEnum.Pass)
+                    {
+                        QuestionManager.Add(new Question { Code = rule.ID, Name = rule.RuleName, Description = sb.ToString() });
                     }
                 }
             }
             _reportPath = QuestionManager.Save(System.IO.Path.Combine(Folder, report), ParameterManager.District, ParameterManager.Code);
 
         }
-        private void OutputMessage(string message)
+        private void OutputMessage(string code,string message,ProgressResultTypeEnum result)
         {
-            var args = new ProgressEventArgs() { Message = message };
-            OnProgramProcess(this, args);
-            if (args.Cancel)
-            {
-
-            }
+            OutputMessage(new ProgressEventArgs { Code = code, Message = message, Result = result });
+        }
+        private void OutputMessage(ProgressEventArgs e)
+        {
+            OnProgramProcess(this, e);
         }
     }
 }

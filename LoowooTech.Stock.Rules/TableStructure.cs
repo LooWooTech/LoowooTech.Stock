@@ -32,6 +32,7 @@ namespace LoowooTech.Stock.Rules
         public TableStructure()
         {
             Erros = new List<string>();
+            ExistTables = new List<string>();
         }
 
         public void Ready(OleDbConnection connection)

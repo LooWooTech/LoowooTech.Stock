@@ -38,10 +38,11 @@ namespace LoowooTech.Stock
             if(listBox1.InvokeRequired)
             {
                 listBox1.Invoke(new ShowInfoDelegate(ShowInfo), message);
+                //listBox1.Invoke(new ShowInfoDelegate(ShowInfo), new[] { message });
             }
             else
             {
-                listBox1.Items.Add(string.Format("[{0:HH:mm:ss]{1}", DateTime.Now, message));
+                listBox1.Items.Add(string.Format("[{0:HH:mm:ss}]{1}", DateTime.Now, message));
             }
         }
 
@@ -50,7 +51,11 @@ namespace LoowooTech.Stock
             ShowInfo(e.Message);
             lock (Results)
             {
-                Results.Add(e.Code, e.Result);
+                if (!Results.ContainsKey(e.Code))
+                {
+                    Results.Add(e.Code, e.Result);
+                }
+            
             }
             e.Cancel = StopRequested;
         }
