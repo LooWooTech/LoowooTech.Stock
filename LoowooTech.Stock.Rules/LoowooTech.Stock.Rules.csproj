@@ -30,6 +30,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>LoowooTech.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -53,10 +59,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -109,14 +111,17 @@
     <ProjectReference Include="..\LoowooTech.Stock.ArcGISTool\LoowooTech.Stock.ArcGISTool.csproj">
       <Project>{E67A35E3-5CF3-40E5-BC57-0E01578E67FD}</Project>
       <Name>LoowooTech.Stock.ArcGISTool</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Stock.Common\LoowooTech.Stock.Common.csproj">
       <Project>{0EF878D9-9DDC-4886-8593-006300D5B2F2}</Project>
       <Name>LoowooTech.Stock.Common</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Stock.Models\LoowooTech.Stock.Models.csproj">
       <Project>{5e25cb83-bdab-411c-998d-554710d82020}</Project>
       <Name>LoowooTech.Stock.Models</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\LoowooTech.Stock.Tool\LoowooTech.Stock.Tool.csproj">
       <Project>{9643fe49-482a-4589-a145-8a786c5cf3a7}</Project>
@@ -124,6 +129,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="LoowooTech.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -31,7 +31,19 @@ namespace LoowooTech.Stock.Models
         {
             return a.Type == b.Type && a.Length == b.Length && a.Name == b.Name;
         }
-       
+
+        public override bool Equals(object o)
+        {
+            var f = o as Field;
+            if (f == null) return false;
+            return this == f;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
     }
 
     public enum FieldType

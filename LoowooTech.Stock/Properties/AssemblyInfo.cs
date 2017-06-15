@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LoowooTech.Stock")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("农村存量建设用地调查成果数据质检软件")]
+[assembly: AssemblyDescription("浙江省农村存量建设用地调查成果数据质检软件")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("陆吾科技")]
 [assembly: AssemblyProduct("LoowooTech.Stock")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright © LoowooTech 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
