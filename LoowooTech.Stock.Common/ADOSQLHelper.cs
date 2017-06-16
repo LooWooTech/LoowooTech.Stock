@@ -38,6 +38,11 @@ namespace LoowooTech.Stock.Common
                 var info = string.Format("执行SQL语句：{0}发生错误，错误信息：{1}", sqlText, ex.Message);
                 LogManager.Log(info);
                 QuestionManager.Add(new Models.Question { Code = "1201", Project = Models.CheckProject.数据有效性, Description = info });
+            }catch(OleDbException ex)
+            {
+                var info = string.Format("执行SQL语句:{0}发生错误，错误信息：{1}", sqlText, ex.Message);
+                LogManager.Log(info);
+                QuestionManager.Add(new Models.Question { Code = "1201", Project = Models.CheckProject.数据有效性, Description = info });
             }
            
             return null;
@@ -71,7 +76,13 @@ namespace LoowooTech.Stock.Common
                 LogManager.Log(info);
                 QuestionManager.Add(new Models.Question { Code = "1201", Project = Models.CheckProject.数据有效性, Description = info });
             }
-           
+            catch (OleDbException ex)
+            {
+                var info = string.Format("执行SQL语句:{0}发生错误，错误信息：{1}", sqlText, ex.Message);
+                LogManager.Log(info);
+                QuestionManager.Add(new Models.Question { Code = "1201", Project = Models.CheckProject.数据有效性, Description = info });
+            }
+
             return null;
             
         }

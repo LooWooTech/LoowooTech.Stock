@@ -150,12 +150,9 @@ namespace LoowooTech.Stock.Rules
                     {
                         _excelFilePath = new FileTool { Folder = Folder, Filter = "*.xls", RegexString = XmlNode.Attributes["Regex"].Value }.GetFile();
                     }
-                   
-                    //if (!string.IsNullOrEmpty(Title))
-                    //{
-                    //    _excelFilePath = System.IO.Path.Combine(Folder,ExcelName+" "+ Title.Replace("{Name}", District).Replace("{Code}", Code));
-                    //}
+                  
                 }
+                System.Console.WriteLine(_excelFilePath);
                 return _excelFilePath;
             }
         }
@@ -217,14 +214,14 @@ namespace LoowooTech.Stock.Rules
                             Type = node.Attributes["Type"].Value.ToLower() == "int" ? ExcelType.Int : ExcelType.Double,
                             Compute = node.Attributes["Compute"].Value.ToLower() == "sum" ? Compute.Sum : Compute.Count,
                         };
-                        try
+                        if (node.Attributes["Unit"] != null)
                         {
                             val.Unit = node.Attributes["Unit"].Value.Trim();
-                            val.View = node.Attributes["View"].Value;
                         }
-                        catch
-                        {
 
+                        if (node.Attributes["View"] != null)
+                        {
+                            val.View = node.Attributes["View"].Value;
                         }
                         list.Add(val);
                     }
@@ -264,25 +261,25 @@ namespace LoowooTech.Stock.Rules
                                     flag = true;
                                  
                                     #region  验证每个表头名称
-                                    for (var j = 2; j < heads.Length; j++)
-                                    {
-                                        info = heads[j];
-                                        if (!string.IsNullOrEmpty(info))
-                                        {
-                                            var field = Fields.FirstOrDefault(e => e.Index==j);
+                                    //for (var j = 2; j < heads.Length; j++)
+                                    //{
+                                    //    info = heads[j];
+                                    //    if (!string.IsNullOrEmpty(info))
+                                    //    {
+                                    //        var field = Fields.FirstOrDefault(e => e.Index==j);
 
-                                            if (field == null)
-                                            {
-                                                flag = false;
-                                                break;
-                                            }
-                                            if (field.Title.ToLower() != info.ToLower())
-                                            {
-                                                flag = false;
-                                                break;
-                                            }
-                                        }
-                                    }
+                                    //        if (field == null)
+                                    //        {
+                                    //            flag = false;
+                                    //            break;
+                                    //        }
+                                    //        if (field.Title.ToLower() != info.ToLower())
+                                    //        {
+                                    //            flag = false;
+                                    //            break;
+                                    //        }
+                                    //    }
+                                    //}
                                     #endregion
                                 }
                             }
@@ -441,16 +438,26 @@ namespace LoowooTech.Stock.Rules
                 switch (field.Type)
                 {
                     case ExcelType.Double:
-                        var a = children.Sum(e => (double)e.Val);
-                        if (Math.Abs((double)field.Val - a) > 0.0001)
+                        var a = children.Where(e=>e.Val!=null&&!string.IsNullOrEmpty(e.Val.ToString())).Sum(e => double.Parse(e.Val.ToString()));
+                        var b = .0;
+                        if (field.Val != null&&!string.IsNullOrEmpty(field.Val.ToString()))
+                        {
+                            double.TryParse(field.Val.ToString(), out b);
+                        }
+                        if (Math.Abs(b - a) > 0.0001)
                         {
                             info = string.Format("表格合计中{0}的值与有效值合计容差率超过0.001,请核对!",field.Title);
                            
                         }
                         break;
                     case ExcelType.Int:
-                        var b = children.Sum(e => (int)e.Val);
-                        if (b != (int)field.Val)
+                        var c = children.Where(e=>e.Val!=null&&!string.IsNullOrEmpty(e.Val.ToString())).Sum(e =>int.Parse(e.Val.ToString()));
+                        var d = 0;
+                        if (field.Val != null && !string.IsNullOrEmpty(field.Val.ToString()))
+                        {
+                            int.TryParse(field.Val.ToString(), out d);
+                        }
+                        if (c != d)
                         {
                             info = string.Format("表格合计中{0}的值与有效值合计不相等，请核对！", field.Title);
                         }
@@ -483,7 +490,7 @@ namespace LoowooTech.Stock.Rules
             }
             else
             {
-                sb.Append(field.View);
+                sb.AppendFormat("({0})", field.View);
             }
             sb.AppendFormat(" Where LEFT({0}.XZCDM,9) = '{1}'", TableName, xzcdm);
             if (!string.IsNullOrEmpty(field.WhereClause))
@@ -573,18 +580,24 @@ namespace LoowooTech.Stock.Rules
                 i++;
             }
             row = sheet.GetRow(i);
+            var dict = list.GroupBy(e => e.Index).ToDictionary(e => e.Key, e => e.Where(k => k.Val != null && !string.IsNullOrEmpty(k.Val.ToString())));
             foreach(var field in Fields)
             {
                 var cell = row.GetCell(field.Index);
-                var temp = list.Where(e => e.Index == field.Index);
+                if (!dict.ContainsKey(field.Index))
+                {
+                    
+                    continue;
+                }
+                var temp = dict[field.Index];
                 switch (field.Type)
                 {
                     case ExcelType.Double:
-                        var a = temp.Sum(e => (double)e.Val);
+                        var a = temp.Sum(e => double.Parse(e.Val.ToString()));
                         cell.SetCellValue(a);
                         break;
                     case ExcelType.Int:
-                        var b = temp.Sum(e => (int)e.Val);
+                        var b = temp.Sum(e => int.Parse(e.Val.ToString()));
                         cell.SetCellValue(b);
                         break;
                 }
@@ -685,9 +698,13 @@ namespace LoowooTech.Stock.Rules
                     switch (value.Type)
                     {
                         case ExcelType.Double:
-                            if (Math.Abs((double)value.Val - (double)excel.Val) > 0.001)
+                            var a = .0;
+                            var b = .0;
+                            double.TryParse(value.Val.ToString(), out a);
+                            double.TryParse(excel.Val.ToString(), out b);
+                            if (Math.Abs(a - b) > 0.001)
                             {
-                                info = string.Format("乡镇代码【{0}】乡镇名称【{1}】中{2}的值在数据库中合计值与表格中填写的值容差率超过0.0001,请核对",xzc.XZCDM,xzc.XZCMC,
+                                info = string.Format("乡镇代码【{0}】乡镇名称【{1}】中{2}的值在数据库中合计值与表格中填写的值容差率超过0.0001,请核对", xzc.XZCDM, xzc.XZCMC,
                                     value.Title);
                                 _paralleQuestions.Add(new Question
                                 {
@@ -700,11 +717,15 @@ namespace LoowooTech.Stock.Rules
                             }
                             break;
                         case ExcelType.Int:
-                            if ((int)value.Val != (int)excel.Val)
+                            var l = 0;
+                            var m = 0;
+                            int.TryParse(value.Val.ToString(), out l);
+                            int.TryParse(excel.Val.ToString(), out m);
+                            if (l != m)
                             {
                                 info = string.Format("乡镇代码【{0}】乡镇名称【{1}】中{2}的值在数据库中合计值【{3}】与表格中填写的值【{4}】不相等，请核对", xzc.XZCDM, xzc.XZCMC, (int)value.Val, (int)excel.Val);
                                 _paralleQuestions.Add(new Question
-                                { 
+                                {
                                     Code = "6101",
                                     Name = Name,
                                     TableName = ExcelName,
@@ -722,19 +743,19 @@ namespace LoowooTech.Stock.Rules
             var info = string.Empty;
             foreach(var field in Fields)
             {
-                var excels = _excelList.Where(e => e.Index == field.Index);
-                var access = _accessList.Where(e => e.Index == field.Index);
+                var excels = _excelList.Where(e => e.Index == field.Index&&e.Val!=null&&!string.IsNullOrEmpty(e.Val.ToString()));
+                var access = _accessList.Where(e => e.Index == field.Index&&e.Val!=null&&!string.IsNullOrEmpty(e.Val.ToString()));
                 var flag = false;
                 switch (field.Type)
                 {
                     case ExcelType.Double:
-                        var a = excels.Sum(e => (double)e.Val);
-                        var b = access.Sum(e => (double)e.Val);
+                        var a = excels.Sum(e => double.Parse(e.Val.ToString()));
+                        var b = access.Sum(e => double.Parse(e.Val.ToString()));
                         flag = Math.Abs(a - b) > 0.001;
                         break;
                     case ExcelType.Int:
-                        var m = excels.Sum(e => (int)e.Val);
-                        var n = access.Sum(e => (int)e.Val);
+                        var m = excels.Sum(e => int.Parse(e.Val.ToString()));
+                        var n = access.Sum(e => int.Parse(e.Val.ToString()));
                         flag = m != n;
                         break;
                 }

@@ -32,7 +32,7 @@ namespace LoowooTech.Stock.ArcGISTool
             var featurePath1 = string.Format("{0}/{1}", ParameterManager.MDBFilePath, className1);//XZQ_XZC
             var featurePath2 = string.Format("{0}/{1}", ParameterManager.MDBFilePath, className2);//DCDYTB
             var outfeatureClassName = string.Format("{0}_intersect", className1);
-            var outfeaturePath = string.Format("{0}/{1}", ParameterManager.MDBFilePath, outfeatureClassName);
+            var outfeaturePath = string.Format("{0}\\{1}", ParameterManager.MDBFilePath, outfeatureClassName);
             if (Cross(string.Format("{0};{1}", featurePath1, featurePath2), outfeaturePath))
             {
                 var outfeatureClass = ParameterManager.Workspace.GetFeatureClass(outfeatureClassName);
@@ -43,6 +43,9 @@ namespace LoowooTech.Stock.ArcGISTool
                 else
                 {
                     var list = RunXZQ(outfeatureClass);
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(outfeatureClass);
+                    DeleteFeatureClass2(outfeatureClassName);
+                    //DeleteFeatureClass(outfeaturePath);
                     QuestionManager.AddRange(list.Select(e => new Question { Code = "5101", Name = "行政区（空间）", TableName = className1, Description = e }).ToList());
                 }
             }
@@ -55,7 +58,8 @@ namespace LoowooTech.Stock.ArcGISTool
         {
             var featurePath = string.Format("{0}/{1}", ParameterManager.MDBFilePath, className);
             var outFeatureName = string.Format("{0}_intersect", className);
-            var intersectPath = string.Format("{0}/{1}", ParameterManager.MDBFilePath, outFeatureName);
+
+            var intersectPath = string.Format("{0}\\{1}", ParameterManager.MDBFilePath, outFeatureName);
             if (Cross(string.Format("{0};{1}", featurePath, featurePath), intersectPath))
             {
                 var intersectfeatureClass = ParameterManager.Workspace.GetFeatureClass(outFeatureName);
@@ -66,6 +70,9 @@ namespace LoowooTech.Stock.ArcGISTool
                 else
                 {
                     Run(intersectfeatureClass, className, "XZCMC", "TBBH");
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(intersectfeatureClass);
+                    DeleteFeatureClass2(outFeatureName);
+                    //DeleteFeatureClass(intersectPath);
                 }
             }
             else
@@ -75,13 +82,24 @@ namespace LoowooTech.Stock.ArcGISTool
         }
 
 
-
         private static bool DeleteFeatureClass(string in_feature)
         {
             Delete tool = new Delete();
             tool.in_data = in_feature;
             return Excute(tool);
 
+        }
+        private static void DeleteFeatureClass2(string className)
+        {
+            var featureClass = ParameterManager.Workspace.GetFeatureClass(className);
+            if (featureClass != null)
+            {
+                var dataset = featureClass as IDataset;
+                if (dataset != null)
+                {
+                    dataset.Delete();
+                }
+            }
         }
         private static bool Excute(IGPProcess tool)
         {

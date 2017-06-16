@@ -23,7 +23,7 @@ namespace LoowooTech.Stock.Tool
             get
             {
 
-                return string.Format("规则{0}：表‘{1}’中字段‘{2}’组成的值相互对应");
+                return string.Format("规则{0}：表‘{1}’中字段‘{2}’组成的值相互对应" ,ID,TableName,string.Join("、",Fields));
             }
         }
         public string Code { get; set; }

@@ -39,7 +39,7 @@ namespace LoowooTech.Stock.Tool
 
         public bool Check(OleDbConnection connection)
         {
-            var reader = ADOSQLHelper.ExecuteReader(connection, string.IsNullOrEmpty(WhereFieldName) ? string.Format("Select {0} from {1}", CheckFieldName, TableName) : string.Format("Select {0},{1} from {1}", CheckFieldName, WhereFieldName, TableName));
+            var reader = ADOSQLHelper.ExecuteReader(connection, string.IsNullOrEmpty(WhereFieldName) ? string.Format("Select {0} from {1}", CheckFieldName, TableName) : string.Format("Select {0},{1} from {2}", CheckFieldName, WhereFieldName, TableName));
             if (reader != null)
             {
                 var temp = new List<string>();

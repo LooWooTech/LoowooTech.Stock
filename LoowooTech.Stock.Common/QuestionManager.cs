@@ -100,6 +100,7 @@ namespace LoowooTech.Stock.Common
         private static void SaveCollect(ISheet sheet)
         {
             IRow row = null;
+            var temp = Questions.Where(e => !string.IsNullOrEmpty(e.Code));
             for(var i = 1; i <= sheet.LastRowNum; i++)
             {
                 row = sheet.GetRow(i);
@@ -115,7 +116,7 @@ namespace LoowooTech.Stock.Common
                     if (!string.IsNullOrEmpty(str) && str.Contains("{") && str.Contains("}"))
                     {
                         var key = str.Replace("{", "").Replace("}", "");
-                        var val = Questions.Where(e => e.Code.ToLower() == key.ToLower()).LongCount();
+                        var val = temp.Where(e => e.Code.ToLower() == key.ToLower()).LongCount();
                         cell.SetCellValue(val);
                     }
                 }

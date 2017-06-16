@@ -45,9 +45,9 @@ namespace LoowooTech.Stock.Rules
             #region  行政区（村级）要素基本属性结构表
             Tools.Add(new ValueCountTool() { TableName = "XZQ_XZC", ID = "06001" });
             Tools.Add(new ValueRangeTool() { TableName = "XZQ_XZC", CheckFieldName = "YSDM", Key = _key, Values = new string[] { "1000600100" }, ID = "06003" });
-            Tools.Add(new ValueMathTool() { TableName = "XZQ_XZC", CheckFieldName = "XZQDM", Key = _key, RegexString = "33[0-9]{10}", ID = "06004" });
-            Tools.Add(new ValueUniqueTool() { TableName = "XZQ_XZC", CheckFieldName = "XZQDM", ID = "06005", Code = "3301" });
-            Tools.Add(new ValueUniqueTool() { TableName = "XZQ_XZC", CheckFieldName = "XZQMC", ID = "06006", Code = "3301" });
+            Tools.Add(new ValueMathTool() { TableName = "XZQ_XZC", CheckFieldName = "XZCDM", Key = _key, RegexString = "33[0-9]{10}", ID = "06004" });
+            Tools.Add(new ValueUniqueTool() { TableName = "XZQ_XZC", CheckFieldName = "XZCDM", ID = "06005", Code = "3301" });
+            Tools.Add(new ValueUniqueTool() { TableName = "XZQ_XZC", CheckFieldName = "XZCMC", ID = "06006", Code = "3301" });
           
             #endregion
 
@@ -87,12 +87,12 @@ namespace LoowooTech.Stock.Rules
             Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "LYZT", Key = _key, Values = new string[] { "1", "2", "3" }, ID = "10009" });
             Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "KZYY", Key = _key, Values = new string[] { "1", "2", "3", "4", "5", "" }, ID = "10010" });
             Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "FQYY", Key = _key, Values = new string[] { "1", "2", "3", "4", "" }, ID = "10011" });
-            Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "KZYY", "FQYY", "QTYY" }, Key = _key, WhereCaluse = "LYZT='1'", Is_Nullable = true, ID = "10012" });//为空
+            Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "KZYY", "FQYY", "QTYY" }, Key = _key, WhereCaluse = "LYZT = '1'", Is_Nullable = true, ID = "10012" });//为空
             Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "KZYY" }, Key = _key, WhereCaluse = "LYZT='2'", Is_Nullable = false, ID = "10013" });
             Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "FQYY" }, Key = _key, WhereCaluse = "LYZT='2'", Is_Nullable = true, ID = "10014" });
-            Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "FQYY" }, Key = _key, WhereCaluse = "LJZT='3'", Is_Nullable = false, ID = "10015" });
-            Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "KZYY" }, Key = _key, WhereCaluse = "LJZT='3'", Is_Nullable = true, ID = "10016" });
-            Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "QTYY" }, Key = _key, WhereCaluse = "KZYY='5'||FQYY='4'", Is_Nullable = false, ID = "10017" });
+            Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "FQYY" }, Key = _key, WhereCaluse = "LYZT='3'", Is_Nullable = false, ID = "10015" });
+            Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "KZYY" }, Key = _key, WhereCaluse = "LYZT='3'", Is_Nullable = true, ID = "10016" });
+            Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "QTYY" }, Key = _key, WhereCaluse = "KZYY = '5' OR FQYY = '4'", Is_Nullable = false, ID = "10017" });
             Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "SFWFKD", Key = _key, Values = new string[] { "是", "否" }, WhereFields = new string[] { "XZCDM", "TBBH" }, Split = "/", WhereList = DCDYTBManager.List.Where(e => e.DCDYLX == "1").Select(e => string.Format("{0}/{1}", e.XZCDM, e.TBBH)).ToList(), ID = "10018" });
             #endregion
 
@@ -103,12 +103,12 @@ namespace LoowooTech.Stock.Rules
            
             Tools.Add(new ValueRangeTool() { TableName = "JYXJSYD", CheckFieldName = "JZLX", Key = _key, Values = new string[] { "1", "2", "3", "4" }, ID = "11007" });
             Tools.Add(new ValueRangeTool() { TableName = "JYXJSYD", CheckFieldName = "LYZT", Key = _key, Values = new string[] { "1", "2", "3" }, ID = "11008" });
-            Tools.Add(new ValueNullTool() { TableName = "JYXJSYD", CheckFields = new string[] { "TDYT", "NSSE", "CYRS" }, Key = _key, WhereCaluse = "LYZT='1'", ID = "11009", Is_Nullable = false });
+            Tools.Add(new ValueNullTool() { TableName = "JYXJSYD", CheckFields = new string[] { "TDYT", "NSSE", "JYRS" }, Key = _key, WhereCaluse = "LYZT='1'", ID = "11009", Is_Nullable = false });
             Tools.Add(new ValueNullTool() { TableName = "JYXJSYD", CheckFields = new string[] { "KZYY", "FQYY" }, Key = _key, WhereCaluse = "LYZT='1'", ID = "11010", Is_Nullable = true });
             Tools.Add(new ValueNullTool() { TableName = "JYXJSYD", CheckFields = new string[] { "KZYY" }, Key = _key, WhereCaluse = "LYZT='2'", ID = "11011", Is_Nullable = false });
-            Tools.Add(new ValueNullTool() { TableName = "JYXJSYD", CheckFields = new string[] { "FQYY", "TDYT", "NSSE", "CYRS" }, Key = _key, WhereCaluse = "LYZT='2'", ID = "11012", Is_Nullable = true });
+            Tools.Add(new ValueNullTool() { TableName = "JYXJSYD", CheckFields = new string[] { "FQYY", "TDYT", "NSSE", "JYRS" }, Key = _key, WhereCaluse = "LYZT='2'", ID = "11012", Is_Nullable = true });
             Tools.Add(new ValueNullTool() { TableName = "JYXJSYD", CheckFields = new string[] { "FQYY" }, Key = _key, WhereCaluse = "LYZT='3'", ID = "11013", Is_Nullable = false });
-            Tools.Add(new ValueNullTool() { TableName = "JYXJSYD", CheckFields = new string[] { "KZYY", "TDYT", "NSSE", "CYRS" }, Key = _key, WhereCaluse = "LYZT='3'", ID = "11014", Is_Nullable = true });
+            Tools.Add(new ValueNullTool() { TableName = "JYXJSYD", CheckFields = new string[] { "KZYY", "TDYT", "NSSE", "JYRS" }, Key = _key, WhereCaluse = "LYZT='3'", ID = "11014", Is_Nullable = true });
             #endregion
 
 

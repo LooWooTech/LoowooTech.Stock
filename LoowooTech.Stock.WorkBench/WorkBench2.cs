@@ -149,23 +149,29 @@ namespace LoowooTech.Stock.WorkBench
                         sb.Append(ex.ToString());
 
                     }
-                    OutputMessage(rule.ID, sb.ToString(), result);
+               
                     if (result != ProgressResultTypeEnum.Pass)
                     {
                         QuestionManager.Add(new Question { Code = rule.ID, Name = rule.RuleName, Description = sb.ToString() });
                     }
+                    if (OutputMessage(rule.ID, sb.ToString(), result) == true)
+                    {
+                        break;
+                    }
+                   
                 }
             }
             _reportPath = QuestionManager.Save(System.IO.Path.Combine(Folder, report), ParameterManager.District, ParameterManager.Code);
 
         }
-        private void OutputMessage(string code,string message,ProgressResultTypeEnum result)
+        private bool OutputMessage(string code,string message,ProgressResultTypeEnum result)
         {
-            OutputMessage(new ProgressEventArgs { Code = code, Message = message, Result = result });
+            return  OutputMessage(new ProgressEventArgs { Code = code, Message = message, Result = result });
         }
-        private void OutputMessage(ProgressEventArgs e)
+        private bool OutputMessage(ProgressEventArgs e)
         {
             OnProgramProcess(this, e);
+            return e.Cancel;
         }
     }
 }
