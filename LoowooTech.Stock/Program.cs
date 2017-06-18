@@ -29,6 +29,8 @@ namespace LoowooTech.Stock
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                var load = new LoadForm();
+                load.Show();
                 Application.Run(new MainForm());
             }
             catch (Exception ex)
@@ -110,5 +112,7 @@ namespace LoowooTech.Stock
                 sw.Close();
             }
         }
+
+      
     }
 }
