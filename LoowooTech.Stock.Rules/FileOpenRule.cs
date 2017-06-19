@@ -115,6 +115,17 @@ namespace LoowooTech.Stock.Rules
                         return false;
                     }
 
+                default:
+                    using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                    {
+                        if (fs.Length == 0)
+                        {
+                            return false;
+                        }
+                    }
+                    break;
+                   // return true;
+
             }
             return true;
         }

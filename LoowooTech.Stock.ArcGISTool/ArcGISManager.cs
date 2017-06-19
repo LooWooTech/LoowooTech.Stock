@@ -31,7 +31,7 @@ namespace LoowooTech.Stock.ArcGISTool
         {
             var featurePath1 = string.Format("{0}/{1}", ParameterManager.MDBFilePath, className1);//XZQ_XZC
             var featurePath2 = string.Format("{0}/{1}", ParameterManager.MDBFilePath, className2);//DCDYTB
-            var outfeatureClassName = string.Format("{0}_intersect", className1);
+            var outfeatureClassName = string.Format("{0}_loowootech", className1);
             var outfeaturePath = string.Format("{0}\\{1}", ParameterManager.MDBFilePath, outfeatureClassName);
             if (Cross(string.Format("{0};{1}", featurePath1, featurePath2), outfeaturePath))
             {
@@ -57,7 +57,7 @@ namespace LoowooTech.Stock.ArcGISTool
         public static void Topo(string className)
         {
             var featurePath = string.Format("{0}/{1}", ParameterManager.MDBFilePath, className);
-            var outFeatureName = string.Format("{0}_intersect", className);
+            var outFeatureName = string.Format("{0}_loowootech", className);
 
             var intersectPath = string.Format("{0}\\{1}", ParameterManager.MDBFilePath, outFeatureName);
             if (Cross(string.Format("{0};{1}", featurePath, featurePath), intersectPath))

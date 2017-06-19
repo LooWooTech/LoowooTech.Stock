@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using LoowooTech.Stock.Models;
+using NPOI.HSSF.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace LoowooTech.Stock.Common
 {
@@ -15,7 +17,17 @@ namespace LoowooTech.Stock.Common
             IWorkbook workbook = null;
             using(var fs=new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
             {
-                workbook = WorkbookFactory.Create(fs);
+                var ext = System.IO.Path.GetExtension(filePath);
+                switch (ext)
+                {
+                    case ".xls":
+                        workbook = new HSSFWorkbook(fs);
+                        break;
+                    case ".xlsx":
+                        workbook = new XSSFWorkbook(fs);
+                        break;
+                }
+                //workbook = WorkbookFactory.Create(fs);
             }
             return workbook;
         }

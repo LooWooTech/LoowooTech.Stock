@@ -108,21 +108,21 @@ namespace LoowooTech.Stock.Rules
 
         private ConcurrentBag<Question> _paralleQuestions { get; set; }
         public ConcurrentBag<Question> ParalleQuestions { get { return _paralleQuestions; } }
-        private Dictionary<XZC,List<ExcelField>> _dict { get; set; }
+        private Dictionary<string,List<FieldValue>> _dict { get; set; }
         /// <summary>
         /// 数据库 ——获取的统计值【正确值】
         /// </summary>
-        public Dictionary<XZC,List<ExcelField>> Dict { get { return _dict; } }
-        private List<ExcelField> _accessList { get; set; }
-        private Dictionary<XZC,List<ExcelField>> _excelDict { get; set; }
+        public Dictionary<string,List<FieldValue>> Dict { get { return _dict; } }
+        private List<FieldValue> _accessList { get; set; }
+        private Dictionary<string,List<FieldValue>> _excelDict { get; set; }
         /// <summary>
         /// excel-核对数值
         /// </summary>
-        public Dictionary<XZC,List<ExcelField>> ExcelDict { get { return _excelDict; } }
+        public Dictionary<string,List<FieldValue>> ExcelDict { get { return _excelDict; } }
         /// <summary>
         /// 获取到的Excel所有列表值
         /// </summary>
-        private List<ExcelField> _excelList { get; set; }
+        private List<FieldValue> _excelList { get; set; }
         
         private string _district { get; set; }
         /// <summary>
@@ -187,10 +187,10 @@ namespace LoowooTech.Stock.Rules
         public ExcelBase()
         {
             _paralleQuestions = new ConcurrentBag<Question>();
-            _dict = new Dictionary<XZC, List<ExcelField>>();
-            _excelDict = new Dictionary<XZC, List<ExcelField>>();
-            _excelList = new List<ExcelField>();
-            _accessList = new List<ExcelField>();
+            _dict = new Dictionary<string, List<FieldValue>>();
+            _excelDict = new Dictionary<string, List<FieldValue>>();
+            _excelList = new List<FieldValue>();
+            _accessList = new List<FieldValue>();
         }
         private List<ExcelField> GetFields()
         {
@@ -222,6 +222,10 @@ namespace LoowooTech.Stock.Rules
                         if (node.Attributes["View"] != null)
                         {
                             val.View = node.Attributes["View"].Value;
+                        }
+                        if (node.Attributes["WhereClause"] != null)
+                        {
+                            val.WhereClause = node.Attributes["WhereClause"].Value;
                         }
                         list.Add(val);
                     }
@@ -259,14 +263,14 @@ namespace LoowooTech.Stock.Rules
                                 if (heads[0] == DM && heads[1] == MC)
                                 {
                                     flag = true;
-                                 
+
                                     #region  验证每个表头名称
                                     //for (var j = 2; j < heads.Length; j++)
                                     //{
                                     //    info = heads[j];
                                     //    if (!string.IsNullOrEmpty(info))
                                     //    {
-                                    //        var field = Fields.FirstOrDefault(e => e.Index==j);
+                                    //        var field = Fields.FirstOrDefault(e => e.Index == j);
 
                                     //        if (field == null)
                                     //        {
@@ -320,28 +324,31 @@ namespace LoowooTech.Stock.Rules
             
         }
 
-        private List<ExcelField> GetValues(IRow row)
+        private List<FieldValue> GetValues(IRow row)
         {
-            var list = new List<ExcelField>();
+            var list = new List<FieldValue>();
             foreach(var field in Fields)
             {
-                //field.Value = string.Empty;
                 var cell = row.GetCell(field.Index);
+                var temp = new FieldValue
+                {
+                    Index = field.Index,
+                    Type = field.Type,
+                    Title = field.Title
+                };
                 switch (cell.CellType)
                 {
                     case CellType.Formula:
-                        field.Val = cell.NumericCellValue;
+                        temp.Val= cell.NumericCellValue;
                         break;
                     case CellType.Numeric:
-                        field.Val = cell.NumericCellValue;
-                        //field.Value = Math.Round(cell.NumericCellValue, 4).ToString();
+                        temp.Val= cell.NumericCellValue;
                         break;
                     default:
-
-                        field.Val = cell.ToString();
+                        temp.Val = cell.ToString();
                         break;
                 }
-                list.Add(field);
+                list.Add(temp);
             }
             return list;
         }
@@ -361,12 +368,12 @@ namespace LoowooTech.Stock.Rules
                 var xzc = GetXZC(row);
                 if (string.IsNullOrEmpty(xzc.XZCDM) && string.IsNullOrEmpty(xzc.XZCMC))
                 {
-                    break;
+                    continue;
                 }
                 if (xzc.XZCDM == SM || xzc.XZCMC == SM)//合计
                 {
-                    var totals = GetValues(row);
-                    CheckTotal(totals);//核对合计数值
+                    //var totals = GetValues(row);
+                    CheckTotal(row);//核对合计数值
 
                     break;
                 }
@@ -404,7 +411,7 @@ namespace LoowooTech.Stock.Rules
                 //读取其他字段的数据值
                 var values = GetValues(row);
 
-                if (_excelDict.ContainsKey(xzc))
+                if (_excelDict.ContainsKey(xzc.XZCDM))
                 {
                     info = string.Format("乡镇代码【{0}】乡镇名称【{1}】存在重复数据，请核对", xzc.XZCDM, xzc.XZCMC);
                     _paralleQuestions.Add(new Question
@@ -420,7 +427,7 @@ namespace LoowooTech.Stock.Rules
                 else
                 {
                     _excelList.AddRange(values);
-                    _excelDict.Add(xzc, values);
+                    _excelDict.Add(xzc.XZCDM, values);
                 }
             }
         }
@@ -428,17 +435,18 @@ namespace LoowooTech.Stock.Rules
         /// 作用：核对表格中的合计是否正确
         /// </summary>
         /// <param name="list"></param>
-        private void CheckTotal(List<ExcelField> list)
+        private void CheckTotal(IRow row)
         {
             var info = string.Empty;
+            var list = GetValues(row);
             foreach(var field in list)
             {
                 info = string.Empty;
-                var children = _excelList.Where(e => e.Index == field.Index);
+                var children = _excelList.Where(e => e.Index == field.Index&& e.Val != null && !string.IsNullOrEmpty(e.Val.ToString())).ToList();
                 switch (field.Type)
                 {
                     case ExcelType.Double:
-                        var a = children.Where(e=>e.Val!=null&&!string.IsNullOrEmpty(e.Val.ToString())).Sum(e => double.Parse(e.Val.ToString()));
+                        var a = children.Sum(e => double.Parse(e.Val.ToString()));
                         var b = .0;
                         if (field.Val != null&&!string.IsNullOrEmpty(field.Val.ToString()))
                         {
@@ -446,12 +454,12 @@ namespace LoowooTech.Stock.Rules
                         }
                         if (Math.Abs(b - a) > 0.0001)
                         {
-                            info = string.Format("表格合计中{0}的值与有效值合计容差率超过0.001,请核对!",field.Title);
+                            info = string.Format("表格合计中{0}的值【{1}】与有效值【{2}】合计容差率超过0.001,请核对!",field.Title,b,a);
                            
                         }
                         break;
                     case ExcelType.Int:
-                        var c = children.Where(e=>e.Val!=null&&!string.IsNullOrEmpty(e.Val.ToString())).Sum(e =>int.Parse(e.Val.ToString()));
+                        var c = children.Sum(e =>int.Parse(e.Val.ToString()));
                         var d = 0;
                         if (field.Val != null && !string.IsNullOrEmpty(field.Val.ToString()))
                         {
@@ -459,7 +467,7 @@ namespace LoowooTech.Stock.Rules
                         }
                         if (c != d)
                         {
-                            info = string.Format("表格合计中{0}的值与有效值合计不相等，请核对！", field.Title);
+                            info = string.Format("表格合计中{0}的值【{1}】与有效值【{2}】合计不相等，请核对！", field.Title,d,c);
                         }
                         break;
                 }
@@ -478,8 +486,9 @@ namespace LoowooTech.Stock.Rules
             }
         }
 
-        private ExcelField GainCommon(ExcelField field,string xzcdm,string xzcmc)
+        private FieldValue GainCommon(ExcelField field,string xzcdm,string xzcmc)
         {
+            
             var a = 0;
             var b = .0;
             var val = string.Empty;
@@ -498,6 +507,7 @@ namespace LoowooTech.Stock.Rules
                 sb.AppendFormat(" AND {0}", field.WhereClause);
             }
             var obj = ADOSQLHelper.ExecuteScalar(Connection, sb.ToString());
+          
             if (field.Type == ExcelType.Double)
             {
                 double.TryParse(obj.ToString(), out b);
@@ -519,22 +529,29 @@ namespace LoowooTech.Stock.Rules
                 int.TryParse(obj.ToString(), out a);
                 val = a.ToString();
             }
-            field.Val = val;
-            return field;
+            var result = new FieldValue
+            {
+                Index = field.Index,
+                Type = field.Type,
+                Title = field.Title,
+                Val=val
+            };
+            return result;
         }
 
         private void GainAccess()
         {
+
             foreach (var xzc in List)
             {
-                var result = new List<ExcelField>();
+                var result = new List<FieldValue>();
                 foreach (var field in Fields)
                 {
                     var val = GainCommon(field, xzc.XZCDM, xzc.XZCMC);
                     result.Add(val);
                 }
                 _accessList.AddRange(result);
-                _dict.Add(xzc, result);
+                _dict.Add(xzc.XZCDM, result);
             }
         }
 
@@ -564,14 +581,14 @@ namespace LoowooTech.Stock.Rules
             var i = MStartLine;
             var modelRow = sheet.GetRow(i);
             IRow row = null;
-            var list = new List<ExcelField>();
+            var list = new List<FieldValue>();
             sheet.ShiftRows(i+1, i+5, Dict.Count - 1);
             foreach(var entry in Dict)
             {
                 row = sheet.GetRow(i) ?? sheet.CreateRow(i);
                 var cell = ExcelClass.GetCell(row, 0, modelRow);
-                cell.SetCellValue(entry.Key.XZCDM);
-                ExcelClass.GetCell(row, 1, modelRow).SetCellValue(entry.Key.XZCMC);
+                //cell.SetCellValue(entry.Key.XZCDM);
+                //ExcelClass.GetCell(row, 1, modelRow).SetCellValue(entry.Key.XZCMC);
                 list.AddRange(entry.Value);
                 foreach(var field in entry.Value)
                 {
@@ -663,9 +680,15 @@ namespace LoowooTech.Stock.Rules
             foreach(var entry in Dict)
             {
                 var xzc = entry.Key;
+                var access = entry.Value;
+                if (!access.Any(e => e.Val != null && !string.IsNullOrEmpty(e.Val.ToString())))
+                {
+                    continue;
+                }
+
                 if (!ExcelDict.ContainsKey(xzc))
                 {
-                    info = string.Format("表格：{0}中不存在乡镇代码【{1}】乡镇名称【{2}】的汇总数据，请核对", ExcelName, xzc.XZCDM, xzc.XZCMC);
+                    info = string.Format("表格：{0}中不存在乡镇代码【{1}】的汇总数据，请核对", ExcelName, xzc);
                     _paralleQuestions.Add(new Question
                     {
                         Code = "6101",
@@ -676,14 +699,14 @@ namespace LoowooTech.Stock.Rules
                     });
                     continue;
                 }
-                var access = entry.Value;
+               
                 var excels = ExcelDict[xzc];
                 foreach (var value in access)
                 {
                     var excel = excels.FirstOrDefault(e => e.Index == value.Index);
                     if (excel == null)
                     {
-                        info = string.Format("检验乡镇代码【{0}】乡镇名称【{1}】对应{2}的统计值时，未在Excel表格中找到，请核对", xzc.XZCDM, xzc.XZCMC, value.Title);
+                        info = string.Format("检验乡镇代码【{0}]对应{1}的统计值时，未在Excel表格中找到，请核对", xzc, value.Title);
                         _paralleQuestions.Add(new Question
                         {
                             Code = "6101",
@@ -704,8 +727,8 @@ namespace LoowooTech.Stock.Rules
                             double.TryParse(excel.Val.ToString(), out b);
                             if (Math.Abs(a - b) > 0.001)
                             {
-                                info = string.Format("乡镇代码【{0}】乡镇名称【{1}】中{2}的值在数据库中合计值与表格中填写的值容差率超过0.0001,请核对", xzc.XZCDM, xzc.XZCMC,
-                                    value.Title);
+                                info = string.Format("乡镇代码【{0}】中{1}的值在数据库中合计值【{2}】与表格中填写的值【{3}】容差率超过0.0001,请核对", xzc,
+                                    value.Title,a,b);
                                 _paralleQuestions.Add(new Question
                                 {
                                     Code = "6102",
@@ -723,7 +746,7 @@ namespace LoowooTech.Stock.Rules
                             int.TryParse(excel.Val.ToString(), out m);
                             if (l != m)
                             {
-                                info = string.Format("乡镇代码【{0}】乡镇名称【{1}】中{2}的值在数据库中合计值【{3}】与表格中填写的值【{4}】不相等，请核对", xzc.XZCDM, xzc.XZCMC, (int)value.Val, (int)excel.Val);
+                                info = string.Format("乡镇代码【{0}】中{1}的值在数据库中合计值【{2}】与表格中填写的值【{3}】不相等，请核对", xzc,value.Title, l, m);
                                 _paralleQuestions.Add(new Question
                                 {
                                     Code = "6101",

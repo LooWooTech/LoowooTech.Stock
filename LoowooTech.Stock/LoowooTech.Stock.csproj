@@ -173,6 +173,8 @@
     <Content Include="FieldInfo.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\4601.png" />
+    <None Include="Resources\460.png" />
     <None Include="Resources\BingWallpaper-2017-06-06.jpg" />
     <None Include="report.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

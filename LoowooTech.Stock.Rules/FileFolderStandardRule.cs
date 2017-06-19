@@ -27,16 +27,16 @@ namespace LoowooTech.Stock.Rules
             QuestionManager.AddRange(resultComplete.Messages.Select(e => new Question { Code = ID, Name = RuleName, Project = CheckProject.目录及文件规范性, Description = e }).ToList());
             #endregion
             #region  各个文件夹下面的文件是否丢失 是否缺失
-            var tools = resultComplete.ExistPath.Select(e => new FileStandard
-            {
-                Folder = e,
-                Files = XmlManager.Get(string.Format("/Folder[@Name='{0}']/File", new DirectoryInfo(e).Name), "Name", XmlEnum.DataTree)
-            });
-            Parallel.ForEach(tools, tool =>
-            {
-                tool.Check();
-                QuestionManager.AddRange(tool.List.Select(e => new Question { Code = "1102", Name = RuleName, Project = CheckProject.目录及文件规范性, Description = e }).ToList());
-            });
+
+
+            var tool = new FileStandard { Files = ParameterManager.ChildrenFiles };
+            tool.Check();
+            QuestionManager.AddRange(tool.List.Select(e => new Question { Code = "1102", Name = RuleName, Project = CheckProject.目录及文件规范性, Description = e }).ToList());
+            //Parallel.ForEach(tools, tool =>
+            //{
+            //    tool.Check();
+            //    QuestionManager.AddRange(tool.List.Select(e => new Question { Code = "1102", Name = RuleName, Project = CheckProject.目录及文件规范性, Description = e }).ToList());
+            //});
             #endregion
         }
     }

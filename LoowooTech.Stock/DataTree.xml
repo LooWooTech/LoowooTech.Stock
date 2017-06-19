@@ -17,11 +17,11 @@
     <File Name="表1 {Name}({Code})农村存量建设用地总体情况汇总表.xls"></File>
     <File Name="表2 {Name}({Code})农村存量宅基地基本情况汇总表.xls"></File>
     <File Name="表3 {Name}({Code})农村存量经营性建设用地基本情况汇总表.xls"></File>
-    <File Name="表4 {Name}({Code})农村存量建设公共管理及公共服务设施用地基本情况汇总表.xls"></File>
-    <File Name="表5 {Name}({Code})农村其他存量建设用地基本情况汇总表.xls"></File>
+    <File Name="表4 {Name}({Code})农村存量公共管理及公共服务设施用地基本情况汇总表.xls"></File>
+    <File Name="表5 {Name}({Code})农村其它存量建设用地基本情况汇总表.xls"></File>
   </Folder>
   <Folder Name="4文档报告" Filter="*.doc">
     <File Name="{Name}({Code})农村存量建设用地调查工作报告.doc"></File>
-    <File Name="{Name}({Code})农村存量建设用地调查奇数报告.doc"></File>
+    <File Name="{Name}({Code})农村存量建设用地调查技术报告.doc"></File>
   </Folder>
 </Folders>

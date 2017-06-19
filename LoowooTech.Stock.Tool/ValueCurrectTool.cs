@@ -40,7 +40,8 @@ namespace LoowooTech.Stock.Tool
                     array = new string[Fields.Length];
                     for (var i = 0; i < Fields.Length; i++)
                     {
-                        array[i] = Fields[i].ToString();
+                        array[i] = reader[i] != null ? reader[i].ToString() : string.Empty;
+                        //array[i] = Fields[i].ToString();
                     }
                     var val = string.Join(Split, array);
                     if (!Values.Contains(val))

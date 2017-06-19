@@ -30,7 +30,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -38,11 +38,11 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(42, 70);
+            this.label1.Location = new System.Drawing.Point(27, 81);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(369, 28);
+            this.label1.Size = new System.Drawing.Size(411, 28);
             this.label1.TabIndex = 0;
-            this.label1.Text = "浙江省农村存量建设用地数据成果质检";
+            this.label1.Text = "浙江省农村存量建设用地调查数据成果质检";
             // 
             // label2
             // 
@@ -55,25 +55,29 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "杭州陆吾科技信息咨询有限公司";
             // 
-            // progressBar1
+            // label3
             // 
-            this.progressBar1.Location = new System.Drawing.Point(1, 217);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(464, 10);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.progressBar1.TabIndex = 2;
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label3.Location = new System.Drawing.Point(340, 138);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(98, 14);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "版本号：V 1.0";
             // 
             // LoadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::LoowooTech.Stock.Properties.Resources.BingWallpaper_2017_06_06;
-            this.ClientSize = new System.Drawing.Size(463, 295);
-            this.Controls.Add(this.progressBar1);
+            this.BackgroundImage = global::LoowooTech.Stock.Properties.Resources._4601;
+            this.ClientSize = new System.Drawing.Size(460, 290);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "LoadForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Tag = "";
             this.Text = "LoadForm";
@@ -87,6 +91,6 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label label3;
     }
 }

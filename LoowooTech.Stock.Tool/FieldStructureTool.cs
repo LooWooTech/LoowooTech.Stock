@@ -65,8 +65,12 @@ namespace LoowooTech.Stock.Tool
                     if (dict.ContainsKey(field.Name))
                     {
                         var currentfield = dict[field.Name];
+                        if (currentfield.Type == FieldType.NChar)
+                        {
+                            currentfield.Type = FieldType.Char;
+                        }
                         
-                        if (field != dict[field.Name])
+                        if (field != currentfield)
                         {
                             
                             str = string.Format("字段{0}与要求的类型或者长度不符", field.Name);

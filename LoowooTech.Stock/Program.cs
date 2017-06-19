@@ -31,7 +31,10 @@ namespace LoowooTech.Stock
                 Application.SetCompatibleTextRenderingDefault(false);
                 var load = new LoadForm();
                 load.Show();
-                Application.Run(new MainForm());
+                System.Windows.Forms.Application.DoEvents();
+                var form = new MainForm();
+                load.Close();
+                Application.Run(form);
             }
             catch (Exception ex)
             {

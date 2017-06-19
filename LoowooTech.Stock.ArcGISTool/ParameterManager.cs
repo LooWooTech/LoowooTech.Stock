@@ -74,6 +74,50 @@ namespace LoowooTech.Stock.ArcGISTool
         /// </summary>
         public static List<string> ChildrenFolder { get { return _childrenFolder == null ? _childrenFolder = GetChildFolder() : _childrenFolder; } }
 
+        private static List<string> _childrenFiles { get; set; }
+        
+        public static List<string> ChildrenFiles { get { return _childrenFiles == null ? _childrenFiles = GetChildrenFiles() : _childrenFiles; } }
+
+        private static List<string> GetChildrenFiles()
+        {
+            var list = new List<string>();
+            var nodes = XmlManager.GetList("/Folders/Folder", XmlEnum.DataTree);
+            if (nodes != null && nodes.Count > 0)
+            {
+                for(var i = 0; i < nodes.Count; i++)
+                {
+                    var node = nodes[i];
+                    list.AddRange(GetChildrenFiles(node, Folder));
+                }
+            }
+            return list;
+        }
+        
+        private static List<string> GetChildrenFiles(XmlNode node,string path)
+        {
+            var list = new List<string>();
+            var name = System.IO.Path.Combine(path, node.Attributes["Name"].Value);
+            var nodes = node.SelectNodes("File");
+            if (nodes != null && nodes.Count > 0)
+            {
+                for(var i = 0; i < nodes.Count; i++)
+                {
+                    var no = nodes[i];
+                    var a = no.Attributes["Name"].Value;
+                    list.Add(System.IO.Path.Combine(name, a));
+                }
+            }
+            nodes = node.SelectNodes("Folder");
+            if (nodes != null && nodes.Count > 0)
+            {
+                for(var i = 0; i < nodes.Count; i++)
+                {
+                    list.AddRange(GetChildrenFiles(nodes[i], name));
+                }
+            }
+            return list;
+        }
+
         private static List<string> GetChildFolder()
         {
             var list = new List<string>();

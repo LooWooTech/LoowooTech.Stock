@@ -19,8 +19,8 @@ namespace LoowooTech.Stock.Common
         /// 行政村
         /// </summary>
         public static List<XZC> XZC { get { return _XZC == null ? _XZC = List.Where(e => e.XZCDM.Length == 12).ToList() : _XZC; } }
-        private static Dictionary<XZC,List<XZC>> _dict { get; set; }
-        public static Dictionary<XZC,List<XZC>> Dict { get { return _dict == null ? _dict = TransformDict() : _dict; } }
+        //private static Dictionary<XZC,List<XZC>> _dict { get; set; }
+        //public static Dictionary<XZC,List<XZC>> Dict { get { return _dict == null ? _dict = TransformDict() : _dict; } }
         private static List<XZDC> _XZDC { get; set; }
         public static List<XZDC> XZDC { get { return _XZDC == null ? _XZDC = TransformList() : _XZDC; } }
         public static void Init(string filePath)

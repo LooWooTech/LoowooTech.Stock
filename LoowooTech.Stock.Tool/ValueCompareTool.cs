@@ -14,7 +14,7 @@ namespace LoowooTech.Stock.Tool
         {
             get
             {
-                return  string.Format("规则{0}：表‘{1}’中字段‘{2}’值{3}字段‘{4}’值", ID, TableName, string.Format(",",FieldArray1), Compare.GetDescription(), string.Join(",", FieldArray2)); 
+                return  string.Format("规则{0}：表‘{1}’中字段‘{2}’值{3}字段‘{4}’值", ID, TableName, string.Join(",",FieldArray1), Compare.GetDescription(), string.Join(",", FieldArray2)); 
             }
         }
         public string Key { get; set; }
@@ -36,6 +36,7 @@ namespace LoowooTech.Stock.Tool
                     var str = reader[0].ToString().Trim();
                     for(var i = 0; i < FieldArray1.Length; i++)
                     {
+                        a = .0;
                         if(double.TryParse(reader[i+1].ToString(),out a))
                         {
                             val1 += a;
@@ -43,6 +44,7 @@ namespace LoowooTech.Stock.Tool
                     }
                     for(var i = 0; i < FieldArray2.Length; i++)
                     {
+                        a = .0;
                         if (double.TryParse(reader[i+1+FieldArray1.Length].ToString(),out a))
                         {
                             val2 += a;
@@ -67,7 +69,7 @@ namespace LoowooTech.Stock.Tool
                             flag = val1 <= val2;
                             break;
                     }
-                    if (flag)
+                    if (!flag)
                     {
                         info = string.Format("{0}对应的不符合{1}", str, Name);
                         Messages.Add(info);

@@ -163,7 +163,7 @@
     <Field  Name="JZMJ" Title="调查单元类型-撤并型-建筑总面积" WhereClause="DCDYTB.DCDYLX='1'" Type="double" Compute="Sum" Unit="平方米" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="8"></Field>
     <Field  Name="" Title="调查单元类型-保留型-户数" WhereClause="DCDYTB.DCDYLX='2'" Type="int" Compute="Count" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="9"></Field>
     <Field  Name="JTRK" Title="调查单元类型-保留型-人口数" WhereClause="DCDYTB.DCDYLX='2'" Type="int" Compute="Sum" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="10"></Field>
-    <Field  Name="JZMJ" Title="调查单元类型-保留型-建筑总面积" WhereClause="DDCDYTB.CDYLX='2'" Type="double" Compute="Sum" Unit="平方米" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="11"></Field>
+    <Field  Name="JZMJ" Title="调查单元类型-保留型-建筑总面积" WhereClause="DCDYTB.DCDYLX='2'" Type="double" Compute="Sum" Unit="平方米" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="11"></Field>
     <Field  Name="" Title="调查单元类型-集聚型-户数" WhereClause="DCDYTB.DCDYLX='3'" Type="int" Compute="Count" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="12"></Field>
     <Field  Name="JTRK" Title="调查单元类型-集聚型-人口数" WhereClause="DCDYTB.DCDYLX='3'" Type="int" Compute="Sum" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="13"></Field>
     <Field  Name="JZMJ" Title="调查单元类型-集聚型-建筑总面积" WhereClause="DCDYTB.DCDYLX='3'" Type="double" Compute="Sum" Unit="平方米" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" Index="14"></Field>
@@ -252,7 +252,7 @@
     <Rule ID="4201" Title="面层是否存在不符合上图要求的碎片多边形" Class="SplinterRule" Name="LoowooTech.Stock.Rules"></Rule>
     <Rule ID="4301" Title="面层单个图斑要素的空间不连续" Class="ContinuousRule" Name="LoowooTech.Stock.Rules"></Rule>
     <Rule ID="5101" Title="图层内属性一致性" Class="TBBHRule" Name="LoowooTech.Stock.Rules"></Rule>
-    <Rule ID="6101" Title="汇总表的记录条数的缺失，多余，检查汇总表记录中病毒属性值与数据库图层属性值是否完全一致" Class="ExcelValueLogicRule" Name="LoowooTech.Stock.Rules"></Rule>
+    <Rule ID="6101" Title="汇总表的记录条数的缺失，多余，检查汇总表记录中的属性值与数据库图层属性值是否完全一致" Class="ExcelValueLogicRule" Name="LoowooTech.Stock.Rules"></Rule>
     <Rule ID="6201" Title="表格数据中，各级汇总面积和数据库汇总面积的一致性" Class="ExcelValueCollectRule" Name="LoowooTech.Stock.Rules"></Rule>
   </Rules>
 </Tables>
