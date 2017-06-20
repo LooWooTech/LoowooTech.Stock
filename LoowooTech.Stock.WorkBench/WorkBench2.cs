@@ -17,6 +17,7 @@ namespace LoowooTech.Stock.WorkBench
         protected const string DataBase = "1空间数据库";
         protected const string Collect = "3统计报告";
         protected const string Title = "农村存量建设用地调查数据成果";
+        protected const string _name = "{0}({1})农村存量建设用地调查数据成果质检结果";
 
         private string _folder { get; set; }
         /// <summary>
@@ -65,7 +66,7 @@ namespace LoowooTech.Stock.WorkBench
         
         private string _reportPath { get; set; }
         
-        public string ReportPath { get { return _reportPath; } }
+        public string ReportPath { get { return string.IsNullOrEmpty(_reportPath)? Path.Combine(Folder, report, string.Format(_name+".xls", ParameterManager.District, ParameterManager.Code)):_reportPath; } }
 
         public event ProgramProgressHandler OnProgramProcess;
 
@@ -107,7 +108,7 @@ namespace LoowooTech.Stock.WorkBench
             ExcelManager.Init(ParameterManager.CodeFilePath);//初始化单位代码信息列表
             if (ExcelManager.List.Count == 0)
             {
-                //QuestionManager.Add(new Question { Code = "00", TableName = "单位代码表", Description = "未获取单位代码表中的相关数据信息" });
+                QuestionManager.Add(new Question { Code = "00", TableName = "单位代码表", Description = "未获取单位代码表中的相关数据信息" });
                 OutputMessage("00", "未获取单位代码表中的相关数据信息", ProgressResultTypeEnum.Fail);
             }
             else
@@ -116,10 +117,12 @@ namespace LoowooTech.Stock.WorkBench
             }
             if (ExcelManager.XZQ.Count == 0)
             {
+                QuestionManager.Add(new Question { Code = "00", TableName = "单位代码表", Description = "读取到的单位代码表中未填写行政区（乡镇）代码信息" });
                 OutputMessage("00", "读取到的单位代码表中未填写行政区（乡镇）代码信息", ProgressResultTypeEnum.Fail);
             }
             if (ExcelManager.XZC.Count == 0)
             {
+                QuestionManager.Add(new Question { Code = "00", TableName = "单位代码表", Description = "读取到的单位代码表中未填写行政区（村级）代码信息" });
                 OutputMessage("00", "读取到的单位代码表中未填写行政区（村级）代码信息", ProgressResultTypeEnum.Fail);
             }
             
@@ -178,7 +181,7 @@ namespace LoowooTech.Stock.WorkBench
                    
                 }
             }
-            _reportPath = QuestionManager.Save(System.IO.Path.Combine(Folder, report), ParameterManager.District, ParameterManager.Code);
+            _reportPath = QuestionManager.Save(ReportPath);
 
         }
         private bool OutputMessage(string code,string message,ProgressResultTypeEnum result)

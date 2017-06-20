@@ -120,10 +120,10 @@ namespace LoowooTech.Stock.Common
                         AddMessage(str);
                     }
                 }
-                else
-                {
-                    QuestionManager.Add(new Question { Code = "3401", Name = "面积一致性", Project = CheckProject.面积一致性, TableName = "DCDYTB", BSM = item.TBBH, Description = string.Format("未查询到{0}对应的面积信息记录", key) });
-                }
+                //else
+                //{
+                //    QuestionManager.Add(new Question { Code = "3401", Name = "面积一致性", Project = CheckProject.面积一致性, TableName = "DCDYTB", BSM = item.TBBH, Description = string.Format("未查询到{0}对应的面积信息记录", key) });
+                //}
                
                 
               

@@ -46,7 +46,6 @@
     <Field Name="LRRK" Title="流入人口" Length="4" Type="Int"></Field>
     <Field Name="LCRK" Title="流出人口" Length="4" Type="Int"></Field>
     <Field Name="JTJYXQYGS" Title="集体经营性企业个数" Length="4" Type="Int"></Field>
-   
   </Table>
   <Table Name="CLZJD" Class="LoowooTech.Stock.Rules" Title="存量宅基地要素基本属性结构表" IsSpace="false" Topo="fasle">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>

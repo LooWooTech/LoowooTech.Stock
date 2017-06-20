@@ -12,7 +12,7 @@ namespace LoowooTech.Stock.Common
 {
     public static class QuestionManager
     {
-        private static string _name = "{0}({1})农村存量建设用地调查数据成果质检结果";
+        
 
         private static readonly object _syncRoot = new object();
 
@@ -57,7 +57,7 @@ namespace LoowooTech.Stock.Common
                 return _modelFile;
             }
         }
-        public static string Save(string folder,string district,string code)
+        public static string Save(string filePath)
         {
             var info = string.Empty;
             if (string.IsNullOrEmpty(ModelFile)||!System.IO.File.Exists(ModelFile))
@@ -80,11 +80,11 @@ namespace LoowooTech.Stock.Common
             SaveCollect(sheet1);
             SaveList(sheet2);
             SaveInfo(sheet3, LogManager.List);
+            var folder = System.IO.Path.GetDirectoryName(filePath);
             if (!System.IO.Directory.Exists(folder))
             {
                 System.IO.Directory.CreateDirectory(folder);
             }
-            var filePath = System.IO.Path.Combine(folder, string.Format(_name + ".xls", district, code));
             using (var fs=new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 workbook.Write(fs);

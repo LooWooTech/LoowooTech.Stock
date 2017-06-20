@@ -20,6 +20,8 @@ namespace LoowooTech.Stock.Rules
         string Code { get; set; }
         string District { get; set; }
         string Folder { get; set; }
+        string SaveFolder { get; set; }
         void Check();
+        void Write();
     }
 }

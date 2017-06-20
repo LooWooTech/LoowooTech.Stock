@@ -82,6 +82,7 @@
     <Compile Include="ExcelThree.cs" />
     <Compile Include="ExcelTwo.cs" />
     <Compile Include="ExcelValueCollectRule.cs" />
+    <Compile Include="ExcelValueCreateRule.cs" />
     <Compile Include="ExcelValueLogicRule.cs" />
     <Compile Include="FileFolderStandardRule.cs" />
     <Compile Include="FileOpenRule.cs" />

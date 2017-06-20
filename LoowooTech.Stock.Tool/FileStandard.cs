@@ -18,10 +18,19 @@ namespace LoowooTech.Stock.Tool
         public ConcurrentBag<string> List { get { return _list == null ? _list = new ConcurrentBag<string>() : _list; } }
         private void Check(string filePath)
         {
-            if (!System.IO.File.Exists(filePath)&&!System.IO.File.Exists(filePath.Replace("(","（").Replace(")","）")))
+            //var array = new string[] { filePath, filePath.Replace("(", "（").Replace(")", "）") };
+            //foreach(var item in array)
+            //{
+            //    if (System.IO.File.Exists(item))
+            //    {
+            //        return;
+            //    }
+            //}
+            if (!System.IO.File.Exists(filePath))
             {
-                List.Add(string.Format("文件：{0}不存在,请核对",filePath));
+                List.Add(string.Format(@"文件：{0}不存在,请去除多余的空格，并注意全角\半角符号符合规范", filePath));
             }
+          
         }
         public void Check()
         {
@@ -30,7 +39,7 @@ namespace LoowooTech.Stock.Tool
                 var str = file;
                 if (file.Contains("{n}"))
                 {
-                    foreach(var xzc in ExcelManager.XZC)
+                    foreach(var xzc in ExcelManager.XZQ)
                     {
                         str = file;
                         var fullPath = str.Replace("{n}","").Replace("{Name}", xzc.XZCMC).Replace("{Code}", xzc.XZCDM);

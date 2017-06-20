@@ -587,8 +587,13 @@ namespace LoowooTech.Stock.Rules
             {
                 row = sheet.GetRow(i) ?? sheet.CreateRow(i);
                 var cell = ExcelClass.GetCell(row, 0, modelRow);
-                //cell.SetCellValue(entry.Key.XZCDM);
-                //ExcelClass.GetCell(row, 1, modelRow).SetCellValue(entry.Key.XZCMC);
+                cell.SetCellValue(entry.Key);
+                var item = ExcelManager.XZQ.FirstOrDefault(e => e.XZCDM == entry.Key);
+                if (item != null)
+                {
+                    ExcelClass.GetCell(row, 1, modelRow).SetCellValue(item.XZCMC);
+                }
+
                 list.AddRange(entry.Value);
                 foreach(var field in entry.Value)
                 {
@@ -624,6 +629,23 @@ namespace LoowooTech.Stock.Rules
                 workbook.Write(fs);
             }
 
+        }
+
+        public void Write()
+        {
+            var info = string.Empty;
+            if (Fields.Count == 0)
+            {
+                info = string.Format("配置文件FieldInfo.xml未读取{0}的节点信息，无法进行统计数据的核对！", ExcelName);
+                Console.WriteLine(info);
+                _paralleQuestions.Add(new Question { Code = "6101", Name = Name, TableName = ExcelName, Description = info });
+            }
+            else
+            {
+                _dict.Clear();
+                GainAccess();
+                WriteAccess();
+            }
         }
         public virtual void Check()
         {

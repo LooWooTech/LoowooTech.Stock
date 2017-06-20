@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LoowooTech.Stock</RootNamespace>
-    <AssemblyName>LoowooTech.Stock</AssemblyName>
+    <AssemblyName>农村存量质检</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,6 +36,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>LoowooTech.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>1497449777_checklist_pencil-b.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ESRI.ArcGIS.AxControls, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
@@ -141,6 +144,11 @@
     <None Include="Coordinate Systems\Projected Coordinate Systems\Gauss Kruger\Xian 1980\Xian 1980 3 Degree GK Zone 40.prj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Excels\ExcelFive.xls" />
+    <None Include="Excels\ExcelFour.xls" />
+    <None Include="Excels\ExcelOne.xls" />
+    <None Include="Excels\ExcelThree.xls" />
+    <None Include="Excels\ExcelTwo.xls" />
     <None Include="LoowooTech.pfx" />
     <None Include="Map.mxd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -156,6 +164,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="1497449777_checklist_pencil-b.ico" />
     <Content Include="3rd\System.Windows.Forms.Ribbon35.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
