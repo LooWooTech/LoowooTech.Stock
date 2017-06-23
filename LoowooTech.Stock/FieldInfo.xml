@@ -92,7 +92,7 @@
     <Field Name="LYZT" Title="利用状态" Length="2" Type="Char"></Field>
     <Field Name="TDYT" Title="土地用途" Length="100" Type="Char"></Field>
     <Field Name="NSSE" Title="年税收额" Length="15" Type="Float"></Field>
-    <Field Name="JYRS" Title="就业人数" Length="2" Type="Int"></Field>
+    <Field Name="JYRS" Title="就业人数" Length="2" Type="Int" Min="2"></Field>
     <Field Name="KZYY" Title="空置原因" Length="200" Type="Char"></Field>
     <Field Name="FQYY" Title="废弃原因" Length="200" Type="Char"></Field>
     <Field Name="YJJYQ" Title="权利人对宗地入市流转意愿及政策要求" Length="200" Type="Char"></Field>
@@ -113,7 +113,7 @@
     <Field Name="JZSJ" Title="建造时间" Length="8" Type="Date"></Field>
     <Field Name="LYZT" Title="利用状态" Length="2" Type="Char"></Field>
     <Field Name="TDYT" Title="土地用途" Length="100" Type="Char"></Field>
-    <Field Name="FWRS" Title="服务人数" Length="2" Type="Int"></Field>
+    <Field Name="FWRS" Title="服务人数" Length="2" Type="Int" Min="2"></Field>
     <Field Name="SYMJ" Title="使用面积" Length="15" Type="Float"></Field>
     <Field Name="KZYY" Title="空置原因" Length="200" Type="Char"></Field>
     <Field Name="FQYY" Title="废弃原因" Length="200" Type="Char"></Field>

@@ -12,7 +12,7 @@ namespace LoowooTech.Stock.Common
 {
     public static class QuestionManager
     {
-        
+        private static int MAXNUMBER = 65534;
 
         private static readonly object _syncRoot = new object();
 
@@ -77,9 +77,11 @@ namespace LoowooTech.Stock.Common
             var sheet1 = workbook.GetSheetAt(0);
             var sheet2 = workbook.GetSheetAt(1);
             var sheet3 = workbook.GetSheetAt(2);
+            var sheet4 = workbook.GetSheetAt(3);
             SaveCollect(sheet1);
             SaveList(sheet2);
             SaveInfo(sheet3, LogManager.List);
+            SaveSQLError(sheet4);
             var folder = System.IO.Path.GetDirectoryName(filePath);
             if (!System.IO.Directory.Exists(folder))
             {
@@ -90,6 +92,27 @@ namespace LoowooTech.Stock.Common
                 workbook.Write(fs);
             }
             return filePath;
+        }
+
+        private static void SaveSQLError(ISheet sheet)
+        {
+            var list = Questions.Where(e => e.Project == CheckProject.数据库查询).OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
+            var i = 1;
+            IRow row = null;
+            var modelrow = sheet.GetRow(i);
+            foreach (var item in list.Take(MAXNUMBER))
+            {
+                row = sheet.GetRow(i) ?? sheet.CreateRow(i);
+                var cell = ExcelClass.GetCell(row, 0, modelrow);
+                cell.SetCellValue(i++);
+                ExcelClass.GetCell(row, 1, modelrow).SetCellValue(item.Description);
+                ExcelClass.GetCell(row, 2, modelrow).SetCellValue(item.Code);
+            }
+            if (list.Count > MAXNUMBER)
+            {
+                row = sheet.GetRow(MAXNUMBER + 1) ?? sheet.CreateRow(MAXNUMBER + 1);
+                ExcelClass.GetCell(row, 0, modelrow).SetCellValue(string.Format("错误列表超过{0}，超过部分不再显示", MAXNUMBER));
+            }
         }
 
         /// <summary>
@@ -129,11 +152,11 @@ namespace LoowooTech.Stock.Common
         /// <param name="concurrentBag"></param>
         private static void SaveList(ISheet sheet)
         {
-            var list = Questions.OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
+            var list = Questions.Where(e=> e.Project != CheckProject.数据库查询).OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
             var i = 1;
             IRow row = null;
             var modelrow = sheet.GetRow(i);
-            foreach (var item in list)
+            foreach (var item in list.Take(MAXNUMBER))
             {
                 row = sheet.GetRow(i) ?? sheet.CreateRow(i);
                 var cell = ExcelClass.GetCell(row, 0, modelrow);
@@ -144,6 +167,11 @@ namespace LoowooTech.Stock.Common
                 ExcelClass.GetCell(row, 4, modelrow).SetCellValue(item.BSM);
                 ExcelClass.GetCell(row, 5, modelrow).SetCellValue(item.Description);
                 ExcelClass.GetCell(row, 6, modelrow).SetCellValue(item.Project.ToString());
+            }
+            if (list.Count > MAXNUMBER)
+            {
+                row = sheet.GetRow(MAXNUMBER + 1) ?? sheet.CreateRow(MAXNUMBER + 1);
+                ExcelClass.GetCell(row, 0, modelrow).SetCellValue(string.Format("错误列表超过{0}，超过部分不再显示", MAXNUMBER));
             }
         }
         /// <summary>
@@ -156,12 +184,18 @@ namespace LoowooTech.Stock.Common
             var i = 1;
             IRow row = null;
             var modelrow = sheet.GetRow(1);
-            foreach(var item in list)
+            foreach(var item in list.Take(MAXNUMBER))
             {
                 row = sheet.GetRow(i) ?? sheet.CreateRow(i);
                 var cell = ExcelClass.GetCell(row, 0, modelrow);
                 cell.SetCellValue(i++);
                 ExcelClass.GetCell(row, 1, modelrow).SetCellValue(item);
+            }
+
+            if (list.Count > MAXNUMBER)
+            {
+                row = sheet.GetRow(MAXNUMBER + 1) ?? sheet.CreateRow(MAXNUMBER + 1);
+                ExcelClass.GetCell(row, 0, modelrow).SetCellValue(string.Format("错误列表超过{0}，超过部分不再显示", MAXNUMBER));
             }
         }
 
