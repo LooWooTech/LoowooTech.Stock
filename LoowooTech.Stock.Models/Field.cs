@@ -30,6 +30,7 @@ namespace LoowooTech.Stock.Models
         }
         public static bool operator ==(Field a,Field b)
         {
+            
             return a.Type == b.Type && a.Name == b.Name && (a.Min.HasValue ? b.Length >= a.Min.Value : (b.Min.HasValue ? a.Length >= b.Min.Value : a.Length == b.Length));
         }
 

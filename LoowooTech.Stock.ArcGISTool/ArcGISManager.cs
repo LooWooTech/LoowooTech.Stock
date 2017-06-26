@@ -169,6 +169,13 @@ namespace LoowooTech.Stock.ArcGISTool
             return list;
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="featureClass">intersectfeatureClass</param>
+        /// <param name="fidName">DCDYTB</param>
+        /// <param name="titleName1">XZCMC</param>
+        /// <param name="titleName2">TBBH</param>
         private static void Run(IFeatureClass featureClass, string fidName, string titleName1, string titleName2)
         {
             var fid1 = featureClass.Fields.FindField(string.Format("FID_{0}", fidName));
@@ -193,8 +200,17 @@ namespace LoowooTech.Stock.ArcGISTool
                     if (valOne.ToString() != valTwo.ToString())//存在不相等，则表示存在相交
                     {
                         var val = feature.get_Value(title11).ToString();
-                        var str1 = string.Format("{0}:【{1}】--{2}：【{3}】存在图斑相交", titleName1, val, titleName2, feature.get_Value(title21));
-                        QuestionManager.Add(new Question { Code = "4101", Name = "拓扑关系", Project = CheckProject.拓扑关系, TableName = fidName, BSM = val, Description = str1 });
+                        var tbbh = feature.get_Value(title21);
+                        var str1 = string.Format("{0}:【{1}】--{2}：【{3}】存在图斑相交", titleName1, val, titleName2,tbbh );
+                        QuestionManager.Add(new Question {
+                            Code = "4101",
+                            Name = "拓扑关系",
+                            Project = CheckProject.拓扑关系,
+                            TableName = fidName,
+                            BSM = val,
+                            Description = str1,
+                            WhereClause=string.Format("[{0}] = '{1}' AND [{2}] = '{3}'",titleName1,val,titleName2,tbbh)
+                        });
                     }
                 }
                 catch (Exception ex)

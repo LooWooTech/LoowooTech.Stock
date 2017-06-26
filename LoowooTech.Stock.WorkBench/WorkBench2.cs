@@ -47,9 +47,9 @@ namespace LoowooTech.Stock.WorkBench
         private bool SearchFile()
         {
             var path = System.IO.Path.Combine(Folder, DataBase);
-            var codeFileTool = new FileTool() { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)单位代码表.xls$" };
+            var codeFileTool = new FileTool() { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)单位代码表.xls$" };
             ParameterManager.CodeFilePath = codeFileTool.GetFile();
-            var mdbfileTool = new FileTool() { Folder = path, Filter = "*.mdb", RegexString = @"^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量建设用地调查成果空间数据库.mdb$" };
+            var mdbfileTool = new FileTool() { Folder = path, Filter = "*.mdb", RegexString = @"^[\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地调查成果空间数据库.mdb$" };
             ParameterManager.MDBFilePath = mdbfileTool.GetFile();
 
             return !string.IsNullOrEmpty(ParameterManager.CodeFilePath) 

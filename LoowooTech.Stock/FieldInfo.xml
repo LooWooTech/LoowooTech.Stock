@@ -53,22 +53,22 @@
     <Field Name="XZCDM" Title="行政村代码" Length="12" Type="Char"></Field>
     <Field Name="XZCMC" Title="行政村名称" Length="100" Type="Char"></Field>
     <Field Name="DCBH" Title="调查编号" Length="4" Type="Int"></Field>
-    <Field Name="TBBH" Title="图斑编号" Length="8" Type="Char"></Field>
+    <Field Name="TBBH" Title="图斑编号" Length="4" Type="Char"></Field>
     <Field Name="ZDH" Title="宗地号" Length="50" Type="Char"></Field>
-    <Field Name="HZ" Title="户主" Length="100" Type="Char"></Field>
+    <Field Name="HZ" Title="户主" Length="200" Type="Char"></Field>
     <Field Name="JZZDMJ" Title="建筑占地面积" Length="15" Type="Float"></Field>
     <Field Name="FSYDMJ" Title="附属用地面积" Length="15" Type="Float"></Field>
     <Field Name="JZMJ" Title="建筑面积" Length="15" Type="Float"></Field>
     <Field Name="JZCS" Title="建筑层数" Length="2" Type="Int"></Field>
     <Field Name="JZLX" Title="建筑类型" Length="2" Type="Char"></Field>
     <Field Name="JTRK" Title="家庭人口" Length="2" Type="Int"></Field>
-    <Field Name="JZSJ" Title="建造时间" Length="8" Type="Date"></Field>
-    <Field Name="SFWFKD" Title="是否为复垦点" Length="20" Type="Char"></Field>
-    <Field Name="FKDYJ" Title="复垦点依据" Length="20" Type="Char"></Field>
+    <Field Name="JZSJ" Title="建造时间" Length="4" Type="Char"></Field>
+    <Field Name="SFWFKD" Title="是否为复垦点" Length="2" Type="Char"></Field>
+    <Field Name="FKDYJ" Title="复垦点依据" Length="2" Type="Char"></Field>
     <Field Name="LYZT" Title="利用状态" Length="2" Type="Char"></Field>
     <Field Name="KZYY" Title="空置原因" Length="2" Type="Char"></Field>
     <Field Name="FQYY" Title="废弃原因" Length="2" Type="Char"></Field>
-    <Field Name="QTYY" Title="其他原因" Length="100" Type="Char"></Field>
+    <Field Name="QTYY" Title="其他原因" Length="200" Type="Char"></Field>
     <Field Name="YCSRBZ" Title="从事一产占家族收入比重" Length="15" Type="Float"></Field>
     <Field Name="NHLX" Title="农户类型" Length="2" Type="Char"></Field>
     <Field Name="YYJYQ" Title="农民退出宅基地意愿及补偿要求" Length="200" Type="Char"></Field>
@@ -81,14 +81,14 @@
     <Field Name="XZCDM" Title="行政区代码" Length="12" Type="Char"></Field>
     <Field Name="XZCMC" Title="行政区名称" Length="100" Type="Char"></Field>
     <Field Name="DCBH" Title="调查编号" Length="4" Type="Char"></Field>
-    <Field Name="TBBH" Title="图斑编号" Length="8" Type="Char"></Field>
-    <Field Name="SYQR" Title="使用权人" Length="100" Type="Char"></Field>
+    <Field Name="TBBH" Title="图斑编号" Length="4" Type="Char"></Field>
+    <Field Name="SYQR" Title="使用权人" Length="200" Type="Char"></Field>
     <Field Name="JSYDMJ" Title="建设用地面积" Length="15" Type="Float"></Field>
     <Field Name="ZDH" Title="宗地号" Length="50" Type="Char"></Field>
     <Field Name="JZMJ" Title="建筑面积" Length="15" Type="Float"></Field>
     <Field Name="JZCS" Title="建筑层数" Length="2" Type="Int"></Field>
     <Field Name="JZLX" Title="建筑类型" Length="2" Type="Char"></Field>
-    <Field Name="JZSJ" Title="建造时间" Length="8" Type="Date"></Field>
+    <Field Name="JZSJ" Title="建造时间" Length="4" Type="Char"></Field>
     <Field Name="LYZT" Title="利用状态" Length="2" Type="Char"></Field>
     <Field Name="TDYT" Title="土地用途" Length="100" Type="Char"></Field>
     <Field Name="NSSE" Title="年税收额" Length="15" Type="Float"></Field>
@@ -103,14 +103,14 @@
     <Field Name="XZCDM" Title="行政区代码" Length="12" Type="Char"></Field>
     <Field Name="XZCMC" Title="行政区名称" Length="100" Type="Char"></Field>
     <Field Name="DCBH" Title="调查编号" Length="4" Type="Char"></Field>
-    <Field Name="TBBH" Title="图斑编号" Length="8" Type="Char"></Field>
-    <Field Name="SYQR" Title="使用权人" Length="100" Type="Char"></Field>
+    <Field Name="TBBH" Title="图斑编号" Length="4" Type="Char"></Field>
+    <Field Name="SYQR" Title="使用权人" Length="200" Type="Char"></Field>
     <Field Name="JSYDMJ" Title="建设用地面积" Length="15" Type="Float"></Field>
     <Field Name="ZDH" Title="宗地号" Length="50" Type="Char"></Field>
     <Field Name="JZMJ" Title="建筑面积" Length="15" Type="Float"></Field>
     <Field Name="JZCS" Title="建筑层数" Length="2" Type="Int"></Field>
     <Field Name="JZLX" Title="建造类型" Length="2" Type="Char"></Field>
-    <Field Name="JZSJ" Title="建造时间" Length="8" Type="Date"></Field>
+    <Field Name="JZSJ" Title="建造时间" Length="4" Type="Char"></Field>
     <Field Name="LYZT" Title="利用状态" Length="2" Type="Char"></Field>
     <Field Name="TDYT" Title="土地用途" Length="100" Type="Char"></Field>
     <Field Name="FWRS" Title="服务人数" Length="2" Type="Int" Min="2"></Field>
@@ -126,11 +126,11 @@
     <Field Name="XZCDM" Title="行政区代码" Length="12" Type="Char"></Field>
     <Field Name="XZCMC" Title="行政区名称" Length="100" Type="Char"></Field>
     <Field Name="DCBH" Title="调查编号" Length="4" Type="Char"></Field>
-    <Field Name="TBBH" Title="图斑编号" Length="8" Type="Char"></Field>
+    <Field Name="TBBH" Title="图斑编号" Length="4" Type="Char"></Field>
     <Field Name="ZDH" Title="宗地号" Length="50" Type="Char"></Field>
     <Field Name="JSYDMJ" Title="建设用地面积" Length="15" Type="Float"></Field>
     <Field Name="JZMJ" Title="建筑面积" Length="15" Type="Float"></Field>
-    <Field Name="JZSJ" Title="建造时间" Length="8" Type="Date"></Field>
+    <Field Name="JZSJ" Title="建造时间" Length="4" Type="Char"></Field>
     <Field Name="JZLX" Title="建筑类型" Length="2" Type="Char"></Field>
     <Field Name="TDYT" Title="土地用途" Length="100" Type="Char"></Field>
     <Field Name="JZCS" Title="建筑层数" Length="2" Type="Int"></Field>

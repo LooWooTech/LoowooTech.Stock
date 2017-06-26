@@ -58,26 +58,42 @@ namespace LoowooTech.Stock.Tool
                         dict.Add(name,field );
                     }
                 }
-                var requireField = XmlClass.GetField(TableName);
+                var requireField = XmlClass.GetField(TableName);//要求的字段
                 var str = string.Empty;
                 foreach(var field in requireField)
                 {
                     if (dict.ContainsKey(field.Name))
                     {
-                        var currentfield = dict[field.Name];
+                        var currentfield = dict[field.Name];//数据库读取出来的
                         if (currentfield.Type == FieldType.NChar)
                         {
                             currentfield.Type = FieldType.Char;
                         }
-                        
-                        if (field != currentfield)
+                        if (currentfield.Type == FieldType.Real)
                         {
-                            
+                            currentfield.Type = FieldType.Float;
+                        }
+                        if (field.Type != currentfield.Type || field.Name != currentfield.Name || (field.Type==FieldType.Char?field.Length!=currentfield.Length:false))
+                        {
                             str = string.Format("字段{0}与要求的类型或者长度不符", field.Name);
                             Console.WriteLine(str);
                             Messages.Add(str);
-                           
                         }
+                        //if (field.Min.HasValue)
+                        //{
+                        //    if (currentfield.Length < field.Min.Value)
+                        //    {
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    if (field.Length != currentfield.Length)
+                        //    {
+                        //    }
+                        //}
+                        //if (field != currentfield)
+                        //{
+                        //}
                     }
                     else
                     {
