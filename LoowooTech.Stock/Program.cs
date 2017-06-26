@@ -1,6 +1,7 @@
 ﻿using ESRI.ArcGIS;
 using System;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace LoowooTech.Stock
@@ -29,7 +30,18 @@ namespace LoowooTech.Stock
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new MainForm());
+                var load = new LoadForm();
+                load.Show();
+                System.Windows.Forms.Application.DoEvents();
+                for(var i = 0; i < 50; i++)
+                {
+                    Thread.Sleep(200);
+                    Application.DoEvents();
+                }
+          
+                var form = new MainForm();
+                load.Close();
+                Application.Run(form);
             }
             catch (Exception ex)
             {
@@ -110,5 +122,7 @@ namespace LoowooTech.Stock
                 sw.Close();
             }
         }
+
+      
     }
 }

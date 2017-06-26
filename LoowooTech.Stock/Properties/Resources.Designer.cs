@@ -63,9 +63,39 @@ namespace LoowooTech.Stock.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _460 {
+            get {
+                object obj = ResourceManager.GetObject("460", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _4601 {
+            get {
+                object obj = ResourceManager.GetObject("4601", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Backward_16x16 {
             get {
                 object obj = ResourceManager.GetObject("Backward_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BingWallpaper_2017_06_06 {
+            get {
+                object obj = ResourceManager.GetObject("BingWallpaper-2017-06-06", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

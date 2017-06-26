@@ -16,10 +16,12 @@ namespace LoowooTech.Stock.Rules
         List<Question> Questions { get; }
         ConcurrentBag<Question> ParalleQuestions { get; }
         List<XZC> List { get; set; }
-        Dictionary<XZC,List<ExcelField>> Dict { get; }
+        Dictionary<string,List<FieldValue>> Dict { get; }
         string Code { get; set; }
         string District { get; set; }
         string Folder { get; set; }
+        string SaveFolder { get; set; }
         void Check();
+        void Write();
     }
 }

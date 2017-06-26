@@ -19,6 +19,7 @@ namespace LoowooTech.Stock.Models
         /// 长度
         /// </summary>
         public int Length { get; set; }
+        public int? Min { get; set; }
         /// <summary>
         /// 字段类型
         /// </summary>
@@ -29,7 +30,7 @@ namespace LoowooTech.Stock.Models
         }
         public static bool operator ==(Field a,Field b)
         {
-            return a.Type == b.Type && a.Length == b.Length && a.Name == b.Name;
+            return a.Type == b.Type && a.Name == b.Name && (a.Min.HasValue ? b.Length >= a.Min.Value : (b.Min.HasValue ? a.Length >= b.Min.Value : a.Length == b.Length));
         }
 
         public override bool Equals(object o)

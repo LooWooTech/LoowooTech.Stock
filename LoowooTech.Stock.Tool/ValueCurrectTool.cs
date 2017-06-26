@@ -23,7 +23,7 @@ namespace LoowooTech.Stock.Tool
             get
             {
 
-                return string.Format("规则{0}：表‘{1}’中字段‘{2}’组成的值相互对应");
+                return string.Format("规则{0}：表‘{1}’中字段‘{2}’组成的值相互对应" ,ID,TableName,string.Join("、",Fields));
             }
         }
         public string Code { get; set; }
@@ -40,7 +40,8 @@ namespace LoowooTech.Stock.Tool
                     array = new string[Fields.Length];
                     for (var i = 0; i < Fields.Length; i++)
                     {
-                        array[i] = Fields[i].ToString();
+                        array[i] = reader[i] != null ? reader[i].ToString() : string.Empty;
+                        //array[i] = Fields[i].ToString();
                     }
                     var val = string.Join(Split, array);
                     if (!Values.Contains(val))

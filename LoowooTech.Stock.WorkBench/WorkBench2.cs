@@ -17,6 +17,7 @@ namespace LoowooTech.Stock.WorkBench
         protected const string DataBase = "1空间数据库";
         protected const string Collect = "3统计报告";
         protected const string Title = "农村存量建设用地调查数据成果";
+        protected const string _name = "{0}({1})农村存量建设用地调查数据成果质检结果";
 
         private string _folder { get; set; }
         /// <summary>
@@ -65,7 +66,7 @@ namespace LoowooTech.Stock.WorkBench
         
         private string _reportPath { get; set; }
         
-        public string ReportPath { get { return _reportPath; } }
+        public string ReportPath { get { return string.IsNullOrEmpty(_reportPath)? Path.Combine(Folder, report, string.Format(_name+".xls", ParameterManager.District, ParameterManager.Code)):_reportPath; } }
 
         public event ProgramProgressHandler OnProgramProcess;
 
@@ -105,7 +106,26 @@ namespace LoowooTech.Stock.WorkBench
             ParameterManager.Init(Folder);
             OutputMessage("00", "参数管理器初始化完毕", ProgressResultTypeEnum.Other);
             ExcelManager.Init(ParameterManager.CodeFilePath);//初始化单位代码信息列表
-            OutputMessage("00", "成功读取单位代码表信息", ProgressResultTypeEnum.Other);
+            if (ExcelManager.List.Count == 0)
+            {
+                QuestionManager.Add(new Question { Code = "00", TableName = "单位代码表", Description = "未获取单位代码表中的相关数据信息" });
+                OutputMessage("00", "未获取单位代码表中的相关数据信息", ProgressResultTypeEnum.Fail);
+            }
+            else
+            {
+                OutputMessage("00", string.Format("成功读取单位代码表信息:{0}条",ExcelManager.List.Count), ProgressResultTypeEnum.Other);
+            }
+            if (ExcelManager.XZQ.Count == 0)
+            {
+                QuestionManager.Add(new Question { Code = "00", TableName = "单位代码表", Description = "读取到的单位代码表中未填写行政区（乡镇）代码信息" });
+                OutputMessage("00", "读取到的单位代码表中未填写行政区（乡镇）代码信息", ProgressResultTypeEnum.Fail);
+            }
+            if (ExcelManager.XZC.Count == 0)
+            {
+                QuestionManager.Add(new Question { Code = "00", TableName = "单位代码表", Description = "读取到的单位代码表中未填写行政区（村级）代码信息" });
+                OutputMessage("00", "读取到的单位代码表中未填写行政区（村级）代码信息", ProgressResultTypeEnum.Fail);
+            }
+            
             DCDYTBManager.Init(ParameterManager.Connection);//获取DCDYTB中的信息;
             OutputMessage("00", "成功读取调查单元图斑信息", ProgressResultTypeEnum.Other);
             InitRules();
@@ -149,23 +169,29 @@ namespace LoowooTech.Stock.WorkBench
                         sb.Append(ex.ToString());
 
                     }
-                    OutputMessage(rule.ID, sb.ToString(), result);
+               
                     if (result != ProgressResultTypeEnum.Pass)
                     {
                         QuestionManager.Add(new Question { Code = rule.ID, Name = rule.RuleName, Description = sb.ToString() });
                     }
+                    if (OutputMessage(rule.ID, sb.ToString(), result) == true)
+                    {
+                        break;
+                    }
+                   
                 }
             }
-            _reportPath = QuestionManager.Save(System.IO.Path.Combine(Folder, report), ParameterManager.District, ParameterManager.Code);
+            _reportPath = QuestionManager.Save(ReportPath);
 
         }
-        private void OutputMessage(string code,string message,ProgressResultTypeEnum result)
+        private bool OutputMessage(string code,string message,ProgressResultTypeEnum result)
         {
-            OutputMessage(new ProgressEventArgs { Code = code, Message = message, Result = result });
+            return  OutputMessage(new ProgressEventArgs { Code = code, Message = message, Result = result });
         }
-        private void OutputMessage(ProgressEventArgs e)
+        private bool OutputMessage(ProgressEventArgs e)
         {
             OnProgramProcess(this, e);
+            return e.Cancel;
         }
     }
 }

@@ -27,44 +27,43 @@ namespace LoowooTech.Stock.Rules
                 {
                     var node = nodes[i];
                     var name = node.Attributes["Name"].Value;
-                    Check(name, ParameterManager.Folder, node);
+                    Check(System.IO.Path.Combine(ParameterManager.Folder,name), node);
                 }
             }
         }
 
-        private void Check(string name,string path,XmlNode node)
+        private void Check(string path,XmlNode node)
         {
-            var folders = node.SelectNodes("/Folder");
+            var folders = node.SelectNodes("Folder");
             if (folders != null && folders.Count > 0)
             {
                 for(var i = 0; i < folders.Count; i++)
                 {
                     var child = folders[i];
                     var str = child.Attributes["Name"].Value;
-                    Check(str, System.IO.Path.Combine(path, name),child);
+                    Check(System.IO.Path.Combine(path, str),child);
                 }
             }
-            //var files = node.SelectNodes("/File");
             if (node.Attributes["Filter"]!= null)
             {
                 var filters = node.Attributes["Filter"].Value.Split('/');
-                Parallel.ForEach(filters, filter =>
+                foreach(var filter in filters)
                 {
                     Check(path, filter);
-                });
+                }
             }
            
         }
         private void Check(string folder,string filter)
         {
             var files = Directory.GetFiles(folder, filter);
-            Parallel.ForEach(files, file =>
+            foreach(var file in files)
             {
                 if (!Open(file))
                 {
                     QuestionManager.Add(new Question { Code = ID, Name = RuleName, Project = CheckProject.数据有效性, Description = string.Format("文件：{0}不能打开，请核对", file) });
                 }
-            });
+            }
         }
 
         public bool Open(string filePath)
@@ -114,6 +113,16 @@ namespace LoowooTech.Stock.Rules
                     {
                         return false;
                     }
+
+                default:
+                    using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                    {
+                        if (fs.Length == 0)
+                        {
+                            return false;
+                        }
+                    }
+                    break;
 
             }
             return true;

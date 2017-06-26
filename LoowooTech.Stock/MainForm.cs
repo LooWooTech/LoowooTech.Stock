@@ -29,7 +29,9 @@ namespace LoowooTech.Stock
 
         public MainForm()
         {
+         
             InitializeComponent();
+          
         }
 
         private XmlNode ConfigDocument

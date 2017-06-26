@@ -21,7 +21,8 @@ namespace LoowooTech.Stock.Common
                 var length = 0;
                 for (var i = 0; i < nodes.Count; i++)
                 {
-                    var str = nodes[i].Attributes["Type"].Value;
+                    var node = nodes[i];
+                    var str = node.Attributes["Type"].Value;
                     if (str == "Date")
                     {
                         str = "DateTime";
@@ -30,13 +31,18 @@ namespace LoowooTech.Stock.Common
                     {
                         if (Enum.TryParse(str, out type))
                         {
-                            list.Add(new Field()
+                            var item = new Field()
                             {
-                                Name = nodes[i].Attributes["Name"].Value,
-                                Title = nodes[i].Attributes["Title"].Value,
-                                Length = int.TryParse(nodes[i].Attributes["Length"].Value, out length) ? length : 0,
+                                Name = node.Attributes["Name"].Value,
+                                Title = node.Attributes["Title"].Value,
+                                Length = int.TryParse(node.Attributes["Length"].Value, out length) ? length : 0,
                                 Type = type
-                            });
+                            };
+                            if (node.Attributes["Min"] != null&& int.TryParse(node.Attributes["Min"].Value, out length))
+                            {
+                                item.Min = length;
+                            }
+                            list.Add(item);
                         }
                     }
                    

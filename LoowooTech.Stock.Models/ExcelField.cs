@@ -33,18 +33,21 @@ namespace LoowooTech.Stock.Models
         }
         public string Unit { get; set; }
         public string View { get; set; }
+    }
+    public class FieldValue
+    {
+        public int Index { get; set; }
+        public ExcelType Type { get; set; }
+        public string Title { get; set; }
         public object Val { get; set; }
-        public string Value
-        {
-            get
+        public string Value { get
             {
                 if (Val != null)
                 {
                     return Val.ToString();
                 }
                 return string.Empty;
-            }
-        }
+            } }
     }
     public enum ExcelType
     {

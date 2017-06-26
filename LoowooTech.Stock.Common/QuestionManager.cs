@@ -12,7 +12,7 @@ namespace LoowooTech.Stock.Common
 {
     public static class QuestionManager
     {
-        private static string _name = "{0}({1})农村存量建设用地调查数据成果质检结果";
+        private static int MAXNUMBER = 65534;
 
         private static readonly object _syncRoot = new object();
 
@@ -57,7 +57,7 @@ namespace LoowooTech.Stock.Common
                 return _modelFile;
             }
         }
-        public static string Save(string folder,string district,string code)
+        public static string Save(string filePath)
         {
             var info = string.Empty;
             if (string.IsNullOrEmpty(ModelFile)||!System.IO.File.Exists(ModelFile))
@@ -77,19 +77,42 @@ namespace LoowooTech.Stock.Common
             var sheet1 = workbook.GetSheetAt(0);
             var sheet2 = workbook.GetSheetAt(1);
             var sheet3 = workbook.GetSheetAt(2);
+            var sheet4 = workbook.GetSheetAt(3);
             SaveCollect(sheet1);
             SaveList(sheet2);
             SaveInfo(sheet3, LogManager.List);
+            SaveSQLError(sheet4);
+            var folder = System.IO.Path.GetDirectoryName(filePath);
             if (!System.IO.Directory.Exists(folder))
             {
                 System.IO.Directory.CreateDirectory(folder);
             }
-            var filePath = System.IO.Path.Combine(folder, string.Format(_name + ".xls", district, code));
             using (var fs=new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 workbook.Write(fs);
             }
             return filePath;
+        }
+
+        private static void SaveSQLError(ISheet sheet)
+        {
+            var list = Questions.Where(e => e.Project == CheckProject.数据库查询).OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
+            var i = 1;
+            IRow row = null;
+            var modelrow = sheet.GetRow(i);
+            foreach (var item in list.Take(MAXNUMBER))
+            {
+                row = sheet.GetRow(i) ?? sheet.CreateRow(i);
+                var cell = ExcelClass.GetCell(row, 0, modelrow);
+                cell.SetCellValue(i++);
+                ExcelClass.GetCell(row, 1, modelrow).SetCellValue(item.Description);
+                ExcelClass.GetCell(row, 2, modelrow).SetCellValue(item.Code);
+            }
+            if (list.Count > MAXNUMBER)
+            {
+                row = sheet.GetRow(MAXNUMBER + 1) ?? sheet.CreateRow(MAXNUMBER + 1);
+                ExcelClass.GetCell(row, 0, modelrow).SetCellValue(string.Format("错误列表超过{0}，超过部分不再显示", MAXNUMBER));
+            }
         }
 
         /// <summary>
@@ -100,6 +123,7 @@ namespace LoowooTech.Stock.Common
         private static void SaveCollect(ISheet sheet)
         {
             IRow row = null;
+            var temp = Questions.Where(e => !string.IsNullOrEmpty(e.Code));
             for(var i = 1; i <= sheet.LastRowNum; i++)
             {
                 row = sheet.GetRow(i);
@@ -115,7 +139,7 @@ namespace LoowooTech.Stock.Common
                     if (!string.IsNullOrEmpty(str) && str.Contains("{") && str.Contains("}"))
                     {
                         var key = str.Replace("{", "").Replace("}", "");
-                        var val = Questions.Where(e => e.Code.ToLower() == key.ToLower()).LongCount();
+                        var val = temp.Where(e => e.Code.ToLower() == key.ToLower()).LongCount();
                         cell.SetCellValue(val);
                     }
                 }
@@ -128,11 +152,11 @@ namespace LoowooTech.Stock.Common
         /// <param name="concurrentBag"></param>
         private static void SaveList(ISheet sheet)
         {
-            var list = Questions.OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
+            var list = Questions.Where(e=> e.Project != CheckProject.数据库查询).OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
             var i = 1;
             IRow row = null;
             var modelrow = sheet.GetRow(i);
-            foreach (var item in list)
+            foreach (var item in list.Take(MAXNUMBER))
             {
                 row = sheet.GetRow(i) ?? sheet.CreateRow(i);
                 var cell = ExcelClass.GetCell(row, 0, modelrow);
@@ -143,6 +167,11 @@ namespace LoowooTech.Stock.Common
                 ExcelClass.GetCell(row, 4, modelrow).SetCellValue(item.BSM);
                 ExcelClass.GetCell(row, 5, modelrow).SetCellValue(item.Description);
                 ExcelClass.GetCell(row, 6, modelrow).SetCellValue(item.Project.ToString());
+            }
+            if (list.Count > MAXNUMBER)
+            {
+                row = sheet.GetRow(MAXNUMBER + 1) ?? sheet.CreateRow(MAXNUMBER + 1);
+                ExcelClass.GetCell(row, 0, modelrow).SetCellValue(string.Format("错误列表超过{0}，超过部分不再显示", MAXNUMBER));
             }
         }
         /// <summary>
@@ -155,12 +184,18 @@ namespace LoowooTech.Stock.Common
             var i = 1;
             IRow row = null;
             var modelrow = sheet.GetRow(1);
-            foreach(var item in list)
+            foreach(var item in list.Take(MAXNUMBER))
             {
                 row = sheet.GetRow(i) ?? sheet.CreateRow(i);
                 var cell = ExcelClass.GetCell(row, 0, modelrow);
                 cell.SetCellValue(i++);
                 ExcelClass.GetCell(row, 1, modelrow).SetCellValue(item);
+            }
+
+            if (list.Count > MAXNUMBER)
+            {
+                row = sheet.GetRow(MAXNUMBER + 1) ?? sheet.CreateRow(MAXNUMBER + 1);
+                ExcelClass.GetCell(row, 0, modelrow).SetCellValue(string.Format("错误列表超过{0}，超过部分不再显示", MAXNUMBER));
             }
         }
 
