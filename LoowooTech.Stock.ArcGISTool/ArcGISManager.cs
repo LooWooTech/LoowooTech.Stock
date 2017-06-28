@@ -1,6 +1,7 @@
 ﻿using ESRI.ArcGIS.AnalysisTools;
 using ESRI.ArcGIS.DataManagementTools;
 using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessor;
 using LoowooTech.Stock.Common;
 using LoowooTech.Stock.Models;
@@ -224,6 +225,65 @@ namespace LoowooTech.Stock.ArcGISTool
             }
 
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+        }
+
+        public static List<DCDYTB> GainDCDYTB(IWorkspace workspace,string className)
+        {
+            var featureClass = workspace.GetFeatureClass(className);
+            if (featureClass == null)
+            {
+                return null;
+            }
+            return GainArea(featureClass);
+        }
+
+        private static List<DCDYTB> GainArea(IFeatureClass featureclass)
+        {
+            var DMIndex = featureclass.Fields.FindField("XZCDM");
+            var MCIndex = featureclass.Fields.FindField("XZCMC");
+            var BHIndex = featureclass.Fields.FindField("TBBH");
+            var LXIndex = featureclass.Fields.FindField("DCDYLX");
+            var MJIndex = featureclass.Fields.FindField("MJ");
+            var BSMIndex = featureclass.Fields.FindField("BSM");
+            if (DMIndex < 0 || MCIndex < 0 || BHIndex < 0||LXIndex<0||BSMIndex<0)
+            {
+                return null;
+            }
+            var list = new List<DCDYTB>();
+            IFeatureCursor featureCursor = featureclass.Search(null, false);
+            IFeature feature = featureCursor.NextFeature();
+            while (feature != null)
+            {
+                var area = feature.ShapeCopy as IArea;
+                var mjstring = feature.get_Value(MJIndex).ToString();
+                var a = .0;
+                var body = new DCDYTB
+                {
+                    BSM=feature.get_Value(BSMIndex).ToString(),
+                    XZCDM = feature.get_Value(DMIndex).ToString(),
+                    XZCMC = feature.get_Value(MCIndex).ToString(),
+                    TBBH = feature.get_Value(BHIndex).ToString(),
+                    DCDYLX = feature.get_Value(LXIndex).ToString(),
+                    Area=Math.Round(area.Area,2),
+                    MJ=double.TryParse(mjstring,out a)?Math.Round( a,2):.0
+                };
+
+                list.Add(body);
+                feature = featureCursor.NextFeature();
+            }
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+            return list;
+        }
+
+        public static IFeature Search(IFeatureClass featureClass,string whereClause)
+        {
+            IQueryFilter queryFilter = new QueryFilterClass();
+            queryFilter.WhereClause = whereClause;
+            IFeatureCursor featureCurosor = featureClass.Search(queryFilter, false);
+            IFeature feature = featureCurosor.NextFeature();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCurosor);
+            return feature;
+
         }
     }
 }

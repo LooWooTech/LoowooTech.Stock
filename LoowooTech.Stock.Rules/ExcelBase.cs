@@ -486,7 +486,7 @@ namespace LoowooTech.Stock.Rules
             }
         }
 
-        private FieldValue GainCommon(ExcelField field,string xzcdm,string xzcmc)
+        private FieldValue GainCommon(ExcelField field,string dmWhere)
         {
             
             var a = 0;
@@ -501,7 +501,7 @@ namespace LoowooTech.Stock.Rules
             {
                 sb.AppendFormat("({0})", field.View);
             }
-            sb.AppendFormat(" Where LEFT({0}.XZCDM,9) = '{1}'", TableName, xzcdm);
+            sb.AppendFormat(" Where ( {0} )", dmWhere);
             if (!string.IsNullOrEmpty(field.WhereClause))
             {
                 sb.AppendFormat(" AND {0}", field.WhereClause);
@@ -541,18 +541,32 @@ namespace LoowooTech.Stock.Rules
 
         private void GainAccess()
         {
-
-            foreach (var xzc in List)
+            foreach(var entry in ExcelManager.Dict)
             {
+                var array = entry.Key.Split(',');
                 var result = new List<FieldValue>();
+                var qy = string.Join(" OR ", entry.Value.Select(e => string.Format("{0}.XZCDM = '{1}'", TableName, e.XZCDM)).ToArray());
                 foreach (var field in Fields)
                 {
-                    var val = GainCommon(field, xzc.XZCDM, xzc.XZCMC);
+                    var val = GainCommon(field, qy);
                     result.Add(val);
                 }
                 _accessList.AddRange(result);
-                _dict.Add(xzc.XZCDM, result);
+                _dict.Add(array[1], result);
             }
+
+            //foreach (var xzc in List)
+            //{
+            //    var result = new List<FieldValue>();
+                
+            //    foreach (var field in Fields)
+            //    {
+            //        var val = GainCommon(field, xzc.XZCDM, xzc.XZCMC);
+            //        result.Add(val);
+            //    }
+            //    _accessList.AddRange(result);
+            //    _dict.Add(xzc.XZCDM, result);
+            //}
         }
 
         private void WriteAccess()
@@ -704,6 +718,15 @@ namespace LoowooTech.Stock.Rules
                 var xzc = entry.Key;
                 var access = entry.Value;
                 if (!access.Any(e => e.Val != null && !string.IsNullOrEmpty(e.Val.ToString())))
+                {
+                    continue;
+                }
+                var sum = access.Where(e => e.Val != null && !string.IsNullOrEmpty(e.Val.ToString())).Sum(e => double.Parse(e.Val.ToString()));
+                if (sum > 0)
+                {
+
+                }
+                else
                 {
                     continue;
                 }
