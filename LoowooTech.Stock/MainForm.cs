@@ -299,7 +299,7 @@ namespace LoowooTech.Stock
                 var className = this.listView1.SelectedItems[0].SubItems[3].Text;
                 if (string.IsNullOrEmpty(whereClause))
                 {
-                    MessageBox.Show("当前记录不支持定位显示");
+                    //MessageBox.Show("当前记录不支持定位显示");
                     return;
                 }
                 if (!_spaceArray.Contains(className))
@@ -323,6 +323,13 @@ namespace LoowooTech.Stock
                 }
                 
             }
+        }
+
+        private void btnIdentity2_Click(object sender, EventArgs e)
+        {
+            var tool = new ControlsMapIdentifyToolClass();
+            tool.OnCreate(this.axMapControl1.Object);
+            tool.OnClick();
         }
     }
     

@@ -65,7 +65,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(112, 14);
             this.label3.TabIndex = 2;
-            this.label3.Text = "版本号：V 1.0.2";
+            this.label3.Text = "版本号：V 1.0.3";
             // 
             // progressBar1
             // 

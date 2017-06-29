@@ -101,8 +101,8 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnPan = new System.Windows.Forms.RibbonButton();
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btnPan = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
@@ -287,6 +287,7 @@
             this.btnIdentity2.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnIdentity2.SmallImage")));
             this.btnIdentity2.Tag = "Identity";
             this.btnIdentity2.Text = "点击查询";
+            this.btnIdentity2.Click += new System.EventHandler(this.btnIdentity2_Click);
             // 
             // ribbonPanel2
             // 
@@ -622,6 +623,10 @@
             this.columnHeader6.DisplayIndex = 5;
             this.columnHeader6.Text = "备注";
             // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "查询条件";
+            // 
             // btnPan
             // 
             this.btnPan.Image = ((System.Drawing.Image)(resources.GetObject("btnPan.Image")));
@@ -629,10 +634,6 @@
             this.btnPan.SmallImage = global::LoowooTech.Stock.Properties.Resources.ZoomIn_16x16;
             this.btnPan.Text = "ribbonButton2";
             this.btnPan.ToolTip = "平移漫游";
-            // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "查询条件";
             // 
             // MainForm
             // 
