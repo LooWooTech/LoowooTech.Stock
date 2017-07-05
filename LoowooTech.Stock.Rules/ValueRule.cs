@@ -98,10 +98,9 @@ namespace LoowooTech.Stock.Rules
             Tools.Add(new ValueCountTool() { TableName = "CLZJD", ID = "10001" });
             Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010300" }, ID = "10003" });
             Tools.Add(new ValueUniqueTool() { TableName = "CLZJD", CheckFieldName = "DCBH", WhereFieldName = "XZCDM", ID = "10005", Code = "3201" });
-           
             Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "JZLX", Key = _key, Values = new string[] { "1", "2", "3", "4" }, ID = "10007" });
             Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "FKDYJ", Key = _key, Values = new string[] { "1", "2", "" }, ID = "10008" });
-            Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "LYZT", Key = _key, Values = new string[] { "1", "2", "3" }, ID = "10009" });
+            Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "LYZT", Key = _key, Values = new string[] { "1", "2", "3","" }, ID = "10009" });
             Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "KZYY", Key = _key, Values = new string[] { "1", "2", "3", "4", "5", "" }, ID = "10010" });
             Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "FQYY", Key = _key, Values = new string[] { "1", "2", "3", "4", "" }, ID = "10011" });
             Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "KZYY", "FQYY", "QTYY" }, Key = _key, WhereCaluse = "LYZT = '1'", Is_Nullable = true, ID = "10012" });//为空
@@ -121,8 +120,7 @@ namespace LoowooTech.Stock.Rules
             #region 农村存量经营性建设用地利用现状调查表基本属性结构表
             Tools.Add(new ValueCountTool() { TableName = "JYXJSYD", ID = "11001" });
             Tools.Add(new ValueRangeTool() { TableName = "JYXJSYD", CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010400" }, ID = "11003" });
-            Tools.Add(new ValueUniqueTool() { TableName = "JYXJSYD", CheckFieldName = "DCBH", WhereFieldName = "XZCDM", ID = "11005", Code = "3201" });
-           
+            Tools.Add(new ValueUniqueTool() { TableName = "JYXJSYD", CheckFieldName = "DCBH", WhereFieldName = "XZCDM", ID = "11005", Code = "3201" });   
             Tools.Add(new ValueRangeTool() { TableName = "JYXJSYD", CheckFieldName = "JZLX", Key = _key, Values = new string[] { "1", "2", "3", "4" }, ID = "11007" });
             Tools.Add(new ValueRangeTool() { TableName = "JYXJSYD", CheckFieldName = "LYZT", Key = _key, Values = new string[] { "1", "2", "3" }, ID = "11008" });
             Tools.Add(new ValueNullTool() { TableName = "JYXJSYD", CheckFields = new string[] { "TDYT" }, Key = _key, WhereCaluse = "LYZT='1'", ID = "11009", Is_Nullable = false });
@@ -133,7 +131,7 @@ namespace LoowooTech.Stock.Rules
             Tools.Add(new ValueNullTool() { TableName = "JYXJSYD", CheckFields = new string[] { "KZYY", "NSSE", "JYRS" }, Key = _key, WhereCaluse = "LYZT='3'", ID = "11014", Is_Nullable = true });
             Tools.Add(new ValueCompareTool { TableName = "JYXJSYD", Key = _key, FieldArray1 = new string[] { "JSYDMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "11015" });
             Tools.Add(new ValueCompareTool { TableName = "JYXJSYD", Key = _key, FieldArray1 = new string[] { "JZMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "11016" });
-            Tools.Add(new ValueNullTool { TableName = "JYXJSYD", Key = _key, CheckFields = new string[] { "BSM", "YSDM", "XZCDM", "XZCMC", "DCBH", "TBBH", "JSYDMJ", "JZMJ", "JZLX", "JZSJ", "LYZT", "TDYT" }, Is_Nullable = false, ID = "11017" });
+            Tools.Add(new ValueNullTool { TableName = "JYXJSYD", Key = _key, CheckFields = new string[] { "BSM", "YSDM", "XZCDM", "XZCMC", "DCBH", "TBBH", "JSYDMJ", "JZMJ", "JZLX", "JZSJ", "LYZT" }, Is_Nullable = false, ID = "11017" });
             Tools.Add(new ValueRangeTool
             {
                 TableName = "JYXJSYD",
@@ -141,6 +139,7 @@ namespace LoowooTech.Stock.Rules
                 Key = _key,
                 ID = "11018",
                 Values = new string[] {
+                    "",
                     "水田","水浇地","旱地",
                     "果园","茶园","其他园地",
                     "有林地","灌木林地","其他林地",
@@ -162,18 +161,17 @@ namespace LoowooTech.Stock.Rules
             Tools.Add(new ValueCountTool() { TableName = "GGGL_GGFWSSYD", ID = "12001" });
             Tools.Add(new ValueRangeTool() { TableName = "GGGL_GGFWSSYD", CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010500" }, ID = "12003" });
             Tools.Add(new ValueUniqueTool() { TableName = "GGGL_GGFWSSYD", CheckFieldName = "DCBH", WhereFieldName = "XZCDM", ID = "12005", Code = "3201" });
-
             Tools.Add(new ValueRangeTool() { TableName = "GGGL_GGFWSSYD", CheckFieldName = "JZLX", Key = _key, Values = new string[] { "1", "2", "3", "4" }, ID = "12007" });
             Tools.Add(new ValueRangeTool() { TableName = "GGGL_GGFWSSYD", CheckFieldName = "LYZT", Key = _key, Values = new string[] { "1", "2", "3" }, ID = "12008" });
             Tools.Add(new ValueNullTool() { TableName = "GGGL_GGFWSSYD", CheckFields = new string[] { "TDYT", "FWRS", "SYMJ" }, Key = _key, WhereCaluse = "LYZT='1'", ID = "12009", Is_Nullable = false });
             Tools.Add(new ValueNullTool() { TableName = "GGGL_GGFWSSYD", CheckFields = new string[] { "KZYY", "FQYY" }, Key = _key, WhereCaluse = "LYZT='1'", ID = "12010", Is_Nullable = true });
             Tools.Add(new ValueNullTool() { TableName = "GGGL_GGFWSSYD", CheckFields = new string[] { "KZYY" }, Key = _key, WhereCaluse = "LYZT='2'", ID = "12011", Is_Nullable = false });
-            Tools.Add(new ValueNullTool() { TableName = "GGGL_GGFWSSYD", CheckFields = new string[] { "FQYY", "TDYT", "FWRS", "SYMJ" }, Key = _key, WhereCaluse = "LYZT='2'", ID = "12012", Is_Nullable = true });
+            Tools.Add(new ValueNullTool() { TableName = "GGGL_GGFWSSYD", CheckFields = new string[] { "FQYY", "FWRS", "SYMJ" }, Key = _key, WhereCaluse = "LYZT='2'", ID = "12012", Is_Nullable = true });
             Tools.Add(new ValueNullTool() { TableName = "GGGL_GGFWSSYD", CheckFields = new string[] { "FQYY" }, Key = _key, WhereCaluse = "LYZT='3'", ID = "12013", Is_Nullable = false });
-            Tools.Add(new ValueNullTool() { TableName = "GGGL_GGFWSSYD", CheckFields = new string[] { "KZYY", "TDYT", "FWRS", "SYMJ" }, Key = _key, WhereCaluse = "LYZT='3'", ID = "12014", Is_Nullable = true });
+            Tools.Add(new ValueNullTool() { TableName = "GGGL_GGFWSSYD", CheckFields = new string[] { "KZYY", "FWRS", "SYMJ" }, Key = _key, WhereCaluse = "LYZT='3'", ID = "12014", Is_Nullable = true });
             Tools.Add(new ValueCompareTool { TableName = "GGGL_GGFWSSYD", Key = _key, FieldArray1 = new string[] { "JSYDMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "12015" });
             Tools.Add(new ValueCompareTool { TableName = "GGGL_GGFWSSYD", Key = _key, FieldArray1 = new string[] { "JZMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "12016" });
-            Tools.Add(new ValueNullTool { TableName = "GGGL_GGFWSSYD", Key = _key, CheckFields = new string[] { "BSM", "YSDM", "XZCDM", "XZCMC", "DCBH", "TBBH", "JSYDMJ", "JZMJ", "JZLX", "LYZT", "TDYT" }, Is_Nullable = false, ID = "12017" });
+            Tools.Add(new ValueNullTool { TableName = "GGGL_GGFWSSYD", Key = _key, CheckFields = new string[] { "BSM", "YSDM", "XZCDM", "XZCMC", "DCBH", "TBBH", "JSYDMJ", "JZMJ", "JZLX", "LYZT" }, Is_Nullable = false, ID = "12017" });
             Tools.Add(new ValueRangeTool
             {
                 TableName = "GGGL_GGFWSSYD",
@@ -181,6 +179,7 @@ namespace LoowooTech.Stock.Rules
                 Key = _key,
                 ID = "12018",
                 Values = new string[] {
+                    "",
                     "水田","水浇地","旱地",
                     "果园","茶园","其他园地",
                     "有林地","灌木林地","其他林地",
@@ -199,10 +198,9 @@ namespace LoowooTech.Stock.Rules
             #endregion
 
             #region 农村其他存量建设用地利用现状调查表基本属性结构表
-            Tools.Add(new ValueCountTool() { TableName = "QTCLJSYD", ID = "13001" });
+            //Tools.Add(new ValueCountTool() { TableName = "QTCLJSYD", ID = "13001" });
             Tools.Add(new ValueRangeTool() { TableName = "QTCLJSYD", CheckFieldName = "YSDM", Key = _key, Values = new string[] { "2008010600" }, ID = "13003" });
             Tools.Add(new ValueUniqueTool() { TableName = "QTCLJSYD", CheckFieldName = "DCBH", WhereFieldName = "XZCDM", ID = "13005", Code = "3201" });
-
             Tools.Add(new ValueRangeTool() { TableName = "QTCLJSYD", CheckFieldName = "JZLX", Key = _key, Values = new string[] { "1", "2", "3", "4" }, ID = "13007" });
             Tools.Add(new ValueRangeTool() { TableName = "QTCLJSYD", CheckFieldName = "LYZT", Key = _key, Values = new string[] { "1", "2", "3" }, ID = "13008" });
             Tools.Add(new ValueNullTool() { TableName = "QTCLJSYD", CheckFields = new string[] { "YXSYMJ" }, Key = _key, WhereCaluse = "LYZT='1'", ID = "13009", Is_Nullable = false });
@@ -213,7 +211,7 @@ namespace LoowooTech.Stock.Rules
             Tools.Add(new ValueNullTool() { TableName = "QTCLJSYD", CheckFields = new string[] { "KZYY" }, Key = _key, WhereCaluse = "LYZT='3'", ID = "13014", Is_Nullable = true });
             Tools.Add(new ValueCompareTool { TableName = "QTCLJSYD", Key = _key, FieldArray1 = new string[] { "JSYDMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "13015" });
             Tools.Add(new ValueCompareTool { TableName = "QTCLJSYD", Key = _key, FieldArray1 = new string[] { "JZMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "13016" });
-            Tools.Add(new ValueNullTool { TableName = "QTCLJSYD", Key = _key, CheckFields = new string[] { "BSM", "YSDM", "XZCDM", "XZCMC", "DCBH", "TBBH", "JSYDMJ", "JZMJ", "JZLX", "JZSJ", "TDYT","LYZT" }, Is_Nullable = false, ID = "13017" });
+            Tools.Add(new ValueNullTool { TableName = "QTCLJSYD", Key = _key, CheckFields = new string[] { "BSM", "YSDM", "XZCDM", "XZCMC", "DCBH", "TBBH", "JSYDMJ", "JZMJ", "JZLX", "JZSJ","LYZT","TDYT" }, Is_Nullable = false, ID = "13017" });
             Tools.Add(new ValueRangeTool
             {
                 TableName = "QTCLJSYD",

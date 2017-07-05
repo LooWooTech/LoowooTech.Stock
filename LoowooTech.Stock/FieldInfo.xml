@@ -80,7 +80,7 @@
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
     <Field Name="XZCDM" Title="行政区代码" Length="12" Type="Char"></Field>
     <Field Name="XZCMC" Title="行政区名称" Length="100" Type="Char"></Field>
-    <Field Name="DCBH" Title="调查编号" Length="4" Type="Char"></Field>
+    <Field Name="DCBH" Title="调查编号" Length="4" Type="Int"></Field>
     <Field Name="TBBH" Title="图斑编号" Length="4" Type="Char"></Field>
     <Field Name="SYQR" Title="使用权人" Length="200" Type="Char"></Field>
     <Field Name="JSYDMJ" Title="建设用地面积" Length="15" Type="Float"></Field>
@@ -102,7 +102,7 @@
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
     <Field Name="XZCDM" Title="行政区代码" Length="12" Type="Char"></Field>
     <Field Name="XZCMC" Title="行政区名称" Length="100" Type="Char"></Field>
-    <Field Name="DCBH" Title="调查编号" Length="4" Type="Char"></Field>
+    <Field Name="DCBH" Title="调查编号" Length="4" Type="Int"></Field>
     <Field Name="TBBH" Title="图斑编号" Length="4" Type="Char"></Field>
     <Field Name="SYQR" Title="使用权人" Length="200" Type="Char"></Field>
     <Field Name="JSYDMJ" Title="建设用地面积" Length="15" Type="Float"></Field>
@@ -125,7 +125,7 @@
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
     <Field Name="XZCDM" Title="行政区代码" Length="12" Type="Char"></Field>
     <Field Name="XZCMC" Title="行政区名称" Length="100" Type="Char"></Field>
-    <Field Name="DCBH" Title="调查编号" Length="4" Type="Char"></Field>
+    <Field Name="DCBH" Title="调查编号" Length="4" Type="Int"></Field>
     <Field Name="TBBH" Title="图斑编号" Length="4" Type="Char"></Field>
     <Field Name="ZDH" Title="宗地号" Length="50" Type="Char"></Field>
     <Field Name="JSYDMJ" Title="建设用地面积" Length="15" Type="Float"></Field>

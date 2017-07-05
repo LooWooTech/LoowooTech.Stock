@@ -145,8 +145,14 @@ namespace LoowooTech.Stock.WorkBench
             OutputMessage("00", "成功读取调查单元图斑信息", ProgressResultTypeEnum.Other);
             InitRules();
             ParameterManager.Folder = Folder;
+            
             return true;
 
+        }
+        public void Write(string folder)
+        {
+            var tool = new ExcelValueCreateRule() { SaveFolder = folder };
+            tool.Write();
         }
         public void Program()
         {

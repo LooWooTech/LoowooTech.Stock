@@ -73,6 +73,10 @@ namespace LoowooTech.Stock.Tool
                         {
                             currentfield.Type = FieldType.Float;
                         }
+                        if (currentfield.Type == FieldType.SmallInt)
+                        {
+                            currentfield.Type = FieldType.Int;
+                        }
                         if (field.Type != currentfield.Type || field.Name != currentfield.Name || (field.Type==FieldType.Char?field.Length!=currentfield.Length:false))
                         {
                             str = string.Format("字段{0}与要求的类型或者长度不符", field.Name);

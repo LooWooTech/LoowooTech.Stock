@@ -50,7 +50,7 @@ namespace LoowooTech.Stock.Tool
                     str = string.Empty;
                     for (var i = 0; i < CheckFields.Count(); i++)
                     {
-                        if (Is_Nullable ^ string.IsNullOrEmpty(reader[i].ToString()))//异或  Is_NULLable  ture 为空  字段不为空或者 Is_NULLable false 必填 字段为空 矛盾
+                        if (Is_Nullable ^ string.IsNullOrEmpty(reader[i].ToString().Trim()))//异或  Is_NULLable  ture 为空  字段不为空或者 Is_NULLable false 必填 字段为空 矛盾
                         {
                             str += CheckFields[i] + ",";
                         }

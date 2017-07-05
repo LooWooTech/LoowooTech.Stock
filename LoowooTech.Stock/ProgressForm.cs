@@ -88,6 +88,7 @@ namespace LoowooTech.Stock
         private void Run()
         {
             _workBench.Program();
+          
         }
 
         private void ProgressForm_FormClosing(object sender, FormClosingEventArgs e)

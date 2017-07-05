@@ -74,5 +74,6 @@ namespace LoowooTech.Stock.WorkBench
         /// 质检的主方法
         /// </summary>
         void Program();
+        void Write(string folder);
     }
 }

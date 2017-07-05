@@ -152,6 +152,7 @@ namespace LoowooTech.Stock
                     try
                     {
                         FileListHelper.LoadMapData(_mdbPath, axMapControl1, configDoc);
+                        Full();
                     }
                     catch
                     {
@@ -201,7 +202,15 @@ namespace LoowooTech.Stock
                 btnExport.Enabled = true;
                 MessageBox.Show("已经完成质检", "完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            
+            //if (MessageBox.Show("质检完成，是否需要自动生成一份统计表格？", "质检提示", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            //{
+            //    var dialog = new FolderBrowserDialog { Description = "请选择统计表格保存的文件夹" };
+            //    if (dialog.ShowDialog() == DialogResult.OK)
+            //    {
+            //        var saveFolder = dialog.SelectedPath;
+            //        _workBench.Write(saveFolder);
+            //    }
+            //}
             lblOperator.Text = "就绪";
             btnStart.Enabled = true;
         }
@@ -238,6 +247,11 @@ namespace LoowooTech.Stock
         }
 
         private void btnGlobe2_Click(object sender, EventArgs e)
+        {
+            Full();
+        }
+
+        private void Full()
         {
             var tool = new ControlsMapFullExtentCommandClass();
             tool.OnCreate(this.axMapControl1.Object);
