@@ -33,12 +33,12 @@ namespace LoowooTech.Stock
                 var load = new LoadForm();
                 load.Show();
                 System.Windows.Forms.Application.DoEvents();
-                for(var i = 0; i < 50; i++)
+                for (var i = 0; i < 50; i++)
                 {
                     Thread.Sleep(200);
                     Application.DoEvents();
                 }
-          
+
                 var form = new MainForm();
                 load.Close();
                 Application.Run(form);

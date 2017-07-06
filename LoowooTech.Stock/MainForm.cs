@@ -1,10 +1,15 @@
 ﻿using ESRI.ArcGIS.Controls;
+using ESRI.ArcGIS.Display;
+using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Geometry;
+using LoowooTech.Stock.ArcGISTool;
 using LoowooTech.Stock.Models;
 using LoowooTech.Stock.WorkBench;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -15,6 +20,7 @@ namespace LoowooTech.Stock
         private string _dataPath;
         private string _mdbPath;
         private IWorkBench _workBench;
+        private string[] _spaceArray = new string[] { "XZQ_XZ", "XZQ_XZC", "XZQJX", "DCDYTB" };
         
         private static readonly Dictionary<string, Type> toolDictionary = new Dictionary<string, Type>
         {
@@ -26,12 +32,31 @@ namespace LoowooTech.Stock
             {"Pan", typeof(ControlsMapZoomToLastExtentBackCommandClass) },
             {"Identity", typeof(ControlsMapIdentifyToolClass) }
         };
+        private SimpleLineSymbolClass simpleLineSymbol { get; set; }
+        private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
 
         public MainForm()
         {
          
             InitializeComponent();
-          
+
+            simpleLineSymbol = new SimpleLineSymbolClass();
+            simpleLineSymbol.Width = 4;
+            simpleLineSymbol.Color = GetRGBColor(255, 0, 99);
+            simpleMarkerSymbol = new SimpleMarkerSymbolClass();
+            simpleMarkerSymbol.Style = esriSimpleMarkerStyle.esriSMSCircle;
+            simpleMarkerSymbol.Size = 8;
+            simpleMarkerSymbol.Color = GetRGBColor(255, 0, 0);
+
+        }
+        public  IRgbColor GetRGBColor(int Red, int Green, int Blue, byte Alpha = 255)
+        {
+            IRgbColor color = new RgbColorClass();
+            color.Red = Red;
+            color.Green = Green;
+            color.Blue = Blue;
+            color.Transparency = Alpha;
+            return color;
         }
 
         private XmlNode ConfigDocument
@@ -76,7 +101,6 @@ namespace LoowooTech.Stock
                 }
             }
         }
-
 
         private void btnZoomIn_Click(object sender, EventArgs e)
         {
@@ -128,6 +152,7 @@ namespace LoowooTech.Stock
                     try
                     {
                         FileListHelper.LoadMapData(_mdbPath, axMapControl1, configDoc);
+                        Full();
                     }
                     catch
                     {
@@ -177,7 +202,15 @@ namespace LoowooTech.Stock
                 btnExport.Enabled = true;
                 MessageBox.Show("已经完成质检", "完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            
+            //if (MessageBox.Show("质检完成，是否需要自动生成一份统计表格？", "质检提示", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            //{
+            //    var dialog = new FolderBrowserDialog { Description = "请选择统计表格保存的文件夹" };
+            //    if (dialog.ShowDialog() == DialogResult.OK)
+            //    {
+            //        var saveFolder = dialog.SelectedPath;
+            //        _workBench.Write(saveFolder);
+            //    }
+            //}
             lblOperator.Text = "就绪";
             btnStart.Enabled = true;
         }
@@ -190,7 +223,7 @@ namespace LoowooTech.Stock
                 var item = listView1.Items.Add(new ListViewItem(new string[]
                 {
                     q.Code, q.Name, q.Project.ToString(),
-                    q.TableName, q.BSM, q.Description, q.Remark
+                    q.TableName, q.BSM, q.Description, q.Remark,q.WhereClause
                 }));
             }
         }
@@ -211,6 +244,106 @@ namespace LoowooTech.Stock
                 }
                 
             }
+        }
+
+        private void btnGlobe2_Click(object sender, EventArgs e)
+        {
+            Full();
+        }
+
+        private void Full()
+        {
+            var tool = new ControlsMapFullExtentCommandClass();
+            tool.OnCreate(this.axMapControl1.Object);
+            tool.OnClick();
+        }
+
+        private void btnPan2_Click(object sender, EventArgs e)
+        {
+            var tool = new ControlsMapPanToolClass();
+            tool.OnCreate(this.axMapControl1.Object);
+            tool.OnClick();
+        }
+
+
+
+        private void Center(IFeature feature)
+        {
+            var envelope = feature.Shape.Envelope;
+            IPoint point = new PointClass();
+            try
+            {
+                point.PutCoords((envelope.XMin + envelope.XMax) / 2, (envelope.YMin + envelope.YMax) / 2);
+            }
+            catch
+            {
+                envelope = axMapControl1.ActiveView.Extent;
+                point.PutCoords((envelope.XMin + envelope.XMax) / 2, (envelope.YMin + envelope.YMax) / 2);
+            }
+            envelope.Expand(2, 2, true);
+
+            var env2 = axMapControl1.ActiveView.Extent;
+            env2.CenterAt(point);
+            axMapControl1.ActiveView.Extent = envelope;//env2  时  当前视图显示范围
+
+            axMapControl1.ActiveView.Refresh();
+        }
+
+        private void Twinkle(IFeature feature)
+        {
+            if (feature.Shape == null) return;
+            switch (feature.Shape.GeometryType)
+            {
+                case esriGeometryType.esriGeometryMultipoint:
+                case esriGeometryType.esriGeometryPoint:
+                    axMapControl1.FlashShape(feature.Shape, 4, 300, simpleMarkerSymbol);
+                    break;
+                case esriGeometryType.esriGeometryPolyline:
+                case esriGeometryType.esriGeometryLine:
+                    axMapControl1.FlashShape(feature.Shape, 4, 300, simpleLineSymbol);
+                    break;
+            }
+
+        }
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (this.listView1.SelectedItems.Count > 0)
+            {
+                var whereClause = this.listView1.SelectedItems[0].SubItems[7].Text;
+                var className = this.listView1.SelectedItems[0].SubItems[3].Text;
+                if (string.IsNullOrEmpty(whereClause))
+                {
+                    //MessageBox.Show("当前记录不支持定位显示");
+                    return;
+                }
+                if (!_spaceArray.Contains(className))
+                {
+                    MessageBox.Show("暂不支持非空间数据查看");
+                    return;
+                }
+                var featureClass = ParameterManager.Workspace.GetFeatureClass(className);
+                if (featureClass == null)
+                {
+                    MessageBox.Show("获取要素类失败......");
+                    return;
+                }
+                var feature = ArcGISManager.Search(featureClass, whereClause);
+                if (feature != null)
+                {
+                    this.tabControl2.SelectedIndex = 0;
+                    Center(feature);
+                    Twinkle(feature);
+
+                }
+                
+            }
+        }
+
+        private void btnIdentity2_Click(object sender, EventArgs e)
+        {
+            var tool = new ControlsMapIdentifyToolClass();
+            tool.OnCreate(this.axMapControl1.Object);
+            tool.OnClick();
         }
     }
     

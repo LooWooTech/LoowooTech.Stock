@@ -144,11 +144,21 @@
     <None Include="Coordinate Systems\Projected Coordinate Systems\Gauss Kruger\Xian 1980\Xian 1980 3 Degree GK Zone 40.prj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Excels\ExcelFive.xls" />
-    <None Include="Excels\ExcelFour.xls" />
-    <None Include="Excels\ExcelOne.xls" />
-    <None Include="Excels\ExcelThree.xls" />
-    <None Include="Excels\ExcelTwo.xls" />
+    <None Include="Excels\ExcelFive.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excels\ExcelFour.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excels\ExcelOne.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excels\ExcelThree.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excels\ExcelTwo.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="LoowooTech.pfx" />
     <None Include="Map.mxd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

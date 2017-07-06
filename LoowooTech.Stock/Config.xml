@@ -52,7 +52,7 @@
       <Rule ID="5101" Title="图层内属性一致性" Class="TBBHRule" Name="LoowooTech.Stock.Rules"></Rule>
     </Category>
     <Category Name="汇总表格检查">
-      <Rule ID="6101" Title="汇总表的记录条数的缺失，多余，检查汇总表记录中病毒属性值与数据库图层属性值是否完全一致" Class="ExcelValueLogicRule" Name="LoowooTech.Stock.Rules"></Rule>
+      <Rule ID="6101" Title="汇总表的记录条数的缺失，多余，检查汇总表记录中的属性值与数据库图层属性值是否完全一致" Class="ExcelValueLogicRule" Name="LoowooTech.Stock.Rules"></Rule>
       <Rule ID="6201" Title="表格数据中，各级汇总面积和数据库汇总面积的一致性" Class="ExcelValueCollectRule" Name="LoowooTech.Stock.Rules"></Rule>
     </Category>
   </Rules>

@@ -19,10 +19,10 @@ namespace LoowooTech.Stock.Rules
         {
             var tools = new List<GainAreaTool>()
             {
-                    new GainAreaTool { TableName="CLZJD",AreaFields=new string[] { "JZZDMJ", "FSYDMJ" } ,Denominator=10000},
-                    new GainAreaTool { TableName="JYXJSYD",AreaFields=new string[] { "JSYDMJ" },Denominator=10000 },
-                    new GainAreaTool { TableName="GGGL_GGFWSSYD",AreaFields=new string[] { "JSYDMJ" },Denominator=10000 },
-                    new GainAreaTool { TableName="QTCLJSYD",AreaFields=new string[] { "JSYDMJ" },Denominator=10000 }
+                    new GainAreaTool { TableName="CLZJD",AreaFields=new string[] { "JZZDMJ", "FSYDMJ" } ,Denominator=1},
+                    new GainAreaTool { TableName="JYXJSYD",AreaFields=new string[] { "JSYDMJ" },Denominator=1 },
+                    new GainAreaTool { TableName="GGGL_GGFWSSYD",AreaFields=new string[] { "JSYDMJ" },Denominator=1 },
+                    new GainAreaTool { TableName="QTCLJSYD",AreaFields=new string[] { "JSYDMJ" },Denominator=1 }
             };
             try
             {
@@ -30,7 +30,7 @@ namespace LoowooTech.Stock.Rules
                 {
                     tool.Gain(ParameterManager.Connection);
                 });
-                DCDYTBManager.Program();
+                DCDYTBManager.Program();//校验图斑的面积-（宅基地、经营性建设用地、公共管理和公共服务设施和其他存量建设用地）面积和<1平方米
 
             }catch(AggregateException ae)
             {

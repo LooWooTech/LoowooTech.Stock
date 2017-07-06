@@ -30,6 +30,7 @@ namespace LoowooTech.Stock.Models
         public string Description { get; set; }
         public string Remark { get; set; }
         public CheckProject Project { get; set; }
+        public string WhereClause { get; set; }
     }
 
     public enum CheckProject

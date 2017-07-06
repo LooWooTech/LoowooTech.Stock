@@ -47,9 +47,9 @@ namespace LoowooTech.Stock.WorkBench
         private bool SearchFile()
         {
             var path = System.IO.Path.Combine(Folder, DataBase);
-            var codeFileTool = new FileTool() { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)单位代码表.xls$" };
+            var codeFileTool = new FileTool() { Folder = path, Filter = "*.xls", RegexString = @"^[\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)单位代码表.xls$" };
             ParameterManager.CodeFilePath = codeFileTool.GetFile();
-            var mdbfileTool = new FileTool() { Folder = path, Filter = "*.mdb", RegexString = @"^[\u4e00-\u9fa5]{3,}\(330[0-9]{3}\)农村存量建设用地调查成果空间数据库.mdb$" };
+            var mdbfileTool = new FileTool() { Folder = path, Filter = "*.mdb", RegexString = @"^[\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地调查成果空间数据库.mdb$" };
             ParameterManager.MDBFilePath = mdbfileTool.GetFile();
 
             return !string.IsNullOrEmpty(ParameterManager.CodeFilePath) 
@@ -106,14 +106,14 @@ namespace LoowooTech.Stock.WorkBench
             ParameterManager.Init(Folder);
             OutputMessage("00", "参数管理器初始化完毕", ProgressResultTypeEnum.Other);
             ExcelManager.Init(ParameterManager.CodeFilePath);//初始化单位代码信息列表
-            if (ExcelManager.List.Count == 0)
+            if (ExcelManager.Dict.Count == 0)
             {
                 QuestionManager.Add(new Question { Code = "00", TableName = "单位代码表", Description = "未获取单位代码表中的相关数据信息" });
                 OutputMessage("00", "未获取单位代码表中的相关数据信息", ProgressResultTypeEnum.Fail);
             }
             else
             {
-                OutputMessage("00", string.Format("成功读取单位代码表信息:{0}条",ExcelManager.List.Count), ProgressResultTypeEnum.Other);
+                OutputMessage("00", string.Format("成功读取行政区（乡镇）单位代码表信息:{0}条",ExcelManager.Dict.Count), ProgressResultTypeEnum.Other);
             }
             if (ExcelManager.XZQ.Count == 0)
             {
@@ -125,13 +125,34 @@ namespace LoowooTech.Stock.WorkBench
                 QuestionManager.Add(new Question { Code = "00", TableName = "单位代码表", Description = "读取到的单位代码表中未填写行政区（村级）代码信息" });
                 OutputMessage("00", "读取到的单位代码表中未填写行政区（村级）代码信息", ProgressResultTypeEnum.Fail);
             }
-            
-            DCDYTBManager.Init(ParameterManager.Connection);//获取DCDYTB中的信息;
+            var list = ArcGISManager.GainDCDYTB(ParameterManager.Workspace, DCDYTBManager.ClassName)??new List<DCDYTB>();
+            if (list.Count == 0)
+            {
+                OutputMessage("00", "未获取调查单元类型相关基础信息", ProgressResultTypeEnum.Fail);
+            }
+            QuestionManager.AddRange(list.Where(e => e.Right == false).Select(e =>
+                new Question
+                {
+                    Code = "3401",
+                    Name="面积一致性",
+                    TableName = DCDYTBManager.ClassName,
+                    Description = string.Format("行政区名称：【{0}】行政区代码：【{1}】图斑编号：【{2}】的MJ:【{3}】图斑实际面积：【{4}】容差超过1平方米", e.XZCMC, e.XZCDM, e.TBBH,e.MJ,e.Area),
+                    BSM=e.BSM,
+                    WhereClause=string.Format("[BSM] = {0}",e.BSM)
+                }).ToList());
+            DCDYTBManager.List = list;
+            DCDYTBManager.Init(ParameterManager.Connection);
             OutputMessage("00", "成功读取调查单元图斑信息", ProgressResultTypeEnum.Other);
             InitRules();
             ParameterManager.Folder = Folder;
+            
             return true;
 
+        }
+        public void Write(string folder)
+        {
+            var tool = new ExcelValueCreateRule() { SaveFolder = folder };
+            tool.Write();
         }
         public void Program()
         {

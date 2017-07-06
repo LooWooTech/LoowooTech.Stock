@@ -1,6 +1,7 @@
 ﻿using ESRI.ArcGIS.AnalysisTools;
 using ESRI.ArcGIS.DataManagementTools;
 using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessor;
 using LoowooTech.Stock.Common;
 using LoowooTech.Stock.Models;
@@ -169,6 +170,13 @@ namespace LoowooTech.Stock.ArcGISTool
             return list;
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="featureClass">intersectfeatureClass</param>
+        /// <param name="fidName">DCDYTB</param>
+        /// <param name="titleName1">XZCMC</param>
+        /// <param name="titleName2">TBBH</param>
         private static void Run(IFeatureClass featureClass, string fidName, string titleName1, string titleName2)
         {
             var fid1 = featureClass.Fields.FindField(string.Format("FID_{0}", fidName));
@@ -193,8 +201,17 @@ namespace LoowooTech.Stock.ArcGISTool
                     if (valOne.ToString() != valTwo.ToString())//存在不相等，则表示存在相交
                     {
                         var val = feature.get_Value(title11).ToString();
-                        var str1 = string.Format("{0}:【{1}】--{2}：【{3}】存在图斑相交", titleName1, val, titleName2, feature.get_Value(title21));
-                        QuestionManager.Add(new Question { Code = "4101", Name = "拓扑关系", Project = CheckProject.拓扑关系, TableName = fidName, BSM = val, Description = str1 });
+                        var tbbh = feature.get_Value(title21);
+                        var str1 = string.Format("{0}:【{1}】--{2}：【{3}】存在图斑相交", titleName1, val, titleName2,tbbh );
+                        QuestionManager.Add(new Question {
+                            Code = "4101",
+                            Name = "拓扑关系",
+                            Project = CheckProject.拓扑关系,
+                            TableName = fidName,
+                            BSM = val,
+                            Description = str1,
+                            WhereClause=string.Format("[{0}] = '{1}' AND [{2}] = '{3}'",titleName1,val,titleName2,tbbh)
+                        });
                     }
                 }
                 catch (Exception ex)
@@ -208,6 +225,65 @@ namespace LoowooTech.Stock.ArcGISTool
             }
 
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+        }
+
+        public static List<DCDYTB> GainDCDYTB(IWorkspace workspace,string className)
+        {
+            var featureClass = workspace.GetFeatureClass(className);
+            if (featureClass == null)
+            {
+                return null;
+            }
+            return GainArea(featureClass);
+        }
+
+        private static List<DCDYTB> GainArea(IFeatureClass featureclass)
+        {
+            var DMIndex = featureclass.Fields.FindField("XZCDM");
+            var MCIndex = featureclass.Fields.FindField("XZCMC");
+            var BHIndex = featureclass.Fields.FindField("TBBH");
+            var LXIndex = featureclass.Fields.FindField("DCDYLX");
+            var MJIndex = featureclass.Fields.FindField("MJ");
+            var BSMIndex = featureclass.Fields.FindField("BSM");
+            if (DMIndex < 0 || MCIndex < 0 || BHIndex < 0||LXIndex<0||BSMIndex<0)
+            {
+                return null;
+            }
+            var list = new List<DCDYTB>();
+            IFeatureCursor featureCursor = featureclass.Search(null, false);
+            IFeature feature = featureCursor.NextFeature();
+            while (feature != null)
+            {
+                var area = feature.ShapeCopy as IArea;
+                var mjstring = feature.get_Value(MJIndex).ToString();
+                var a = .0;
+                var body = new DCDYTB
+                {
+                    BSM=feature.get_Value(BSMIndex).ToString(),
+                    XZCDM = feature.get_Value(DMIndex).ToString(),
+                    XZCMC = feature.get_Value(MCIndex).ToString(),
+                    TBBH = feature.get_Value(BHIndex).ToString(),
+                    DCDYLX = feature.get_Value(LXIndex).ToString(),
+                    Area=Math.Round(area.Area,2),
+                    MJ=double.TryParse(mjstring,out a)?Math.Round( a,2):.0
+                };
+
+                list.Add(body);
+                feature = featureCursor.NextFeature();
+            }
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+            return list;
+        }
+
+        public static IFeature Search(IFeatureClass featureClass,string whereClause)
+        {
+            IQueryFilter queryFilter = new QueryFilterClass();
+            queryFilter.WhereClause = whereClause;
+            IFeatureCursor featureCurosor = featureClass.Search(queryFilter, false);
+            IFeature feature = featureCurosor.NextFeature();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCurosor);
+            return feature;
+
         }
     }
 }

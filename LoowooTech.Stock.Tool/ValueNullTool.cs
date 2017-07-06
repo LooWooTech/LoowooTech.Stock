@@ -10,7 +10,6 @@ namespace LoowooTech.Stock.Tool
 {
     public class ValueNullTool:ValueBaseTool, ITool
     {
-
         public string[] CheckFields { get; set; }
         public string Key { get; set; }
         public string WhereCaluse { get; set; }
@@ -22,25 +21,26 @@ namespace LoowooTech.Stock.Tool
         {
             get
             {
-                var sb = new StringBuilder(string.Format("规则{0}:表‘{1}’ 当‘{2}’的时候，‘{3}’", ID, TableName, WhereCaluse, CheckFields[0]));
-                for(var i = 1; i < CheckFields.Count(); i++)
-                {
-                    sb.AppendFormat("、‘{0}’", CheckFields[i]);
-                }
-                sb.Append(Is_Nullable ? "为空" : "必填");
-                return sb.ToString(); 
+                //var sb = new StringBuilder(string.Format("规则{0}:表‘{1}’ 当‘{2}’的时候，‘{3}’", ID, TableName, WhereCaluse, CheckFields[0]));
+                //for(var i = 1; i < CheckFields.Count(); i++)
+                //{
+                //    sb.AppendFormat("、‘{0}’", CheckFields[i]);
+                //}
+                //sb.Append(Is_Nullable ? "为空" : "必填");
+                //return sb.ToString();
+                return
+                    string.IsNullOrEmpty(WhereCaluse) ?
+                    string.Format("规则{0}：表‘{1}’中字段‘{2}’{3}", ID, TableName, string.Join("、", CheckFields), Is_Nullable ? "为空" : "必填")
+                    : string.Format("规则{0}：表‘{1}’ 当‘{2}’时，字段‘{3}’{4}", ID, TableName, WhereCaluse, string.Join("、", CheckFields), Is_Nullable ? "为空" : "必填");
             }
         }
 
 
         public bool Check(OleDbConnection connection)
         {
-            var sb = new StringBuilder(CheckFields[0]);
-            for (var i = 1; i < CheckFields.Count(); i++)
-            {
-                sb.AppendFormat(",{0}", CheckFields[i]);
-            }
-            var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("Select {0},{1} from {2} where {3}", sb.ToString(), Key, TableName, WhereCaluse));
+            var reader = ADOSQLHelper.ExecuteReader(connection, string.IsNullOrEmpty(WhereCaluse)?
+                string.Format("Select {0},{1} from {2}",string.Join(",",CheckFields),Key,TableName)
+                :string.Format("Select {0},{1} from {2} where {3}", string.Join(",",CheckFields), Key, TableName, WhereCaluse));
             if (reader != null)
             {
                 var str = string.Empty;
@@ -50,7 +50,7 @@ namespace LoowooTech.Stock.Tool
                     str = string.Empty;
                     for (var i = 0; i < CheckFields.Count(); i++)
                     {
-                        if (Is_Nullable ^ string.IsNullOrEmpty(reader[i].ToString()))//异或  Is_NULLable  ture 为空  字段不为空或者 Is_NULLable false 必填 字段为空 矛盾
+                        if (Is_Nullable ^ string.IsNullOrEmpty(reader[i].ToString().Trim()))//异或  Is_NULLable  ture 为空  字段不为空或者 Is_NULLable false 必填 字段为空 矛盾
                         {
                             str += CheckFields[i] + ",";
                         }

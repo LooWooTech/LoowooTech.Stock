@@ -54,7 +54,7 @@ namespace LoowooTech.Stock.Tool
                 var array = new string[WhereFields.Length];
                 while (reader.Read())
                 {
-                    str = reader[0].ToString();
+                    str = reader[0].ToString().Trim();
                     for(var i = 0; i < WhereFields.Length; i++)
                     {
                         array[i] = reader[i + 2].ToString();
@@ -83,7 +83,7 @@ namespace LoowooTech.Stock.Tool
                 Messages = new List<string>();
                 while (reader.Read())
                 {
-                    str = reader[0].ToString();
+                    str = reader[0].ToString().Trim();
                     if (Values.Contains(str))
                     {
                         continue;

@@ -8,23 +8,59 @@ namespace LoowooTech.Stock.Common
 {
     public static class ExcelManager
     {
-        public static List<XZC> List { get; set; }
+        //public static List<XZC> List { get; set; }
         private static List<XZC> _XZQ { get; set; }
         /// <summary>
         /// 行政区
         /// </summary>
-        public static List<XZC> XZQ { get { return _XZQ == null ? _XZQ = List.Where(e => e.XZCDM.Length == 9).ToList() : _XZQ; }  }
+        public static List<XZC> XZQ { get { return _XZQ == null ? _XZQ = GainXZQ() : _XZQ; }  }
         private static List<XZC> _XZC { get; set; }
         /// <summary>
         /// 行政村
         /// </summary>
-        public static List<XZC> XZC { get { return _XZC == null ? _XZC = List.Where(e => e.XZCDM.Length == 12).ToList() : _XZC; } }
+        public static List<XZC> XZC { get { return _XZC == null ? _XZC = GainXZC() : _XZC; } }
         private static List<XZDC> _XZDC { get; set; }
         public static List<XZDC> XZDC { get { return _XZDC == null ? _XZDC = TransformList() : _XZDC; } }
+
+        private  static Dictionary<string,List<XZC>> _dict { get; set; }
+        public static Dictionary<string,List<XZC>> Dict { get { return _dict; } }
+
         public static void Init(string filePath)
         {
-            var list = ExcelClass.GainXZ(filePath);
-            List = list;
+            _dict = ExcelClass.GainXZ(filePath);
+            //var list = ExcelClass.GainXZ(filePath);
+            //List = list;
+        }
+
+        private static List<XZC> GainXZQ()
+        {
+            var list = new List<XZC>();
+           
+            if (_dict != null)
+            {
+                foreach(var key in _dict.Keys)
+                {
+                    var array = key.Split(',');
+                    list.Add(new Models.XZC
+                    {
+                        XZCMC = array[0],
+                        XZCDM = array[1]
+                    });
+                }
+            }
+            return list;
+        }
+        private static List<XZC> GainXZC()
+        {
+            var list = new List<XZC>();
+            if (_dict != null)
+            {
+                foreach(var range in _dict.Values)
+                {
+                    list.AddRange(range);
+                }
+            }
+            return list;
         }
 
         public static Dictionary<XZC,List<XZC>> TransformDict()
@@ -40,19 +76,17 @@ namespace LoowooTech.Stock.Common
         public static List<XZDC> TransformList()
         {
             var list = new List<XZDC>();
-            foreach(var item in XZC)
+            foreach(var entry in _dict)
             {
-                var xzq = XZQ.FirstOrDefault(e => e.XZCDM.Substring(0, 9) == item.XZCDM);
-                if (xzq != null)
+                var array = entry.Key.Split(',');
+                var xzq = new XZC
                 {
-                    list.Add(new Models.XZDC
-                    {
-                        XZCDM = item.XZCDM,
-                        XZCMC = item.XZCMC,
-                        XZQ = xzq
-                    });
-                }
+                    XZCMC = array[0],
+                    XZCDM = array[1]
+                };
+                list.AddRange(entry.Value.Select(e => new Models.XZDC { XZCDM = e.XZCDM, XZCMC = e.XZCMC, XZQ = xzq }));
             }
+
             return list;
         }
     }

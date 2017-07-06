@@ -72,9 +72,9 @@ namespace LoowooTech.Stock.Common
                 XZCDM = values[1]
             };
         }
-        public static List<XZC> GainXZ(string filePath)
+        public static Dictionary<string,List<XZC>> GainXZ(string filePath)
         {
-            var list = new List<XZC>();
+            var dict = new Dictionary<string, List<XZC>>();
             IWorkbook workbook = filePath.OpenExcel();
             if (workbook != null)
             {
@@ -82,17 +82,41 @@ namespace LoowooTech.Stock.Common
                 if (sheet != null)
                 {
                     IRow row = null;
+                    var key = string.Empty;
                     for(var i = 1; i <= sheet.LastRowNum; i++)
                     {
                         row = sheet.GetRow(i);
                         if (row != null)
                         {
-                            list.Add(GainXZ(row));
+                            var entry = GainXZ(row);
+                            if (string.IsNullOrEmpty(entry.XZCDM) || string.IsNullOrEmpty(entry.XZCMC))
+                            {
+                                continue;
+                            }
+                            if (entry.XZCDM.Length == 9)
+                            {
+                                key = entry.XZCMC + "," + entry.XZCDM;
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(key))
+                                {
+                                    if (dict.ContainsKey(key))
+                                    {
+                                        dict[key].Add(entry);
+                                    }
+                                    else
+                                    {
+                                        dict.Add(key, new List<XZC> { entry});
+                                    }
+                                }
+                            }
+                            //list.Add(GainXZ(row));
                         }
                     }
                 }
             }
-            return list;
+            return dict;
         }
     }
 }

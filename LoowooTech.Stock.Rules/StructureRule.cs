@@ -20,11 +20,16 @@ namespace LoowooTech.Stock.Rules
         public bool Space { get { return false; } }
         public void Check()
         {
-            Parallel.ForEach(ParameterManager.TableNames, table =>
+            foreach(var table in ParameterManager.TableNames)
             {
                 var tool = new FieldStructureTool { TableName = table, ID = "3101" };
                 tool.Check(ParameterManager.Connection);
-            }); 
+            }
+            //Parallel.ForEach(ParameterManager.TableNames, table =>
+            //{
+            //    var tool = new FieldStructureTool { TableName = table, ID = "3101" };
+            //    tool.Check(ParameterManager.Connection);
+            //}); 
         }
     }
 }
