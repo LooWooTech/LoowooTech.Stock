@@ -143,9 +143,9 @@
   <Excel Name="表1" Title="{Name}({Code})农村存量建设用地总体情况汇总表.xls" Regex="^表1 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地总体情况汇总表.xls$"  TableName="NCCLJSYDZTQK" Model="ExcelOne.xls">
     <Field  Name="" Title="行政村个数" Index="2" Type="Int" Compute="Count"></Field>
     <Field  Name="ZRCGS" Title="自然村个数" Index="3" Type="Int" Compute="Sum"></Field>
-    <Field  Name="XZCZYDMJ" Title="变更调查村庄面积" Index="4" Type="double" Compute="Sum" Unit="亩"></Field>
-    <Field  Name="DJCZYDMJ" Title="地籍调查村庄面积" Index="5" Type="double" Compute="Sum" Unit="亩"></Field>
-    <Field  Name="QQCZYDMJ" Title="确权登记村庄面积" Index="6" Type="double" Compute="Sum" Unit="亩"></Field>
+    <Field  Name="XZCZYDMJ" Title="变更调查村庄面积" Index="4" Type="double" Compute="Sum" Unit="平方米"></Field>
+    <Field  Name="DJCZYDMJ" Title="地籍调查村庄面积" Index="5" Type="double" Compute="Sum" Unit="平方米"></Field>
+    <Field  Name="QQCZYDMJ" Title="确权登记村庄面积" Index="6" Type="double" Compute="Sum" Unit="平方米"></Field>
     <Field  Name="RKZS" Title="人口总数" Index="7" Type="Int" Compute="Sum"></Field>
     <Field  Name="HS" Title="户数" Index="8" Type="Int" Compute="Sum"></Field>
     <Field  Name="HJRK" Title="户籍人口" Index="9" Type="Int" Compute="Sum"></Field>

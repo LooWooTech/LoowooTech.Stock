@@ -65,7 +65,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(112, 14);
             this.label3.TabIndex = 2;
-            this.label3.Text = "版本号：V 1.0.4";
+            this.label3.Text = "版本号：V 1.0.5";
             // 
             // progressBar1
             // 
@@ -91,7 +91,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Tag = "";
-            this.Text = "LoadForm";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoadForm_FormClosing);
             this.Load += new System.EventHandler(this.LoadForm_Load);
