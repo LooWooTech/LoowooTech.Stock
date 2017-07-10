@@ -16,41 +16,17 @@ namespace LoowooTech.Stock
         public LoadForm()
         {
             InitializeComponent();
+            _instance = this;
         }
 
-        private void LoadForm_FormClosing(object sender, FormClosingEventArgs e)
+
+        private static LoadForm _instance;
+        public static LoadForm Instance
         {
-            //if (_th != null)
-            //{
-            //    while (!_th.IsAlive) ;
-            //    _th.Join();
-            //}
+            get
+            {
+                return _instance;
+            }
         }
-
-        private void LoadForm_Load(object sender, EventArgs e)
-        {
-            //_th = new Thread(DoData);
-            //_th.IsBackground = true;
-            //_th.Start(100);
-        }
-        //private delegate void DoDataDelegate(object number);
-
-        //private void DoData(object number)
-        //{
-        //    if (progressBar1.InvokeRequired)
-        //    {
-        //        DoDataDelegate d = DoData;
-        //        progressBar1.Invoke(d, number);
-        //    }
-        //    else
-        //    {
-        //        progressBar1.Maximum = (int)number;
-        //        for(var i = 0; i < (int)number; i++)
-        //        {
-        //            progressBar1.Value = i;
-        //            Application.DoEvents();
-        //        }
-        //    }
-        //}
     }
 }

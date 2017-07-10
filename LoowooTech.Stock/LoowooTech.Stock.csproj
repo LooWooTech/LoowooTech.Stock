@@ -64,8 +64,6 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.Geodatabase, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>..\..\..\Windows\assembly\GAC_MSIL\ESRI.ArcGIS.Geodatabase\10.2.0.0__8fc3cc631e44ad86\ESRI.ArcGIS.Geodatabase.dll</HintPath>
       <Private>False</Private>
     </Reference>
@@ -175,9 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="1497449777_checklist_pencil-b.ico" />
-    <Content Include="3rd\System.Windows.Forms.Ribbon35.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="3rd\System.Windows.Forms.Ribbon35.dll" />
     <Content Include="3rd\System.Windows.Forms.Ribbon35.pdb" />
     <Content Include="Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -192,6 +188,7 @@
     <Content Include="FieldInfo.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Publish_32x32.png" />
     <None Include="Resources\4601.png" />
     <None Include="Resources\460.png" />
     <None Include="Resources\BingWallpaper-2017-06-06.jpg" />
@@ -242,6 +239,10 @@
     <ProjectReference Include="..\LoowooTech.Stock.WorkBench\LoowooTech.Stock.WorkBench.csproj">
       <Project>{b7d49453-9323-4e74-b1fc-56ada5f0d99f}</Project>
       <Name>LoowooTech.Stock.WorkBench</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoowooTech.Updater\LoowooTech.Updater.csproj">
+      <Project>{df065bec-3df6-4f5b-a20b-e2e5732a034c}</Project>
+      <Name>LoowooTech.Updater</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

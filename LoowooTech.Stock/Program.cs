@@ -8,6 +8,8 @@ namespace LoowooTech.Stock
 {
     static class Program
     {
+
+        private static MainForm _form;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -32,16 +34,10 @@ namespace LoowooTech.Stock
                 Application.SetCompatibleTextRenderingDefault(false);
                 var load = new LoadForm();
                 load.Show();
-                System.Windows.Forms.Application.DoEvents();
-                for (var i = 0; i < 50; i++)
-                {
-                    Thread.Sleep(200);
-                    Application.DoEvents();
-                }
-
-                var form = new MainForm();
-                load.Close();
-                Application.Run(form);
+                Application.DoEvents();
+                _form = new MainForm();
+                
+                Application.Run(_form);
             }
             catch (Exception ex)
             {
@@ -62,6 +58,11 @@ namespace LoowooTech.Stock
                 WriteLog(str);
                 MessageBox.Show("发生未处理异常，请及时联系软件维护人员！", "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        static void LoadForm()
+        {
+            _form = new MainForm();
         }
 
        

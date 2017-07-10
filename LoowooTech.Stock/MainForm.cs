@@ -5,6 +5,7 @@ using ESRI.ArcGIS.Geometry;
 using LoowooTech.Stock.ArcGISTool;
 using LoowooTech.Stock.Models;
 using LoowooTech.Stock.WorkBench;
+using LoowooTech.Updater;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -37,9 +38,7 @@ namespace LoowooTech.Stock
 
         public MainForm()
         {
-         
             InitializeComponent();
-
             simpleLineSymbol = new SimpleLineSymbolClass();
             simpleLineSymbol.Width = 4;
             simpleLineSymbol.Color = GetRGBColor(255, 0, 99);
@@ -47,7 +46,6 @@ namespace LoowooTech.Stock
             simpleMarkerSymbol.Style = esriSimpleMarkerStyle.esriSMSCircle;
             simpleMarkerSymbol.Size = 8;
             simpleMarkerSymbol.Color = GetRGBColor(255, 0, 0);
-
         }
         public  IRgbColor GetRGBColor(int Red, int Green, int Blue, byte Alpha = 255)
         {
@@ -72,9 +70,9 @@ namespace LoowooTech.Stock
         private void MainForm_Load(object sender, EventArgs e)
         {
             RuleHelper.LoadRules(treeView1, ConfigDocument);
+            LoadForm.Instance.Close();
         }
-
-
+        
         private void ToolButton_Click(object sender, EventArgs e)
         {
             if (sender is Control)
@@ -344,6 +342,53 @@ namespace LoowooTech.Stock
             var tool = new ControlsMapIdentifyToolClass();
             tool.OnCreate(this.axMapControl1.Object);
             tool.OnClick();
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            CheckUpdate(true);
+        }
+
+        private void CheckUpdate(bool needEcho)
+        {
+            var manager = new UpdateManager();
+            try
+            {
+                manager.GetLocalMetadata();
+                manager.GetMetadata();
+                if (manager.NeedUpdate)
+                {
+                    if (MessageBox.Show("发现新版本程序，是否关闭当前程序并更新?", "发现更新", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    {
+                        var startInfo = new ProcessStartInfo
+                        {
+                            UseShellExecute = true,
+                            WorkingDirectory = Environment.CurrentDirectory,
+                            FileName = "LoowooTech.Updater.exe",
+                            Verb = "runas"
+                        };
+                        try
+                        {
+                            Process.Start(startInfo);
+                        }
+                        catch
+                        {
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("当前已经是最新版本，无需更新", "更新", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch
+            {
+                if(needEcho)
+                {
+                    MessageBox.Show("检查更新失败，请稍后再试", "更新", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
     
