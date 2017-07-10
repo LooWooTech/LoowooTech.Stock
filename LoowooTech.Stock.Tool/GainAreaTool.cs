@@ -52,9 +52,9 @@ namespace LoowooTech.Stock.Tool
                 }
                 if (List.Count == 0)
                 {
-                    var info = string.Format("获取表【{0}】中的图斑面积时，图斑面积数据量为空", TableName);
-                    LogManager.Log(info);
-                    QuestionManager.Add(new Question { Code = "3201", Name = "检验图斑面积", TableName = TableName, Description = info });
+                    //var info = string.Format("获取表【{0}】中的图斑面积时，图斑面积数据量为空", TableName);
+                    //LogManager.Log(info);
+                    //QuestionManager.Add(new Question { Code = "3201", Name = "检验图斑面积", TableName = TableName, Description = info });
                 }
                 else
                 {
