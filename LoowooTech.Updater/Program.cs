@@ -82,7 +82,7 @@ namespace LoowooTech.Updater
             var files = dir.GetFiles();
             foreach(var file in files)
             {
-                zip.AddFile(file.FullName, file.FullName.Replace(baseFolder, string.Empty));
+                zip.AddFile(file.FullName, file.DirectoryName.Replace(baseFolder, string.Empty));
             }
 
             var dirs = dir.GetDirectories();

@@ -370,6 +370,7 @@ namespace LoowooTech.Stock
                         try
                         {
                             Process.Start(startInfo);
+                            Application.Exit();
                         }
                         catch
                         {
@@ -391,6 +392,4 @@ namespace LoowooTech.Stock
             }
         }
     }
-    
-   
 }
