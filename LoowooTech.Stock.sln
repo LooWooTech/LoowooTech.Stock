@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Stock", "LoowooT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Stock.WorkBench", "LoowooTech.Stock.WorkBench\LoowooTech.Stock.WorkBench.csproj", "{B7D49453-9323-4E74-B1FC-56ADA5F0D99F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoowooTech.Updater", "LoowooTech.Updater\LoowooTech.Updater.csproj", "{DF065BEC-3DF6-4F5B-A20B-E2E5732A034C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{B7D49453-9323-4E74-B1FC-56ADA5F0D99F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7D49453-9323-4E74-B1FC-56ADA5F0D99F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7D49453-9323-4E74-B1FC-56ADA5F0D99F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF065BEC-3DF6-4F5B-A20B-E2E5732A034C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF065BEC-3DF6-4F5B-A20B-E2E5732A034C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF065BEC-3DF6-4F5B-A20B-E2E5732A034C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF065BEC-3DF6-4F5B-A20B-E2E5732A034C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
