@@ -1,11 +1,11 @@
 ﻿using Ionic.Zip;
 using LoowooTech.Updater.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Net;
-using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Windows.Forms;
 
@@ -49,31 +49,67 @@ namespace LoowooTech.Updater
         {
             using (var reader = new StreamReader("local.json"))
             {
-                LocalVersion = DeserializeObject<ProductVersion>(reader.ReadToEnd());
+                LocalVersion = JsonConvert.DeserializeObject<ProductVersion>(reader.ReadToEnd());
             }
         }
 
         public void GetMetadata()
         {
-            
+            RemoteVersion = GetMetadata(ServerAddress, ProductId);
+            _progressValue = 0;
+            _totalProgress = 0;
+            foreach (var file in RemoteVersion.Files)
+            {
+                _totalProgress += file.Size;
+            }
+        }
+
+        public static ProductVersion GetMetadata(string serverAddress, string productId)
+        {
             using (var stream = new MemoryStream())
             {
-                var url = string.Format("{0}/{1}/version.json", ServerAddress, ProductId);
+                var url = string.Format("{0}/{1}/version.json", serverAddress, productId);
                 if (Download2Stream(stream, url))
                 {
                     var arr = stream.ToArray();
-                    var str = Encoding.UTF8.GetString(arr, 3, arr.Length-3);
-                    RemoteVersion = DeserializeObject<ProductVersion>(str);
-
-                    _progressValue = 0;
-                    _totalProgress = 0;
-                    foreach (var file in RemoteVersion.Files)
-                    {
-                        _totalProgress += file.Size;
-                    }
+                    var str = Encoding.UTF8.GetString(arr, 3, arr.Length - 3);
+                    return JsonConvert.DeserializeObject<ProductVersion>(str);
                 }
             }
+            return null;
         }
+        
+        private static bool Download2Stream(Stream stream, string url, bool overwrite = false)
+        {
+            //打开上次下载的文件
+            long SPosition = 0;
+
+            try
+            {
+                //打开网络连接
+                var myRequest = (HttpWebRequest)HttpWebRequest.Create(url);
+                if (SPosition > 0)
+                    myRequest.AddRange((int)SPosition);
+                using (var myStream = myRequest.GetResponse().GetResponseStream())
+                {
+                    //定义一个字节数据
+                    var btContent = new byte[512];
+                    var intSize = myStream.Read(btContent, 0, 512);
+                    while (intSize > 0)
+                    {
+                        stream.Write(btContent, 0, intSize);
+                        intSize = myStream.Read(btContent, 0, 512);
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
 
         public void StartUpdate()
         {
@@ -133,7 +169,7 @@ namespace LoowooTech.Updater
 
             using (var writer = new StreamWriter("local.json",false))
             {
-                writer.WriteLine(SerializeObject(RemoteVersion));
+                writer.WriteLine(JsonConvert.SerializeObject(RemoteVersion));
             }
             LocalVersion = RemoteVersion;
 
@@ -203,37 +239,6 @@ namespace LoowooTech.Updater
             }
         }
 
-        private bool Download2Stream(Stream stream, string url, bool overwrite = false)
-        {
-            //打开上次下载的文件
-            long SPosition = 0;
-            
-            try
-            {
-                //打开网络连接
-                var myRequest = (HttpWebRequest)HttpWebRequest.Create(url);
-                if (SPosition > 0)
-                    myRequest.AddRange((int)SPosition);
-                using (var myStream = myRequest.GetResponse().GetResponseStream())
-                {
-                    //定义一个字节数据
-                    var btContent = new byte[512];
-                    var intSize = myStream.Read(btContent, 0, 512);
-                    while (intSize > 0)
-                    {
-                        stream.Write(btContent, 0, intSize);
-                        intSize = myStream.Read(btContent, 0, 512);
-                    }
-                }
-                                           
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
         public static string HashFile(string fileName)
         {
 
@@ -300,26 +305,7 @@ namespace LoowooTech.Updater
             if (hash != info.Hash) return string.Empty;
             return basePath;
         }
-
-        public static string SerializeObject<T>(T o)
-        {
-            var serializer = new DataContractJsonSerializer(typeof(T));
-            using (var stream = new MemoryStream())
-            {
-                serializer.WriteObject(stream, o);
-                return Encoding.UTF8.GetString(stream.ToArray());                
-            }
-        }
-
-        public static T DeserializeObject<T>(string content)
-        {
-            var serializer = new DataContractJsonSerializer(typeof(T));
-
-            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(content)))
-            {               
-                return (T)serializer.ReadObject(ms);             
-            }
-        }
+        
     }
 }
   

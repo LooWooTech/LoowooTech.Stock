@@ -65,6 +65,7 @@ Temporary Items
 /LoowooTech.Stock.WorkBench/obj
 /.vs
 *.suo
-*.user
+.user
 /LoowooTech.Updater/bin/Debug
 /LoowooTech.Updater/obj/Debug
+/LoowooTech.Updater/bin/Temp

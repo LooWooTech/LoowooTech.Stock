@@ -5,9 +5,9 @@ using ESRI.ArcGIS.Geometry;
 using LoowooTech.Stock.ArcGISTool;
 using LoowooTech.Stock.Models;
 using LoowooTech.Stock.WorkBench;
-using LoowooTech.Updater;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -351,12 +351,13 @@ namespace LoowooTech.Stock
 
         private void CheckUpdate(bool needEcho)
         {
-            var manager = new UpdateManager();
+            
             try
             {
-                manager.GetLocalMetadata();
-                manager.GetMetadata();
-                if (manager.NeedUpdate)
+                var localVer = UpdateUtil.GetLocalMetadata();
+                var remoteVer = UpdateUtil.GetMetadata(ConfigurationManager.AppSettings["Server"], ConfigurationManager.AppSettings["ProductId"]);
+                
+                if (remoteVer.Build > localVer.Build)
                 {
                     if (MessageBox.Show("发现新版本程序，是否关闭当前程序并更新?", "发现更新", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {

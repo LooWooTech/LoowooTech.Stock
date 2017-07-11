@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -44,6 +45,24 @@ namespace LoowooTech.Updater
                 {
                     btnUpdate.Text = "开始更新";
                     btnUpdate.Enabled = false;
+                    if(MessageBox.Show("更新完成，是否立即打开软件？", "完成", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    {
+                        var startInfo = new ProcessStartInfo
+                        {
+                            UseShellExecute = true,
+                            WorkingDirectory = Environment.CurrentDirectory,
+                            FileName = "LoowooTech.Stock.exe",
+                        };
+                        try
+                        {
+                            Process.Start(startInfo);
+                            Application.Exit();
+                        }
+                        catch
+                        {
+                            return;
+                        }
+                    }
                 }
                 else if(e.State == UpdateStateChangeStateEnum.Fail)
                 {
@@ -125,6 +144,15 @@ namespace LoowooTech.Updater
         private void StartUpdate()
         {
             _updateManager.StartUpdate();
+        }
+
+        private void UpdateForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(_thread != null && _thread.IsAlive)
+            {
+                MessageBox.Show("正在执行更新操作，请等待更新完成或停止更新");
+                e.Cancel = true;
+            }
         }
     }
 }
