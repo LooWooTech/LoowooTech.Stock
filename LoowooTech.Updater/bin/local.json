@@ -1,0 +1,14 @@
+﻿{
+  "ChangeLog": "第一次更新",
+  "Files": [
+    {
+      "Address": "http://www.loowootech.com/Stock/7beb562e-1589-4ef8-85da-f66caf3bd0ca/2017001.zip",
+      "Type": "Zip",
+      "Hash": "",
+      "Size": 100
+    }
+  ],
+  "ProductId": "7beb562e-1589-4ef8-85da-f66caf3bd0ca",
+  "Name": "1.0.0",
+  "Build": 2017001
+}
