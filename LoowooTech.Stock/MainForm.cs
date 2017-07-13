@@ -365,7 +365,7 @@ namespace LoowooTech.Stock
                         {
                             UseShellExecute = true,
                             WorkingDirectory = Environment.CurrentDirectory,
-                            FileName = "LoowooTech.Updater.exe",
+                            FileName = "Updater.exe",
                             Verb = "runas"
                         };
                         try
