@@ -78,9 +78,8 @@ namespace LoowooTech.Updater
 
                 if(args.Length>2)
                 {
-                    version.ChangeLog = string.Format("{0:yyyy-MM-dd}<br>{1}<br>------------------------------------------<br>{2}", DateTime.Now, args[2], version.ChangeLog);
+                    version.ChangeLog = string.Format("版本{0}(Build {1}) {2:yyyy-MM-dd}<br>{3}<br>------------------------------------------<br>{2}", version.Name, version.Build, DateTime.Now, args[2], version.ChangeLog);
                 }
-
                 
                 using (var writer = new StreamWriter("version.json", false))
                 {
