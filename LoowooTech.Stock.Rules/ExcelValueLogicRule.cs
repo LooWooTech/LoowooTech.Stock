@@ -24,17 +24,17 @@ namespace LoowooTech.Stock.Rules
                 new ExcelFour { Connection=ParameterManager.Connection,List=ExcelManager.XZQ,District=ParameterManager.District,Code=ParameterManager.Code,Folder=ParameterManager.CollectFolder,CheckCode=ID},
                 new ExcelFive { Connection=ParameterManager.Connection,List=ExcelManager.XZQ,District=ParameterManager.District,Code=ParameterManager.Code,Folder=ParameterManager.CollectFolder,CheckCode=ID}
             };
-            //foreach (var tool in tools)
-            //{
-            //    tool.Check();
-            //    System.Console.WriteLine(tool.ExcelName);
-            //    QuestionManager.AddRange(tool.ParalleQuestions.ToList());
-            //}
-            Parallel.ForEach(tools, item =>
+            foreach (var tool in tools)
             {
-                item.Check();
-                QuestionManager.AddRange(item.ParalleQuestions.ToList());
-            });
+                tool.Check();
+                System.Console.WriteLine(tool.ExcelName);
+                QuestionManager.AddRange(tool.ParalleQuestions.ToList());
+            }
+            //Parallel.ForEach(tools, item =>
+            //{
+            //    item.Check();
+            //    QuestionManager.AddRange(item.ParalleQuestions.ToList());
+            //});
         }
     }
 }

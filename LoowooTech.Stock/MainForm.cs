@@ -176,7 +176,7 @@ namespace LoowooTech.Stock
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(_mdbPath) || string.IsNullOrEmpty(_mdbPath))
+            if (string.IsNullOrEmpty(_mdbPath) || string.IsNullOrEmpty(_mdbPath))
             {
                 MessageBox.Show("您还没有指定数据文件所在目录或目录中缺失数据库文件", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;

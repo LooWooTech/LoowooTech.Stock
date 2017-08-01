@@ -76,14 +76,14 @@ namespace LoowooTech.Stock.WorkBench
 
             _rules.Add(new FileFolderStandardRule());
             _rules.Add(new FileOpenRule());
-            _rules.Add(new VectorRule ());
-            _rules.Add(new CoordinateRule ());
-            _rules.Add(new StructureRule ());
+            _rules.Add(new VectorRule());
+            _rules.Add(new CoordinateRule());
+            _rules.Add(new StructureRule());
             _rules.Add(new ValueRule());
             _rules.Add(new XZCDMRule());
-            _rules.Add(new BSMRule ());
-            _rules.Add(new TBAreaRule ());
-            _rules.Add(new TopologyRule ());
+            _rules.Add(new BSMRule());
+            _rules.Add(new TBAreaRule());
+            _rules.Add(new TopologyRule());
             _rules.Add(new SplinterRule());
             _rules.Add(new ContinuousRule());
             _rules.Add(new TBBHRule());
@@ -100,7 +100,7 @@ namespace LoowooTech.Stock.WorkBench
             }
             if (!SearchFile())//查找单位代码表和数据库文件
             {
-                OutputMessage("00", "未找到单位代码表或者数据库文件", ProgressResultTypeEnum.Fail);   
+                OutputMessage("00", "未找到单位代码表或者数据库文件", ProgressResultTypeEnum.Fail);
                 return false;
             }
             ParameterManager.Init(Folder);
@@ -113,7 +113,7 @@ namespace LoowooTech.Stock.WorkBench
             }
             else
             {
-                OutputMessage("00", string.Format("成功读取行政区（乡镇）单位代码表信息:{0}条",ExcelManager.Dict.Count), ProgressResultTypeEnum.Other);
+                OutputMessage("00", string.Format("成功读取行政区（乡镇）单位代码表信息:{0}条", ExcelManager.Dict.Count), ProgressResultTypeEnum.Other);
             }
             if (ExcelManager.XZQ.Count == 0)
             {
@@ -125,7 +125,7 @@ namespace LoowooTech.Stock.WorkBench
                 QuestionManager.Add(new Question { Code = "00", TableName = "单位代码表", Description = "读取到的单位代码表中未填写行政区（村级）代码信息" });
                 OutputMessage("00", "读取到的单位代码表中未填写行政区（村级）代码信息", ProgressResultTypeEnum.Fail);
             }
-            var list = ArcGISManager.GainDCDYTB(ParameterManager.Workspace, DCDYTBManager.ClassName)??new List<DCDYTB>();
+            var list = ArcGISManager.GainDCDYTB(ParameterManager.Workspace, DCDYTBManager.ClassName) ?? new List<DCDYTB>();
             if (list.Count == 0)
             {
                 OutputMessage("00", "未获取调查单元类型相关基础信息", ProgressResultTypeEnum.Fail);
@@ -134,11 +134,11 @@ namespace LoowooTech.Stock.WorkBench
                 new Question
                 {
                     Code = "3401",
-                    Name="面积一致性",
+                    Name = "面积一致性",
                     TableName = DCDYTBManager.ClassName,
-                    Description = string.Format("行政区名称：【{0}】行政区代码：【{1}】图斑编号：【{2}】的MJ:【{3}】图斑实际面积：【{4}】容差超过1平方米", e.XZCMC, e.XZCDM, e.TBBH,e.MJ,e.Area),
-                    BSM=e.BSM,
-                    WhereClause=string.Format("[BSM] = {0}",e.BSM)
+                    Description = string.Format("行政区名称：【{0}】行政区代码：【{1}】图斑编号：【{2}】的MJ:【{3}】图斑实际面积：【{4}】容差超过1平方米", e.XZCMC, e.XZCDM, e.TBBH, e.MJ, e.Area),
+                    BSM = e.BSM,
+                    WhereClause = string.Format("[BSM] = {0}", e.BSM)
                 }).ToList());
             DCDYTBManager.List = list;
             DCDYTBManager.Init(ParameterManager.Connection);

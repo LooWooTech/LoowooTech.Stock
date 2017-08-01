@@ -345,7 +345,7 @@ namespace LoowooTech.Stock.Rules
                         temp.Val= cell.NumericCellValue;
                         break;
                     default:
-                        temp.Val = cell.ToString();
+                        temp.Val = cell.ToString().Trim();
                         break;
                 }
                 list.Add(temp);

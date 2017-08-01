@@ -109,12 +109,16 @@ namespace LoowooTech.Stock.Rules
             Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "FQYY" }, Key = _key, WhereCaluse = "LYZT='3'", Is_Nullable = false, ID = "10015" });
             Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "KZYY" }, Key = _key, WhereCaluse = "LYZT='3'", Is_Nullable = true, ID = "10016" });
             Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "QTYY" }, Key = _key, WhereCaluse = "KZYY = '5' OR FQYY = '4'", Is_Nullable = false, ID = "10017" });
-            Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "SFWFKD", Key = _key, Values = new string[] { "是", "否" }, WhereFields = new string[] { "XZCDM", "TBBH" }, Split = "/", WhereList = DCDYTBManager.List.Where(e => e.DCDYLX == "1").Select(e => string.Format("{0}/{1}", e.XZCDM, e.TBBH)).ToList(), ID = "10018" });
-            Tools.Add(new ValueCompareTool { TableName = "CLZJD", Key = _key, FieldArray1 = new string[] { "JZZDMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "10018" });
-            Tools.Add(new ValueCompareTool { TableName = "CLZJD", Key = _key, FieldArray1 = new string[] { "FSYDMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "10019" });
-            Tools.Add(new ValueCompareTool { TableName = "CLZJD", Key = _key, FieldArray1 = new string[] { "JZMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "10020" });
-            Tools.Add(new ValueNullTool { TableName = "CLZJD", Key = _key, CheckFields = new string[] { "BSM", "YSDM", "XZCDM", "XZCMC", "DCBH", "TBBH", "JZZDMJ", "FSYDMJ", "JZMJ", "JZLX", "JTRK", "JZSJ" }, Is_Nullable = false, ID = "10021" });
-
+            //Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "SFWFKD", Key = _key, Values = new string[] { "是", "否" }, WhereFields = new string[] { "XZCDM", "TBBH" }, Split = "/", WhereList = DCDYTBManager.List.Where(e => e.DCDYLX == "1").Select(e => string.Format("{0}/{1}", e.XZCDM, e.TBBH)).ToList(), ID = "10018" });
+            Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "SFWFKD", Key = _key, Values = new string[] { "是", "否" }, ID = "10018" });
+            Tools.Add(new ValueRangeTool() { TableName = "CLZJD", CheckFieldName = "FKDYJ", Key = _key, Values = new string[] { "1", "2", "" }, ID = "10019" });
+            Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "FKDYJ" }, Key = _key, WhereCaluse = "SFWFKD = '是'", Is_Nullable = false, ID = "10020" });
+            Tools.Add(new ValueNullTool() { TableName = "CLZJD", CheckFields = new string[] { "FKDYJ" }, Key = _key, WhereCaluse = "SFWFKD = '否'", Is_Nullable = true, ID = "10021" });
+            Tools.Add(new ValueCompareTool { TableName = "CLZJD", Key = _key, FieldArray1 = new string[] { "JZZDMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "10022" });
+            Tools.Add(new ValueCompareTool { TableName = "CLZJD", Key = _key, FieldArray1 = new string[] { "FSYDMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "10023" });
+            Tools.Add(new ValueCompareTool { TableName = "CLZJD", Key = _key, FieldArray1 = new string[] { "JZMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "10024" });
+            Tools.Add(new ValueNullTool { TableName = "CLZJD", Key = _key, CheckFields = new string[] { "BSM", "YSDM", "XZCDM", "XZCMC", "DCBH", "TBBH", "JZZDMJ", "FSYDMJ", "JZMJ", "JZLX", "JTRK", "JZSJ","SFWFKD" }, Is_Nullable = false, ID = "10021" });
+            Tools.Add(new ValueNullTool { TableName = "CLZJD", Key = _key, CheckFields = new string[] { "YCSRBZ", "NHLX" }, Is_Nullable = false, WhereFields = new string[] { "XZCDM", "TBBH" },  Split = "/", WhereList = DCDYTBManager.List.Where(e => e.DCDYLX != "1").Select(e => string.Format("{0}/{1}", e.XZCDM, e.TBBH)).ToList(), ID = "10022" });
             #endregion
 
             #region 农村存量经营性建设用地利用现状调查表基本属性结构表
@@ -171,7 +175,7 @@ namespace LoowooTech.Stock.Rules
             Tools.Add(new ValueNullTool() { TableName = "GGGL_GGFWSSYD", CheckFields = new string[] { "KZYY", "FWRS", "SYMJ" }, Key = _key, WhereCaluse = "LYZT='3'", ID = "12014", Is_Nullable = true });
             Tools.Add(new ValueCompareTool { TableName = "GGGL_GGFWSSYD", Key = _key, FieldArray1 = new string[] { "JSYDMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "12015" });
             Tools.Add(new ValueCompareTool { TableName = "GGGL_GGFWSSYD", Key = _key, FieldArray1 = new string[] { "JZMJ" }, Value = .0, Compare = Compare.MoreEqual, ID = "12016" });
-            Tools.Add(new ValueNullTool { TableName = "GGGL_GGFWSSYD", Key = _key, CheckFields = new string[] { "BSM", "YSDM", "XZCDM", "XZCMC", "DCBH", "TBBH", "JSYDMJ", "JZMJ", "JZLX", "LYZT" }, Is_Nullable = false, ID = "12017" });
+            Tools.Add(new ValueNullTool { TableName = "GGGL_GGFWSSYD", Key = _key, CheckFields = new string[] { "BSM", "YSDM", "XZCDM", "XZCMC", "DCBH", "TBBH", "JSYDMJ", "JZMJ", "JZLX", "LYZT","JZSJ" }, Is_Nullable = false, ID = "12017" });
             Tools.Add(new ValueRangeTool
             {
                 TableName = "GGGL_GGFWSSYD",
