@@ -30,7 +30,7 @@ namespace LoowooTech.Stock
             {"Globe", typeof(ControlsMapFullExtentCommandClass) },
             {"Previous", typeof(ControlsMapZoomToLastExtentBackCommandClass) },
             {"Next", typeof(ControlsMapZoomToLastExtentForwardCommandClass) },
-            {"Pan", typeof(ControlsMapZoomToLastExtentBackCommandClass) },
+            {"Pan", typeof(ControlsMapPanToolClass) },
             {"Identity", typeof(ControlsMapIdentifyToolClass) }
         };
         private SimpleLineSymbolClass simpleLineSymbol { get; set; }
@@ -75,9 +75,9 @@ namespace LoowooTech.Stock
         
         private void ToolButton_Click(object sender, EventArgs e)
         {
-            if (sender is Control)
+            if (sender is RibbonButton)
             {
-                var btn = sender as Control;
+                var btn = sender as RibbonButton;
                 if (btn.Tag != null && toolDictionary.ContainsKey(btn.Tag.ToString()))
                 {
                     var type = toolDictionary[btn.Tag.ToString()];
@@ -244,10 +244,6 @@ namespace LoowooTech.Stock
             }
         }
 
-        private void btnGlobe2_Click(object sender, EventArgs e)
-        {
-            Full();
-        }
 
         private void Full()
         {
@@ -255,15 +251,6 @@ namespace LoowooTech.Stock
             tool.OnCreate(this.axMapControl1.Object);
             tool.OnClick();
         }
-
-        private void btnPan2_Click(object sender, EventArgs e)
-        {
-            var tool = new ControlsMapPanToolClass();
-            tool.OnCreate(this.axMapControl1.Object);
-            tool.OnClick();
-        }
-
-
 
         private void Center(IFeature feature)
         {
@@ -335,13 +322,6 @@ namespace LoowooTech.Stock
                 }
                 
             }
-        }
-
-        private void btnIdentity2_Click(object sender, EventArgs e)
-        {
-            var tool = new ControlsMapIdentifyToolClass();
-            tool.OnCreate(this.axMapControl1.Object);
-            tool.OnClick();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)

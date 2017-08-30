@@ -73,6 +73,7 @@ namespace LoowooTech.Updater
                 {
                     var arr = stream.ToArray();
                     var str = Encoding.UTF8.GetString(arr, 3, arr.Length - 3);
+                    if (str.StartsWith("{") == false) str = Encoding.UTF8.GetString(arr);
                     return JsonConvert.DeserializeObject<ProductVersion>(str);
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using ESRI.ArcGIS;
+using ESRI.ArcGIS.esriSystem;
 using System;
 using System.IO;
 using System.Threading;
@@ -10,6 +11,8 @@ namespace LoowooTech.Stock
     {
 
         private static MainForm _form;
+
+        public static LicenseInitializer m_AOLicenseInitializer = new LicenseInitializer();
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -32,12 +35,15 @@ namespace LoowooTech.Stock
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                m_AOLicenseInitializer.InitializeApplication(new esriLicenseProductCode[] { esriLicenseProductCode.esriLicenseProductCodeEngineGeoDB }, new esriLicenseExtensionCode[] { esriLicenseExtensionCode.esriLicenseExtensionCodeSpatialAnalyst });
+
                 var load = new LoadForm();
                 load.Show();
                 Application.DoEvents();
                 _form = new MainForm();
                 
                 Application.Run(_form);
+                m_AOLicenseInitializer.ShutdownApplication();
             }
             catch (Exception ex)
             {
@@ -58,6 +64,7 @@ namespace LoowooTech.Stock
                 WriteLog(str);
                 MessageBox.Show("发生未处理异常，请及时联系软件维护人员！", "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            
         }
 
         static void LoadForm()
