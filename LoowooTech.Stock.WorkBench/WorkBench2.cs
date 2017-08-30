@@ -65,8 +65,16 @@ namespace LoowooTech.Stock.WorkBench
         public string DistrictCode { get { return ParameterManager.Code; } }
         
         private string _reportPath { get; set; }
-        
-        public string ReportPath { get { return string.IsNullOrEmpty(_reportPath)? Path.Combine(Folder, report, string.Format(_name+".xls", ParameterManager.District, ParameterManager.Code)):_reportPath; } }
+        /// <summary>
+        /// XLS文件报告
+        /// </summary>
+        public string ReportPath { get { return string.IsNullOrEmpty(_reportPath)? _reportPath= Path.Combine(Folder, report, string.Format(_name+".xls", ParameterManager.District, ParameterManager.Code)):_reportPath; } }
+
+        private string _reportPdfPath { get; set; }
+        /// <summary>
+        /// PDF报告
+        /// </summary>
+        public string ReportPDFPath { get { return string.IsNullOrEmpty(_reportPdfPath) ? _reportPdfPath = Path.Combine(Folder, report, string.Format(_name + ".pdf", ParameterManager.District, ParameterManager.Code)) : _reportPdfPath; } }
 
         public event ProgramProgressHandler OnProgramProcess;
 
@@ -203,7 +211,9 @@ namespace LoowooTech.Stock.WorkBench
                 }
             }
             _reportPath = QuestionManager.Save(ReportPath);
-
+            //PDFHelper.Save(_reportPath, ReportPDFPath);
+            //PdfHelper2.SavePdf(_reportPath, ReportPDFPath);
+            PdfHelper2.Convert(_reportPath, ReportPDFPath);
         }
         private bool OutputMessage(string code,string message,ProgressResultTypeEnum result)
         {

@@ -191,6 +191,8 @@ namespace LoowooTech.Stock
             _workBench.Folder = _dataPath;
             btnStart.Enabled = false;
             btnExport.Enabled = false;
+            btnPDF.Enabled = false;
+            btnExcel.Enabled = false;
             var form = new ProgressForm(_workBench);
             form.ShowDialog();
             if(form.StopRequested == false)
@@ -198,6 +200,8 @@ namespace LoowooTech.Stock
                 RuleHelper.UpdateCheckState(treeView1.Nodes, form.Results);
                 LoadResults(_workBench.Results);
                 btnExport.Enabled = true;
+                btnPDF.Enabled = true;
+                btnExcel.Enabled = true;
                 MessageBox.Show("已经完成质检", "完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             //if (MessageBox.Show("质检完成，是否需要自动生成一份统计表格？", "质检提示", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
@@ -241,6 +245,42 @@ namespace LoowooTech.Stock
                     MessageBox.Show("导出文件时出现错误:" +ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 
+            }
+        }
+        private void btnPDF_Click(object sender, EventArgs e)
+        {
+            var dialog = new SaveFileDialog { Filter = "Pdf文件（*.pdf）|*.pdf", Title = "请选择质检结果导出文件" };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    File.Copy(_workBench.ReportPDFPath, dialog.FileName);
+                    MessageBox.Show("导出质检结果文件成功", "导出", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }catch(Exception ex)
+                {
+                    MessageBox.Show("导出文件时出现错误:" + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            if (_workBench == null)
+            {
+                MessageBox.Show("请质检过后点击导出");
+                return;
+            }
+            var dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    _workBench.Write(dialog.SelectedPath);
+                    MessageBox.Show("成功生成统计表格", "生成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }catch(Exception ex)
+                {
+                    MessageBox.Show("生成统计表格出现错误：" + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
 
@@ -392,5 +432,7 @@ namespace LoowooTech.Stock
                 }
             }
         }
+
+      
     }
 }

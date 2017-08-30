@@ -29,32 +29,33 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Node3");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Node4");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Node5");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Node6");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Node0", new System.Windows.Forms.TreeNode[] {
-            treeNode13,
-            treeNode14,
-            treeNode15,
-            treeNode16});
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Node9");
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Node10");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Node11");
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Node1", new System.Windows.Forms.TreeNode[] {
-            treeNode18,
-            treeNode19,
-            treeNode20});
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Node7");
-            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Node8");
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Node2", new System.Windows.Forms.TreeNode[] {
-            treeNode22,
-            treeNode23});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Node3");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Node4");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Node5");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Node6");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Node0", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Node9");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Node10");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Node11");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Node1", new System.Windows.Forms.TreeNode[] {
+            treeNode6,
+            treeNode7,
+            treeNode8});
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Node7");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Node8");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Node2", new System.Windows.Forms.TreeNode[] {
+            treeNode10,
+            treeNode11});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ribbon1 = new System.Windows.Forms.Ribbon();
             this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel1 = new System.Windows.Forms.RibbonPanel();
             this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
+            this.ribbonPanel3 = new System.Windows.Forms.RibbonPanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblCoords = new System.Windows.Forms.ToolStripStatusLabel();
@@ -83,7 +84,6 @@
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
-            this.ribbonPanel3 = new System.Windows.Forms.RibbonPanel();
             this.lblOperator = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnZoomIn = new System.Windows.Forms.RibbonButton();
             this.btnZoomOut = new System.Windows.Forms.RibbonButton();
@@ -103,6 +103,8 @@
             this.btnStart = new System.Windows.Forms.RibbonButton();
             this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
             this.btnExport = new System.Windows.Forms.RibbonButton();
+            this.btnPDF = new System.Windows.Forms.RibbonButton();
+            this.btnExcel = new System.Windows.Forms.RibbonButton();
             this.btnUpdate = new System.Windows.Forms.RibbonButton();
             this.btnPan = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
@@ -178,7 +180,14 @@
             this.ribbonPanel2.Items.Add(this.btnOpen);
             this.ribbonPanel2.Items.Add(this.btnStart);
             this.ribbonPanel2.Items.Add(this.btnExport);
+            this.ribbonPanel2.Items.Add(this.btnPDF);
+            this.ribbonPanel2.Items.Add(this.btnExcel);
             this.ribbonPanel2.Text = "质检操作";
+            // 
+            // ribbonPanel3
+            // 
+            this.ribbonPanel3.Items.Add(this.btnUpdate);
+            this.ribbonPanel3.Text = "更新";
             // 
             // statusStrip1
             // 
@@ -292,35 +301,35 @@
             this.treeView1.ItemHeight = 18;
             this.treeView1.Location = new System.Drawing.Point(3, 3);
             this.treeView1.Name = "treeView1";
-            treeNode13.Name = "Node3";
-            treeNode13.Text = "Node3";
-            treeNode14.Name = "Node4";
-            treeNode14.Text = "Node4";
-            treeNode15.Name = "Node5";
-            treeNode15.Text = "Node5";
-            treeNode16.Name = "Node6";
-            treeNode16.Text = "Node6";
-            treeNode17.Name = "Node0";
-            treeNode17.Text = "Node0";
-            treeNode18.Name = "Node9";
-            treeNode18.Text = "Node9";
-            treeNode19.Name = "Node10";
-            treeNode19.Text = "Node10";
-            treeNode20.Name = "Node11";
-            treeNode20.Text = "Node11";
-            treeNode21.Checked = true;
-            treeNode21.Name = "Node1";
-            treeNode21.Text = "Node1";
-            treeNode22.Name = "Node7";
-            treeNode22.Text = "Node7";
-            treeNode23.Name = "Node8";
-            treeNode23.Text = "Node8";
-            treeNode24.Name = "Node2";
-            treeNode24.Text = "Node2";
+            treeNode1.Name = "Node3";
+            treeNode1.Text = "Node3";
+            treeNode2.Name = "Node4";
+            treeNode2.Text = "Node4";
+            treeNode3.Name = "Node5";
+            treeNode3.Text = "Node5";
+            treeNode4.Name = "Node6";
+            treeNode4.Text = "Node6";
+            treeNode5.Name = "Node0";
+            treeNode5.Text = "Node0";
+            treeNode6.Name = "Node9";
+            treeNode6.Text = "Node9";
+            treeNode7.Name = "Node10";
+            treeNode7.Text = "Node10";
+            treeNode8.Name = "Node11";
+            treeNode8.Text = "Node11";
+            treeNode9.Checked = true;
+            treeNode9.Name = "Node1";
+            treeNode9.Text = "Node1";
+            treeNode10.Name = "Node7";
+            treeNode10.Text = "Node7";
+            treeNode11.Name = "Node8";
+            treeNode11.Text = "Node8";
+            treeNode12.Name = "Node2";
+            treeNode12.Text = "Node2";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode17,
-            treeNode21,
-            treeNode24});
+            treeNode5,
+            treeNode9,
+            treeNode12});
             this.treeView1.SelectedImageIndex = 4;
             this.treeView1.ShowNodeToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(251, 545);
@@ -470,11 +479,6 @@
             this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
             this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
             this.axLicenseControl1.TabIndex = 14;
-            // 
-            // ribbonPanel3
-            // 
-            this.ribbonPanel3.Items.Add(this.btnUpdate);
-            this.ribbonPanel3.Text = "更新";
             // 
             // lblOperator
             // 
@@ -635,6 +639,22 @@
             this.btnExport.Text = "结果导出";
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
+            // btnPDF
+            // 
+            this.btnPDF.Enabled = false;
+            this.btnPDF.Image = global::LoowooTech.Stock.Properties.Resources.ExportPdfLarge;
+            this.btnPDF.SmallImage = global::LoowooTech.Stock.Properties.Resources.ExportPdf;
+            this.btnPDF.Text = "PDF导出";
+            this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
+            // 
+            // btnExcel
+            // 
+            this.btnExcel.Enabled = false;
+            this.btnExcel.Image = global::LoowooTech.Stock.Properties.Resources.Views_32x32;
+            this.btnExcel.SmallImage = global::LoowooTech.Stock.Properties.Resources.Views_16x16;
+            this.btnExcel.Text = "导出统计表格";
+            this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
+            // 
             // btnUpdate
             // 
             this.btnUpdate.Image = global::LoowooTech.Stock.Properties.Resources.Publish_32x32;
@@ -742,5 +762,7 @@
         private ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl1;
         private System.Windows.Forms.RibbonPanel ribbonPanel3;
         private System.Windows.Forms.RibbonButton btnUpdate;
+        private System.Windows.Forms.RibbonButton btnPDF;
+        private System.Windows.Forms.RibbonButton btnExcel;
     }
 }

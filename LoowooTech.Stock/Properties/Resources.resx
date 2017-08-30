@@ -145,11 +145,17 @@
   <data name="Status_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Status_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Close_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Close_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Publish_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Publish_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExportPdf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExportPdf.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ZoomOut_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ZoomOut_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Close_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Close_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Info_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Info_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -159,6 +165,9 @@
   </data>
   <data name="Zoom100_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Zoom100_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExportPdfLarge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExportPdfLarge.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Delete_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Delete_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -184,7 +193,10 @@
   <data name="ExportToExcel_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExportToExcel_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Publish_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Publish_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Views_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Views_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Views_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Views_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

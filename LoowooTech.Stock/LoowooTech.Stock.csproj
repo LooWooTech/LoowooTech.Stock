@@ -190,6 +190,10 @@
     <Content Include="FieldInfo.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Views_16x16.png" />
+    <None Include="Resources\Views_32x32.png" />
+    <None Include="Resources\ExportPdfLarge.png" />
+    <None Include="Resources\ExportPdf.png" />
     <None Include="Resources\Publish_32x32.png" />
     <None Include="Resources\4601.png" />
     <None Include="Resources\460.png" />

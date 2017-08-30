@@ -23,6 +23,7 @@ namespace LoowooTech.Stock.Rules
         /// 表格名字
         /// </summary>
         public string ExcelName { get; set; }
+        public string TitleName { get; set; }
         public int Space { get; set; }
         public string Name
         {
@@ -682,7 +683,7 @@ namespace LoowooTech.Stock.Rules
                         break;
                 }
             }
-            using (var fs=new FileStream(System.IO.Path.Combine(SaveFolder, ExcelName + ".xls"), FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            using (var fs=new FileStream(System.IO.Path.Combine(SaveFolder, ExcelName +" "+TitleName+ ".xls"), FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 workbook.Write(fs);
             }

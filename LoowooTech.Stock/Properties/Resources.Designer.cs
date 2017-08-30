@@ -133,6 +133,26 @@ namespace LoowooTech.Stock.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ExportPdf {
+            get {
+                object obj = ResourceManager.GetObject("ExportPdf", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ExportPdfLarge {
+            get {
+                object obj = ResourceManager.GetObject("ExportPdfLarge", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ExportToExcel_32x32 {
             get {
                 object obj = ResourceManager.GetObject("ExportToExcel_32x32", resourceCulture);
@@ -226,6 +246,26 @@ namespace LoowooTech.Stock.Properties {
         internal static System.Drawing.Bitmap Task_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Task_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Views_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("Views_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Views_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Views_32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

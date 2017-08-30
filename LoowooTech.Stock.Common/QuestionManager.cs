@@ -57,6 +57,11 @@ namespace LoowooTech.Stock.Common
                 return _modelFile;
             }
         }
+        /// <summary>
+        /// 作用：生成XLS格式质检报告文件
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public static string Save(string filePath)
         {
             var info = string.Empty;
