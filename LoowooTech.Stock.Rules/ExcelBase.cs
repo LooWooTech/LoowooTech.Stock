@@ -23,6 +23,7 @@ namespace LoowooTech.Stock.Rules
         /// 表格名字
         /// </summary>
         public string ExcelName { get; set; }
+        public string TitleName { get; set; }
         public int Space { get; set; }
         public string Name
         {
@@ -184,6 +185,7 @@ namespace LoowooTech.Stock.Rules
         public string SaveFolder { get { return _saveFolder; }set { _saveFolder = value; } }
         private string _checkCode { get; set; }
         public string CheckCode { get { return _checkCode; }set { _checkCode = value; } }
+        protected List<ITool2> Tools { get; set; }
         public ExcelBase()
         {
             _paralleQuestions = new ConcurrentBag<Question>();
@@ -191,6 +193,7 @@ namespace LoowooTech.Stock.Rules
             _excelDict = new Dictionary<string, List<FieldValue>>();
             _excelList = new List<FieldValue>();
             _accessList = new List<FieldValue>();
+            Tools = new List<ITool2>();
         }
         private List<ExcelField> GetFields()
         {
@@ -345,7 +348,7 @@ namespace LoowooTech.Stock.Rules
                         temp.Val= cell.NumericCellValue;
                         break;
                     default:
-                        temp.Val = cell.ToString();
+                        temp.Val = cell.ToString().Trim();
                         break;
                 }
                 list.Add(temp);
@@ -408,8 +411,48 @@ namespace LoowooTech.Stock.Rules
                 #endregion
 
 
-                //读取其他字段的数据值
+                #region
+                //读取其他字段的数据值 并且核对数值的正确性
                 var values = GetValues(row);
+                foreach(var item in values)
+                {
+                    if (string.IsNullOrEmpty(item.Val.ToString()))
+                    {
+                        continue;
+                    }
+                    info = string.Empty;
+                    
+                    switch (item.Type)
+                    {
+                        case ExcelType.Double:
+                            var a = .0;
+                            if(!double.TryParse(item.Val.ToString(),out a))
+                            {
+                                info = string.Format("乡镇代码【{0}】乡镇名称【{1}】中字段【{2}】的值与要求的格式不一致", xzc.XZCDM, xzc.XZCMC, item.Title);
+                            }
+                            break;
+                        case ExcelType.Int:
+                            var b = 0;
+                            if(!int.TryParse(item.Val.ToString(),out b))
+                            {
+                                info = string.Format("乡镇代码【{0}】乡镇名称【{1}】中字段【{2}】的值与要求的格式不一致", xzc.XZCDM, xzc.XZCMC, item.Title);
+                            }
+                            break;
+                    }
+                    if (!string.IsNullOrEmpty(info))
+                    {
+                        _paralleQuestions.Add(new Question
+                        {
+                            Code = "6101",
+                            Name = Name,
+                            TableName = ExcelName,
+                            BSM = (i + 1).ToString(),
+                            Project = CheckProject.汇总表与数据库图层逻辑一致性,
+                            Description = info
+                        });
+                    }
+                }
+                #endregion
 
                 if (_excelDict.ContainsKey(xzc.XZCDM))
                 {
@@ -439,6 +482,8 @@ namespace LoowooTech.Stock.Rules
         {
             var info = string.Empty;
             var list = GetValues(row);
+            var dou = .0;
+            var inter = 0;
             foreach(var field in list)
             {
                 info = string.Empty;
@@ -446,7 +491,7 @@ namespace LoowooTech.Stock.Rules
                 switch (field.Type)
                 {
                     case ExcelType.Double:
-                        var a = children.Sum(e => double.Parse(e.Val.ToString()));
+                        var a = children.Sum(e => double.TryParse(e.Val.ToString(),out dou)?dou:.0);
                         var b = .0;
                         if (field.Val != null&&!string.IsNullOrEmpty(field.Val.ToString()))
                         {
@@ -459,7 +504,7 @@ namespace LoowooTech.Stock.Rules
                         }
                         break;
                     case ExcelType.Int:
-                        var c = children.Sum(e =>int.Parse(e.Val.ToString()));
+                        var c = children.Sum(e =>int.TryParse(e.Val.ToString(),out inter)?inter:0);
                         var d = 0;
                         if (field.Val != null && !string.IsNullOrEmpty(field.Val.ToString()))
                         {
@@ -638,7 +683,7 @@ namespace LoowooTech.Stock.Rules
                         break;
                 }
             }
-            using (var fs=new FileStream(System.IO.Path.Combine(SaveFolder, ExcelName + ".xls"), FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            using (var fs=new FileStream(System.IO.Path.Combine(SaveFolder, ExcelName +" "+TitleName+ ".xls"), FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 workbook.Write(fs);
             }
@@ -689,6 +734,7 @@ namespace LoowooTech.Stock.Rules
         private void CheckData()
         {
             var info = string.Empty;
+            var dou = .0;
             if (Dict.Count == 0)
             {
                 info = "未获取数据库相关核对数据";
@@ -721,7 +767,7 @@ namespace LoowooTech.Stock.Rules
                 {
                     continue;
                 }
-                var sum = access.Where(e => e.Val != null && !string.IsNullOrEmpty(e.Val.ToString())).Sum(e => double.Parse(e.Val.ToString()));
+                var sum = access.Where(e => e.Val != null && !string.IsNullOrEmpty(e.Val.ToString())).Sum(e => double.TryParse(e.Val.ToString(),out dou)?dou:.0);
                 if (sum > 0)
                 {
 
@@ -809,6 +855,8 @@ namespace LoowooTech.Stock.Rules
         private void CheckCollect()
         {
             var info = string.Empty;
+            var dou = .0;
+            var inter = 0;
             foreach(var field in Fields)
             {
                 var excels = _excelList.Where(e => e.Index == field.Index&&e.Val!=null&&!string.IsNullOrEmpty(e.Val.ToString()));
@@ -817,13 +865,13 @@ namespace LoowooTech.Stock.Rules
                 switch (field.Type)
                 {
                     case ExcelType.Double:
-                        var a = excels.Sum(e => double.Parse(e.Val.ToString()));
-                        var b = access.Sum(e => double.Parse(e.Val.ToString()));
+                        var a = excels.Sum(e => double.TryParse(e.Val.ToString(),out dou)?dou:.0);
+                        var b = access.Sum(e => double.TryParse(e.Val.ToString(),out dou)?dou:.0);
                         flag = Math.Abs(a - b) > 0.001;
                         break;
                     case ExcelType.Int:
-                        var m = excels.Sum(e => int.Parse(e.Val.ToString()));
-                        var n = access.Sum(e => int.Parse(e.Val.ToString()));
+                        var m = excels.Sum(e => int.TryParse(e.Val.ToString(),out inter)?inter:0);
+                        var n = access.Sum(e => int.TryParse(e.Val.ToString(),out inter)?inter:0);
                         flag = m != n;
                         break;
                 }

@@ -57,6 +57,11 @@ namespace LoowooTech.Stock.Common
                 return _modelFile;
             }
         }
+        /// <summary>
+        /// 作用：生成XLS格式质检报告文件
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public static string Save(string filePath)
         {
             var info = string.Empty;
@@ -115,6 +120,8 @@ namespace LoowooTech.Stock.Common
             }
         }
 
+        private const string ALLKey = "ALL";
+
         /// <summary>
         /// 作用：生成各个检查类别数量汇总表
         /// </summary>
@@ -139,7 +146,7 @@ namespace LoowooTech.Stock.Common
                     if (!string.IsNullOrEmpty(str) && str.Contains("{") && str.Contains("}"))
                     {
                         var key = str.Replace("{", "").Replace("}", "");
-                        var val = temp.Where(e => e.Code.ToLower() == key.ToLower()).LongCount();
+                        var val = key.ToLower()==ALLKey.ToLower()?temp.LongCount(): temp.Where(e => e.Code.ToLower() == key.ToLower()).LongCount();
                         cell.SetCellValue(val);
                     }
                 }

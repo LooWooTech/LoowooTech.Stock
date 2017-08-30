@@ -15,8 +15,9 @@ namespace LoowooTech.Stock.Tool
         public string WhereCaluse { get; set; }
         public bool Is_Nullable { get; set; }//true  为空  false  必填
 
-        
-        
+        public string[] WhereFields { get; set; }
+        public string Split { get; set; }
+        public List<string> WhereList { get; set; }
         public string Name
         {
             get
@@ -28,16 +29,64 @@ namespace LoowooTech.Stock.Tool
                 //}
                 //sb.Append(Is_Nullable ? "为空" : "必填");
                 //return sb.ToString();
+
                 return
                     string.IsNullOrEmpty(WhereCaluse) ?
                     string.Format("规则{0}：表‘{1}’中字段‘{2}’{3}", ID, TableName, string.Join("、", CheckFields), Is_Nullable ? "为空" : "必填")
                     : string.Format("规则{0}：表‘{1}’ 当‘{2}’时，字段‘{3}’{4}", ID, TableName, WhereCaluse, string.Join("、", CheckFields), Is_Nullable ? "为空" : "必填");
             }
         }
+        private bool CheckWhere(OleDbConnection connection)
+        {
+            var reader = ADOSQLHelper.ExecuteReader(connection,
+                string.IsNullOrEmpty(WhereCaluse) ?
+                string.Format("Select {0},{1},{2} from {3}", Key, string.Join(",", CheckFields), string.Join(",", WhereFields), TableName)
+                : string.Format("Select {0},{1},{2} from {3} where {4}", Key, string.Join(",", CheckFields), string.Join(",", WhereFields), TableName, WhereCaluse));
+            if (reader != null)
+            {
+                var array = new string[WhereFields.Length];
+                var str = string.Empty;
+                var info = string.Empty;
+                while (reader.Read())
+                {
+                    for(var i = 0; i < WhereFields.Length; i++)
+                    {
+                        array[i] = reader[i + 1 + CheckFields.Length].ToString();
+                    }
+                    var key = string.Join(Split, array);
+                    if (WhereList.Contains(key))
+                    {
+                        str = string.Empty;
+                        for(var i = 0; i < CheckFields.Length; i++)
+                        {
+                            var a = reader[i + 1].ToString().Trim();
+                            if (Is_Nullable ^ string.IsNullOrEmpty(a))
+                            {
+                                str += CheckFields[i] + ",";
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(str))
+                        {
+                            info = string.Format("{0}对应的字段：{1}与要求的{2}不符,图斑信息：行政村代码：【{3}】图斑编号：【{4}】", reader[0].ToString().Trim(), str, Is_Nullable ? "为空" : "必填",array[0],array[1]);
+                            _questions.Add(new Question { Code = "5101", Name = Name, Project = CheckProject.图层内属性一致性, TableName = TableName, BSM = reader[0].ToString(), Description = info });
+                            Messages.Add(info);
+                        }
+                    }
+                }
+                QuestionManager.AddRange(_questions);
+
+                return true;
+            }
+            return false;
+        }
 
 
         public bool Check(OleDbConnection connection)
         {
+            if (WhereFields != null)
+            {
+                return CheckWhere(connection);
+            }
             var reader = ADOSQLHelper.ExecuteReader(connection, string.IsNullOrEmpty(WhereCaluse)?
                 string.Format("Select {0},{1} from {2}",string.Join(",",CheckFields),Key,TableName)
                 :string.Format("Select {0},{1} from {2} where {3}", string.Join(",",CheckFields), Key, TableName, WhereCaluse));

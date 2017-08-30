@@ -33,12 +33,13 @@ namespace LoowooTech.Stock.Tool
                 :string.Format("Select {0},{1} from {2}",Key,string.Join(",",FieldArray1),TableName));
             if (reader != null)
             {
-                var val1 = .0;
-                var val2 = .0;
+            
                 var a = .0;
                 var info = string.Empty;
                 while (reader.Read())
                 {
+                    var val1 = .0;
+                    var val2 = .0;
                     var str = reader[0].ToString().Trim();
                     for(var i = 0; i < FieldArray1.Length; i++)
                     {

@@ -49,9 +49,10 @@ namespace LoowooTech.Stock.WorkBench
         string Folder { get; set; }
         
         /// <summary>
-        /// 质检报告路径
+        /// 质检报告Excel路径
         /// </summary>
         string ReportPath { get; }
+        string ReportPDFPath { get; }
         /// <summary>
         /// 行政区名称
         /// </summary>
