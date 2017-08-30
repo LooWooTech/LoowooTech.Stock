@@ -252,6 +252,11 @@ namespace LoowooTech.Stock
             var dialog = new SaveFileDialog { Filter = "Pdf文件（*.pdf）|*.pdf", Title = "请选择质检结果导出文件" };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
+                if (!File.Exists(_workBench.ReportPDFPath))
+                {
+                    MessageBox.Show("当前电脑未安装Office 2007以其以上版本，暂不能导出PDF文件");
+                    return;
+                }
                 try
                 {
                     File.Copy(_workBench.ReportPDFPath, dialog.FileName);

@@ -102,7 +102,7 @@ namespace LoowooTech.Stock.Common
         private static void SaveSQLError(ISheet sheet)
         {
             var list = Questions.Where(e => e.Project == CheckProject.数据库查询).OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
-            var i = 1;
+            var i = 2;
             IRow row = null;
             var modelrow = sheet.GetRow(i);
             foreach (var item in list.Take(MAXNUMBER))
@@ -160,7 +160,7 @@ namespace LoowooTech.Stock.Common
         private static void SaveList(ISheet sheet)
         {
             var list = Questions.Where(e=> e.Project != CheckProject.数据库查询).OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
-            var i = 1;
+            var i = 2;
             IRow row = null;
             var modelrow = sheet.GetRow(i);
             foreach (var item in list.Take(MAXNUMBER))
@@ -188,7 +188,7 @@ namespace LoowooTech.Stock.Common
         /// <param name="list"></param>
         private static void SaveInfo(ISheet sheet,ConcurrentBag<string> list)
         {
-            var i = 1;
+            var i = 2;
             IRow row = null;
             var modelrow = sheet.GetRow(1);
             foreach(var item in list.Take(MAXNUMBER))
