@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Office.Interop.Excel;
+//using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 
 namespace LoowooTech.Stock.Common
 {
     public static class PdfHelper2
     {
-        public static void SavePdf(string excelFilePath,string pdfFilePath)
+        public static void SavePdf(string excelFilePath, string pdfFilePath)
         {
-            Microsoft.Office.Interop.Excel.Application lobjExcelApp = null;
+            /*Microsoft.Office.Interop.Excel.Application lobjExcelApp = null;
             Microsoft.Office.Interop.Excel.Workbooks lobjExcelWorkbooks = null;
             Microsoft.Office.Interop.Excel.Workbook lobjExcelWorkbook = null;
 
@@ -65,13 +65,13 @@ namespace LoowooTech.Stock.Common
                 //主动激活垃圾回收器，主要是避免超大批量转文档时，内存占用过多，而垃圾回收器并不是时刻都在运行！  
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-            }
+            }*/
         }
 
 
-        public static bool Convert(string excelFilePath,string pdfFilePath)
+        public static bool Convert(string excelFilePath, string pdfFilePath)
         {
-            XlFixedFormatType targetType = XlFixedFormatType.xlTypePDF;
+            /*XlFixedFormatType targetType = XlFixedFormatType.xlTypePDF;
             object missing = Type.Missing;
             Microsoft.Office.Interop.Excel.ApplicationClass application = null;
             Workbook workbook = null;
@@ -107,8 +107,9 @@ namespace LoowooTech.Stock.Common
                 GC.WaitForPendingFinalizers();
                 //return false;
             }
-
-        
+*/
+            return true;
         }
+
     }
 }

@@ -1,5 +1,8 @@
-﻿using ESRI.ArcGIS.Controls;
+﻿using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.Display;
+using ESRI.ArcGIS.esriSystem;
+using ESRI.ArcGIS.Framework;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using LoowooTech.Stock.ArcGISTool;
@@ -418,6 +421,141 @@ namespace LoowooTech.Stock
             }
         }
 
-      
+        private ILayer _curLayer;
+
+
+        private void PopupContextMenu(int x, int y)
+        {
+            var layer = _curLayer;
+            mnuUp.Enabled = layer != null;
+            mnuDown.Enabled = layer != null;
+            mnuRemove.Enabled = layer != null;
+            mnuSymbol.Enabled = layer != null;
+            contextMenuStrip1.Show(new System.Drawing.Point { X=x+8,Y=y+198 });
+        }
+
+        private void mnuSymbol_Click(object sender, EventArgs e)
+        {
+            if (_curLayer == null) return;
+           
+            var PSheet = new ComPropertySheetClass();
+            PSheet.HideHelpButton = true;
+
+            ISet PSet = new SetClass();
+            PSet.Add(_curLayer);
+            PSheet.ClearCategoryIDs();
+            PSheet.AddCategoryID(new UIDClass());
+
+            PSheet.AddPage(new ESRI.ArcGIS.CartoUI.LayerDrawingPropertyPageClass());
+            PSheet.Title = "显示属性设置";
+            if (PSheet.CanEdit(PSet))
+            {
+                if (PSheet.EditProperties(PSet, 0))
+                {
+                    axTOCControl1.Refresh();
+                }
+            }
+        }
+
+        private void axTOCControl1_OnMouseUp(object sender, ITOCControlEvents_OnMouseUpEvent e)
+        {
+            if(e.button == 2)
+            {
+                IBasicMap map = null;
+                ILayer layer = null;
+                object other = null;
+                object index = null;
+                esriTOCControlItem item = esriTOCControlItem.esriTOCControlItemNone;
+
+                axTOCControl1.HitTest(e.x, e.y, ref item, ref map, ref layer, ref other, ref index);
+                if (item == esriTOCControlItem.esriTOCControlItemLayer)
+                {
+                    if (layer is IAnnotationSublayer)
+                    {
+                        _curLayer = null;
+                    }
+                    else
+                    {
+                        _curLayer = layer;
+                    }
+                }
+                else
+                {
+                    _curLayer = null;
+                }
+
+                PopupContextMenu(e.x, e.y);
+                
+            }
+        }
+
+        private void mnuUp_Click(object sender, EventArgs e)
+        {
+            IMap pMap = this.axMapControl1.ActiveView.FocusMap;
+            if (_curLayer != null)
+            {
+
+                ILayer pTempLayer;
+                for (int i = 1; i < pMap.LayerCount; i++)
+                {
+                    pTempLayer = pMap.get_Layer(i);
+                    if (pTempLayer == _curLayer)
+                    {
+                        pMap.MoveLayer(_curLayer, i-1);
+                        axMapControl1.ActiveView.Refresh();
+                        axTOCControl1.Update();
+                        
+                    }
+
+                }
+            }
+        }
+
+        private void mnuDown_Click(object sender, EventArgs e)
+        {
+            IMap pMap = this.axMapControl1.ActiveView.FocusMap;
+            if (_curLayer != null)
+            {
+
+                ILayer pTempLayer;
+                for (int i = 0; i < pMap.LayerCount-1; i++)
+                {
+                    pTempLayer = pMap.get_Layer(i);
+                    if (pTempLayer == _curLayer)
+                    {
+                        pMap.MoveLayer(_curLayer, i+1);
+                        axMapControl1.ActiveView.Refresh();
+                        axTOCControl1.Update();
+                        return;
+                    }
+
+                }
+            }
+        }
+
+        private void mnuRemove_Click(object sender, EventArgs e)
+        {
+            if (_curLayer == null) return;
+            axMapControl1.ActiveView.FocusMap.DeleteLayer(_curLayer);
+            axMapControl1.ActiveView.Refresh();
+            axTOCControl1.Update();
+        }
+
+        private void mnuAdd_Click(object sender, EventArgs e)
+        {
+            AddLayer();
+        }
+
+        private void AddLayer()
+        {
+            var cmd = new ControlsAddDataCommandClass();
+            cmd.OnCreate(this.axMapControl1.Object);
+            cmd.OnClick();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            AddLayer();
+        }
     }
 }
