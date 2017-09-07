@@ -1,4 +1,4 @@
-﻿using Spire.Xls;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +10,11 @@ namespace LoowooTech.Stock.Common
     {
         public static void Save(string ExcelFilePath,string pdfFilePath)
         {
-            Workbook workbook = new Workbook();
-            workbook.LoadFromFile(ExcelFilePath);
-            workbook.ConverterSetting.SheetFitToPage = true;
-            Worksheet sheet = workbook.Worksheets[0];
-            sheet.SaveToPdf(pdfFilePath);
+            //Workbook workbook = new Workbook();
+            //workbook.LoadFromFile(ExcelFilePath);
+            //workbook.ConverterSetting.SheetFitToPage = true;
+            //Worksheet sheet = workbook.Worksheets[0];
+            //sheet.SaveToPdf(pdfFilePath);
         }
     }
 }
