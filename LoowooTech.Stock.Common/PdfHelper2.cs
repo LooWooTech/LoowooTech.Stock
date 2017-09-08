@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-//using Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 
 namespace LoowooTech.Stock.Common
@@ -71,7 +71,7 @@ namespace LoowooTech.Stock.Common
 
         public static bool Convert(string excelFilePath, string pdfFilePath)
         {
-            /*XlFixedFormatType targetType = XlFixedFormatType.xlTypePDF;
+            XlFixedFormatType targetType = XlFixedFormatType.xlTypePDF;
             object missing = Type.Missing;
             Microsoft.Office.Interop.Excel.ApplicationClass application = null;
             Workbook workbook = null;
@@ -107,8 +107,6 @@ namespace LoowooTech.Stock.Common
                 GC.WaitForPendingFinalizers();
                 //return false;
             }
-*/
-            return true;
         }
 
     }
