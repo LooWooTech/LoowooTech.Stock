@@ -43,10 +43,16 @@ namespace LoowooTech.Stock.Tool
         public List<string> WhereList { get; set; }
         public string Split { get; set; }
 
+
+        public string[] LocationFields { get; set; }
       
         private bool CheckWhere(OleDbConnection connection)
         {
-            var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("Select {0},{1},{2} from {3}", CheckFieldName, Key, string.Join(",", WhereFields), TableName));
+            var reader = ADOSQLHelper.ExecuteReader(connection,
+                LocationFields == null ?
+                string.Format("Select {0},{1},{2} from {3}", CheckFieldName, Key, string.Join(",", WhereFields), TableName)
+                : string.Format("Select {0},{1},{2},{3} from {4}", CheckFieldName, Key, string.Join(",", WhereFields), string.Join(",", LocationFields), TableName)
+                );
             if (reader != null)
             {
                 var str = string.Empty;
@@ -65,7 +71,22 @@ namespace LoowooTech.Stock.Tool
                         if (!Values.Contains(str))
                         {
                             error = string.Format("{0}对应的‘{1}’不正确", reader[1].ToString(), str);
-                            _questions.Add(new Question { Code = "3201", Name = Name, Project = CheckProject.值符合性, TableName = TableName, BSM = reader[1].ToString(), Description = error });
+                            _questions.Add(
+                                new Question
+                                {
+                                    Code = "3201",
+                                    Name = Name,
+                                    Project = CheckProject.值符合性,
+                                    TableName = TableName,
+                                    BSM = reader[1].ToString(),
+                                    Description = error,
+                                    ShowType=ShowType.Space,
+                                    RelationClassName=RelationName,
+                                    WhereClause=
+                                    LocationFields==null? 
+                                    string.Format("[{0}] = '{1}'",Key,reader[1].ToString())
+                                    :ADOSQLHelper.GetWhereClause(LocationFields,ADOSQLHelper.GetValues(reader,WhereFields.Length+2,LocationFields.Length))
+                                });
                         }
                     }
                 }
@@ -75,7 +96,11 @@ namespace LoowooTech.Stock.Tool
         }
         private bool CheckNoWhere(OleDbConnection connection)
         {
-            var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("select {0},{1} from {2}", CheckFieldName, Key, TableName));
+            var reader = ADOSQLHelper.ExecuteReader(connection,
+                LocationFields == null ?
+                string.Format("select {0},{1} from {2}", CheckFieldName, Key, TableName)
+                : string.Format("select {0},{1},{2} from {3}", CheckFieldName, Key, string.Join(",", LocationFields), TableName)
+                );
             if (reader != null)
             {
                 var str = string.Empty;
@@ -92,7 +117,22 @@ namespace LoowooTech.Stock.Tool
                     {
                         error = string.Format("{0}对应的‘{1}’值不正确", reader[1].ToString(), str);
                         Messages.Add(error);
-                        _questions.Add(new Question() { Code = "3201", Name = Name, Project = CheckProject.值符合性, TableName = TableName, BSM = reader[1].ToString(), Description = error });
+                        _questions.Add(
+                            new Question()
+                            {
+                                Code = "3201",
+                                Name = Name,
+                                Project = CheckProject.值符合性,
+                                TableName = TableName,
+                                BSM = reader[1].ToString(),
+                                Description = error,
+                                ShowType = ShowType.Space,
+                                RelationClassName = RelationName,
+                                WhereClause =
+                                LocationFields == null ?
+                                string.Format("[{0}] ='{1}'", Key, reader[1].ToString())
+                                : ADOSQLHelper.GetWhereClause(LocationFields, ADOSQLHelper.GetValues(reader, 2, LocationFields.Length))
+                            });
                     }
                 }
                 QuestionManager.AddRange(_questions);

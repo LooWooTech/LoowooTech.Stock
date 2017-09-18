@@ -38,6 +38,7 @@ namespace LoowooTech.Stock
         };
         private SimpleLineSymbolClass simpleLineSymbol { get; set; }
         private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
+        private SimpleFillSymbolClass simpleFillSymbol { get; set; }
 
         public MainForm()
         {
@@ -49,6 +50,11 @@ namespace LoowooTech.Stock
             simpleMarkerSymbol.Style = esriSimpleMarkerStyle.esriSMSCircle;
             simpleMarkerSymbol.Size = 8;
             simpleMarkerSymbol.Color = GetRGBColor(255, 0, 0);
+            simpleFillSymbol = new SimpleFillSymbolClass();
+            simpleFillSymbol.Style = esriSimpleFillStyle.esriSFSCross;
+            simpleFillSymbol.Outline = simpleLineSymbol;
+            simpleFillSymbol.Color = GetRGBColor(255, 255, 255);
+
         }
         public  IRgbColor GetRGBColor(int Red, int Green, int Blue, byte Alpha = 255)
         {
@@ -228,7 +234,9 @@ namespace LoowooTech.Stock
                 var item = listView1.Items.Add(new ListViewItem(new string[]
                 {
                     q.Code, q.Name, q.Project.ToString(),
-                    q.TableName, q.BSM, q.Description, q.Remark,q.WhereClause
+                    q.TableName, q.BSM, q.Description, q.Remark,
+                    q.ShowType.HasValue?q.ShowType.ToString():"",q.ShowType.HasValue?(q.ShowType.Value==ShowType.Folder?q.Folder:q.WhereClause):"",
+                    q.RelationClassName
                 }));
             }
         }
@@ -335,6 +343,9 @@ namespace LoowooTech.Stock
                 case esriGeometryType.esriGeometryLine:
                     axMapControl1.FlashShape(feature.Shape, 4, 300, simpleLineSymbol);
                     break;
+                case esriGeometryType.esriGeometryPolygon:
+                    axMapControl1.FlashShape(feature.Shape, 4, 300, simpleFillSymbol);
+                    break;
             }
 
         }
@@ -342,18 +353,55 @@ namespace LoowooTech.Stock
         {
             if (this.listView1.SelectedItems.Count > 0)
             {
-                var whereClause = this.listView1.SelectedItems[0].SubItems[7].Text;
-                var className = this.listView1.SelectedItems[0].SubItems[3].Text;
-                if (string.IsNullOrEmpty(whereClause))
+                var showType = this.listView1.SelectedItems[0].SubItems[7].Text;
+                var location = this.listView1.SelectedItems[0].SubItems[8].Text;
+                if (string.IsNullOrEmpty(showType))
                 {
-                    //MessageBox.Show("当前记录不支持定位显示");
+                    MessageBox.Show("当前记录不支持定位显示！");
                     return;
                 }
-                if (!_spaceArray.Contains(className))
+                switch (showType)
                 {
-                    MessageBox.Show("暂不支持非空间数据查看");
-                    return;
+                    case "Folder":
+                        if (System.IO.Directory.Exists(location))
+                        {
+                            try
+                            {
+                                System.Diagnostics.Process.Start(location);
+                            }
+                            catch
+                            {
+                                MessageBox.Show("打开文件夹失败");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(string.Format("文件夹:{0}不存在，无法定位打开", location));
+                        }
+                        break;
+                    case "Space":
+                        var relationName = this.listView1.SelectedItems[0].SubItems[9].Text;
+                        if (!string.IsNullOrEmpty(relationName))
+                        {
+                            LocationFeature(relationName, location);
+                        }
+                        
+                        
+
+                        break;
                 }
+            }
+        }
+
+        private void LocationFeature(string className,string whereClause)
+        {
+            if (string.IsNullOrEmpty(whereClause))
+            {
+                return;
+            }
+
+            if (_spaceArray.Contains(className))
+            {
                 var featureClass = ParameterManager.Workspace.GetFeatureClass(className);
                 if (featureClass == null)
                 {
@@ -366,9 +414,7 @@ namespace LoowooTech.Stock
                     this.tabControl2.SelectedIndex = 0;
                     Center(feature);
                     Twinkle(feature);
-
                 }
-                
             }
         }
 
@@ -557,5 +603,7 @@ namespace LoowooTech.Stock
         {
             AddLayer();
         }
+
+
     }
 }

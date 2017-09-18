@@ -26,11 +26,12 @@ namespace LoowooTech.Stock.Tool
                 return string.Format("规则{0}：表‘{1}’中字段‘{2}’组成的值相互对应" ,ID,TableName,string.Join("、",Fields));
             }
         }
+        public string Key { get; set; }
         public string Code { get; set; }
 
         public bool Check(OleDbConnection connection)
         {
-            var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("Select {0} from {1}", string.Join(",", Fields), TableName));
+            var reader = ADOSQLHelper.ExecuteReader(connection, string.Format("Select {0},{1} from {2}", string.Join(",", Fields),Key, TableName));
             if (reader != null)
             {
                 var array = new string[Fields.Length];
@@ -48,7 +49,18 @@ namespace LoowooTech.Stock.Tool
                     {
                         info = string.Format("不存在：{0}", val);
                         Messages.Add(info);
-                        _questions.Add(new Question { Code = Code, Name = Name, Project = CheckProject.属性正确性, TableName = TableName, Description = info });
+                        _questions.Add(
+                            new Question
+                            {
+                                Code = Code,
+                                Name = Name,
+                                Project = CheckProject.属性正确性,
+                                TableName = TableName,
+                                BSM=reader[Fields.Length].ToString(),
+                                Description = info,
+                                ShowType=ShowType.Space,
+                                WhereClause=string.Format("[{0}] ='{1}'",Key,reader[Fields.Length].ToString())
+                            });
                     }
                 }
                 QuestionManager.AddRange(_questions);

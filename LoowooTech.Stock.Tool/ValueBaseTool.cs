@@ -9,6 +9,7 @@ namespace LoowooTech.Stock.Tool
     public class ValueBaseTool
     {
         public string TableName { get; set; }
+        public string RelationName { get; set; }
         public string ID { get; set; }
         public List<string> Messages { get; set; }
         protected List<Question> _questions { get; set; }

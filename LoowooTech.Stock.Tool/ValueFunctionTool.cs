@@ -9,6 +9,7 @@ namespace LoowooTech.Stock.Tool
     public class ValueFunctionTool:ITool
     {
         public string TableName { get; set; }
+        public string RelationName { get; set; }
         public string Name
         {
             get { return string.Format("规则{0}：核对表{1}应满足{2}",ID,TableName,Functions); }

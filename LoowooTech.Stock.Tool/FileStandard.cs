@@ -28,7 +28,8 @@ namespace LoowooTech.Stock.Tool
             //}
             if (!System.IO.File.Exists(filePath))
             {
-                List.Add(string.Format(@"文件：{0}不存在,请去除多余的空格，并注意全角\半角符号符合规范", filePath));
+                List.Add(filePath);
+               // List.Add(string.Format(@"文件：{0}不存在,请去除多余的空格，并注意全角\半角符号符合规范", filePath));
             }
           
         }

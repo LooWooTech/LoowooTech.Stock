@@ -22,7 +22,15 @@ namespace LoowooTech.Stock.Models
                 switch (Compute)
                 {
                     case Compute.Sum:
-                        str = string.Format("Sum({0}.{1})",TableName, Name);
+                        if (string.IsNullOrEmpty(FieldTableName))
+                        {
+                            str = string.Format("Sum({0}.{1})", TableName, Name);
+                        }
+                        else
+                        {
+                            str = string.Format("Sum({0})", Name);
+                        }
+                       
                         break;
                     case Compute.Count:
                         str = "Count(*)";
@@ -33,6 +41,8 @@ namespace LoowooTech.Stock.Models
         }
         public string Unit { get; set; }
         public string View { get; set; }
+        public string FieldTableName { get; set; }
+        public int[] Indexs { get; set; }
     }
     public class FieldValue
     {
@@ -48,6 +58,8 @@ namespace LoowooTech.Stock.Models
                 }
                 return string.Empty;
             } }
+
+        
     }
     public enum ExcelType
     {

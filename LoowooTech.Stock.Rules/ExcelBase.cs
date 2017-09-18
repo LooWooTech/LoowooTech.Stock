@@ -230,6 +230,25 @@ namespace LoowooTech.Stock.Rules
                         {
                             val.WhereClause = node.Attributes["WhereClause"].Value;
                         }
+                        if (node.Attributes["TableName"] != null)
+                        {
+                            val.FieldTableName = node.Attributes["TableName"].Value;
+                        }
+                        if (node.Attributes["Indexs"] != null)
+                        {
+                            var indexs = node.Attributes["Indexs"].Value;
+                            if (!string.IsNullOrEmpty(indexs))
+                            {
+                                var temps = indexs.Split(',');
+                                var res = new int[temps.Length];
+                                for(var j = 0; j < temps.Length; j++)
+                                {
+                                    var a = 0;
+                                    res[j] = int.TryParse(temps[j], out a) ? a : 0;
+                                }
+                                val.Indexs = res;
+                            }
+                        }
                         list.Add(val);
                     }
                 }
@@ -540,7 +559,15 @@ namespace LoowooTech.Stock.Rules
             var sb = new StringBuilder(string.Format("Select {0} from ", field.SQL));
             if (string.IsNullOrEmpty(field.View))
             {
-                sb.Append(TableName);
+                if (string.IsNullOrEmpty(field.FieldTableName))
+                {
+                    sb.Append(TableName);
+                }
+                else
+                {
+                    sb.Append(field.FieldTableName);
+                }
+               
             }
             else
             {
@@ -551,8 +578,12 @@ namespace LoowooTech.Stock.Rules
             {
                 sb.AppendFormat(" AND {0}", field.WhereClause);
             }
+            Console.WriteLine("{0}:{1}", TableName, sb.ToString());
             var obj = ADOSQLHelper.ExecuteScalar(Connection, sb.ToString());
-          
+            if (obj == null)
+            {
+                return null; 
+            }
             if (field.Type == ExcelType.Double)
             {
                 double.TryParse(obj.ToString(), out b);
@@ -584,35 +615,72 @@ namespace LoowooTech.Stock.Rules
             return result;
         }
 
+        private FieldValue GetValues(ExcelField field, List<XZC> value)
+        {
+            var a = 0;
+            var b = .0;
+            var IntSum = 0;
+            var DoubleSum = .0;
+            foreach(var index in field.Indexs)
+            {
+                var f = Fields.FirstOrDefault(e => e.Index == index);
+                if (f != null)
+                {
+                    var val = GetValue(f, value);
+                    if (val != null)
+                    {
+                        switch (field.Type)
+                        {
+                            case ExcelType.Double:
+                                DoubleSum += Math.Round(double.TryParse(val.Val.ToString(), out b) ? b : .0,4);
+                                break;
+                            case ExcelType.Int:
+                                IntSum += int.TryParse(val.Val.ToString(), out a) ? a : 0;
+                                break;
+                        }
+                    }
+                }
+            }
+
+            return new FieldValue
+            {
+                Index = field.Index,
+                Type = field.Type,
+                Title = field.Title,
+                Val = field.Type == ExcelType.Double ? DoubleSum : IntSum
+            };
+        }
+        private FieldValue GetValue(ExcelField field, List<XZC> value)
+        {
+            var qy = string.Join(" OR ", value.Select(e => string.Format("{0}.XZCDM = '{1}'", string.IsNullOrEmpty(field.FieldTableName) ? TableName : field.FieldTableName, e.XZCDM)).ToArray());
+            var val = GainCommon(field, qy);
+            return val;
+        }
         private void GainAccess()
         {
             foreach(var entry in ExcelManager.Dict)
             {
                 var array = entry.Key.Split(',');
                 var result = new List<FieldValue>();
-                var qy = string.Join(" OR ", entry.Value.Select(e => string.Format("{0}.XZCDM = '{1}'", TableName, e.XZCDM)).ToArray());
+                var value = entry.Value;
                 foreach (var field in Fields)
                 {
-                    var val = GainCommon(field, qy);
-                    result.Add(val);
+
+                    var val = field.Indexs != null ? GetValues(field, value) : GetValue(field, value);
+                    if (val != null)
+                    {
+                        result.Add(val);
+                    }
+
                 }
                 _accessList.AddRange(result);
                 _dict.Add(array[1], result);
             }
-
-            //foreach (var xzc in List)
-            //{
-            //    var result = new List<FieldValue>();
-                
-            //    foreach (var field in Fields)
-            //    {
-            //        var val = GainCommon(field, xzc.XZCDM, xzc.XZCMC);
-            //        result.Add(val);
-            //    }
-            //    _accessList.AddRange(result);
-            //    _dict.Add(xzc.XZCDM, result);
-            //}
         }
+
+     
+
+   
 
         private void WriteAccess()
         {
@@ -648,9 +716,14 @@ namespace LoowooTech.Stock.Rules
                 var cell = ExcelClass.GetCell(row, 0, modelRow);
                 cell.SetCellValue(entry.Key);
                 var item = ExcelManager.XZQ.FirstOrDefault(e => e.XZCDM == entry.Key);
+                cell = ExcelClass.GetCell(row, 1, modelRow);
                 if (item != null)
                 {
-                    ExcelClass.GetCell(row, 1, modelRow).SetCellValue(item.XZCMC);
+                    cell.SetCellValue(item.XZCMC);
+                }
+                else
+                {
+                    cell.SetCellValue("未查询到名称");
                 }
 
                 list.AddRange(entry.Value);
@@ -683,7 +756,7 @@ namespace LoowooTech.Stock.Rules
                         break;
                 }
             }
-            using (var fs=new FileStream(System.IO.Path.Combine(SaveFolder, ExcelName +" "+TitleName+ ".xls"), FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            using (var fs=new FileStream(System.IO.Path.Combine(SaveFolder, ExcelName +" "+TitleName + ".xls"), FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 workbook.Write(fs);
             }

@@ -99,5 +99,36 @@ namespace LoowooTech.Stock.Common
 
             
         }
+        public static string[] GetValues(OleDbDataReader reader,int start,int length)
+        {
+            var values = new string[length];
+            for(var i = 0; i < length; i++)
+            {
+                var obj = reader[start + i];
+                if (obj != null)
+                {
+                    values[i] = obj.ToString();
+                }
+                
+            }
+            return values;
+        }
+
+        public static string GetWhereClause(string[] fields,string[] values)
+        {
+            if (fields.Length != values.Length)
+            {
+                return string.Empty;
+            }
+            var sb = new StringBuilder(string.Format("[{0}] ='{1}'", fields[0], values[0]));
+            if (fields.Length > 1)
+            {
+                for (var i = 1; i < fields.Length; i++)
+                {
+                    sb.AppendFormat(" AND [{0}] ='{1}'", fields[i], values[i]);
+                }
+            }
+            return sb.ToString();
+        }
     }
 }

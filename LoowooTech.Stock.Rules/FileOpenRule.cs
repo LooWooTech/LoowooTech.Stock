@@ -13,6 +13,10 @@ using System.Xml;
 
 namespace LoowooTech.Stock.Rules
 {
+    /// <summary>
+    /// 作用：核对提交的成果中的文件是否能够打开
+    /// 备注：存在错误，可以定位打开文件夹
+    /// </summary>
     public class FileOpenRule:IRule
     {
         public string RuleName { get { return "提交成果数据是否能够正常打开"; } }
@@ -61,7 +65,16 @@ namespace LoowooTech.Stock.Rules
             {
                 if (!Open(file))
                 {
-                    QuestionManager.Add(new Question { Code = ID, Name = RuleName, Project = CheckProject.数据有效性, Description = string.Format("文件：{0}不能打开，请核对", file) });
+                    QuestionManager.Add(
+                        new Question
+                        {
+                            Code = ID,
+                            Name = RuleName,
+                            Project = CheckProject.数据有效性,
+                            Description = string.Format("文件：{0}不能打开，请核对", file),
+                            ShowType = ShowType.Folder,
+                            Folder = System.IO.Path.GetDirectoryName(file)
+                        });
                 }
             }
         }

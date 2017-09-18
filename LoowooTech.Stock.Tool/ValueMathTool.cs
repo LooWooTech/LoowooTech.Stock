@@ -54,7 +54,19 @@ namespace LoowooTech.Stock.Tool
                     {
                         info = string.Format("{0}对应的值不正确，请核对", reader[1].ToString());
                         Messages.Add(info);
-                        _questions.Add(new Question() { Code = "3201", Name = Name, Project = CheckProject.值符合性, TableName = TableName, BSM = reader[1].ToString(), Description = info });
+                        _questions.Add(
+                            new Question()
+                            {
+                                Code = "3201",
+                                Name = Name,
+                                Project = CheckProject.值符合性,
+                                TableName = TableName,
+                                BSM = reader[1].ToString(),
+                                Description = info,
+                                RelationClassName=RelationName,
+                                ShowType=ShowType.Space,
+                                WhereClause=string.Format("[{0}] ='{1}'",Key,reader[1].ToString())
+                            });
                     }
                 }
                 QuestionManager.AddRange(_questions);

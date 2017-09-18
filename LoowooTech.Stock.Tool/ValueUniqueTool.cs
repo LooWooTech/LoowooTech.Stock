@@ -37,9 +37,15 @@ namespace LoowooTech.Stock.Tool
             }
         }
 
-        public bool Check(OleDbConnection connection)
+        public string[] LocationFields { get; set; }
+
+        private bool CheckWhereField(OleDbConnection connection)
         {
-            var reader = ADOSQLHelper.ExecuteReader(connection, string.IsNullOrEmpty(WhereFieldName) ? string.Format("Select {0} from {1}", CheckFieldName, TableName) : string.Format("Select {0},{1} from {2}", CheckFieldName, WhereFieldName, TableName));
+            var reader = ADOSQLHelper.ExecuteReader(connection,
+                LocationFields == null ?
+                string.Format("Select {0},{1} from {2}", CheckFieldName, WhereFieldName, TableName)
+                : string.Format("Select {0},{1},{2} from {3}", CheckFieldName, WhereFieldName, string.Join(",", LocationFields), TableName)
+                );
             if (reader != null)
             {
                 var temp = new List<string>();
@@ -47,12 +53,74 @@ namespace LoowooTech.Stock.Tool
                 var info = string.Empty;
                 while (reader.Read())
                 {
-                    str = string.IsNullOrEmpty(WhereFieldName) ? string.Format("{0}:{1}", CheckFieldName, reader[0].ToString()) : string.Format("{0}:{1}并且{2}:{3}", WhereFieldName, reader[1], CheckFieldName, reader[0]);
+                    str = string.Format("{0}:{1}并且{2}:{3}", WhereFieldName, reader[1], CheckFieldName, reader[0]);
                     if (temp.Contains(str))
                     {
                         info = string.Format("{0}  存在重复", str);
                         Messages.Add(info);
-                        _questions.Add(new Question { Code = Code, Name = Name, Project = CheckProject.属性正确性, TableName = TableName, BSM = CheckFieldName, Description = info });
+                        _questions.Add(
+                            new Question
+                            {
+                                Code = Code,
+                                Name = Name,
+                                Project = CheckProject.属性正确性,
+                                TableName = TableName,
+                                BSM = CheckFieldName,
+                                Description = info,
+                                RelationClassName = RelationName,
+                                ShowType = ShowType.Space,
+                                WhereClause =
+                                LocationFields == null ?
+                                string.Empty
+                                : ADOSQLHelper.GetWhereClause(LocationFields, ADOSQLHelper.GetValues(reader, 2, LocationFields.Length))
+                            });
+                    }
+                    else
+                    {
+                        temp.Add(str);
+                    }
+                }
+                QuestionManager.AddRange(_questions);
+                return true;
+
+            }
+            return false;
+        }
+        private bool CheckNoWhereField(OleDbConnection connection)
+        {
+            var reader = ADOSQLHelper.ExecuteReader(connection, 
+                LocationFields==null?
+                string.Format("Select {0} from {1}", CheckFieldName, TableName)
+                :string.Format("Select {0},{1} from {2}",CheckFieldName,string.Join(",",LocationFields),TableName)
+                );
+            if (reader != null)
+            {
+                var temp = new List<string>();
+                var str = string.Empty;
+                var info = string.Empty;
+                while (reader.Read())
+                {
+                    str = string.Format("{0}:{1}", CheckFieldName, reader[0].ToString());
+                    if (temp.Contains(str))
+                    {
+                        info = string.Format("{0}  存在重复", str);
+                        Messages.Add(info);
+                        _questions.Add(
+                            new Question
+                            {
+                                Code = Code,
+                                Name = Name,
+                                Project = CheckProject.属性正确性,
+                                TableName = TableName,
+                                BSM = CheckFieldName,
+                                Description = info,
+                                RelationClassName = RelationName,
+                                ShowType = ShowType.Space,
+                                WhereClause =
+                                LocationFields == null ?
+                                string.Empty
+                                : ADOSQLHelper.GetWhereClause(LocationFields, ADOSQLHelper.GetValues(reader, 1, LocationFields.Length))
+                            });
                     }
                     else
                     {
@@ -62,7 +130,18 @@ namespace LoowooTech.Stock.Tool
                 QuestionManager.AddRange(_questions);
                 return true;
             }
+
             return false;
+        }
+
+        public bool Check(OleDbConnection connection)
+        {
+            if (string.IsNullOrEmpty(WhereFieldName))
+            {
+                return CheckNoWhereField(connection);
+            }
+
+            return CheckWhereField(connection);
         }
 
     }

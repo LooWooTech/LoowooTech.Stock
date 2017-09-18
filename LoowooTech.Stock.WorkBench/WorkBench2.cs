@@ -146,6 +146,7 @@ namespace LoowooTech.Stock.WorkBench
                     TableName = DCDYTBManager.ClassName,
                     Description = string.Format("行政区名称：【{0}】行政区代码：【{1}】图斑编号：【{2}】的MJ:【{3}】图斑实际面积：【{4}】容差超过1平方米", e.XZCMC, e.XZCDM, e.TBBH, e.MJ, e.Area),
                     BSM = e.BSM,
+                    ShowType=ShowType.Space,
                     WhereClause = string.Format("[BSM] = {0}", e.BSM)
                 }).ToList());
             DCDYTBManager.List = list;

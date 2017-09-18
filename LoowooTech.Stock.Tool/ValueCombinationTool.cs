@@ -13,6 +13,7 @@ namespace LoowooTech.Stock.Tool
     public class ValueCombinationTool:ITool
     {
         public string TableName { get; set; }
+        public string RelationName { get; set; }
         public string CheckField { get; set; }
         public string[] Tables { get; set; }
         public List<string> Messages { get; set; }

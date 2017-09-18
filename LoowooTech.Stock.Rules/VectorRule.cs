@@ -11,6 +11,7 @@ namespace LoowooTech.Stock.Rules
 {
     /// <summary>
     /// 矢量图层完整性
+    /// 备注：错误不做定位显示
     /// </summary>
     public class VectorRule:IRule
     {

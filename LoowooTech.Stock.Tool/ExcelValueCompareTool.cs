@@ -118,6 +118,8 @@ namespace LoowooTech.Stock.Tool
                         }
                     }
                 }
+                val1 = Math.Round(val1, 4);
+                val2 = Math.Round(val2, 4);
                 bool flag = true;
                 switch (Compare)
                 {

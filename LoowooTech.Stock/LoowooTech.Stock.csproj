@@ -164,6 +164,9 @@
     <None Include="Excels\ExcelOne.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Excels\ExcelSix.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Excels\ExcelThree.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -122,6 +122,8 @@ namespace LoowooTech.Stock.Common
                                 TableName = "DCDYTB",
                                 BSM = item.BSM,
                                 Description = str,
+                                RelationClassName="DCDYTB",
+                                ShowType=ShowType.Space,
                                 WhereClause = string.Format("[BSM] = {0}", item.BSM)
                             });
                         AddMessage(str);

@@ -9,6 +9,7 @@ namespace LoowooTech.Stock.Tool
     public interface ITool
     {
         string TableName { get; set; }
+        string RelationName { get; set; }
         string Name { get; }
         string ID { get; set; }
         List<string> Messages { get; set; }

@@ -7,6 +7,10 @@ using System.Text;
 
 namespace LoowooTech.Stock.Rules
 {
+    /// <summary>
+    /// 作用：标识码唯一性检查
+    /// 备注：不做定位
+    /// </summary>
     public class BSMRule:ValueBaseRule,IRule
     {
         public override string RuleName

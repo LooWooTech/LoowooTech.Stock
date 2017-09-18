@@ -22,26 +22,31 @@ namespace LoowooTech.Stock.Tool
         {
             get
             {
-                //var sb = new StringBuilder(string.Format("规则{0}:表‘{1}’ 当‘{2}’的时候，‘{3}’", ID, TableName, WhereCaluse, CheckFields[0]));
-                //for(var i = 1; i < CheckFields.Count(); i++)
-                //{
-                //    sb.AppendFormat("、‘{0}’", CheckFields[i]);
-                //}
-                //sb.Append(Is_Nullable ? "为空" : "必填");
-                //return sb.ToString();
-
                 return
                     string.IsNullOrEmpty(WhereCaluse) ?
                     string.Format("规则{0}：表‘{1}’中字段‘{2}’{3}", ID, TableName, string.Join("、", CheckFields), Is_Nullable ? "为空" : "必填")
                     : string.Format("规则{0}：表‘{1}’ 当‘{2}’时，字段‘{3}’{4}", ID, TableName, WhereCaluse, string.Join("、", CheckFields), Is_Nullable ? "为空" : "必填");
             }
         }
-        private bool CheckWhere(OleDbConnection connection)
+
+        public string[] LocationFields { get; set; }
+
+        private bool CheckWhereFields(OleDbConnection connection)
         {
             var reader = ADOSQLHelper.ExecuteReader(connection,
                 string.IsNullOrEmpty(WhereCaluse) ?
-                string.Format("Select {0},{1},{2} from {3}", Key, string.Join(",", CheckFields), string.Join(",", WhereFields), TableName)
-                : string.Format("Select {0},{1},{2} from {3} where {4}", Key, string.Join(",", CheckFields), string.Join(",", WhereFields), TableName, WhereCaluse));
+                (
+                LocationFields == null ?
+                 string.Format("Select {0},{1},{2} from {3}", Key, string.Join(",", CheckFields), string.Join(",", WhereFields), TableName)
+                 : string.Format("Select {0},{1},{2},{3} from {4}", Key, string.Join(",", CheckFields), string.Join(",", WhereFields), string.Join(",", LocationFields), TableName)
+                )
+                : (
+                LocationFields == null ?
+                 string.Format("Select {0},{1},{2} from {3} where {4}", Key, string.Join(",", CheckFields), string.Join(",", WhereFields), TableName, WhereCaluse)
+                 : string.Format("Select {0},{1},{2},{3} from {4} where {5}", Key, string.Join(",", CheckFields), string.Join(",", WhereFields), string.Join(",", LocationFields), TableName, WhereCaluse)
+                )
+
+                );
             if (reader != null)
             {
                 var array = new string[WhereFields.Length];
@@ -68,7 +73,22 @@ namespace LoowooTech.Stock.Tool
                         if (!string.IsNullOrEmpty(str))
                         {
                             info = string.Format("{0}对应的字段：{1}与要求的{2}不符,图斑信息：行政村代码：【{3}】图斑编号：【{4}】", reader[0].ToString().Trim(), str, Is_Nullable ? "为空" : "必填",array[0],array[1]);
-                            _questions.Add(new Question { Code = "5101", Name = Name, Project = CheckProject.图层内属性一致性, TableName = TableName, BSM = reader[0].ToString(), Description = info });
+                            _questions.Add(
+                                new Question
+                                {
+                                    Code = "5101",
+                                    Name = Name,
+                                    Project = CheckProject.图层内属性一致性,
+                                    TableName = TableName,
+                                    BSM = reader[0].ToString(),
+                                    Description = info,
+                                    RelationClassName = RelationName,
+                                    ShowType = ShowType.Space,
+                                    WhereClause =
+                                    LocationFields == null ?
+                                    string.Format("[{0}] ='{1}'", Key, reader[0].ToString())
+                                    : ADOSQLHelper.GetWhereClause(LocationFields, ADOSQLHelper.GetValues(reader, 1 + CheckFields.Length+WhereFields.Length, LocationFields.Length))
+                                });
                             Messages.Add(info);
                         }
                     }
@@ -81,15 +101,22 @@ namespace LoowooTech.Stock.Tool
         }
 
 
-        public bool Check(OleDbConnection connection)
+        private bool CheckNoWhereFields(OleDbConnection connection)
         {
-            if (WhereFields != null)
-            {
-                return CheckWhere(connection);
-            }
-            var reader = ADOSQLHelper.ExecuteReader(connection, string.IsNullOrEmpty(WhereCaluse)?
-                string.Format("Select {0},{1} from {2}",string.Join(",",CheckFields),Key,TableName)
-                :string.Format("Select {0},{1} from {2} where {3}", string.Join(",",CheckFields), Key, TableName, WhereCaluse));
+            var reader = ADOSQLHelper.ExecuteReader(connection,
+                string.IsNullOrEmpty(WhereCaluse) ?
+                (
+                LocationFields == null ?
+                 string.Format("Select {0},{1} from {2}", string.Join(",", CheckFields), Key, TableName)
+                 : string.Format("Select {0},{1},{2} from {3}", string.Join(",", CheckFields), Key, string.Join(",", LocationFields), TableName)
+                )
+                : (
+                LocationFields == null ?
+                string.Format("Select {0},{1} from {2} where {3}", string.Join(",", CheckFields), Key, TableName, WhereCaluse)
+                : string.Format("Select {0},{1},{2} from {3} where {4}", string.Join(",", CheckFields), Key, string.Join(",", LocationFields), TableName, WhereCaluse)
+                )
+
+                );
             if (reader != null)
             {
                 var str = string.Empty;
@@ -107,7 +134,22 @@ namespace LoowooTech.Stock.Tool
                     if (!string.IsNullOrEmpty(str))
                     {
                         info = string.Format("{0}对应的字段：{1}与要求的{2}不符", reader[CheckFields.Count()], str, Is_Nullable ? "为空" : "必填");
-                        _questions.Add(new Question { Code = "5101", Name = Name, Project = CheckProject.图层内属性一致性, TableName = TableName, BSM = reader[CheckFields.Count()].ToString(), Description = info });
+                        _questions.Add(
+                            new Question
+                            {
+                                Code = "5101",
+                                Name = Name,
+                                Project = CheckProject.图层内属性一致性,
+                                TableName = TableName,
+                                BSM = reader[CheckFields.Count()].ToString(),
+                                Description = info,
+                                RelationClassName = RelationName,
+                                ShowType = ShowType.Space,
+                                WhereClause =
+                                LocationFields == null ?
+                                string.Format("[{0}] ='{1}'", Key, reader[CheckFields.Count()].ToString())
+                                : ADOSQLHelper.GetWhereClause(LocationFields, ADOSQLHelper.GetValues(reader, 1 + CheckFields.Length, LocationFields.Length))
+                            });
                         Messages.Add(info);
                     }
                 }
@@ -115,6 +157,16 @@ namespace LoowooTech.Stock.Tool
                 return true;
             }
             return false;
+        }
+
+
+        public bool Check(OleDbConnection connection)
+        {
+            if (WhereFields != null)
+            {
+                return CheckWhereFields(connection);
+            }
+            return CheckNoWhereFields(connection);
         }
     }
 }

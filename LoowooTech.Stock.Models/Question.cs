@@ -30,7 +30,16 @@ namespace LoowooTech.Stock.Models
         public string Description { get; set; }
         public string Remark { get; set; }
         public CheckProject Project { get; set; }
+        public string RelationClassName { get; set; }
         public string WhereClause { get; set; }
+        public ShowType? ShowType { get; set; }
+        public string Folder { get; set; }
+    }
+
+    public enum ShowType
+    {
+        Space,
+        Folder
     }
 
     public enum CheckProject

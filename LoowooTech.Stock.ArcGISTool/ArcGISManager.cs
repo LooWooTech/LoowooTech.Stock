@@ -43,11 +43,20 @@ namespace LoowooTech.Stock.ArcGISTool
                 }
                 else
                 {
-                    var list = RunXZQ(outfeatureClass);
+                    var list = RunXZQ(outfeatureClass,className1);
                     System.Runtime.InteropServices.Marshal.ReleaseComObject(outfeatureClass);
                     DeleteFeatureClass2(outfeatureClassName);
                     //DeleteFeatureClass(outfeaturePath);
-                    QuestionManager.AddRange(list.Select(e => new Question { Code = "5101", Name = "行政区（空间）", TableName = className1, Description = e }).ToList());
+                    QuestionManager.AddRange(list);
+                    //QuestionManager.AddRange(
+                    //    list.Select(e => 
+                    //    new Question
+                    //    {
+                    //        Code = "5101",
+                    //        Name = "行政区（空间）",
+                    //        TableName = className1,
+                    //        Description = e
+                    //    }).ToList());
                 }
             }
             else
@@ -126,6 +135,7 @@ namespace LoowooTech.Stock.ArcGISTool
             tool.out_feature_class = out_feature;
             tool.join_attributes = "ALL";
             tool.output_type = "INPUT";
+            tool.cluster_tolerance = "0.001 METERS";
             return Excute(tool);
         }
         /// <summary>
@@ -136,9 +146,10 @@ namespace LoowooTech.Stock.ArcGISTool
         /// <param name="featureClass"></param>
         /// <param name="fidName"></param>
         /// <param name="titleName"></param>
-        private static List<string> RunXZQ(IFeatureClass featureClass)
+        private static List<Question> RunXZQ(IFeatureClass featureClass,string className)
         {
-            var list = new List<string>();
+            //var list = new List<string>();
+            var questions = new List<Question>();
             var title1 = featureClass.Fields.FindField("XZCMC");
             var title2 = featureClass.Fields.FindField("XZCMC_1");
 
@@ -157,18 +168,35 @@ namespace LoowooTech.Stock.ArcGISTool
                     if (valOne != valTwo)
                     {
                         var key = feature.get_Value(index);
-                        list.Add(string.Format("行政区名称：【{0}】图斑编号：【{1}】空间范围不符（不在行政区范围内）", valTwo, key));
+                        questions.Add(new Question
+                        {
+                            Code = "5101",
+                            Name = "行政区（空间）",
+                            TableName = className,
+                            Description = string.Format("行政区名称：【{0}】图斑编号：【{1}】空间范围不符（不在行政区范围内）", valTwo, key),
+                            RelationClassName = "DCDYTB",
+                            ShowType = ShowType.Space,
+                            WhereClause = string.Format("[XZCMC] ='{0}' AND [TBBH] ='{1}'", valTwo, key)
+                        });
+                        //list.Add(string.Format("行政区名称：【{0}】图斑编号：【{1}】空间范围不符（不在行政区范围内）", valTwo, key));
                     }
                 }
                 catch(Exception ex)
                 {
-                    list.Add(ex.ToString());
+                    questions.Add(new Question()
+                    {
+                        Code="5101",
+                        Name= "行政区（空间）",
+                        TableName=className,
+                        Description=ex.ToString()                       
+                    });
+                    //list.Add(ex.ToString());
                 }
                 feature = featureCursor.NextFeature();
             }
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
-            return list;
-
+            // return list;
+            return questions;
         }
         /// <summary>
         /// 
@@ -210,6 +238,8 @@ namespace LoowooTech.Stock.ArcGISTool
                             TableName = fidName,
                             BSM = val,
                             Description = str1,
+                            RelationClassName=fidName,
+                            ShowType=ShowType.Space,
                             WhereClause=string.Format("[{0}] = '{1}' AND [{2}] = '{3}'",titleName1,val,titleName2,tbbh)
                         });
                     }

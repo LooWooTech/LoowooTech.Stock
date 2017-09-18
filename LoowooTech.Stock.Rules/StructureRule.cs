@@ -12,6 +12,8 @@ namespace LoowooTech.Stock.Rules
 {
     /// <summary>
     /// 作用：核对每张表的字段，属性，长度，小数位数
+    /// 
+    /// 如果存在错误，不做定位显示
     /// </summary>
     public class StructureRule:IRule
     {

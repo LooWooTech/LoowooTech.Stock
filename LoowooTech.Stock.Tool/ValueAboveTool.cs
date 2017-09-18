@@ -9,6 +9,7 @@ namespace LoowooTech.Stock.Tool
     public class ValueAboveTool:ITool
     {
         public string TableName { get; set; }
+        public string RelationName { get; set; }
         public string Name { get; }
         public string ID { get; set; }
         public List<string> Messages { get; set; }
