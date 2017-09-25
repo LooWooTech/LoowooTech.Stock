@@ -239,7 +239,7 @@
     <Field  Name="JSYDMJ" Title="建筑类型-其他-建设用地总面积" WhereClause="JZLX='4'" Index="14" Type="double" Unit="平方米" Compute="Sum"></Field>
   </Excel>
   <Excel Name="表6" Title="{Name}({Code})农村存量建设用地汇总表.xls" Regex="^表6 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地汇总表.xls$" TableName="NCCLJSYDZTQK" Model="ExcelSix.xls">
-    <Field  Name="ZRCGS" Title="城镇扩展边界外行政村个数" WhereClause="" Index="2" Type="Int" Compute="Sum" Unit=""></Field>
+    <Field  Name="" Title="城镇扩展边界外行政村个数" WhereClause="" Index="2" Type="Int" Compute="Count" Unit=""></Field>
     <Field  Name="RKZS" Title="城镇扩展边界外人口总数" WhereClause="" Index="3" Type="Int" Compute="Sum" Unit=""></Field>
     <Field  Name="HS" Title="户数" WhereClause="" Index="4" Type="Int" Compute="Sum" Unit=""></Field>
     <Field  Name="HJRK" Title="户籍人口" WhereClause="" Index="5" Type="Int" Compute="Sum" Unit=""></Field>
@@ -272,7 +272,7 @@
     <Field  Name="QTCLJSYD.JZMJ" Title="撤并型（表格面积）-按用途分-其他存量建设用地-建筑面积" WhereClause="DCDYTB.DCDYLX='1'" Index="32" Type="Double" Compute="Sum" Unit="平方米" View="Select QTCLJSYD.XZCDM,QTCLJSYD.XZCMC,QTCLJSYD.TBBH,QTCLJSYD.JSYDMJ,QTCLJSYD.JZMJ,DCDYTB.DCDYLX From QTCLJSYD inner join DCDYTB on QTCLJSYD.XZCDM=DCDYTB.XZCDM AND QTCLJSYD.TBBH=DCDYTB.TBBH" TableName="QTCLJSYD"></Field>
     <Field  Name="" Title="保留型（表格面积）-合计-宗数" WhereClause="" Index="33" Type="Int" Compute="Count" Unit="" TableName="" Indexs="36,39,42,45"></Field>
     <Field  Name="" Title="保留型（表格面积）-合计-建设用地面积" WhereClause="" Index="34" Type="Double" Compute="Sum" Unit="平方米" TableName="" Indexs="37,40,43,46"></Field>
-    <Field  Name="" Title="保留型（表格面积）-合计-建筑面积" WhereClause="" Index="35" Type="Int" Compute="Count" Unit="平方米" TableName="" Indexs="38,41,44,47"></Field>
+    <Field  Name="" Title="保留型（表格面积）-合计-建筑面积" WhereClause="" Index="35" Type="Double" Compute="Count" Unit="平方米" TableName="" Indexs="38,41,44,47"></Field>
     <Field  Name="" Title="保留型（表格面积）-按用途分-宅基地-宗数" WhereClause="DCDYTB.DCDYLX='2'" Index="36" Type="Int" Compute="Count" Unit="" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZZDMJ,CLZJD.FSYDMJ,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" TableName="CLZJD"></Field>
     <Field  Name="CLZJD.JZZDMJ+CLZJD.FSYDMJ" Title="保留型（表格面积）-按用途分-宅基地-建设用地面积" WhereClause="DCDYTB.DCDYLX='2'" Index="37" Type="Double" Compute="Sum" Unit="平方米" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZZDMJ,CLZJD.FSYDMJ,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" TableName="CLZJD"></Field>
     <Field  Name="CLZJD.JZMJ" Title="保留型（表格面积）-按用途分-宅基地-建筑面积" WhereClause="DCDYTB.DCDYLX='2'" Index="38" Type="Double" Compute="Sum" Unit="平方米" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZZDMJ,CLZJD.FSYDMJ,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" TableName="CLZJD"></Field>
@@ -286,8 +286,8 @@
     <Field  Name="QTCLJSYD.JSYDMJ" Title="保留型（表格面积）-按用途分-其他存量建设用地-建设用地面积" WhereClause="DCDYTB.DCDYLX='2'" Index="46" Type="Double" Compute="Sum" Unit="平方米" View="Select QTCLJSYD.XZCDM,QTCLJSYD.XZCMC,QTCLJSYD.TBBH,QTCLJSYD.JSYDMJ,QTCLJSYD.JZMJ,DCDYTB.DCDYLX From QTCLJSYD inner join DCDYTB on QTCLJSYD.XZCDM=DCDYTB.XZCDM AND QTCLJSYD.TBBH=DCDYTB.TBBH" TableName="QTCLJSYD"></Field>
     <Field  Name="QTCLJSYD.JZMJ" Title="保留型（表格面积）-按用途分-其他存量建设用地-建筑面积" WhereClause="DCDYTB.DCDYLX='2'" Index="47" Type="Double" Compute="Sum" Unit="平方米" View="Select QTCLJSYD.XZCDM,QTCLJSYD.XZCMC,QTCLJSYD.TBBH,QTCLJSYD.JSYDMJ,QTCLJSYD.JZMJ,DCDYTB.DCDYLX From QTCLJSYD inner join DCDYTB on QTCLJSYD.XZCDM=DCDYTB.XZCDM AND QTCLJSYD.TBBH=DCDYTB.TBBH" TableName="QTCLJSYD"></Field>
     <Field  Name="" Title="集聚型（表格面积）-合计-宗数" WhereClause="" Index="48" Type="Int" Compute="Count" Unit="" TableName="" Indexs="51,54,57,60"></Field>
-    <Field  Name="" Title="集聚型（表格面积）-合计-建设用地面积" WhereClause="" Index="49" Type="Int" Compute="Count" Unit="平方米" TableName="" Indexs="52,55,58,61"></Field>
-    <Field  Name="" Title="集聚型（表格面积）-合计-建筑面积" WhereClause="" Index="50" Type="Int" Compute="Count" Unit="平方米" TableName="" Indexs="53,56,59,62"></Field>
+    <Field  Name="" Title="集聚型（表格面积）-合计-建设用地面积" WhereClause="" Index="49" Type="Double" Compute="Count" Unit="平方米" TableName="" Indexs="52,55,58,61"></Field>
+    <Field  Name="" Title="集聚型（表格面积）-合计-建筑面积" WhereClause="" Index="50" Type="Double" Compute="Count" Unit="平方米" TableName="" Indexs="53,56,59,62"></Field>
     <Field  Name="" Title="集聚型（表格面积）-按用途分-宅基地-宗数" WhereClause="DCDYTB.DCDYLX='3'" Index="51" Type="Int" Compute="Count" Unit="" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZZDMJ,CLZJD.FSYDMJ,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" TableName="CLZJD"></Field>
     <Field  Name="CLZJD.JZZDMJ+CLZJD.FSYDMJ" Title="集聚型（表格面积）-按用途分-宅基地-建设用地面积" WhereClause="DCDYTB.DCDYLX='3'" Index="52" Type="Double" Compute="Sum" Unit="平方米" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZZDMJ,CLZJD.FSYDMJ,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" TableName="CLZJD"></Field>
     <Field  Name="CLZJD.JZMJ" Title="集聚型（表格面积）-按用途分-宅基地-建筑面积" WhereClause="DCDYTB.DCDYLX='3'" Index="53" Type="Double" Compute="Sum" Unit="平方米" View="Select CLZJD.XZCDM,CLZJD.XZCMC,CLZJD.TBBH,CLZJD.JZZDMJ,CLZJD.FSYDMJ,CLZJD.JZMJ,CLZJD.JTRK,DCDYTB.DCDYLX From CLZJD inner join DCDYTB on CLZJD.XZCDM=DCDYTB.XZCDM AND CLZJD.TBBH=DCDYTB.TBBH" TableName="CLZJD"></Field>
