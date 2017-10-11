@@ -199,8 +199,9 @@ namespace LoowooTech.Stock
             _workBench.RulsIds = ids;
             _workBench.Folder = _dataPath;
             btnStart.Enabled = false;
-            btnExport.Enabled = false;
-            btnPDF.Enabled = false;
+            btnResult.Enabled = false;
+            //btnExport.Enabled = false;
+            //btnPDF.Enabled = false;
             btnExcel.Enabled = false;
             var form = new ProgressForm(_workBench);
             form.ShowDialog();
@@ -208,8 +209,9 @@ namespace LoowooTech.Stock
             {
                 RuleHelper.UpdateCheckState(treeView1.Nodes, form.Results);
                 LoadResults(_workBench.Results);
-                btnExport.Enabled = true;
-                btnPDF.Enabled = true;
+                btnResult.Enabled = true;
+                //btnExport.Enabled = true;
+                //btnPDF.Enabled = true;
                 btnExcel.Enabled = true;
                 MessageBox.Show("已经完成质检", "完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -258,6 +260,34 @@ namespace LoowooTech.Stock
                 
             }
         }
+
+        private void btnResult_Click(object sender, EventArgs e)
+        {
+            if (_workBench == null)
+            {
+                MessageBox.Show("请质检之后，点击导出！");
+                return;
+            }
+            var dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var time = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
+                var excelFilePath = System.IO.Path.Combine(dialog.SelectedPath, string.Format("{0} {1}.xls", System.IO.Path.GetFileNameWithoutExtension(_workBench.ReportPath), time));
+                var pdfFilePath = System.IO.Path.Combine(dialog.SelectedPath, string.Format("{0} {1}.pdf", System.IO.Path.GetFileNameWithoutExtension(_workBench.ReportPDFPath), time));
+                try
+                {
+                    File.Copy(_workBench.ReportPath, excelFilePath);
+                    File.Copy(_workBench.ReportPDFPath, pdfFilePath);
+                    MessageBox.Show("成功导出质检结果文件", "导出", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                }catch(Exception ex)
+                {
+                    MessageBox.Show("导出文件时出现错误：" + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+
         private void btnPDF_Click(object sender, EventArgs e)
         {
             var dialog = new SaveFileDialog { Filter = "Pdf文件（*.pdf）|*.pdf", Title = "请选择质检结果导出文件" };
@@ -604,6 +634,11 @@ namespace LoowooTech.Stock
             AddLayer();
         }
 
+        private void btnCode_Click(object sender, EventArgs e)
+        {
 
+        }
+
+  
     }
 }

@@ -259,6 +259,12 @@ namespace LoowooTech.Stock.Rules
 
         private void GainExcel()
         {
+            if (ExcelParameterManager.ExcelListDict.ContainsKey(ExcelName) && ExcelParameterManager.ExcelDict.ContainsKey(ExcelName))
+            {
+                _excelList = ExcelParameterManager.ExcelListDict[ExcelName];
+                _excelDict = ExcelParameterManager.ExcelDict[ExcelName];
+                return;
+            }
             var info = string.Empty;
             if (!System.IO.File.Exists(ExcelFilePath))
             {
@@ -492,6 +498,8 @@ namespace LoowooTech.Stock.Rules
                     _excelDict.Add(xzc.XZCDM, values);
                 }
             }
+
+            ExcelParameterManager.AddExcel(ExcelName, _excelList, _excelDict);
         }
         /// <summary>
         /// 作用：核对表格中的合计是否正确
@@ -658,6 +666,12 @@ namespace LoowooTech.Stock.Rules
         }
         private void GainAccess()
         {
+            if (ExcelParameterManager.AccessListDict.ContainsKey(ExcelName) && ExcelParameterManager.AccessDict.ContainsKey(ExcelName))
+            {
+                _accessList = ExcelParameterManager.AccessListDict[ExcelName];
+                _dict = ExcelParameterManager.AccessDict[ExcelName];
+                return;
+            }
             foreach(var entry in ExcelManager.Dict)
             {
                 var array = entry.Key.Split(',');
@@ -676,6 +690,8 @@ namespace LoowooTech.Stock.Rules
                 _accessList.AddRange(result);
                 _dict.Add(array[1], result);
             }
+
+            ExcelParameterManager.AddAccess(ExcelName, _accessList, _dict);
         }
 
      
@@ -713,6 +729,7 @@ namespace LoowooTech.Stock.Rules
             foreach(var entry in Dict)
             {
                 row = sheet.GetRow(i) ?? sheet.CreateRow(i);
+                row.Height = modelRow.Height;
                 var cell = ExcelClass.GetCell(row, 0, modelRow);
                 cell.SetCellValue(entry.Key);
                 var item = ExcelManager.XZQ.FirstOrDefault(e => e.XZCDM == entry.Key);
@@ -734,6 +751,7 @@ namespace LoowooTech.Stock.Rules
                 i++;
             }
             row = sheet.GetRow(i);
+            row.Height = modelRow.Height;
             var dict = list.GroupBy(e => e.Index).ToDictionary(e => e.Key, e => e.Where(k => k.Val != null && !string.IsNullOrEmpty(k.Val.ToString())));
             foreach(var field in Fields)
             {
@@ -791,6 +809,7 @@ namespace LoowooTech.Stock.Rules
             else
             {
                 _dict.Clear();
+        
                 Parallel.Invoke(GainExcel, GainAccess);
                 if (CheckCode == "6101")
                 {

@@ -161,13 +161,15 @@ namespace LoowooTech.Stock.Common
         {
             var list = Questions.Where(e=> e.Project != CheckProject.数据库查询).OrderBy(e => e.Code).ThenBy(e => e.TableName).ToList();
             var i = 2;
+            var serial = 1;
             IRow row = null;
             var modelrow = sheet.GetRow(i);
             foreach (var item in list.Take(MAXNUMBER))
             {
                 row = sheet.GetRow(i) ?? sheet.CreateRow(i);
+                i++;
                 var cell = ExcelClass.GetCell(row, 0, modelrow);
-                cell.SetCellValue(i++);
+                cell.SetCellValue(serial++);
                 ExcelClass.GetCell(row, 1, modelrow).SetCellValue(item.Code);
                 ExcelClass.GetCell(row, 2, modelrow).SetCellValue(item.Name);
                 ExcelClass.GetCell(row, 3, modelrow).SetCellValue(item.TableName);

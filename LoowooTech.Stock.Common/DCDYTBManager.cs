@@ -29,31 +29,11 @@ namespace LoowooTech.Stock.Common
         }
         
 
-        public static void Init(OleDbConnection connection)
+        public static void Init()
         {
             _tb = new ConcurrentBag<Models.TB>();
-            //var reader = ADOSQLHelper.ExecuteReader(connection, "Select XZCDM,XZCMC,TBBH,DCDYLX,MJ from DCDYTB");
-            //if (reader != null)
-            //{
-            //    var temp = new List<DCDYTB>();
-            //    while (reader.Read())
-            //    {
-            //        var a = .0;//原始单位为亩
-            //        if (double.TryParse(reader[4].ToString(), out a))
-            //        {
-            //            temp.Add(new DCDYTB
-            //            {
-            //                XZCDM = reader[0].ToString().Trim(),
-            //                XZCMC = reader[1].ToString().Trim(),
-            //                TBBH = reader[2].ToString().Trim(),
-            //                DCDYLX = reader[3].ToString().Trim(),
-            //                MJ =a
-            //            });
-            //        }
-
-            //    }
-            //    _list = temp;
-            //}
+            _dict = null;
+            _list = null;
         }
 
         public static void AddTB(List<TB> list)

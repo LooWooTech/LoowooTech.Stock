@@ -37,7 +37,7 @@ namespace LoowooTech.Stock.Rules
                 #endregion
                 if (tableStructure.ExistTables.Contains(DCDYTB))
                 {
-                    DCDYTBManager.Init(connection);
+                    //DCDYTBManager.Init(connection);
                 }
                 else
                 {

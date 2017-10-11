@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace LoowooTech.Stock.WorkBench
 {
@@ -111,9 +112,14 @@ namespace LoowooTech.Stock.WorkBench
                 OutputMessage("00", "未找到单位代码表或者数据库文件", ProgressResultTypeEnum.Fail);
                 return false;
             }
-            ParameterManager.Init(Folder);
+           
             OutputMessage("00", "参数管理器初始化完毕", ProgressResultTypeEnum.Other);
             ExcelManager.Init(ParameterManager.CodeFilePath);//初始化单位代码信息列表
+            var tree = new CodeForm() { Dict = ExcelManager.Dict };
+            if (tree.ShowDialog() == DialogResult.Cancel)
+            {
+                return false;
+            }
             if (ExcelManager.Dict.Count == 0)
             {
                 QuestionManager.Add(new Question { Code = "00", TableName = "单位代码表", Description = "未获取单位代码表中的相关数据信息" });
@@ -150,10 +156,10 @@ namespace LoowooTech.Stock.WorkBench
                     WhereClause = string.Format("[BSM] = {0}", e.BSM)
                 }).ToList());
             DCDYTBManager.List = list;
-            DCDYTBManager.Init(ParameterManager.Connection);
+       
             OutputMessage("00", "成功读取调查单元图斑信息", ProgressResultTypeEnum.Other);
             InitRules();
-            ParameterManager.Folder = Folder;
+            //ParameterManager.Folder = Folder;
             
             return true;
 
@@ -167,6 +173,9 @@ namespace LoowooTech.Stock.WorkBench
         {
             QuestionManager.Clear();
             LogManager.Init();
+            ParameterManager.Init(Folder);
+            DCDYTBManager.Init();
+            ExcelParameterManager.Clear();
             if (!Init())
             {
                 OutputMessage("00", "初始化失败，程序终止", ProgressResultTypeEnum.Fail);

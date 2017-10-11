@@ -203,7 +203,10 @@
     </Content>
     <Content Include="FieldInfo.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\Notes_16x16.png" />
+    <None Include="Resources\Notes_32x32.png" />
     <None Include="Resources\Add_32x32.png" />
     <None Include="Resources\Views_16x16.png" />
     <None Include="Resources\Views_32x32.png" />

@@ -163,13 +163,20 @@ namespace LoowooTech.Stock.ArcGISTool
         public static string CollectFolder { get { return string.IsNullOrEmpty(_collectFolder) ? _collectFolder = System.IO.Path.Combine(Folder, Collect) : _collectFolder; } }
         public static void Init(string folder)
         {
-            Folder = _folder;
+            _folder = folder;
+            //Folder = _folder;
             _connection = null;
             _workspace = null;
             _tableNames = null;
             _childrenFolder = null;
             _TopoFeatures = null;
             _collectFolder = string.Empty;
+            _childrenFiles = null;
+            _featureClassNames = null;
+            _code = null;
+            _district = null;
+            _codeFilePath = null;
+            _mdbFilePath = null;
         }
     }
 }

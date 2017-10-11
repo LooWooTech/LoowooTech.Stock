@@ -23,13 +23,17 @@ namespace LoowooTech.Stock.Common
         public static List<XZDC> XZDC { get { return _XZDC == null ? _XZDC = TransformList() : _XZDC; } }
 
         private  static Dictionary<string,List<XZC>> _dict { get; set; }
+        /// <summary>
+        /// 从Excel中读取的行政村单位代码表字典  键：行政村名称，行政村代码 组成 值：该乡镇下面的行政村列表
+        /// </summary>
         public static Dictionary<string,List<XZC>> Dict { get { return _dict; } }
 
         public static void Init(string filePath)
         {
             _dict = ExcelClass.GainXZ(filePath);
-            //var list = ExcelClass.GainXZ(filePath);
-            //List = list;
+            _XZQ = null;
+            _XZC = null;
+            _XZDC = null;
         }
 
         private static List<XZC> GainXZQ()
