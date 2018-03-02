@@ -109,6 +109,7 @@
   <City Code="331124" Name="松阳县"/>
   <City Code="331125" Name="云和县"/>
   <City Code="331126" Name="庆元县"/>
-  <City Code="331127" Name="景宁畲族自治县"/>
+  <City Code="331127" Name="景宁县"/>
+  <!--<City Code="331127" Name="景宁畲族自治县"/>--> 
   <City Code="331181" Name="龙泉市"/>
 </Citys>

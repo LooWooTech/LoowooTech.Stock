@@ -43,6 +43,21 @@ namespace LoowooTech.Stock.Rules
                 return string.IsNullOrEmpty(_tableName) ? XmlNode!=null?XmlNode.Attributes["TableName"].Value:string.Empty : _tableName;
             }
         }
+        
+        /// <summary>
+        /// 汇总增加列号
+        /// </summary>
+        public int? CollectIndex
+        {
+            get
+            {
+                if (XmlNode == null)
+                {
+                    return null;
+                }
+                return int.Parse(XmlNode.Attributes["CollectIndex"].Value);
+            }
+        }
 
         private OleDbConnection _connection { get; set; }
         public OleDbConnection Connection { get { return _connection; }set { _connection = value; } }
@@ -974,5 +989,131 @@ namespace LoowooTech.Stock.Rules
                 }
             }
         }
+
+
+
+
+
+        private CollectType _collectType { get; set; }
+        /// <summary>
+        /// 汇总类型
+        /// </summary>
+        public CollectType CollectType { get { return _collectType; } set { _collectType = value; } }
+        private string _collectFolder { get; set; }
+
+        public string CollectFolder { get { return _collectFolder; }set { _collectFolder = value; } }
+        private List<CollectXZQ> _collectXZQ { get; set; }
+        public List<CollectXZQ> CollectXZQ { get { return _collectXZQ; } set { _collectXZQ = value; } }
+
+        private string _modelExcel2 { get; set; }
+
+        public string ModelExcel2
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_modelExcel2) || !System.IO.File.Exists(_modelExcel2) ? _modelExcel2 = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Excels", XmlNode.Attributes["Model2"].Value) : _modelExcel2;
+            }
+        }
+
+        public void CollectWrite()
+        {
+            var info = string.Empty;
+            if (Fields.Count == 0)
+            {
+                info = string.Format("配置文件FieldInfo.xml未读取{0}的节点信息，无法进行汇总数据", ExcelName);
+                Console.WriteLine(info);
+                _paralleQuestions.Add(new Question { Code = "8888", Name = Name, TableName = ExcelName, Description = info });
+            }
+            else
+            {
+                _dict.Clear();
+
+            }
+            Dictionary<XZC, Dictionary<XZC, List<FieldValue>>> w = null;
+            if (CollectType == CollectType.Excel)
+            {
+
+            }else if (CollectType == CollectType.MDB)
+            {
+                w= CollectMdb();
+            }
+
+            //var filePath
+        }
+
+        private Dictionary<XZC,Dictionary<XZC,List<FieldValue>>> CollectMdb()
+        {
+            var messages = new List<string>();
+            var mdbfiles = FolderExtensions.GetFiles(CollectFolder, "*.mdb");
+            var codefiles = FolderExtensions.GetFiles(CollectFolder, "*.xls");
+            #region 获取数据
+            var resultDict = new Dictionary<XZC, Dictionary<XZC, List<FieldValue>>>();
+            foreach(var shi in CollectXZQ)
+            {
+                if (shi.Children != null && shi.Children.Count > 0)
+                {
+                    var shiResult = new Dictionary<XZC, List<FieldValue>>();
+                    foreach(var qu in shi.Children)
+                    {
+                        var codeFile = codefiles.FirstOrDefault(e => e.XZQDM == qu.XZCDM && e.XZQMC == qu.XZCMC);
+                        var mdbfile = mdbfiles.FirstOrDefault(e => e.XZQDM == qu.XZCDM && e.XZQMC == qu.XZCMC);
+                        if (codeFile == null||mdbfile==null)
+                        {
+                            messages.Add(string.Format("未找到行政区代码【{0}】行政区名称【{1}】对应的单位代码表或者mdb矢量文件，未进行汇总，请核对", qu.XZCDM, qu.XZCMC));
+
+                        }
+                        else
+                        {
+                            if (Connection != null)
+                            {
+                                if (Connection.State == System.Data.ConnectionState.Open || Connection.State == System.Data.ConnectionState.Connecting)
+                                {
+                                    Connection.Close();
+                                }
+                               
+                            }
+                            Connection = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", mdbfile.FullName));
+                            var dict = ExcelClass.GainXZ(codeFile.FullName);
+                            var quResult = new List<FieldValue>();
+                            foreach(var entry in dict)//
+                            {
+                                var array = entry.Key.Split(',');
+                                var result = new List<FieldValue>();//每个乡镇对应每一列的值
+                                var value = entry.Value;
+                                foreach(var field in Fields)
+                                {
+                                    var val = field.Indexs != null ? GetValues(field, value) : GetValue(field, value);
+                                    if (val != null)
+                                    {
+                                        result.Add(val);
+                                    }
+                                }
+                                quResult.AddRange(result);
+                            }
+                            shiResult.Add(qu, quResult);
+                            Connection.Close();
+                        }
+                    }
+
+                    resultDict.Add(new XZC { XZCDM = shi.XZQDM, XZCMC = shi.XZQMC }, shiResult);
+                }
+            }
+            #endregion
+
+            return resultDict;
+
+
+        }
+
+        private void CollectExcel()
+        {
+
+        }
+    }
+
+    public enum CollectType
+    {
+        MDB,
+        Excel
     }
 }

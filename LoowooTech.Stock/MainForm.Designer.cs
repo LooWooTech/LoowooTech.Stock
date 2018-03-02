@@ -73,6 +73,7 @@
             this.btnOpen = new System.Windows.Forms.RibbonButton();
             this.btnStart = new System.Windows.Forms.RibbonButton();
             this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
+            this.btnResult = new System.Windows.Forms.RibbonButton();
             this.btnExcel = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel3 = new System.Windows.Forms.RibbonPanel();
             this.btnUpdate = new System.Windows.Forms.RibbonButton();
@@ -115,7 +116,9 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSymbol = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPan = new System.Windows.Forms.RibbonButton();
-            this.btnResult = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel4 = new System.Windows.Forms.RibbonPanel();
+            this.CollectMdbButton = new System.Windows.Forms.RibbonButton();
+            this.CollectExcelButton = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
@@ -216,6 +219,7 @@
             this.ribbonTab1.Panels.Add(this.ribbonPanel1);
             this.ribbonTab1.Panels.Add(this.ribbonPanel2);
             this.ribbonTab1.Panels.Add(this.ribbonPanel3);
+            this.ribbonTab1.Panels.Add(this.ribbonPanel4);
             this.ribbonTab1.Text = "基础功能";
             // 
             // ribbonPanel1
@@ -344,6 +348,14 @@
             this.ribbonButton2.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButton2.Image")));
             this.ribbonButton2.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton2.SmallImage")));
             this.ribbonButton2.Text = "ribbonButton2";
+            // 
+            // btnResult
+            // 
+            this.btnResult.Enabled = false;
+            this.btnResult.Image = global::LoowooTech.Stock.Properties.Resources.Notes_32x32;
+            this.btnResult.SmallImage = global::LoowooTech.Stock.Properties.Resources.Notes_16x16;
+            this.btnResult.Text = "导出质检结果文件";
+            this.btnResult.Click += new System.EventHandler(this.btnResult_Click);
             // 
             // btnExcel
             // 
@@ -734,13 +746,25 @@
             this.btnPan.Text = "ribbonButton2";
             this.btnPan.ToolTip = "平移漫游";
             // 
-            // btnResult
+            // ribbonPanel4
             // 
-            this.btnResult.Enabled = false;
-            this.btnResult.Image = global::LoowooTech.Stock.Properties.Resources.Notes_32x32;
-            this.btnResult.SmallImage = global::LoowooTech.Stock.Properties.Resources.Notes_16x16;
-            this.btnResult.Text = "导出质检结果文件";
-            this.btnResult.Click += new System.EventHandler(this.btnResult_Click);
+            this.ribbonPanel4.Items.Add(this.CollectMdbButton);
+            this.ribbonPanel4.Items.Add(this.CollectExcelButton);
+            this.ribbonPanel4.Text = "数据汇总操作";
+            // 
+            // CollectMdbButton
+            // 
+            this.CollectMdbButton.Image = global::LoowooTech.Stock.Properties.Resources.Notes_32x32;
+            this.CollectMdbButton.SmallImage = global::LoowooTech.Stock.Properties.Resources.Notes_16x16;
+            this.CollectMdbButton.Text = "矢量数据汇总";
+            this.CollectMdbButton.Click += new System.EventHandler(this.CollectMdbButton_Click);
+            // 
+            // CollectExcelButton
+            // 
+            this.CollectExcelButton.Image = global::LoowooTech.Stock.Properties.Resources.ExportToExcel_32x32;
+            this.CollectExcelButton.SmallImage = global::LoowooTech.Stock.Properties.Resources.ExportToExcel_32x32;
+            this.CollectExcelButton.Text = "Excel文件汇总";
+            this.CollectExcelButton.Click += new System.EventHandler(this.CollectExcelButton_Click);
             // 
             // MainForm
             // 
@@ -844,5 +868,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader9;
         private System.Windows.Forms.ColumnHeader columnHeader10;
         private System.Windows.Forms.RibbonButton btnResult;
+        private System.Windows.Forms.RibbonPanel ribbonPanel4;
+        private System.Windows.Forms.RibbonButton CollectMdbButton;
+        private System.Windows.Forms.RibbonButton CollectExcelButton;
     }
 }

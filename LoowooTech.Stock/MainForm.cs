@@ -6,7 +6,9 @@ using ESRI.ArcGIS.Framework;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using LoowooTech.Stock.ArcGISTool;
+using LoowooTech.Stock.Common;
 using LoowooTech.Stock.Models;
+using LoowooTech.Stock.Rules;
 using LoowooTech.Stock.WorkBench;
 using System;
 using System.Collections.Generic;
@@ -639,6 +641,22 @@ namespace LoowooTech.Stock
 
         }
 
-  
+        private void CollectMdbButton_Click(object sender, EventArgs e)
+        {
+            var folder = DialogClass.SelectFolder();
+            if (!string.IsNullOrEmpty(folder))
+            {
+                //var mdbfiles = FolderExtensions.GetFiles(folder, "*.mdb");
+                //var files = FolderExtensions.GetFiles(folder, "*.xls");
+                //Console.WriteLine("123");
+                var collect = new CollectValue { SourceFolder = folder };
+                collect.Collect();
+            }
+        }
+
+        private void CollectExcelButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

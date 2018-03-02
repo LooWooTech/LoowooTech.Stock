@@ -75,6 +75,7 @@
     <Compile Include="ExcelClass.cs" />
     <Compile Include="ExcelManager.cs" />
     <Compile Include="ExcelParameterManager.cs" />
+    <Compile Include="FolderExtensions.cs" />
     <Compile Include="LogManager.cs" />
     <Compile Include="MdbClass.cs" />
     <Compile Include="MessageManager.cs" />

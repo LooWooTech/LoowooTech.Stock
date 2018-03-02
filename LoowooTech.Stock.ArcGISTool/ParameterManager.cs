@@ -1,6 +1,7 @@
 ﻿using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using LoowooTech.Stock.Common;
+using LoowooTech.Stock.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
@@ -77,6 +78,46 @@ namespace LoowooTech.Stock.ArcGISTool
         private static List<string> _childrenFiles { get; set; }
         
         public static List<string> ChildrenFiles { get { return _childrenFiles == null ? _childrenFiles = GetChildrenFiles() : _childrenFiles; } }
+
+        private static List<CollectXZQ> _collectXZQ { get; set; }
+
+        public static List<CollectXZQ> CollectXZQ { get { return _collectXZQ == null ? _collectXZQ = GetCollectXZQ() : _collectXZQ; } }
+
+        private static List<CollectXZQ> GetCollectXZQ()
+        {
+            var list = new List<CollectXZQ>();
+            var nodes = XmlManager.GetList("/Tables/Citys/Citys", XmlEnum.Field);
+            if (nodes != null && nodes.Count > 0)
+            {
+                for(var i = 0; i < nodes.Count; i++)
+                {
+                    var node = nodes[i];
+                    var model = new CollectXZQ
+                    {
+                        XZQDM = node.Attributes["Code"].Value,
+                        XZQMC = node.Attributes["Name"].Value
+                    };
+                    var children = node.SelectNodes("City");
+                    if (children != null && children.Count > 0)
+                    {
+                        var result = new List<XZC>();
+                        for(var j = 0; j < children.Count; j++)
+                        {
+                            var child = children[j];
+                            var entry = new XZC
+                            {
+                                XZCDM = child.Attributes["Code"].Value,
+                                XZCMC = child.Attributes["Name"].Value
+                            };
+                            result.Add(entry);
+                        }
+                        model.Children = result.OrderBy(e => e.XZCDM).ToList();
+                    }
+                    list.Add(model);
+                }
+            }
+            return list.OrderBy(e=>e.XZQDM).ToList();
+        }
 
         private static List<string> GetChildrenFiles()
         {

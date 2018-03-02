@@ -21,4 +21,11 @@ namespace LoowooTech.Stock.Models
     {
         public XZC XZQ { get; set; }
     }
+
+    public class CollectXZQ
+    {
+        public string XZQDM { get; set; }
+        public string XZQMC { get; set; }
+        public List<XZC> Children { get; set; }
+    }
 }

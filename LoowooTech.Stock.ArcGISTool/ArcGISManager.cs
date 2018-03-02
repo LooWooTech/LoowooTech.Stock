@@ -66,7 +66,7 @@ namespace LoowooTech.Stock.ArcGISTool
         }
         public static void Topo(string className)
         {
-            var featurePath = string.Format("{0}/{1}", ParameterManager.MDBFilePath, className);
+            var featurePath = string.Format("{0}\\{1}", ParameterManager.MDBFilePath, className);
             var outFeatureName = string.Format("{0}_loowootech", className);
 
             var intersectPath = string.Format("{0}\\{1}", ParameterManager.MDBFilePath, outFeatureName);
@@ -284,21 +284,25 @@ namespace LoowooTech.Stock.ArcGISTool
             IFeature feature = featureCursor.NextFeature();
             while (feature != null)
             {
-                var area = feature.ShapeCopy as IArea;
-                var mjstring = feature.get_Value(MJIndex).ToString();
-                var a = .0;
-                var body = new DCDYTB
+                if (!feature.Shape.IsEmpty)
                 {
-                    BSM=feature.get_Value(BSMIndex).ToString(),
-                    XZCDM = feature.get_Value(DMIndex).ToString(),
-                    XZCMC = feature.get_Value(MCIndex).ToString(),
-                    TBBH = feature.get_Value(BHIndex).ToString(),
-                    DCDYLX = feature.get_Value(LXIndex).ToString(),
-                    Area=Math.Round(area.Area,2),
-                    MJ=double.TryParse(mjstring,out a)?Math.Round( a,2):.0
-                };
+                    var area = feature.ShapeCopy as IArea;
+                    var mjstring = feature.get_Value(MJIndex).ToString();
+                    var a = .0;
+                    var body = new DCDYTB
+                    {
+                        BSM = feature.get_Value(BSMIndex).ToString(),
+                        XZCDM = feature.get_Value(DMIndex).ToString(),
+                        XZCMC = feature.get_Value(MCIndex).ToString(),
+                        TBBH = feature.get_Value(BHIndex).ToString(),
+                        DCDYLX = feature.get_Value(LXIndex).ToString(),
+                        Area = Math.Round(area.Area, 2),
+                        MJ = double.TryParse(mjstring, out a) ? Math.Round(a, 2) : .0
+                    };
 
-                list.Add(body);
+                    list.Add(body);
+                }
+              
                 feature = featureCursor.NextFeature();
             }
             System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);

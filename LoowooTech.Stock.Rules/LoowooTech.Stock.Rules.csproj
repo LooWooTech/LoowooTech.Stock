@@ -67,6 +67,7 @@
     <Compile Include="BSMRule.cs" />
     <Compile Include="CESHI.cs" />
     <Compile Include="ClassNine.cs" />
+    <Compile Include="CollectValue.cs" />
     <Compile Include="ContinuousRule.cs" />
     <Compile Include="CoordinateRule.cs" />
     <Compile Include="DirectoryTool.cs" />

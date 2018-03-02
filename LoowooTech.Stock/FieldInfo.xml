@@ -140,7 +140,7 @@
     <Field Name="FQYY" Title="废弃原因" Length="200" Type="Char"></Field>
    
   </Table>
-  <Excel Name="表1" Title="{Name}({Code})农村存量建设用地总体情况汇总表.xls" Regex="^表1 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地总体情况汇总表.xls$"  TableName="NCCLJSYDZTQK" Model="ExcelOne.xls">
+  <Excel Name="表1" Title="{Name}({Code})农村存量建设用地总体情况汇总表.xls" Regex="^表1 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地总体情况汇总表.xls$"  TableName="NCCLJSYDZTQK" Model="ExcelOne.xls" Model2="ExcelOne2.xls" CollectIndex="">
     <Field  Name="" Title="行政村个数" Index="2" Type="Int" Compute="Count"></Field>
     <Field  Name="ZRCGS" Title="自然村个数" Index="3" Type="Int" Compute="Sum"></Field>
     <Field  Name="XZCZYDMJ" Title="变更调查村庄面积" Index="4" Type="double" Compute="Sum" Unit="平方米"></Field>
@@ -318,4 +318,122 @@
     <Rule ID="6101" Title="汇总表的记录条数的缺失，多余，检查汇总表记录中的属性值与数据库图层属性值是否完全一致" Class="ExcelValueLogicRule" Name="LoowooTech.Stock.Rules"></Rule>
     <Rule ID="6201" Title="表格数据中，各级汇总面积和数据库汇总面积的一致性" Class="ExcelValueCollectRule" Name="LoowooTech.Stock.Rules"></Rule>
   </Rules>
+
+
+
+
+  <Citys>
+    <Citys Code="3301" Name="杭州市">
+      <City Code="330102" Name="上城区"/>
+      <City Code="330103" Name="下城区"/>
+      <City Code="330104" Name="江干区"/>
+      <City Code="330105" Name="拱墅区"/>
+      <City Code="330106" Name="西湖区"/>
+      <City Code="330108" Name="滨江区"/>
+      <City Code="330109" Name="萧山区"/>
+      <City Code="330110" Name="余杭区"/>
+      <City Code="330111" Name="富阳区"/>
+      <City Code="330122" Name="桐庐县"/>
+      <City Code="330127" Name="淳安县"/>
+      <City Code="330182" Name="建德市"/>
+      <City Code="330185" Name="临安市"/>
+    </Citys>
+    <Citys Code="3302" Name="宁波市">
+      <City Code="330203" Name="海曙区"/>
+      <City Code="330204" Name="江东区"/>
+      <City Code="330205" Name="江北区"/>
+      <City Code="330206" Name="北仑区"/>
+      <City Code="330211" Name="镇海区"/>
+      <City Code="330212" Name="鄞州区"/>
+      <City Code="330225" Name="象山县"/>
+      <City Code="330226" Name="宁海县"/>
+      <City Code="330281" Name="余姚市"/>
+      <City Code="330282" Name="慈溪市"/>
+      <City Code="330283" Name="奉化市"/>
+    </Citys>
+    <Citys Code="3303" Name="温州市">
+      <City Code="330302" Name="鹿城区"/>
+      <City Code="330303" Name="龙湾区"/>
+      <City Code="330304" Name="瓯海区"/>
+      <City Code="330305" Name="洞头区"/>
+      <City Code="330324" Name="永嘉县"/>
+      <City Code="330326" Name="平阳县"/>
+      <City Code="330327" Name="苍南县"/>
+      <City Code="330328" Name="文成县"/>
+      <City Code="330329" Name="泰顺县"/>
+      <City Code="330381" Name="瑞安市"/>
+      <City Code="330382" Name="乐清市"/>
+    </Citys>
+    <Citys Code="3304" Name="嘉兴市">
+      <City Code="330402" Name="南湖区"/>
+      <City Code="330411" Name="秀洲区"/>
+      <City Code="330421" Name="嘉善县"/>
+      <City Code="330424" Name="海盐县"/>
+      <City Code="330481" Name="海宁市"/>
+      <City Code="330482" Name="平湖市"/>
+      <City Code="330483" Name="桐乡市"/>
+    </Citys>
+    <Citys Code="3305" Name="湖州市">
+      <City Code="330502" Name="吴兴区"/>
+      <City Code="330503" Name="南浔区"/>
+      <City Code="330521" Name="德清县"/>
+      <City Code="330522" Name="长兴县"/>
+      <City Code="330523" Name="安吉县"/>
+    </Citys>
+    <Citys Code="3306" Name="绍兴市">
+      <City Code="330602" Name="越城区"/>
+      <City Code="330603" Name="柯桥区"/>
+      <City Code="330604" Name="上虞区"/>
+      <City Code="330624" Name="新昌县"/>
+      <City Code="330681" Name="诸暨市"/>
+      <City Code="330683" Name="嵊州市"/>
+    </Citys>
+    <Citys Code="3307" Name="金华市">
+      <City Code="330702" Name="婺城区"/>
+      <City Code="330703" Name="金东区"/>
+      <City Code="330723" Name="武义县"/>
+      <City Code="330726" Name="浦江县"/>
+      <City Code="330727" Name="磐安县"/>
+      <City Code="330781" Name="兰溪市"/>
+      <City Code="330782" Name="义乌市"/>
+      <City Code="330783" Name="东阳市"/>
+      <City Code="330784" Name="永康市"/>
+    </Citys>
+    <Citys Code="3308" Name="衢州市">
+      <City Code="330802" Name="柯城区"/>
+      <City Code="330803" Name="衢江区"/>
+      <City Code="330822" Name="常山县"/>
+      <City Code="330824" Name="开化县"/>
+      <City Code="330825" Name="龙游县"/>
+      <City Code="330881" Name="江山市"/>
+    </Citys>
+    <Citys Code="3309" Name="舟山市">
+      <City Code="330902" Name="定海区"/>
+      <City Code="330903" Name="普陀区"/>
+      <City Code="330921" Name="岱山县"/>
+      <City Code="330922" Name="嵊泗县"/>
+    </Citys>
+    <Citys Code="3310" Name="台州市">
+      <City Code="331002" Name="椒江区"/>
+      <City Code="331003" Name="黄岩区"/>
+      <City Code="331004" Name="路桥区"/>
+      <City Code="331021" Name="玉环县"/>
+      <City Code="331022" Name="三门县"/>
+      <City Code="331023" Name="天台县"/>
+      <City Code="331024" Name="仙居县"/>
+      <City Code="331081" Name="温岭市"/>
+      <City Code="331082" Name="临海市"/>
+    </Citys>
+    <Citys Code="3311" Name="丽水市">
+      <City Code="331102" Name="莲都区"/>
+      <City Code="331121" Name="青田县"/>
+      <City Code="331122" Name="缙云县"/>
+      <City Code="331123" Name="遂昌县"/>
+      <City Code="331124" Name="松阳县"/>
+      <City Code="331125" Name="云和县"/>
+      <City Code="331126" Name="庆元县"/>
+      <City Code="331127" Name="景宁畲族自治县"/>
+      <City Code="331181" Name="龙泉市"/>
+    </Citys>
+  </Citys>
 </Tables>

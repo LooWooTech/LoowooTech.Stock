@@ -23,5 +23,6 @@ namespace LoowooTech.Stock.Rules
         string SaveFolder { get; set; }
         void Check();
         void Write();
+        void CollectWrite();
     }
 }

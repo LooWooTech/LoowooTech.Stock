@@ -19,15 +19,23 @@ namespace LoowooTech.Stock
         [STAThread]
         static void Main()
         {
-            if (!RuntimeManager.Bind(ProductCode.Engine))
+            //if (!RuntimeManager.Bind(ProductCode.Engine))
+            //{
+            //    if (!RuntimeManager.Bind(ProductCode.Desktop))
+            //    {
+            //        MessageBox.Show("当前机器上无法找到ArcGIS授权");
+            //        return;
+            //    }
+            //}
+
+            if (!RuntimeManager.Bind(ProductCode.Desktop))
             {
-                if (!RuntimeManager.Bind(ProductCode.Desktop))
+                if (!RuntimeManager.Bind(ProductCode.Engine))
                 {
                     MessageBox.Show("当前机器上无法找到ArcGIS授权");
                     return;
                 }
             }
-
             try
             {
                 Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
@@ -36,7 +44,7 @@ namespace LoowooTech.Stock
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 m_AOLicenseInitializer.InitializeApplication(new esriLicenseProductCode[] { esriLicenseProductCode.esriLicenseProductCodeEngineGeoDB }, new esriLicenseExtensionCode[] { esriLicenseExtensionCode.esriLicenseExtensionCodeSpatialAnalyst });
-
+                //m_AOLicenseInitializer.InitializeApplication(new esriLicenseProductCode[] { esriLicenseProductCode.esriLicenseProductCodeAdvanced,esriLicenseProductCode.esriLicenseProductCodeEngineGeoDB }, new esriLicenseExtensionCode[] { esriLicenseExtensionCode.esriLicenseExtensionCodeSpatialAnalyst });
                 var load = new LoadForm();
                 load.Show();
                 Application.DoEvents();
