@@ -49,6 +49,7 @@
     <Compile Include="Question.cs" />
     <Compile Include="Rule.cs" />
     <Compile Include="StockFile.cs" />
+    <Compile Include="CollectTable.cs" />
     <Compile Include="Value.cs" />
   </ItemGroup>
   <ItemGroup>
