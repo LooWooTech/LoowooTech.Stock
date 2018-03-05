@@ -14,5 +14,28 @@ namespace LoowooTech.Stock.Models
         public string Model { get; set; }
         public string Model2 { get; set; }
         public int CollectIndex { get; set; }
+        public int StartIndex { get; set; }
+    }
+
+    public class Collect
+    {
+        public string XZQDM { get; set; }
+        public string XZQMC { get; set; }
+        public CollectTable Table { get; set; }
+        public Dictionary<string,List<FieldValue>> Values { get; set; }
+        private List<FieldValue> _valueList { get; set; }
+        public List<FieldValue> ValueList { get { return _valueList == null ? _valueList = Tranlate() : _valueList; } }
+        private List<FieldValue> Tranlate()
+        {
+            var list = new List<FieldValue>();
+            if (Values != null)
+            {
+                foreach(var entry in Values.Values)
+                {
+                    list.AddRange(entry);
+                }
+            }
+            return list;
+        }
     }
 }

@@ -140,7 +140,7 @@
     <Field Name="FQYY" Title="废弃原因" Length="200" Type="Char"></Field>
    
   </Table>
-  <Excel Name="表1" Title="{Name}({Code})农村存量建设用地总体情况汇总表.xls" Regex="^表1 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地总体情况汇总表.xls$"  TableName="NCCLJSYDZTQK" Model="ExcelOne.xls" Model2="ExcelOne2.xls" CollectIndex="">
+  <Excel Name="表1" Title="{Name}({Code})农村存量建设用地总体情况汇总表.xls" Regex="^表1 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地总体情况汇总表.xls$"  TableName="NCCLJSYDZTQK" Model="ExcelOne.xls" Model2="ExcelOne2.xls" CollectIndex="" StartIndex="3">
     <Field  Name="" Title="行政村个数" Index="2" Type="Int" Compute="Count"></Field>
     <Field  Name="ZRCGS" Title="自然村个数" Index="3" Type="Int" Compute="Sum"></Field>
     <Field  Name="XZCZYDMJ" Title="变更调查村庄面积" Index="4" Type="double" Compute="Sum" Unit="平方米"></Field>

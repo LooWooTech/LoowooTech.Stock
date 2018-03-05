@@ -105,6 +105,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CollectForm.Designer.cs">
+      <DependentUpon>CollectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileListHelper.cs" />
     <Compile Include="LicenseInitializer.cs" />
     <Compile Include="LoadForm.cs">

@@ -1,9 +1,11 @@
 ﻿using LoowooTech.Stock.Common;
 using LoowooTech.Stock.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace LoowooTech.Stock.Rules
@@ -20,6 +22,8 @@ namespace LoowooTech.Stock.Rules
         /// 数据读取文件夹路径
         /// </summary>
         public string SourceFolder { get { return _sourceFolder; } set { _sourceFolder = value; } }
+        private string _saveFolder { get; set; }
+        public string SaveFolder { get { return _saveFolder; } set { _saveFolder = value; } }
         private List<CollectXZQ> _collectXZQ { get; set; }
         /// <summary>
         /// 每个市关联下属的区县列表信息
@@ -55,6 +59,13 @@ namespace LoowooTech.Stock.Rules
                         if(int.TryParse(node.Attributes["CollectIndex"].Value,out a))
                         {
                             table.CollectIndex = a;
+                        }
+                    }
+                    if (node.Attributes["StartIndex"] != null)
+                    {
+                        if(int.TryParse(node.Attributes["StartIndex"].Value,out a))
+                        {
+                            table.StartIndex = a;
                         }
                     }
                     var list = GetFields(node, table.TableName);
@@ -121,7 +132,10 @@ namespace LoowooTech.Stock.Rules
             return list;
         }
 
+        private List<Collect> _result { get; set; } = new List<Collect>();
+        public List<Collect> Result { get { return _result; } }
 
+        private readonly object _syncRoot = new object();
         private void InitMdb()
         {
             var mdbfiles = FolderExtensions.GetFiles(SourceFolder, "*.mdb");//获取文件及下所有的mdb文件列表
@@ -150,14 +164,34 @@ namespace LoowooTech.Stock.Rules
                     Console.WriteLine(string.Format("市级{0}下未获取区县列表，请核对", shi.XZQMC));
                 }
             }
-            
-            foreach(var tool in tools)
+
+            Parallel.ForEach(tools, tool =>
             {
                 tool.Program();
+                var output = tool.Result2;
+                AddResult(output);
+            });
+
+            var writes = new List<WriteCollectTool>();
+
+            foreach(var tableInfo in TableFieldDict)
+            {
+                var collects = Result.Where(e => e.Table.Name == tableInfo.Key.Name).ToList();
+                writes.Add(new WriteCollectTool { CollectXZQ = CollectXZQ, CollectTable = tableInfo.Key, Collects = collects,Fields=tableInfo.Value,SaveFolder=SaveFolder });
             }
+            Parallel.ForEach(writes, tool =>
+            {
+                tool.Program();
+            });
 
+        }
 
-
+        private void AddResult(List<Collect> list)
+        {
+            lock (_syncRoot)
+            {
+                _result.AddRange(list);
+            }
         }
         private void GainData(string mdbfile,string codeFile)
         {

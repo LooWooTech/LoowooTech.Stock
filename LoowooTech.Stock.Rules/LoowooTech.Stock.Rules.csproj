@@ -109,6 +109,7 @@
     <Compile Include="Vector.cs" />
     <Compile Include="VectorBase.cs" />
     <Compile Include="VectorRule.cs" />
+    <Compile Include="WriteCollectTool.cs" />
     <Compile Include="XZCDMRule.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -646,9 +646,7 @@ namespace LoowooTech.Stock
             var folder = DialogClass.SelectFolder();
             if (!string.IsNullOrEmpty(folder))
             {
-                //var mdbfiles = FolderExtensions.GetFiles(folder, "*.mdb");
-                //var files = FolderExtensions.GetFiles(folder, "*.xls");
-                //Console.WriteLine("123");
+    
                 var collect = new CollectValue { SourceFolder = folder };
                 collect.Collect();
             }

@@ -1,10 +1,12 @@
 ﻿using LoowooTech.Stock.Common;
 using LoowooTech.Stock.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LoowooTech.Stock.Rules
 {
@@ -51,12 +53,16 @@ namespace LoowooTech.Stock.Rules
         /// </summary>
         public Dictionary<string,List<XZC>> XZCDict { get { return _xzcDict; } }
 
-        private Dictionary<CollectTable,Dictionary<string,List<FieldValue>>> _result { get; set; }
+        private Dictionary<CollectTable, Dictionary<string, List<FieldValue>>> _result { get; set; } = new Dictionary<CollectTable, Dictionary<string, List<FieldValue>>>();
         /// <summary>
         /// 数据结果
         /// </summary>
         public Dictionary<CollectTable,Dictionary<string,List<FieldValue>>> Result { get { return _result; } }
 
+        private List<Collect> _resullt2 { get; set; } = new List<Collect>();
+        public List<Collect> Result2 { get { return _resullt2; } }
+
+        private readonly object _syncRoot = new object();
 
         private void Init()
         {
@@ -67,32 +73,69 @@ namespace LoowooTech.Stock.Rules
         {
             Init();
 
-            var TableDict = new Dictionary<CollectTable, Dictionary<string, List<FieldValue>>>();//存储表1 表2 对应的每个乡镇对应的字段值列表   表1（表2、表3、表4、表5、表6）----乡镇名称乡镇代码----字段对应的值
-            foreach(var tableInfo in TableFieldDict)//所有表
+            //var TableDict = new Dictionary<CollectTable, Dictionary<string, List<FieldValue>>>();//存储表1 表2 对应的每个乡镇对应的字段值列表   表1（表2、表3、表4、表5、表6）----乡镇名称乡镇代码----字段对应的值
+            //foreach(var tableInfo in TableFieldDict)//所有表
+            //{
+
+            //    var XZDict = new Dictionary<string, List<FieldValue>>();//乡镇对应的字段值列表
+            //    foreach(var entry in XZCDict)//当前行政区 乡镇信息
+            //    {
+            //        var result = new List<FieldValue>();
+
+            //        var value = entry.Value;
+            //        foreach(var field in tableInfo.Value)//某一张表格的字段列表
+            //        {
+            //            var val = field.Indexs != null ? GetValues(field, value, tableInfo.Value, tableInfo.Key.TableName) : GetValue(field, value, tableInfo.Key.TableName);
+            //            if (val != null)
+            //            {
+            //                result.Add(val);
+            //            }
+            //        }
+
+            //        XZDict.Add(entry.Key, result);
+            //    }
+            //    TableDict.Add(tableInfo.Key, XZDict);
+
+            //}
+            //_result = TableDict;
+
+
+            Parallel.ForEach(TableFieldDict, entry =>
             {
+                var result = Program(entry.Key, entry.Value);
+                AddResult(entry.Key, result);
+            });
 
-                var XZDict = new Dictionary<string, List<FieldValue>>();//乡镇对应的字段值列表
-                foreach(var entry in XZCDict)//当前行政区 乡镇信息
-                {
-                    var result = new List<FieldValue>();
-
-                    var value = entry.Value;
-                    foreach(var field in tableInfo.Value)//某一张表格的字段列表
-                    {
-                        var val = field.Indexs != null ? GetValues(field, value, tableInfo.Value, tableInfo.Key.TableName) : GetValue(field, value, tableInfo.Key.TableName);
-                        if (val != null)
-                        {
-                            result.Add(val);
-                        }
-                    }
-
-                    XZDict.Add(entry.Key, result);
-                }
-                TableDict.Add(tableInfo.Key, XZDict);
-
+        }
+        private void AddResult(CollectTable table,Dictionary<string,List<FieldValue>> result)
+        {
+            lock (_syncRoot)
+            {
+                _result.Add(table, result);
+                _resullt2.Add(new Collect { XZQDM = XZQDM, XZQMC = XZQMC, Table = table,Values=result });
             }
-            _result = TableDict;
+        }
 
+        private Dictionary<string,List<FieldValue>> Program(CollectTable table,List<ExcelField> fields)
+        {
+            var XZDict = new Dictionary<string, List<FieldValue>>();//乡镇对应的字段值列表
+            foreach (var entry in XZCDict)//当前行政区 乡镇信息
+            {
+                var result = new List<FieldValue>();
+
+                var value = entry.Value;
+                foreach (var field in fields)//某一张表格的字段列表
+                {
+                    var val = field.Indexs != null ? GetValues(field, value, fields, table.TableName) : GetValue(field, value, table.TableName);
+                    if (val != null)
+                    {
+                        result.Add(val);
+                    }
+                }
+
+                XZDict.Add(entry.Key, result);
+            }
+            return XZDict;
         }
         private FieldValue GetValues(ExcelField field, List<XZC> value,List<ExcelField> fields,string tableName)
         {
