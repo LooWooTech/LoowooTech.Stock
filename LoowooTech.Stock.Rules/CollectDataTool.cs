@@ -10,7 +10,7 @@ using System.Xml;
 
 namespace LoowooTech.Stock.Rules
 {
-    public class CollectDataTool
+    public class CollectDataTool:ICollect
     {
         private CollectType _collectType { get; set; }
         /// <summary>
@@ -29,6 +29,9 @@ namespace LoowooTech.Stock.Rules
         /// 每个市关联下属的区县列表信息
         /// </summary>
         public List<CollectXZQ> CollectXZQ { get { return _collectXZQ; } set { _collectXZQ = value; } }
+        private CollectExcelType _collectExcelType { get; set; }
+        public CollectExcelType CollectExcelType { get { return _collectExcelType; }set { _collectExcelType = value; } }
+
 
         private Dictionary<CollectTable,List<ExcelField>> _tableFieldDict { get; set; }
         /// <summary>
@@ -52,7 +55,8 @@ namespace LoowooTech.Stock.Rules
                         Regex = node.Attributes["Regex"].Value,
                         TableName = node.Attributes["TableName"].Value,
                         Model = node.Attributes["Model"].Value,
-                        Model2 = node.Attributes["Model2"].Value
+                        Model2 = node.Attributes["Model2"].Value,
+                        Model3 = node.Attributes["Model3"].Value
                     };
                     if (node.Attributes["CollectIndex"] != null)
                     {
@@ -136,10 +140,31 @@ namespace LoowooTech.Stock.Rules
         public List<Collect> Result { get { return _result; } }
 
         private readonly object _syncRoot = new object();
+
+        private void InitExcel()
+        {
+            var files = FolderExtensions.GetExcelFiles(SourceFolder, "*.xls");
+            OutputMessage("成功获取数据路径下的所有Excel文件");
+            var tools = new List<CollectExcelTool>();
+            foreach(var entry in TableFieldDict)
+            {
+                var list = files.Where(e => e.TableName == entry.Key.Name).ToList();
+                tools.Add(new CollectExcelTool { Fields = entry.Value, CollectTable = entry.Key, SaveFolder = SaveFolder, CollectXZQ = CollectXZQ, Files = list,CollectExcelType=CollectExcelType });
+            }
+            Parallel.ForEach(tools, tool =>
+            {
+                tool.Program();
+            });
+
+
+        }
         private void InitMdb()
         {
             var mdbfiles = FolderExtensions.GetFiles(SourceFolder, "*.mdb");//获取文件及下所有的mdb文件列表
             var codefiles = FolderExtensions.GetFiles(SourceFolder, "*.xls");//获取文件夹下的所有的Excel文件  即单位代码表文件
+
+            OutputMessage("成果获取数据路径下的所有矢量文件和单位代码表文件");
+            var info = string.Empty;
             var tools = new List<CollectTool>();
             foreach(var shi in CollectXZQ)
             {
@@ -155,25 +180,29 @@ namespace LoowooTech.Stock.Rules
                         }
                         else
                         {
-                            Console.WriteLine(string.Format("缺少行政区代码【{0}】行政区名称【{1}】的相关数据文件或者单位代码表，故未进行统计操作", quxian.XZCDM, quxian.XZCMC));
+                            info = string.Format("缺少行政区代码【{0}】行政区名称【{1}】的相关数据文件或者单位代码表，故未进行统计操作", quxian.XZCDM, quxian.XZCMC);
+                            Console.WriteLine(info);
+                            OutputMessage(info);
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine(string.Format("市级{0}下未获取区县列表，请核对", shi.XZQMC));
+                    info = string.Format("市级{0}下未获取区县列表，请核对", shi.XZQMC);
+                    Console.WriteLine(info);
+                    OutputMessage(info);
                 }
             }
-
+            OutputMessage("正在获取每个县区市数据信息，请稍等......");
             Parallel.ForEach(tools, tool =>
             {
                 tool.Program();
                 var output = tool.Result2;
                 AddResult(output);
             });
-
+            OutputMessage(string.Format("成功完成获取所有数据信息，共获得{0}个县区市数据信息", tools.Count));
             var writes = new List<WriteCollectTool>();
-
+            OutputMessage("正在保存文件，请稍等......");
             foreach(var tableInfo in TableFieldDict)
             {
                 var collects = Result.Where(e => e.Table.Name == tableInfo.Key.Name).ToList();
@@ -183,7 +212,7 @@ namespace LoowooTech.Stock.Rules
             {
                 tool.Program();
             });
-
+            OutputMessage("成功保存文件，请在保存路径中查看文件");
         }
 
         private void AddResult(List<Collect> list)
@@ -204,10 +233,31 @@ namespace LoowooTech.Stock.Rules
 
         public void Program()
         {
+            switch (CollectType)
+            {
+                case CollectType.MDB:
+                    InitMdb();
+                    break;
+                case CollectType.Excel:
+                    InitExcel();
+                    break;
+
+            }
 
 
 
+        }
 
+        public event ProgramCollectProgressHandler OnProgramProcess;
+
+        private bool OutputMessage(string message)
+        {
+            return OutputMessage(new CollectProgressEventArgs { Message = message });
+        }
+        private bool OutputMessage(CollectProgressEventArgs e)
+        {
+            OnProgramProcess(this, e);
+            return e.Cancel;
         }
     }
 

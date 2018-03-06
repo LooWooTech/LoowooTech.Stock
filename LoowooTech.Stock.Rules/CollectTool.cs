@@ -105,6 +105,7 @@ namespace LoowooTech.Stock.Rules
                 var result = Program(entry.Key, entry.Value);
                 AddResult(entry.Key, result);
             });
+            Connection.Close();
 
         }
         private void AddResult(CollectTable table,Dictionary<string,List<FieldValue>> result)

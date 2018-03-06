@@ -1113,7 +1113,14 @@ namespace LoowooTech.Stock.Rules
 
     public enum CollectType
     {
+        [IODescription("矢量")]
         MDB,
+        [IODescription("Excel")]
         Excel
+    }
+    public enum CollectExcelType
+    {
+        Excel1,
+        Excel2
     }
 }

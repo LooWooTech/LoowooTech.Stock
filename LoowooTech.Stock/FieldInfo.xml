@@ -140,7 +140,7 @@
     <Field Name="FQYY" Title="废弃原因" Length="200" Type="Char"></Field>
    
   </Table>
-  <Excel Name="表1" Title="{Name}({Code})农村存量建设用地总体情况汇总表.xls" Regex="^表1 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地总体情况汇总表.xls$"  TableName="NCCLJSYDZTQK" Model="ExcelOne.xls" Model2="ExcelOne2.xls" CollectIndex="" StartIndex="3">
+  <Excel Name="表1" Title="{Name}({Code})农村存量建设用地总体情况汇总表.xls" Regex="^表1 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地总体情况汇总表.xls$"  TableName="NCCLJSYDZTQK" Model="ExcelOne.xls" Model2="ExcelOne2.xls" Model3="ExcelOne3.xls" CollectIndex="3" StartIndex="3">
     <Field  Name="" Title="行政村个数" Index="2" Type="Int" Compute="Count"></Field>
     <Field  Name="ZRCGS" Title="自然村个数" Index="3" Type="Int" Compute="Sum"></Field>
     <Field  Name="XZCZYDMJ" Title="变更调查村庄面积" Index="4" Type="double" Compute="Sum" Unit="平方米"></Field>
@@ -153,7 +153,7 @@
     <Field  Name="LCRK" Title="流出人口" Index="11" Type="Int" Compute="Sum"></Field>
     <Field  Name="JTJYXQYGS" Title="集体经营性企业个数" Index="12" Type="Int" Compute="Sum"></Field>
   </Excel>
-  <Excel Name="表2" Title="{Name}({Code})农村存量宅基地基本情况汇总表.xls" Regex="^表2 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量宅基地基本情况汇总表.xls$" TableName="CLZJD" Model="ExcelTwo.xls">
+  <Excel Name="表2" Title="{Name}({Code})农村存量宅基地基本情况汇总表.xls" Regex="^表2 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量宅基地基本情况汇总表.xls$" TableName="CLZJD" Model="ExcelTwo.xls" Model2="ExcelTwo2.xls" Model3="ExcelTwo3.xls" CollectIndex="3" StartIndex="5">
     <Field  Name="JZZDMJ" Title="建筑占地总面积" Index="2" Type="double" Compute="Sum" Unit="平方米"></Field>
     <Field  Name="FSYDMJ" Title="附属用地总面积" Index="3" Type="double" Compute="Sum" Unit="平方米"></Field>
     <Field  Name="JZMJ" Title="建筑总面积" Index="4" Type="double" Compute="Sum" Unit="平方米"></Field>
@@ -180,7 +180,7 @@
     <Field  Name="JTRK" Title="建筑类型-其他-人口数" Type="int" WhereClause="JZLX='4'" Index="25" Compute="Sum"></Field>
     <Field  Name="JZMJ" Title="建筑类型-其他-建筑总面积" Type="double" WhereClause="JZLX='4'" Index="26" Compute="Sum" Unit="平方米"></Field>
   </Excel>
-  <Excel Name="表3" Title="{Name}({Code})农村存量经营性建设用地基本情况汇总表.xls" Regex="^表3 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量经营性建设用地基本情况汇总表.xls$" TableName="JYXJSYD" Model="ExcelThree.xls">
+  <Excel Name="表3" Title="{Name}({Code})农村存量经营性建设用地基本情况汇总表.xls" Regex="^表3 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量经营性建设用地基本情况汇总表.xls$" TableName="JYXJSYD" Model="ExcelThree.xls" Model2="ExcelThree2.xls" Model3="ExcelThree3.xls" CollectIndex="3" StartIndex="5">
     <Field  Name="JSYDMJ" Title="建设用地总面积"  Index="2" Type="double" Unit="平方米" Compute="Sum"></Field>
     <Field  Name="JZMJ" Title="建筑总面积"  Index="3" Type="double" Unit="平方米" Compute="Sum"></Field>
     <Field  Name="JSYDMJ" Title="正常使用面积" WhereClause="LYZT='1'" Index="4" Type="double" Unit="平方米" Compute="Sum"></Field>
@@ -201,7 +201,7 @@
     <Field  Name="" Title="建筑类型-其他-宗数" WhereClause="JZLX='4'" Index="19" Type="Int" Compute="count"></Field>
     <Field  Name="JSYDMJ" Title="建筑类型-其他-建设用地总面积" WhereClause="JZLX='4'" Index="20" Type="double" Unit="平方米" Compute="Sum"></Field>
   </Excel>
-  <Excel Name="表4" Title="{Name}({Code})农村存量公共管理及公共服务设施用地基本情况汇总表.xls" Regex="^表4 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量公共管理及公共服务设施用地基本情况汇总表.xls$" TableName="GGGL_GGFWSSYD" Model="ExcelFour.xls">
+  <Excel Name="表4" Title="{Name}({Code})农村存量公共管理及公共服务设施用地基本情况汇总表.xls" Regex="^表4 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量公共管理及公共服务设施用地基本情况汇总表.xls$" TableName="GGGL_GGFWSSYD" Model="ExcelFour.xls" Model2="ExcelFour2.xls" Model3="ExcelFour3.xls" CollectIndex="3" StartIndex="5">
     <Field  Name="JSYDMJ" Title="建设用地总面积" WhereClause="" Index="2" Type="Double" Compute="Sum" Unit="平方米"></Field>
     <Field  Name="JZMJ" Title="建筑总面积" WhereClause="" Index="3" Type="Double" Compute="Sum" Unit="平方米"></Field>
     <Field  Name="JSYDMJ" Title="正常使用面积" WhereClause="LYZT='1'" Index="4" Type="Double" Compute="Sum" Unit="平方米"></Field>
@@ -223,7 +223,7 @@
     <Field  Name="" Title="建筑类型-其他-宗数" WhereClause="JZLX='4'" Index="20" Type="Int" Compute="count"></Field>
     <Field  Name="JSYDMJ" Title="建筑类型-其他-建设用地总面积" WhereClause="JZLX='4'" Index="21" Type="double" Unit="平方米" Compute="Sum"></Field>
   </Excel>
-  <Excel Name="表5" Title="{Name}({Code})农村其它存量建设用地基本情况汇总表.xls" Regex="^表5 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村其它存量建设用地基本情况汇总表.xls$" TableName="QTCLJSYD" Model="ExcelFive.xls">
+  <Excel Name="表5" Title="{Name}({Code})农村其它存量建设用地基本情况汇总表.xls" Regex="^表5 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村其它存量建设用地基本情况汇总表.xls$" TableName="QTCLJSYD" Model="ExcelFive.xls" Model2="ExcelFive2.xls" Model3="ExcelFive3.xls" CollectIndex="3" StartIndex="5">
     <Field  Name="JSYDMJ" Title="建设用地总面积" WhereClause="" Index="2" Type="Double" Compute="Sum" Unit="平方米"></Field>
     <Field  Name="JZMJ" Title="建筑总面积" WhereClause="" Index="3" Type="Double" Compute="Sum" Unit="平方米"></Field>
     <Field  Name="YXSYMJ" Title="有效使用总面积" WhereClause="LYZT='1'" Index="4" Type="Double" Compute="Sum" Unit="平方米"></Field>
@@ -238,7 +238,7 @@
     <Field  Name="" Title="建筑类型-其他-宗数" WhereClause="JZLX='4'" Index="13" Compute="Count" Type="Int"></Field>
     <Field  Name="JSYDMJ" Title="建筑类型-其他-建设用地总面积" WhereClause="JZLX='4'" Index="14" Type="double" Unit="平方米" Compute="Sum"></Field>
   </Excel>
-  <Excel Name="表6" Title="{Name}({Code})农村存量建设用地汇总表.xls" Regex="^表6 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地汇总表.xls$" TableName="NCCLJSYDZTQK" Model="ExcelSix.xls">
+  <Excel Name="表6" Title="{Name}({Code})农村存量建设用地汇总表.xls" Regex="^表6 [\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地汇总表.xls$" TableName="NCCLJSYDZTQK" Model="ExcelSix.xls" Model2="ExcelSix2.xls" Model3="ExcelSix3.xls" CollectIndex="3" StartIndex="6">
     <Field  Name="" Title="城镇扩展边界外行政村个数" WhereClause="" Index="2" Type="Int" Compute="Count" Unit=""></Field>
     <Field  Name="RKZS" Title="城镇扩展边界外人口总数" WhereClause="" Index="3" Type="Int" Compute="Sum" Unit=""></Field>
     <Field  Name="HS" Title="户数" WhereClause="" Index="4" Type="Int" Compute="Sum" Unit=""></Field>
@@ -332,7 +332,7 @@
       <City Code="330108" Name="滨江区"/>
       <City Code="330109" Name="萧山区"/>
       <City Code="330110" Name="余杭区"/>
-      <City Code="330111" Name="富阳区"/>
+      <City Code="330183" Name="富阳区"/>
       <City Code="330122" Name="桐庐县"/>
       <City Code="330127" Name="淳安县"/>
       <City Code="330182" Name="建德市"/>
@@ -349,13 +349,13 @@
       <City Code="330226" Name="宁海县"/>
       <City Code="330281" Name="余姚市"/>
       <City Code="330282" Name="慈溪市"/>
-      <City Code="330283" Name="奉化市"/>
+      <City Code="330283" Name="奉化区"/>
     </Citys>
     <Citys Code="3303" Name="温州市">
       <City Code="330302" Name="鹿城区"/>
       <City Code="330303" Name="龙湾区"/>
       <City Code="330304" Name="瓯海区"/>
-      <City Code="330305" Name="洞头区"/>
+      <City Code="330322" Name="洞头区"/>
       <City Code="330324" Name="永嘉县"/>
       <City Code="330326" Name="平阳县"/>
       <City Code="330327" Name="苍南县"/>
@@ -432,7 +432,7 @@
       <City Code="331124" Name="松阳县"/>
       <City Code="331125" Name="云和县"/>
       <City Code="331126" Name="庆元县"/>
-      <City Code="331127" Name="景宁畲族自治县"/>
+      <City Code="331127" Name="景宁县"/>
       <City Code="331181" Name="龙泉市"/>
     </Citys>
   </Citys>

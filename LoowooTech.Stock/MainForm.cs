@@ -643,18 +643,14 @@ namespace LoowooTech.Stock
 
         private void CollectMdbButton_Click(object sender, EventArgs e)
         {
-            var folder = DialogClass.SelectFolder();
-            if (!string.IsNullOrEmpty(folder))
-            {
-    
-                var collect = new CollectValue { SourceFolder = folder };
-                collect.Collect();
-            }
+            var form = new CollectForm() { CollectType=CollectType.MDB};
+            form.ShowDialog(this);
         }
 
         private void CollectExcelButton_Click(object sender, EventArgs e)
         {
-
+            var form = new CollectForm() { CollectType = CollectType.Excel };
+            form.ShowDialog(this);
         }
     }
 }

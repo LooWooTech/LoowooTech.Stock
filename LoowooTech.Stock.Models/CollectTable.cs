@@ -13,6 +13,7 @@ namespace LoowooTech.Stock.Models
         public string Regex { get; set; }
         public string Model { get; set; }
         public string Model2 { get; set; }
+        public string Model3 { get; set; }
         public int CollectIndex { get; set; }
         public int StartIndex { get; set; }
     }
@@ -37,5 +38,13 @@ namespace LoowooTech.Stock.Models
             }
             return list;
         }
+    }
+
+    public class CollectExcel
+    {
+        public string XZQDM { get; set; }
+        public string XZQMC { get; set; }
+        public int Count { get; set; }
+        public List<FieldValue> Values { get; set; }
     }
 }

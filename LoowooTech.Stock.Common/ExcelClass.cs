@@ -52,8 +52,18 @@ namespace LoowooTech.Stock.Common
             {
                 if (modelRow != null)
                 {
-                    cell = row.CreateCell(line, modelRow.GetCell(line).CellType);
-                    cell.CellStyle = modelRow.GetCell(line).CellStyle;
+                    var modelcell = modelRow.GetCell(line);
+                    if (modelcell != null)
+                    {
+                        cell = row.CreateCell(line, modelcell.CellType);
+                        cell.CellStyle = modelcell.CellStyle;
+                    }
+                    else
+                    {
+                        cell = row.CreateCell(line);
+                    }
+                  
+                
                 }
                 else
                 {

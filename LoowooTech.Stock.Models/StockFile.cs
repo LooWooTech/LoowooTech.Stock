@@ -16,6 +16,7 @@ namespace LoowooTech.Stock.Models
         public string XZQDM { get; set; }
         public string XZQMC { get; set; }
 
+        public string TableName { get; set; }
         
 
     }
