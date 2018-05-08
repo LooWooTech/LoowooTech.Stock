@@ -563,7 +563,7 @@ namespace LoowooTech.Stock.Rules
                     Console.WriteLine(info);
                     _paralleQuestions.Add(new Question
                     {
-                        Code = "6102",
+                        Code = "6101",
                         Name = Name,
                         TableName = ExcelName,
                         Project = CheckProject.表格汇总面积和数据库汇总面积一致性,
@@ -929,7 +929,7 @@ namespace LoowooTech.Stock.Rules
                                     value.Title,a,b);
                                 _paralleQuestions.Add(new Question
                                 {
-                                    Code = "6102",
+                                    Code = "6101",
                                     Name = Name,
                                     TableName = ExcelName,
                                     Project = CheckProject.表格汇总面积和数据库汇总面积一致性,

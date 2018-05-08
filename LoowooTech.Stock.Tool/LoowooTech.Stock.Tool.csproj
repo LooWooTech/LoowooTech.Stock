@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arguments.cs" />
     <Compile Include="ExcelValueCompareTool.cs" />
     <Compile Include="FieldStructureTool.cs" />
     <Compile Include="FileFolder.cs" />

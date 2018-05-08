@@ -40,6 +40,14 @@ namespace LoowooTech.Stock.Models
         }
     }
 
+    public class Collect2
+    {
+        public string XZQDM { get; set; }
+        public string XZQMC { get; set; }
+        public CollectTable Table { get; set; }
+        public List<FieldValue> Values { get; set; }
+    }
+
     public class CollectExcel
     {
         public string XZQDM { get; set; }

@@ -1,7 +1,9 @@
 ﻿using LoowooTech.Stock.ArcGISTool;
 using LoowooTech.Stock.Common;
 using LoowooTech.Stock.Rules;
+using LoowooTech.Stock.Tool;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,6 +23,7 @@ namespace LoowooTech.Stock
 
         public bool StopRequested { get; set; }
         public CollectType CollectType { get; set; }
+        public List<CollectExcelType> List { get; set; }
         public CollectForm()
         {
             InitializeComponent();
@@ -72,22 +75,43 @@ namespace LoowooTech.Stock
                 MessageBox.Show("请选择正确的保存路径");
                 return;
             }
+            var list = new List<CollectExcelType>();
+            if (this.checkBox1.Checked)
+            {
+                list.Add(CollectExcelType.Excel1);
+            }
+            if (this.checkBox2.Checked)
+            {
+                list.Add(CollectExcelType.Excel2);
+            }
+            if (list.Count == 0)
+            {
+                MessageBox.Show("请选择需要生成的汇总表格，至少得选中一类汇总表格");
+                return;
+            }
+            List = list;
             this.Startbutton.Enabled = false;
             this.Closebutton.Enabled = false;
-            Run();
-            //if (_thread == null)
-            //{
-            //    _thread = new Thread(Run);
-            //    _thread.IsBackground = true;
-            //    _thread.Start();
-            //}
-            //else
-            //{
-            //    if (_thread.IsAlive == false)
-            //    {
-
-            //    }
-            //}
+            //Run();
+            if (_thread == null)
+            {
+                _thread = new Thread(Run);
+                _thread.IsBackground = true;
+                _thread.Start();
+            }
+            else
+            {
+                if (_thread.IsAlive == false)
+                {
+                    _thread = new Thread(Run);
+                    _thread.IsBackground = true;
+                    _thread.Start();
+                }
+                else
+                {
+                    _thread.Join();
+                }
+            }
 
             this.Startbutton.Enabled = true;
             this.Closebutton.Enabled = true;
@@ -95,13 +119,42 @@ namespace LoowooTech.Stock
         private void Run()
         {
             _collect = new CollectDataTool();
-            _collect.CollectExcelType = this.radioButton1.Checked == true ? CollectExcelType.Excel1 : CollectExcelType.Excel2;
+            _collect.CollectExcelTypes = List.ToArray();
+            _collect.CollectTables = GetCollectTables();
+            //_collect.CollectExcelType = this.radioButton1.Checked == true ? CollectExcelType.Excel1 : CollectExcelType.Excel2;
             _collect.SourceFolder = this.SourceBox.Text;
             _collect.SaveFolder = this.SaveBox.Text;
             _collect.CollectType = CollectType;
             _collect.CollectXZQ = ParameterManager.CollectXZQ;
             _collect.OnProgramProcess += WorkBench_OnProgramProcess;
             _collect.Program();
+        }
+
+        private void CollectForm_Load(object sender, EventArgs e)
+        {
+            var collects = Arguments.CollectTableDict;
+            this.TableListBox.Items.Clear();
+            foreach(var entry in collects)
+            {
+                this.TableListBox.Items.Add(entry.Key.Name+"、"+ entry.Key.Title,true);
+            }
+        }
+
+        private string[] GetCollectTables()
+        {
+            var list = new List<string>();
+
+            for(var i = 0; i < this.TableListBox.Items.Count; i++)
+            {
+                
+                if (this.TableListBox.GetItemChecked(i))
+                {
+                    var val = this.TableListBox.GetItemText(this.TableListBox.Items[i]);
+                    var key = val.Split('、')[0];
+                    list.Add(key);      
+                }
+            }
+            return list.ToArray();
         }
     }
 }

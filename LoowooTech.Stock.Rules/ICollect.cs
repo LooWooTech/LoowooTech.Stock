@@ -11,9 +11,10 @@ namespace LoowooTech.Stock.Rules
     {
         event ProgramCollectProgressHandler OnProgramProcess;
         CollectType CollectType { get; set; }
-        CollectExcelType CollectExcelType { get; set; }
+        CollectExcelType[] CollectExcelTypes { get; set; }
         string SourceFolder { get; set; }
         string SaveFolder { get; set; }
+        string[] CollectTables { get; set; }
         List<CollectXZQ> CollectXZQ { get; set; }
         void Program();
     }

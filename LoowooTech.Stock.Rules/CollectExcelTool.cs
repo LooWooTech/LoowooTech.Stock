@@ -32,8 +32,8 @@ namespace LoowooTech.Stock.Rules
         public string SaveFolder { get { return _saveFolder; } set { _saveFolder = value; } }
         private List<ExcelField> _fields { get; set; }
         public List<ExcelField> Fields { get { return _fields; } set { _fields = value; } }
-        private CollectExcelType _collectExcelType { get; set; }
-        public CollectExcelType CollectExcelType { get { return _collectExcelType; } set { _collectExcelType = value; } }
+        private CollectExcelType[] _collectExcelTypes { get; set; }
+        public CollectExcelType[] CollectExcelTypes { get { return _collectExcelTypes; } set { _collectExcelTypes = value; } }
 
 
 
@@ -111,27 +111,41 @@ namespace LoowooTech.Stock.Rules
         /// <summary>
         /// 保存文件路径
         /// </summary>
-        public string SaveFilePath { get { return System.IO.Path.Combine(SaveFolder, string.Format("{0}{1}.xls", CollectTable.Name, DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"))); } }
+        public string SaveFilePath { get { return System.IO.Path.Combine(SaveFolder, string.Format("汇总表1 {0}{1}.xls", CollectTable.Name, DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"))); } }
+        public string SaveFilePath2 { get { return System.IO.Path.Combine(SaveFolder, string.Format("汇总表2 {0}{1}.xls", CollectTable.Name, DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"))); } }
         private readonly object _syncRoot = new object();
 
         public void Program()
         {
-            Parallel.ForEach(Files, file =>
+            //Parallel.ForEach(Files, file =>
+            //{
+            //    var collect = Program(file, Fields);
+            //    if (collect != null)
+            //    {
+            //        Add(collect);
+            //    }
+            //});
+            foreach(var file in Files)
             {
                 var collect = Program(file, Fields);
                 if (collect != null)
                 {
                     Add(collect);
                 }
-            });
-            if (CollectExcelType == CollectExcelType.Excel1)
-            {
-                Write();
             }
-            else
+
+            foreach(var type in CollectExcelTypes)
             {
-                Write2();
+                if (type == CollectExcelType.Excel1)
+                {
+                    Write();
+                }
+                else
+                {
+                    Write2();
+                }
             }
+         
           
 
         }
@@ -257,7 +271,7 @@ namespace LoowooTech.Stock.Rules
 
                 }
             }
-            using (var fs = new FileStream(SaveFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            using (var fs = new FileStream(SaveFilePath2, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 workbook.Write(fs);
             }
@@ -298,6 +312,12 @@ namespace LoowooTech.Stock.Rules
                                 row = sheet.GetRow(index) ?? sheet.CreateRow(index);
                                 row.Height = modelRow.Height;
                                 cell = ExcelClass.GetCell(row, 2, modelRow);
+                                #region  边框
+                                ExcelClass.GetCell(row, 0, modelRow);
+                                ExcelClass.GetCell(row, 1, modelRow);
+                                #endregion
+
+
                                 cell.SetCellValue(quxian.XZCDM);
                                 ExcelClass.GetCell(row, 3, modelRow).SetCellValue(quxian.XZCMC);
                                 var entry = Result.FirstOrDefault(e => e.XZQDM.ToLower() == quxian.XZCDM.ToLower() && e.XZQMC.ToLower() == quxian.XZCMC.ToLower());
@@ -320,6 +340,11 @@ namespace LoowooTech.Stock.Rules
                             row.Height = modelRow.Height;
                             cell = ExcelClass.GetCell(row, 4, modelRow);
                             cell.SetCellValue(sum1);
+
+                            ExcelClass.GetCell(row, 0, modelRow);
+                            ExcelClass.GetCell(row, 1, modelRow);
+
+
                             ExcelClass.GetCell(row, 2, modelRow).SetCellValue("小计");
                             ExcelClass.GetCell(row, 3, modelRow);
                             sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(index, index, 2, 3));

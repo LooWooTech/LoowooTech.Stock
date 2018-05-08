@@ -90,6 +90,7 @@
     <Compile Include="ExcelValueLogicRule.cs" />
     <Compile Include="FileFolderStandardRule.cs" />
     <Compile Include="FileOpenRule.cs" />
+    <Compile Include="GatherTool.cs" />
     <Compile Include="ICollect.cs" />
     <Compile Include="IExcel.cs" />
     <Compile Include="IResult.cs" />
