@@ -69,6 +69,38 @@ namespace LoowooTech.Stock.ArcGISTool
         /// 数据库要求的表
         /// </summary>
         public static List<string> TableNames { get { return _tableNames == null ? _tableNames = XmlManager.Get("/Tables/Table", "Name", XmlEnum.Field) : _tableNames; } }
+
+        private static List<string> _tableFulleNames { get; set; }
+        public static List<string> TableFullNames { get { return _tableFulleNames == null ? _tableFulleNames = GetTableFullNames() : _tableFulleNames; } }
+
+        private static List<string> GetTableFullNames()
+        {
+            var list = new List<string>();
+            var nodes = XmlManager.GetList("/Tables/Table", XmlEnum.Field);
+            if (nodes != null&&nodes.Count>0)
+            {
+                for(var i = 0; i < nodes.Count; i++)
+                {
+                    var node = nodes[i];
+                    try
+                    {
+                        var name = node.Attributes["Name"].Value;
+                        var title = node.Attributes["Title"].Value;
+                        if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(title))
+                        {
+                            list.Add(string.Format("{0}({1})", title, name));
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                 
+
+                }
+            }
+            return list;
+        }
         private static List<string> _childrenFolder { get; set; }
         /// <summary>
         /// 质检子目录

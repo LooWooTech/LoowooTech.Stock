@@ -652,5 +652,11 @@ namespace LoowooTech.Stock
             var form = new CollectForm() { CollectType = CollectType.Excel };
             form.ShowDialog(this);
         }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            var form = new SearchForm();
+            form.ShowDialog(this);
+        }
     }
 }

@@ -80,6 +80,7 @@
             this.ribbonPanel4 = new System.Windows.Forms.RibbonPanel();
             this.CollectMdbButton = new System.Windows.Forms.RibbonButton();
             this.CollectExcelButton = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel5 = new System.Windows.Forms.RibbonPanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblOperator = new System.Windows.Forms.ToolStripStatusLabel();
@@ -119,6 +120,7 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSymbol = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPan = new System.Windows.Forms.RibbonButton();
+            this.SearchButton = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
@@ -220,6 +222,7 @@
             this.ribbonTab1.Panels.Add(this.ribbonPanel2);
             this.ribbonTab1.Panels.Add(this.ribbonPanel3);
             this.ribbonTab1.Panels.Add(this.ribbonPanel4);
+            this.ribbonTab1.Panels.Add(this.ribbonPanel5);
             this.ribbonTab1.Text = "基础功能";
             // 
             // ribbonPanel1
@@ -396,6 +399,11 @@
             this.CollectExcelButton.SmallImage = global::LoowooTech.Stock.Properties.Resources.ExportToExcel_32x32;
             this.CollectExcelButton.Text = "Excel文件汇总";
             this.CollectExcelButton.Click += new System.EventHandler(this.CollectExcelButton_Click);
+            // 
+            // ribbonPanel5
+            // 
+            this.ribbonPanel5.Items.Add(this.SearchButton);
+            this.ribbonPanel5.Text = "数据查询";
             // 
             // statusStrip1
             // 
@@ -766,6 +774,13 @@
             this.btnPan.Text = "ribbonButton2";
             this.btnPan.ToolTip = "平移漫游";
             // 
+            // SearchButton
+            // 
+            this.SearchButton.Image = global::LoowooTech.Stock.Properties.Resources.Views_32x32;
+            this.SearchButton.SmallImage = global::LoowooTech.Stock.Properties.Resources.Views_16x16;
+            this.SearchButton.Text = "查询";
+            this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -871,5 +886,7 @@
         private System.Windows.Forms.RibbonPanel ribbonPanel4;
         private System.Windows.Forms.RibbonButton CollectMdbButton;
         private System.Windows.Forms.RibbonButton CollectExcelButton;
+        private System.Windows.Forms.RibbonPanel ribbonPanel5;
+        private System.Windows.Forms.RibbonButton SearchButton;
     }
 }

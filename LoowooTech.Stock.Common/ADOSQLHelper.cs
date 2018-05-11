@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LoowooTech.Stock.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Data.SqlClient;
@@ -129,6 +130,45 @@ namespace LoowooTech.Stock.Common
                 }
             }
             return sb.ToString();
+        }
+
+
+        public static List<string> GetUniqueValue(string file,string tableName,string field)
+        {
+            var list = new List<string>();
+            using (var connection=new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", file)))
+            {
+                connection.Open();
+                var sqlText = string.Format("Select {0} FROM {1} GROUP BY {0}", field, tableName);
+                var reader = ExecuteReader(connection, sqlText);
+                if (reader != null)
+                {
+                    while (reader.Read())
+                    {
+                        var val = reader[0].ToString();
+                        list.Add(val);
+
+                    }
+                }
+                connection.Close();
+            }
+
+            return list;
+        }
+
+        public static List<SearchInfo> Query(string file,List<SearchInfo> infos)
+        {
+            using (var connection=new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", file)))
+            {
+                connection.Open();
+                foreach(var item in infos)
+                {
+                    item.Value = ExecuteScalar(connection, item.SQL);
+                }
+
+                connection.Close();
+            }
+            return infos;
         }
     }
 }
