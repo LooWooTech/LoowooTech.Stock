@@ -658,5 +658,11 @@ namespace LoowooTech.Stock
             var form = new SearchForm();
             form.ShowDialog(this);
         }
+
+        private void MergeMDBButton_Click(object sender, EventArgs e)
+        {
+            var form = new MergeMDBForm();
+            form.ShowDialog(this);
+        }
     }
 }

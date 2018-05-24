@@ -33,9 +33,10 @@ namespace LoowooTech.Stock.Common
             return saveFile;
         }
 
-        public static string SelectFolder()
+        public static string SelectFolder(string folder=null)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.SelectedPath = folder;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 return dialog.SelectedPath;

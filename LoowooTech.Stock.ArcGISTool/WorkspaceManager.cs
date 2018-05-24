@@ -90,6 +90,12 @@ namespace LoowooTech.Stock.ArcGISTool
             IWorkspace workspace = workspaceFactory.OpenFromFile(filePath,0);
             return workspace;
         }
+        public static IWorkspace OpenGDBWorkspace(this string filePath)
+        {
+            IWorkspaceFactory workspaceFactory = new FileGDBWorkspaceFactoryClass();
+            IWorkspace workspace = workspaceFactory.OpenFromFile(filePath, 0);
+            return workspace;
+        }
 
         public static List<IFeatureClass> GetFeatureClasss(IWorkspace workspace)
         {

@@ -12,7 +12,7 @@
     <Field Name="XZCDM" Title="行政村代码" Length="12" Type="Char"></Field>
     <Field Name="XZCMC" Title="行政村名称" Length="100" Type="Char"></Field>
   </Table>
-  <Table Name="XZQJX" Class="LoowooTech.Stock.Rules.TableSeven" Title="行政区界线要素基本属性结构表" IsSpace="true" Topo="fasle">
+  <Table Name="XZQJX" Class="LoowooTech.Stock.Rules.TableSeven" Title="行政区界线要素基本属性结构表" IsSpace="true" Topo="fasle" Type="Polyline">
     <Field Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
     <Field Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
     <Field Name="JXLX" Title="界线类型" Length="6" Type="Char"></Field>

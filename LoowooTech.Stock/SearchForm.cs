@@ -56,8 +56,13 @@ namespace LoowooTech.Stock
             {
                 return;
             }
-            var field = this.FieldBox1.SelectedItem.ToString();
-            if (string.IsNullOrEmpty(field))
+            var fieldName =GetName(this.FieldBox1.SelectedItem.ToString());
+            if (string.IsNullOrEmpty(fieldName))
+            {
+                return;
+            }
+            var field = _fields.FirstOrDefault(i => i.Name.ToLower() == fieldName.ToLower());
+            if (field as object == null || field.Type == FieldType.Float)
             {
                 return;
             }
@@ -68,7 +73,7 @@ namespace LoowooTech.Stock
                 MessageBox.Show(string.Format("未读取分析到{0}对应的矢量数据文件,请核对", XZQMC));
                 return;
             }
-            var values = ADOSQLHelper.GetUniqueValue(file.FullName, _tableName, field);
+            var values = ADOSQLHelper.GetUniqueValue(file.FullName, _tableName, fieldName);
             this.ValueBox1.Items.Clear();
             this.ValueBox1.Items.AddRange(values.ToArray());
             
@@ -115,9 +120,7 @@ namespace LoowooTech.Stock
         private void TableBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var tableFullName = this.TableBox.SelectedItem.ToString();
-            this.FieldBox1.Items.Clear();
-            this.FieldBox2.Items.Clear();
-            this.FieldBox3.Items.Clear();
+            Clear();
             _tableName = string.Empty;
             _fields = null;
             if (string.IsNullOrEmpty(tableFullName))
@@ -134,11 +137,35 @@ namespace LoowooTech.Stock
             this._tableName = tableName;
             var fields = GetField(tableName);
             _fields = fields;
-            var array = fields.Select(i => i.Name).ToArray();
+            var array = fields.Select(i => string.Format("{0}({1})",i.Title,i.Name)).ToArray();
             FieldBox1.Items.AddRange(array);
             FieldBox2.Items.AddRange(array);
             FieldBox3.Items.AddRange(array);
 
+            var statistic = _fields.Where(i => i.Type == FieldType.Float || i.Type == FieldType.Int).ToList();
+            this.StatisticcheckedListBox.Items.Clear();
+            foreach(var item in statistic)
+            {
+                this.StatisticcheckedListBox.Items.Add(string.Format("{0}({1})",item.Title,item.Name),true);
+            }
+
+            var groups = _fields.Where(i => i.Type == FieldType.Int || i.Type == FieldType.Char).ToList();
+
+            var garray = groups.Select(i =>string.Format("{0}({1})",i.Title,i.Name)).ToArray();
+            GroupFieldBox1.Items.Clear();
+            GroupFieldBox2.Items.Clear();
+            GroupFieldBox1.Items.AddRange(garray);
+            GroupFieldBox2.Items.AddRange(garray);
+
+
+
+
+        }
+        private string GetName(string fullName)
+        {
+            var index = fullName.IndexOf("(");
+            fullName = fullName.Replace(")", "");
+            return fullName.Substring(index + 1);
         }
 
         private string GetTableName(string fullTableName)
@@ -180,12 +207,17 @@ namespace LoowooTech.Stock
             {
                 return;
             }
-            var field = this.FieldBox2.SelectedItem.ToString();
+            var fieldName =GetName(this.FieldBox2.SelectedItem.ToString());
+            var field = _fields.FirstOrDefault(i => i.Name.ToLower() == fieldName.ToLower());
+            if (field as object == null||field.Type==FieldType.Float)
+            {
+                return;
+            }
             if (_currentFile == null)
             {
                 return;
             }
-            var values = ADOSQLHelper.GetUniqueValue(_currentFile.FullName, _tableName, field);
+            var values = ADOSQLHelper.GetUniqueValue(_currentFile.FullName, _tableName, fieldName);
             this.ValueBox2.Items.Clear();
             this.ValueBox2.Items.AddRange(values.ToArray());
 
@@ -205,13 +237,17 @@ namespace LoowooTech.Stock
             {
                 return;
             }
-            var field = this.FieldBox3.SelectedItem.ToString();
-
+            var fieldName = GetName(this.FieldBox3.SelectedItem.ToString());
+            var field = _fields.FirstOrDefault(i => i.Name.ToLower() == fieldName.ToLower());
+            if (field as object == null || field.Type == FieldType.Float)
+            {
+                return;
+            }
             if (_currentFile == null)
             {
                 return;
             }
-            var values = ADOSQLHelper.GetUniqueValue(_currentFile.FullName, _tableName, field);
+            var values = ADOSQLHelper.GetUniqueValue(_currentFile.FullName, _tableName, fieldName);
             this.ValueBox3.Items.Clear();
             this.ValueBox3.Items.AddRange(values.ToArray());
         }
@@ -228,12 +264,53 @@ namespace LoowooTech.Stock
                 MessageBox.Show("请选择需要查询的行政区");
                 return;
             }
+            var statistics = GetStatisticField();
+            if (statistics.Count == 0)
+            {
+                MessageBox.Show("请选择统计字段");
+                return;
+            }
+            if (this.GroupFieldBox1.SelectedItem == null && this.GroupFieldBox2.SelectedItem == null)
+            {
+                MessageBox.Show("至少请选择一个分组字段");
+                return;
+            }
+            var groups = new List<Field>();
+            if (this.GroupFieldBox1.SelectedItem != null)
+            {
+                var a = GetName(this.GroupFieldBox1.SelectedItem.ToString());
+                var field = _fields.FirstOrDefault(i => i.Name.ToLower() == a.ToLower());
+                if(field as object != null)
+                {
+                    groups.Add(field);
+                }
+              
+            }
+            if (this.GroupFieldBox2.SelectedItem != null)
+            {
+                var a = GetName(this.GroupFieldBox2.SelectedItem.ToString());
+                var field = _fields.FirstOrDefault(i => i.Name.ToLower() == a.ToLower());
+                if (field as object != null)
+                {
+                    groups.Add(field);
+                }
+            }
+
+
+
+
+
+
+
+
+
+            #region 获取查询条件
             var sb = new StringBuilder();
             var flag = false;
             if (this.FieldBox1.SelectedItem != null&&this.ConditionBox1.SelectedItem!=null)
             {
                 var value1 = this.ValueBox1.SelectedItem == null ? this.ValueBox1.Text : this.ValueBox1.SelectedItem.ToString();
-                var fieldName1 = this.FieldBox1.SelectedItem.ToString();
+                var fieldName1 = GetName(this.FieldBox1.SelectedItem.ToString());
                 var field1 = _fields.FirstOrDefault(i => i.Name.ToLower() == fieldName1.ToLower());
                 if ((field1 as object) != null)
                 {
@@ -257,7 +334,7 @@ namespace LoowooTech.Stock
                         if (this.RelationBox1.SelectedItem != null && this.FieldBox2.SelectedItem != null && this.ConditionBox2.SelectedItem != null)
                         {
                             var value2 = this.ValueBox2.SelectedItem == null ? this.ValueBox2.Text : this.ValueBox2.SelectedItem.ToString();
-                            var fieldName2 = this.FieldBox2.SelectedItem.ToString();
+                            var fieldName2 =GetName(this.FieldBox2.SelectedItem.ToString());
                             var field2 = _fields.FirstOrDefault(i => i.Name.ToLower() == fieldName2.ToLower());
                             if ((field2 as object) != null)
                             {
@@ -281,7 +358,7 @@ namespace LoowooTech.Stock
                         if (this.RelationBox2.SelectedItem != null && this.FieldBox3.SelectedItem != null && this.ConditionBox3.SelectedItem != null)
                         {
                             var value3 = this.ValueBox3.SelectedItem == null ? this.ValueBox3.Text : this.ValueBox3.SelectedItem.ToString();
-                            var fieldName3 = this.FieldBox3.SelectedItem.ToString();
+                            var fieldName3 = GetName(this.FieldBox3.SelectedItem.ToString());
                             var field3 = _fields.FirstOrDefault(i => i.Name.ToLower() == fieldName3.ToLower());
                             if ((field3 as object ) != null)
                             {
@@ -306,14 +383,15 @@ namespace LoowooTech.Stock
             }
             var whereClause = sb.ToString();
             Console.WriteLine(whereClause);
+            #endregion
             var sqlText = string.Empty;
             if (!string.IsNullOrEmpty(whereClause))
             {
-                sqlText = string.Format("SELECT {0} FROM {1} WHERE {2}",string.Join(",", _fields.Select(i => i.Name).ToArray()), _tableName, whereClause);
+                sqlText = string.Format("SELECT {0},{1},COUNT(*) as 数量 FROM {2} WHERE {3} GROUP BY {4}",string.Join(",", statistics.Select(i=>string.Format("SUM({0}) as {1}",i.Name,i.Title)).ToArray()),string.Join(",", groups.Select(i=>string.Format("{0} as {1}",i.Name,i.Title)).ToArray()), _tableName, whereClause,string.Join(",",groups.Select(i=>i.Name).ToArray()));
             }
             else
             {
-                sqlText = string.Format("SELECT {0} FROM {1}", string.Join(",", _fields.Select(i => i.Name).ToArray()), _tableName);
+                sqlText = string.Format("SELECT {0},{1},COUNT(*) as 数量 FROM {2} GROUP BY {3}", string.Join(",", statistics.Select(i => string.Format("SUM({0}) as {1}", i.Name,i.Title)).ToArray()), string.Join(",", groups.Select(i => string.Format("{0} as {1}", i.Name, i.Title)).ToArray()), _tableName, string.Join(",", groups.Select(i => i.Name).ToArray()));
             }
             Console.WriteLine(sqlText);
             using (var connection=new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", _currentFile.FullName)))
@@ -324,39 +402,91 @@ namespace LoowooTech.Stock
                 this.dataGridView1.DataSource = ds;
                 this.dataGridView1.DataMember = "T_Class";
             }
-
-            var infos = new List<SearchInfo>();
-            foreach(var field in _fields)
-            {
-                if (field.Type == FieldType.Float||field.Type==FieldType.Int)
-                {
-                    infos.Add(new SearchInfo { Field = field, TableName = _tableName, WhereClause = whereClause });
-                }
-            }
-            infos = ADOSQLHelper.Query(_currentFile.FullName, infos);
-            this.listView1.Items.Clear();
-            foreach(var item in infos)
-            {
-                this.listView1.Items.Add(item.Title);
-            }
-            //this.listBox1.Items.Clear();
-            //this.listBox1.Items.AddRange(infos.Select(i => i.Title).ToArray());
+            this.ExportExcelbutton.Enabled = true;
         }
 
-        private void Closebutton_Click(object sender, EventArgs e)
+        private List<Field> GetStatisticField()
         {
-            this.Close();
+            var list = new List<Field>();
+            for(var i = 0; i < StatisticcheckedListBox.Items.Count; i++)
+            {
+                if (this.StatisticcheckedListBox.GetItemChecked(i))
+                {
+                    var val = GetName(this.StatisticcheckedListBox.GetItemText(this.StatisticcheckedListBox.Items[i]));
+                    var field = _fields.FirstOrDefault(j => j.Name.ToLower() == val.ToLower());
+                    if(field as object != null)
+                    {
+                        list.Add(field);
+                    }
+                    //list.Add(val);
+                }
+            }
+
+            return list;
+        }
+
+
+
+        private void Clear()
+        {
+            this.FieldBox1.Items.Clear();
+            this.FieldBox1.Text = string.Empty;
+            this.FieldBox2.Items.Clear();
+            this.FieldBox2.Text = string.Empty;
+            this.FieldBox3.Items.Clear();
+            this.FieldBox3.Text = string.Empty;
+
+            this.ConditionBox1.Text = string.Empty;
+            this.ConditionBox2.Text = string.Empty;
+            this.ConditionBox3.Text = string.Empty;
+
+            this.RelationBox1.Text = string.Empty;
+            this.RelationBox2.Text = string.Empty;
+
+            this.ValueBox1.Text = string.Empty;
+            this.ValueBox2.Text = string.Empty;
+            this.ValueBox3.Text = string.Empty;
+
+            this.GroupFieldBox1.Text = string.Empty;
+            this.GroupFieldBox2.Text = string.Empty;
         }
 
         private void ClearWherebutton_Click(object sender, EventArgs e)
         {
-            this.FieldBox1.Items.Clear();
-            this.FieldBox2.Items.Clear();
-            this.FieldBox3.Items.Clear();
-            var array = _fields.Select(i => i.Name).ToArray();
-            this.FieldBox1.Items.AddRange(array);
-            this.FieldBox2.Items.AddRange(array);
-            this.FieldBox3.Items.AddRange(array);
+            this.FieldBox1.Text = string.Empty;
+            this.FieldBox2.Text = string.Empty;
+            this.FieldBox3.Text = string.Empty;
+            
+
+            this.ConditionBox1.Text = string.Empty;
+            this.ConditionBox2.Text = string.Empty;
+            this.ConditionBox3.Text = string.Empty;
+
+            this.RelationBox1.Text = string.Empty;
+            this.RelationBox2.Text = string.Empty;
+
+            this.ValueBox1.Text = string.Empty;
+            this.ValueBox2.Text = string.Empty;
+            this.ValueBox3.Text = string.Empty;
+
+    
+
+            this.FieldBox1.SelectedItem = null;
+            this.FieldBox2.SelectedItem = null;
+            this.FieldBox3.SelectedItem = null;
+
+
+            this.ConditionBox1.SelectedItem = null;
+            this.ConditionBox2.SelectedItem = null;
+            this.ConditionBox3.SelectedItem = null;
+
+            this.ValueBox1.SelectedItem = null;
+            this.ValueBox2.SelectedItem = null;
+            this.ValueBox3.SelectedItem = null;
+
+            this.RelationBox1.SelectedItem = null;
+            this.RelationBox2.SelectedItem = null;
+
         }
 
         private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -366,6 +496,29 @@ namespace LoowooTech.Stock
                 dataGridView1.Rows[i].HeaderCell.Value = (i+1).ToString();
                 
             }
+        }
+
+        private void ExportExcelbutton_Click(object sender, EventArgs e)
+        {
+            var saveFile = DialogClass.SaveFile("2003Excel文件|*.xls", "请选择保存文件路径");
+            if (string.IsNullOrEmpty(saveFile))
+            {
+                return;
+            }
+            var modelFile = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Excels", System.Configuration.ConfigurationManager.AppSettings["Statistic"]);
+            try
+            {
+                ExcelParameterManager.ExportExcel(modelFile, saveFile, this.dataGridView1);
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("发生错误：" + ex.Message);
+                return;
+            }
+            MessageBox.Show("成果导出！");
+         
+
         }
     }
 }

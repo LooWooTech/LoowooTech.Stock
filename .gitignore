@@ -66,6 +66,8 @@ Temporary Items
 /.vs
 *.suo
 .user
+/LoowooTech.Updater/bin
+/LoowooTech.Updater/obj
 /LoowooTech.Updater/bin/Debug
 /LoowooTech.Updater/obj/Debug
 /LoowooTech.Updater/bin/Temp

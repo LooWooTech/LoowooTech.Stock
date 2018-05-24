@@ -1,8 +1,11 @@
 ﻿using LoowooTech.Stock.Models;
+using NPOI.SS.UserModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace LoowooTech.Stock.Common
 {
@@ -112,6 +115,64 @@ namespace LoowooTech.Stock.Common
                 {
                     _excelDict.Add(key, dict);
                 }
+            }
+        }
+
+
+        public static void ExportExcel(string modelFile,string saveFilePath,DataGridView dg)
+        {
+            IWorkbook workbook = modelFile.OpenExcel();
+            if (workbook != null)
+            {
+                ISheet sheet = workbook.GetSheetAt(0);
+                if (sheet != null)
+                {
+                    IRow row = sheet.GetRow(0);
+               
+                    if (row != null)
+                    {
+                        IRow modelRow = row;
+                        ICell cell = null;
+                        ICell modelCell = row.GetCell(0);
+                        for(var i = 0; i < dg.Columns.Count; i++)
+                        {
+                            cell = row.GetCell(i) ?? row.CreateCell(i);
+                            cell.CellStyle = modelCell.CellStyle;
+                            cell.SetCellValue(dg.Columns[i].Name.ToString());
+                        }
+
+                        for(var i = 0; i < dg.Rows.Count; i++)
+                        {
+                            row = sheet.GetRow(i+1) ?? sheet.CreateRow(i+1);
+                            row.Height = modelRow.Height;
+
+                            for(var j = 0; j < dg.Columns.Count; j++)
+                            {
+                                cell = row.GetCell(j) ?? row.CreateCell(j);
+                                cell.CellStyle = modelCell.CellStyle;
+                                var value = dg.Rows[i].Cells[j].Value;
+                                if (value != null)
+                                {
+                                    var valString = value.ToString();
+                                    var index = valString.IndexOf(".");
+                                    if (index > -1)
+                                    {
+                                        valString = valString.Substring(0, index + 3);
+                                    }
+                                    cell.SetCellValue(valString);
+                                }
+                              
+                            }
+                        }
+
+
+
+                    }
+                }
+            }
+            using (var fs=new FileStream(saveFilePath,FileMode.OpenOrCreate,FileAccess.ReadWrite))
+            {
+                workbook.Write(fs);
             }
         }
 

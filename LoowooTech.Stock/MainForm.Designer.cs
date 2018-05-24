@@ -81,6 +81,9 @@
             this.CollectMdbButton = new System.Windows.Forms.RibbonButton();
             this.CollectExcelButton = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel5 = new System.Windows.Forms.RibbonPanel();
+            this.SearchButton = new System.Windows.Forms.RibbonButton();
+            this.ribbonPanel6 = new System.Windows.Forms.RibbonPanel();
+            this.MergeMDBButton = new System.Windows.Forms.RibbonButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblOperator = new System.Windows.Forms.ToolStripStatusLabel();
@@ -120,7 +123,6 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSymbol = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPan = new System.Windows.Forms.RibbonButton();
-            this.SearchButton = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
@@ -223,6 +225,7 @@
             this.ribbonTab1.Panels.Add(this.ribbonPanel3);
             this.ribbonTab1.Panels.Add(this.ribbonPanel4);
             this.ribbonTab1.Panels.Add(this.ribbonPanel5);
+            this.ribbonTab1.Panels.Add(this.ribbonPanel6);
             this.ribbonTab1.Text = "基础功能";
             // 
             // ribbonPanel1
@@ -403,7 +406,26 @@
             // ribbonPanel5
             // 
             this.ribbonPanel5.Items.Add(this.SearchButton);
-            this.ribbonPanel5.Text = "数据查询";
+            this.ribbonPanel5.Text = "统计分析";
+            // 
+            // SearchButton
+            // 
+            this.SearchButton.Image = global::LoowooTech.Stock.Properties.Resources.Views_32x32;
+            this.SearchButton.SmallImage = global::LoowooTech.Stock.Properties.Resources.Views_16x16;
+            this.SearchButton.Text = "统计分析工具";
+            this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
+            // 
+            // ribbonPanel6
+            // 
+            this.ribbonPanel6.Items.Add(this.MergeMDBButton);
+            this.ribbonPanel6.Text = "工具";
+            // 
+            // MergeMDBButton
+            // 
+            this.MergeMDBButton.Image = global::LoowooTech.Stock.Properties.Resources.Notes_32x32;
+            this.MergeMDBButton.SmallImage = global::LoowooTech.Stock.Properties.Resources.Notes_16x16;
+            this.MergeMDBButton.Text = "矢量数据合并";
+            this.MergeMDBButton.Click += new System.EventHandler(this.MergeMDBButton_Click);
             // 
             // statusStrip1
             // 
@@ -774,13 +796,6 @@
             this.btnPan.Text = "ribbonButton2";
             this.btnPan.ToolTip = "平移漫游";
             // 
-            // SearchButton
-            // 
-            this.SearchButton.Image = global::LoowooTech.Stock.Properties.Resources.Views_32x32;
-            this.SearchButton.SmallImage = global::LoowooTech.Stock.Properties.Resources.Views_16x16;
-            this.SearchButton.Text = "查询";
-            this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -888,5 +903,7 @@
         private System.Windows.Forms.RibbonButton CollectExcelButton;
         private System.Windows.Forms.RibbonPanel ribbonPanel5;
         private System.Windows.Forms.RibbonButton SearchButton;
+        private System.Windows.Forms.RibbonPanel ribbonPanel6;
+        private System.Windows.Forms.RibbonButton MergeMDBButton;
     }
 }

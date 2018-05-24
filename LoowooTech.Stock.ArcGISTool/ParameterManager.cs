@@ -251,5 +251,76 @@ namespace LoowooTech.Stock.ArcGISTool
             _codeFilePath = null;
             _mdbFilePath = null;
         }
+
+
+        private static List<StockTable> _stockTables { get; set; }
+        public static List<StockTable> StockTables { get { return _stockTables == null ? _stockTables = GetStockTables() : _stockTables; } }
+        
+        private static List<StockTable> GetStockTables()
+        {
+            var list = new List<StockTable>();
+            var tables = XmlManager.GetList("/Tables/Table", XmlEnum.Field);
+            if (tables!=null)
+            {
+                var length = 0;
+                var type = Models.FieldType.Int;
+                for (var i= 0; i < tables.Count; i++)
+                {
+                    var table = tables[i];
+                    var stockTable = new StockTable
+                    {
+                        Name = table.Attributes["Name"].Value,
+                        Title = table.Attributes["Title"].Value,
+                        IsSpace = table.Attributes["IsSpace"].Value == "true" ? true : false
+                    };
+                    if (table.Attributes["Type"] != null)
+                    {
+                        stockTable.Type = table.Attributes["Type"].Value;
+                    }
+
+                    var fields = table.SelectNodes("Field");
+                    if (fields != null)
+                    {
+                        var ff = new List<Models.Field>();
+                        for(var j = 0; j < fields.Count; j++)
+                        {
+                            var fi = fields[j];
+                            var str = fi.Attributes["Type"].Value;
+                            if (!string.IsNullOrEmpty(str))
+                            {
+                                var item = new Models.Field()
+                                {
+                                    Name = fi.Attributes["Name"].Value,
+                                    Title = fi.Attributes["Title"].Value,
+                                    Length = int.TryParse(fi.Attributes["Length"].Value, out length) ? length : 0,
+                                    // Type = type
+                                };
+                                switch (str.ToLower())
+                                {
+                                    case "int":
+                                        item.Type = Models.FieldType.Int;
+                                        break;
+                                    case "float":
+                                        item.Type = Models.FieldType.Float;
+                                        break;
+                                    case "char":
+                                        item.Type = Models.FieldType.Char;
+                                        break;
+                                        
+                                }
+                                if (fi.Attributes["Min"] != null && int.TryParse(fi.Attributes["Min"].Value, out length))
+                                {
+                                    item.Min = length;
+                                }
+                                ff.Add(item);
+                            }
+                        }
+                        stockTable.Fields = ff;
+                    }
+                    list.Add(stockTable);
+                }
+            }
+            return list;
+        }
     }
 }
