@@ -664,5 +664,11 @@ namespace LoowooTech.Stock
             var form = new MergeMDBForm();
             form.ShowDialog(this);
         }
+
+        private void ExcelsButton_Click(object sender, EventArgs e)
+        {
+            var form = new ExcelForm();
+            form.ShowDialog(this);
+        }
     }
 }

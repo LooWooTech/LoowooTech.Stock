@@ -82,6 +82,12 @@ namespace LoowooTech.Stock.Common
                 XZCDM = values[1]
             };
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns>键：乡镇名称,乡镇代码  值 ：乡镇下面的行政村列表</returns>
         public static Dictionary<string,List<XZC>> GainXZ(string filePath)
         {
             var dict = new Dictionary<string, List<XZC>>();

@@ -11,12 +11,12 @@ namespace LoowooTech.Stock.Common
         //public static List<XZC> List { get; set; }
         private static List<XZC> _XZQ { get; set; }
         /// <summary>
-        /// 行政区
+        /// 行政区   乡镇列表
         /// </summary>
         public static List<XZC> XZQ { get { return _XZQ == null ? _XZQ = GainXZQ() : _XZQ; }  }
         private static List<XZC> _XZC { get; set; }
         /// <summary>
-        /// 行政村
+        /// 行政村  乡镇下面的村列表
         /// </summary>
         public static List<XZC> XZC { get { return _XZC == null ? _XZC = GainXZC() : _XZC; } }
         private static List<XZDC> _XZDC { get; set; }

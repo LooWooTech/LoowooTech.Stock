@@ -115,6 +115,12 @@
     <Compile Include="CollectForm.Designer.cs">
       <DependentUpon>CollectForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExcelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExcelForm.Designer.cs">
+      <DependentUpon>ExcelForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileListHelper.cs" />
     <Compile Include="LicenseInitializer.cs" />
     <Compile Include="LoadForm.cs">
@@ -154,6 +160,9 @@
     <EmbeddedResource Include="CollectForm.resx">
       <DependentUpon>CollectForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ExcelForm.resx">
+      <DependentUpon>ExcelForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoadForm.resx">
       <DependentUpon>LoadForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -186,10 +195,16 @@
     <None Include="Coordinate Systems\Projected Coordinate Systems\Gauss Kruger\Xian 1980\Xian 1980 3 Degree GK Zone 40.prj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Excels\ExcelEight.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Excels\ExcelEight2.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelEight3.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excels\ExcelEleven.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelEleven2.xlsx">
@@ -216,10 +231,16 @@
     <None Include="Excels\ExcelFour3.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Excels\ExcelFourteen.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Excels\ExcelFourteen2.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelFourteen3.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excels\ExcelFQB.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelFQB2.xlsx">
@@ -228,16 +249,25 @@
     <None Include="Excels\ExcelFQB3.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Excels\ExcelKZB.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Excels\ExcelKZB2.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelKZB3.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Excels\ExcelNDF.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Excels\ExcelNDF2.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelNDF3.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excels\ExcelNine.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelNine2.xls">
@@ -255,6 +285,9 @@
     <None Include="Excels\ExcelOne3.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Excels\ExcelSeven.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Excels\ExcelSix.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -264,10 +297,16 @@
     <None Include="Excels\ExcelSix3.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Excels\ExcelSJF.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Excels\ExcelSJF2.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelSJF3.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excels\ExcelTDYT3B.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelTDYT3B2.xlsx">
@@ -276,10 +315,16 @@
     <None Include="Excels\ExcelTDYT3B3.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Excels\ExcelTDYT4B.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Excels\ExcelTDYT4B2.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelTDYT4B3.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excels\ExcelTDYT5B.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelTDYT5B2.xlsx">
@@ -288,10 +333,16 @@
     <None Include="Excels\ExcelTDYT5B3.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Excels\ExcelTen.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Excels\ExcelTen2.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelTen3.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excels\ExcelThirteen.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelThirteen2.xlsx">
@@ -307,6 +358,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelThree3.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excels\ExcelTwelve.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelTwelve2.xlsx">
@@ -328,6 +382,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelSeven3.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excels\ExcelZDH.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excels\ExcelZDH2.xls">

@@ -224,6 +224,20 @@ namespace LoowooTech.Stock.ArcGISTool
             fieldedit.Type_2 = esriFieldType.esriFieldTypeString;
             fieldsedit.AddField(field);
 
+            field = new FieldClass();
+            fieldedit = field as IFieldEdit;
+            fieldedit.Name_2 = "XZXDM";
+            fieldedit.AliasName_2 = "行政县代码";
+            fieldedit.Type_2 = esriFieldType.esriFieldTypeString;
+            fieldsedit.AddField(field);
+
+            field = new FieldClass();
+            fieldedit = field as IFieldEdit;
+            fieldedit.Name_2 = "XZXMC";
+            fieldedit.AliasName_2 = "行政县名称";
+            fieldedit.Type_2 = esriFieldType.esriFieldTypeString;
+            fieldsedit.AddField(field);
+
             foreach (var item in stockTable.Fields)
             {
                 field = new FieldClass();
@@ -357,6 +371,20 @@ namespace LoowooTech.Stock.ArcGISTool
             fieldedit.Type_2 = esriFieldType.esriFieldTypeString;
             fieldsedit.AddField(field);
 
+            field = new FieldClass();
+            fieldedit = field as IFieldEdit;
+            fieldedit.Name_2 = "XZXDM";
+            fieldedit.AliasName_2 = "行政县代码";
+            fieldedit.Type_2 = esriFieldType.esriFieldTypeString;
+            fieldsedit.AddField(field);
+
+            field = new FieldClass();
+            fieldedit = field as IFieldEdit;
+            fieldedit.Name_2 = "XZXMC";
+            fieldedit.AliasName_2 = "行政县名称";
+            fieldedit.Type_2 = esriFieldType.esriFieldTypeString;
+            fieldsedit.AddField(field);
+
             foreach (var item in stockTable.Fields)
             {
                 field = new FieldClass();
@@ -397,7 +425,7 @@ namespace LoowooTech.Stock.ArcGISTool
             return dict;
         }
 
-        public static void Import3(string savemdbFile, string sourcemdbfile, List<StockTable> tables, string XZSDM, string XZSMC)
+        public static void Import3(string savemdbFile, StockFile stock, List<StockTable> tables, string XZSDM, string XZSMC)
         {
             IWorkspace workspaceA = savemdbFile.OpenGDBWorkspace();
             //IFeatureWorkspace featureWorkspaceA = workspaceA as IFeatureWorkspace;
@@ -410,7 +438,7 @@ namespace LoowooTech.Stock.ArcGISTool
 
 
 
-            IWorkspace workspaceB = sourcemdbfile.OpenAccessFileWorkSpace();
+            IWorkspace workspaceB = stock.FullName.OpenAccessFileWorkSpace();
 
 
             #region  插入表
@@ -502,8 +530,12 @@ namespace LoowooTech.Stock.ArcGISTool
                 #region 设置地级市代码和名称
                 int XZSDMIndex = featureClassA.Fields.FindField("XZSDM");
                 var XZSMCIndex = featureClassA.Fields.FindField("XZSMC");
+                var XZXDMIndex = featureClassA.Fields.FindField("XZXDM");
+                var XZXMCIndex = featureClassA.Fields.FindField("XZXMC");
                 featureBufferA.set_Value(XZSDMIndex, XZSDM);
                 featureBufferA.set_Value(XZSMCIndex, XZSMC);
+                featureBufferA.set_Value(XZSDMIndex, stock.XZQDM);
+                featureBufferA.set_Value(XZXMCIndex, stock.XZQMC);
                 #endregion
 
                 IFeatureCursor featureCursorA = featureClassA.Insert(true);
@@ -817,7 +849,7 @@ namespace LoowooTech.Stock.ArcGISTool
             Marshal.ReleaseComObject(workspace);
         }
 
-        public static void ImportTables(string saveMdbFile,string sourcemdbFile,List<StockTable> tables,string XZSDM,string XZSMC)
+        public static void ImportTables(string saveMdbFile,StockFile stock,List<StockTable> tables,string XZSDM,string XZSMC)
         {
             using (var connection=new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", saveMdbFile)))
             {
@@ -834,9 +866,9 @@ namespace LoowooTech.Stock.ArcGISTool
                         //}
                         continue;
                     }
-                    var sqlText = string.Format("INSERT INTO {0} SELECT {1} FROM [{2}].[{0}]", table.Name, string.Join(",", table.Fields.Select(e => e.Name).ToArray()), sourcemdbFile);
+                    var sqlText = string.Format("INSERT INTO {0} SELECT {1} FROM [{2}].[{0}]", table.Name, string.Join(",", table.Fields.Select(e => e.Name).ToArray()), stock.FullName);
                     var rows1 = ADOSQLHelper.ExecuteNoQuery(connection, sqlText);
-                    sqlText = string.Format("UPDATE {0} SET XZSDM = '{1}', XZSMC = '{2}' WHERE XZSDM IS NULL", table.Name, XZSDM, XZSMC);
+                    sqlText = string.Format("UPDATE {0} SET XZSDM = '{1}', XZSMC = '{2}',XZXDM = '{3}',XZXMC = '{4}' WHERE XZSDM IS NULL", table.Name, XZSDM, XZSMC,stock.XZQDM,stock.XZQMC);
                     var rows2 = ADOSQLHelper.ExecuteNoQuery(connection, sqlText);
                     if (rows1 == 0 || rows2 == 0 || rows1 != rows2)
                     {

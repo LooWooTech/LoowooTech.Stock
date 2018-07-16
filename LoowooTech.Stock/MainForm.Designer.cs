@@ -123,6 +123,7 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSymbol = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPan = new System.Windows.Forms.RibbonButton();
+            this.ExcelsButton = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
@@ -166,7 +167,7 @@
             this.ribbon1.QuickAcessToolbar.Items.Add(this.btnGlobe);
             this.ribbon1.QuickAcessToolbar.Items.Add(this.btnIdentity);
             this.ribbon1.RibbonTabFont = new System.Drawing.Font("Trebuchet MS", 9F);
-            this.ribbon1.Size = new System.Drawing.Size(1192, 148);
+            this.ribbon1.Size = new System.Drawing.Size(1214, 148);
             this.ribbon1.TabIndex = 0;
             this.ribbon1.Tabs.Add(this.ribbonTab1);
             this.ribbon1.TabsMargin = new System.Windows.Forms.Padding(12, 26, 20, 0);
@@ -418,6 +419,7 @@
             // ribbonPanel6
             // 
             this.ribbonPanel6.Items.Add(this.MergeMDBButton);
+            this.ribbonPanel6.Items.Add(this.ExcelsButton);
             this.ribbonPanel6.Text = "工具";
             // 
             // MergeMDBButton
@@ -436,7 +438,7 @@
             this.lblPath});
             this.statusStrip1.Location = new System.Drawing.Point(0, 728);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1192, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1214, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -481,7 +483,7 @@
             this.axMapControl1.Location = new System.Drawing.Point(3, 3);
             this.axMapControl1.Name = "axMapControl1";
             this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
-            this.axMapControl1.Size = new System.Drawing.Size(909, 545);
+            this.axMapControl1.Size = new System.Drawing.Size(931, 545);
             this.axMapControl1.TabIndex = 12;
             // 
             // splitContainer1
@@ -502,7 +504,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.tabControl2);
             this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.splitContainer1.Panel2MinSize = 400;
-            this.splitContainer1.Size = new System.Drawing.Size(1192, 580);
+            this.splitContainer1.Size = new System.Drawing.Size(1214, 580);
             this.splitContainer1.SplitterDistance = 265;
             this.splitContainer1.TabIndex = 13;
             // 
@@ -603,7 +605,7 @@
             this.tabControl2.Location = new System.Drawing.Point(0, 3);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(923, 577);
+            this.tabControl2.Size = new System.Drawing.Size(945, 577);
             this.tabControl2.TabIndex = 0;
             // 
             // tabPage3
@@ -612,7 +614,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(915, 551);
+            this.tabPage3.Size = new System.Drawing.Size(937, 551);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "地图";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -796,11 +798,19 @@
             this.btnPan.Text = "ribbonButton2";
             this.btnPan.ToolTip = "平移漫游";
             // 
+            // ExcelsButton
+            // 
+            this.ExcelsButton.Image = global::LoowooTech.Stock.Properties.Resources.ExportToExcel_32x32;
+            this.ExcelsButton.SmallImage = global::LoowooTech.Stock.Properties.Resources.ExportToExcel_32x32;
+            this.ExcelsButton.Tag = "Excel生成工具";
+            this.ExcelsButton.Text = "Excel生成工具";
+            this.ExcelsButton.Click += new System.EventHandler(this.ExcelsButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1192, 750);
+            this.ClientSize = new System.Drawing.Size(1214, 750);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.ribbon1);
@@ -905,5 +915,6 @@
         private System.Windows.Forms.RibbonButton SearchButton;
         private System.Windows.Forms.RibbonPanel ribbonPanel6;
         private System.Windows.Forms.RibbonButton MergeMDBButton;
+        private System.Windows.Forms.RibbonButton ExcelsButton;
     }
 }

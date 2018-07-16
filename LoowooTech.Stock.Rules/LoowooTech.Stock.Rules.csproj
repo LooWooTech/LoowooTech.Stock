@@ -72,6 +72,7 @@
     <Compile Include="ClassNine.cs" />
     <Compile Include="CollectDataTool.cs" />
     <Compile Include="CollectExcelTool.cs" />
+    <Compile Include="CollectExcelTool2.cs" />
     <Compile Include="CollectTool.cs" />
     <Compile Include="CollectValue.cs" />
     <Compile Include="ContinuousRule.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="FileFolderStandardRule.cs" />
     <Compile Include="FileOpenRule.cs" />
     <Compile Include="GatherTool.cs" />
+    <Compile Include="GatherTool2.cs" />
     <Compile Include="ICollect.cs" />
     <Compile Include="IExcel.cs" />
     <Compile Include="IMerge.cs" />

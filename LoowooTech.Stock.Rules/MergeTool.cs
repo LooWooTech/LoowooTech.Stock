@@ -190,7 +190,7 @@ namespace LoowooTech.Stock.Rules
 
             #region  方法三
 
-            var model2 = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TEMPS", "MM.mdb");
+            var model2 = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TEMPS", "MM.mdb");//属性表 模板文件
             if (!System.IO.File.Exists(model2))
             {
                 var dir = System.IO.Path.GetDirectoryName(model2);
@@ -238,7 +238,7 @@ namespace LoowooTech.Stock.Rules
                             OutputMessage(string.Format("正在导入行政区代码【{0}】行政区名称【{1}】的属性表格数据", item.XZCDM, item.XZCMC));
                             try
                             {
-                                ArcExtensions.ImportTables(currentmodel, stock.FullName, stockTables, dd.XZQDM, dd.XZQMC);
+                                ArcExtensions.ImportTables(currentmodel, stock, stockTables, dd.XZQDM, dd.XZQMC);
                             }
                             catch (Exception ex)
                             {
@@ -291,7 +291,7 @@ namespace LoowooTech.Stock.Rules
                         if (stock != null)
                         {
                             OutputMessage(string.Format("开始导入行政区代码【{0}】行政区名称【{1}】数据", item.XZCDM, item.XZCMC));
-                            ArcExtensions.Import3(currentmodel, stock.FullName, shiTable, dd.XZQDM, dd.XZQMC);
+                            ArcExtensions.Import3(currentmodel, stock, shiTable, dd.XZQDM, dd.XZQMC);
                             OutputMessage(string.Format("完成导入行政区代码【{0}】行政区名称【{1}】数据", item.XZCDM, item.XZCMC));
                             //ArcExtensions.DeleteFields(stock.FullName, shiTable);//删除不必要的字段
                             //OutputMessage(string.Format("成功删除行政区代码【{0}】行政区名称【{1}】数据中多余字段", item.XZCDM, item.XZCMC));

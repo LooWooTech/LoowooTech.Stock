@@ -255,11 +255,11 @@ namespace LoowooTech.Stock.Rules
                 case CollectType.MDB:
                     if (CollectTables != null && CollectTables.Length > 0)
                     {
-                        CollectNew();
+                        CollectNew();//生成表7——31
                     }
                     else
                     {
-                        InitMdb();
+                        InitMdb();//生成表1-表6
                     }
                    
                     break;
