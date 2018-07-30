@@ -11,6 +11,7 @@ namespace LoowooTech.Stock
     {
 
         private static MainForm _form;
+        private static AdvanceForm _form2;
 
         public static LicenseInitializer m_AOLicenseInitializer = new LicenseInitializer();
         /// <summary>
@@ -48,9 +49,9 @@ namespace LoowooTech.Stock
                 var load = new LoadForm();
                 load.Show();
                 Application.DoEvents();
-                _form = new MainForm();
-                
-                Application.Run(_form);
+                //_form = new MainForm();
+                _form2 = new AdvanceForm();
+                Application.Run(_form2);
                 m_AOLicenseInitializer.ShutdownApplication();
             }
             catch (Exception ex)

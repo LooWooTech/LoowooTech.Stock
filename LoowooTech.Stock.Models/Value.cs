@@ -28,4 +28,13 @@ namespace LoowooTech.Stock.Models
         public string XZQMC { get; set; }
         public List<XZC> Children { get; set; }
     }
+
+
+    public class FeatureValue
+    {
+        public string Name { get; set; }
+        public string Title { get; set; }
+        public string Value { get; set; }
+    }
+
 }

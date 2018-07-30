@@ -263,7 +263,6 @@ namespace LoowooTech.Stock.ArcGISTool
             if (tables!=null)
             {
                 var length = 0;
-                var type = Models.FieldType.Int;
                 for (var i= 0; i < tables.Count; i++)
                 {
                     var table = tables[i];
@@ -293,7 +292,7 @@ namespace LoowooTech.Stock.ArcGISTool
                                     Name = fi.Attributes["Name"].Value,
                                     Title = fi.Attributes["Title"].Value,
                                     Length = int.TryParse(fi.Attributes["Length"].Value, out length) ? length : 0,
-                                    // Type = type
+
                                 };
                                 switch (str.ToLower())
                                 {
