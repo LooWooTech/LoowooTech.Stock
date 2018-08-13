@@ -1,4 +1,5 @@
 ﻿using LoowooTech.Stock.Common;
+using LoowooTech.Stock.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,10 +21,15 @@ namespace LoowooTech.Stock
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 导出Excel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonClose_Click(object sender, EventArgs e)
         {
-            Father.IsAttribute = false;
-            this.Close();
+            ExportExcel ex = new ExportExcel();
+            ex.ExportToExcel(dataGridView1);
         }
 
         private void SelectForm_Load(object sender, EventArgs e)
@@ -89,7 +95,38 @@ namespace LoowooTech.Stock
             }
            
             var whereClause = sb.ToString();
-            Father.Search(whereClause);
+            var dataTable= Father.Search(whereClause);
+            this.dataGridView1.DataSource = dataTable;
+            this.Locationbutton.Enabled = this.dataGridView1.DataSource != null;
+            this.Detailbutton.Enabled = this.dataGridView1.DataSource != null;
+            this.Exportbutton.Enabled = this.dataGridView1.DataSource != null;
+        }
+
+        private void Locationbutton_Click(object sender, EventArgs e)
+        {
+            var TBBH = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+            var XZCDM = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            if (!string.IsNullOrEmpty(TBBH) && !string.IsNullOrEmpty(XZCDM))
+            {
+                _father.Center(TBBH, XZCDM);
+            }
+        }
+
+        private void Detailbutton_Click(object sender, EventArgs e)
+        {
+            var TBBH = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+            var XZCDM = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            if (!string.IsNullOrEmpty(TBBH) && !string.IsNullOrEmpty(XZCDM))
+            {
+                _father.Search(XZCDM,TBBH);
+                _father.Search2(XZCDM, TBBH);
+            }
+        }
+
+        private void dataGridView1_Click(object sender, EventArgs e)
+        {
+            _father.dataGridView2.DataSource = null;
+            _father.dataGridView1.DataSource = null;
         }
     }
 }

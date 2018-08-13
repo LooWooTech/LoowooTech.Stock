@@ -58,6 +58,21 @@ namespace LoowooTech.Stock.Common
 
             return list;
         }
+        public static List<string> GetFiles2(string folder,string[] exts)
+        {
+            var list = new List<string>();
+            DirectoryInfo di = new DirectoryInfo(folder);
+            foreach(var ext in exts)
+            {
+                foreach (FileInfo file in di.GetFiles(ext))
+                {
+                    list.Add(file.FullName);
+                }
+            }
+           
+            return list;
+        }
+
         public static List<StockFile> GetFiles(string folder,string ext)
         {
             var list = new List<StockFile>();

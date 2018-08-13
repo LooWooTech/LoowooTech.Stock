@@ -1,0 +1,8 @@
+E:\github\LoowooTech.Stock\LoowooTech.Stock.ToolForms\obj\Debug\LoowooTech.Stock.ToolForms.csprojResolveAssemblyReference.cache
+E:\github\LoowooTech.Stock\LoowooTech.Stock.ToolForms\obj\Debug\LoowooTech.Stock.ToolForms.Form1.resources
+E:\github\LoowooTech.Stock\LoowooTech.Stock.ToolForms\obj\Debug\LoowooTech.Stock.ToolForms.Properties.Resources.resources
+E:\github\LoowooTech.Stock\LoowooTech.Stock.ToolForms\obj\Debug\LoowooTech.Stock.ToolForms.csproj.GenerateResource.Cache
+E:\github\LoowooTech.Stock\LoowooTech.Stock.ToolForms\bin\Debug\LoowooTech.Stock.ToolForms.exe
+E:\github\LoowooTech.Stock\LoowooTech.Stock.ToolForms\bin\Debug\LoowooTech.Stock.ToolForms.pdb
+E:\github\LoowooTech.Stock\LoowooTech.Stock.ToolForms\obj\Debug\LoowooTech.Stock.ToolForms.exe
+E:\github\LoowooTech.Stock\LoowooTech.Stock.ToolForms\obj\Debug\LoowooTech.Stock.ToolForms.pdb

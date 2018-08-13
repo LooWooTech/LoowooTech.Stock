@@ -111,6 +111,15 @@ namespace LoowooTech.Stock
             //}
         }
 
+        private void panel2_Resize(object sender, EventArgs e)
+        {
+            dataGridView1.Size = new Size(panel2.Bounds.Width, panel2.Bounds.Height);
+        }
+
+        private void AttributeForm_Load(object sender, EventArgs e)
+        {
+            dataGridView1.Size = new Size(panel2.Bounds.Width, panel2.Bounds.Height);
+        }
     }
     
 }

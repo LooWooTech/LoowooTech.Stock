@@ -1,10 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Config>
-  <Layers>
+  <!--<Layers>
     <Layer Name="XZQ_XZ" NameInMap="XZQ_XZ"></Layer>
     <Layer Name="XZQ_XZC" NameInMap="XZQ_XZC"></Layer>
     <Layer Name="XZQJX" NameInMap="XZQJX"></Layer>
     <Layer Name="DCDYTB" NameInMap="DCDYTB"></Layer>
+  </Layers>-->
+    <Layers>
+    <Layer Name="行政区（乡镇）" NameInMap="XZQ_XZ"></Layer>
+    <Layer Name="行政区（村级）" NameInMap="XZQ_XZC"></Layer>
+    <Layer Name="行政区界线" NameInMap="XZQJX"></Layer>
+    <Layer Name="调查单元图斑" NameInMap="DCDYTB"></Layer>
   </Layers>
   <Folders>
     <Folder Name="1空间数据库">

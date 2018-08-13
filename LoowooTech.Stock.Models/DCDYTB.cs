@@ -25,6 +25,11 @@ namespace LoowooTech.Stock.Models
                 return Math.Abs(Area - MJ) < 1;
             }
         }
+
+        /// <summary>
+        /// 20180731   增加土地用途
+        /// </summary>
+        public string TDYT { get; set; }
     }
 
     public class TB:XZC

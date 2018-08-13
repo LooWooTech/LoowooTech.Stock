@@ -158,6 +158,19 @@ namespace LoowooTech.Stock.Common
             return values;
         }
 
+        public static List<string> GetValues(OleDbDataReader reader,int line)
+        {
+            var list = new List<string>();
+            while (reader.Read())
+            {
+                if (reader[line] != null)
+                {
+                    list.Add(reader[line].ToString().Trim());
+                }
+            }
+            return list;
+        }
+
         public static string GetWhereClause(string[] fields,string[] values)
         {
             if (fields.Length != values.Length)

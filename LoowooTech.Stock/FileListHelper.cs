@@ -7,11 +7,44 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
+using ESRI.ArcGIS.DataSourcesRaster;
+using ESRI.ArcGIS.DataSourcesFile;
 
 namespace LoowooTech.Stock
 {
     internal static class FileListHelper
     {
+        public static bool LoadRasterData(string filePath,AxMapControl mapControl)
+        {
+
+            try
+            {
+                var factory = new RasterWorkspaceFactory();
+                IRasterWorkspace rasterWorkspace = factory.OpenFromFile(System.IO.Path.GetDirectoryName(filePath), 0) as IRasterWorkspace;
+                var fileName = System.IO.Path.GetFileName(filePath);
+                 IRasterDataset rasterDataset = rasterWorkspace.OpenRasterDataset(fileName);
+                if (rasterDataset == null)
+                {
+                    return false;
+                }
+                IRasterLayer rasterLayer = new RasterLayer();
+                rasterLayer.CreateFromDataset(rasterDataset);
+                #region  影像去黑边
+                IRasterRGBRenderer2 rasterRGBRender = rasterLayer.Renderer as IRasterRGBRenderer2;
+                IRasterStretch2 pRasterStretch2 = rasterRGBRender as IRasterStretch2;
+                double[] value = new double[3] { 0.0, 0.0, 0.0 };
+                pRasterStretch2.BackgroundValue = value;
+                pRasterStretch2.Background = true;
+                #endregion
+                mapControl.AddLayer(rasterLayer, mapControl.LayerCount);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public static bool LoadMapData(string mdbPath, AxMapControl mapControl, XmlNode configNode)
         {
             var factory = new AccessWorkspaceFactory();
@@ -34,6 +67,48 @@ namespace LoowooTech.Stock
                 return false;
             }
         }
+        public static bool LoadMapData2(string mdbPath, AxMapControl mapControl, XmlNode configNode)
+        {
+            var factory = new AccessWorkspaceFactory();
+            try
+            {
+                mapControl.LoadMxFile(string.Format("{0}\\Map2.mxd", Application.StartupPath));
+                var ws = factory.OpenFromFile(mdbPath, 0) as IFeatureWorkspace;
+
+                var node = configNode.SelectSingleNode("Layers");
+                var nodes = node.SelectNodes("Layer");
+                foreach (XmlNode layerNode in nodes)
+                {
+                    ReplaceDataSource(layerNode.Attributes["NameInMap"].Value, layerNode.Attributes["Name"].Value, ws, mapControl);
+                }
+                mapControl.Refresh();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public static bool LoadKZBJ(string filePath,AxMapControl mapControl)
+        {
+            IWorkspaceFactory factory = new ShapefileWorkspaceFactory();
+            IWorkspace workspace = factory.OpenFromFile(System.IO.Path.GetDirectoryName(filePath), 0);
+            IFeatureWorkspace featureWorkspace = workspace as IFeatureWorkspace;
+            IFeatureClass featureClass = featureWorkspace.OpenFeatureClass(System.IO.Path.GetFileName(filePath));
+            mapControl.AddLayerFromFile(string.Format("{0}\\扩展边界.lyr", Application.StartupPath), 3);
+            for(var i = 0; i < mapControl.LayerCount; i++)
+            {
+                var layer = mapControl.get_Layer(i);
+                if (layer.Name == "扩展边界")
+                {
+                    var fl = layer as IFeatureLayer;
+                    fl.FeatureClass = featureClass;
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         private static void ReplaceDataSource(string layerName, string layerNameInMap, IFeatureWorkspace ws, AxMapControl mapControl)
         {
@@ -48,6 +123,8 @@ namespace LoowooTech.Stock
                 }
             }
         }
+
+        
 
 
         public static bool LoadFileList(string basePath, XmlNode configNode, TreeView treeView, ref string mdbPath)

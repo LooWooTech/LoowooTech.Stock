@@ -182,16 +182,18 @@ namespace LoowooTech.Stock.Tools
                     {
                         
                         _father.dataGridView1.DataSource = GetAttribute(feature);
-                        _father.ExportExcelbutton.Enabled = true;
+                        //_father.ExportExcelbutton.Enabled = true;
                         var tbbh = _featureValues.FirstOrDefault(e => e.Name == "TBBH");
                         var xzcdm = _featureValues.FirstOrDefault(e => e.Name == "XZCDM");
                         _father.Search(xzcdm.Value,tbbh.Value);
+
+                        Application.DoEvents();
 
                         Twinkle(feature);
                     }
                     else
                     {
-                        _father.ExportExcelbutton.Enabled = false;
+                        //_father.ExportExcelbutton.Enabled = false;
                     }
                 }
             }

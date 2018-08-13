@@ -146,6 +146,7 @@ namespace LoowooTech.Stock
                 var mdbfile = FolderExtensions.GetFiles(_dataPath, "*.mdb").FirstOrDefault();
                 this.btnIdentity3.Enabled = false;
                 this.btnAttributeSearch.Enabled = false;
+                this.btnAddLayer.Enabled = false;
                 if (mdbfile == null)
                 {
                     MessageBox.Show("成果中缺失空间数据库文件，请核对！");
@@ -155,7 +156,8 @@ namespace LoowooTech.Stock
                     mdbPath = mdbfile.FullName;
                     this.btnIdentity3.Enabled = true;
                 }
-                var codefile = FolderExtensions.GetFiles(System.IO.Path.Combine(_dataPath, "1空间数据库"), "*.xls").FirstOrDefault();
+                var folder1 = System.IO.Path.Combine(_dataPath, "1空间数据库");
+                var codefile = FolderExtensions.GetFiles(folder1, "*.xls").FirstOrDefault();
                 if (codefile == null)
                 {
                     MessageBox.Show("成果中缺失单位代码表文件，请核对！");
@@ -174,6 +176,8 @@ namespace LoowooTech.Stock
                 this.btnWorkWord.Enabled = false;
                 this.btnTechnique.Enabled = false;
                 _docs = docus;
+
+               
                 foreach(var item in docus)
                 {
                     if(Regex.IsMatch(item.FileName, @"^[\u4e00-\u9fa5]{3,}\(33[0-9]{4}\)农村存量建设用地调查工作报告.doc$"))
@@ -186,6 +190,7 @@ namespace LoowooTech.Stock
                         this.btnTechnique.Enabled = true;
                     }
                 }
+                this.btnAddLayer.Enabled = true;
                 this.dataGridView1.DataSource = null;
                 this.dataGridView2.DataSource = null;
                
@@ -195,7 +200,8 @@ namespace LoowooTech.Stock
                 {
                     try
                     {
-                        FileListHelper.LoadMapData(_mdbPath, axMapControl1, configDoc);
+                        FileListHelper.LoadMapData2(_mdbPath, axMapControl1, configDoc);
+                       
                         Full();
                     }
                     catch
@@ -203,6 +209,18 @@ namespace LoowooTech.Stock
                         MessageBox.Show("数据库格式有误或缺少必要图层", "数据库错误", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
+                var KZMJ = FolderExtensions.GetFiles2(folder1, new string[] { "*.shp" }).FirstOrDefault();
+                if (KZMJ != null)
+                {
+                    FileListHelper.LoadKZBJ(KZMJ, axMapControl1);
+                }
+
+                var rasterfiles = FolderExtensions.GetFiles2(folder1, new string[] { "*.img"});
+                foreach (var item in rasterfiles)
+                {
+                    FileListHelper.LoadRasterData(item, this.axMapControl1);
+                }
+                
             }
             
         }
@@ -245,7 +263,7 @@ namespace LoowooTech.Stock
 
         private void btnIdentity3_Click(object sender, EventArgs e)
         {
-            var cmd = new SearchTool("DCDYTB",this);
+            var cmd = new SearchTool("调查单元图斑",this);
             cmd.OnCreate(axMapControl1.Object);
             axMapControl1.CurrentTool = cmd as ITool;
         }
@@ -322,6 +340,58 @@ namespace LoowooTech.Stock
             }
             return dataTable;
         }
+
+        public void Search2(string XZCDM, string TBBH)
+        {
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("字段");
+            dataTable.Columns.Add("值");
+            DataRow dataRow = null;
+            using (var connection = new OleDbConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = string.Format("Select {0} FROM DCDYTB where XZCDM = '{1}' AND TBBH = '{2}'", string.Join(",", _featureValues.Select(j => j.Name).ToArray()), XZCDM, TBBH);
+                    var reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        for(var i = 0; i < _featureValues.Count; i++)
+                        {
+                            if (reader[i] == null)
+                            {
+                                continue;
+                            }
+                            var ff = _featureValues[i];
+                            var value = reader[i].ToString();
+                            dataRow = dataTable.NewRow();
+                            dataRow["字段"] = ff.Title;
+                            if(ff.Name== "DCDYLX")
+                            {
+                                switch (value)
+                                {
+                                    case "1":
+                                        dataRow["值"] = "撤并型";
+                                        break;
+                                    case "2":
+                                        dataRow["值"] = "保留型";
+                                        break;
+                                    case "3":
+                                        dataRow["值"] = "集聚型";
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                dataRow["值"] = value;
+                            }
+                            dataTable.Rows.Add(dataRow);
+                        }
+                    }
+                }
+            }
+            this.dataGridView1.DataSource = dataTable;
+        }
         public void Search(string XZCDM,string TBBH)
         {
             _XZCDM = XZCDM;
@@ -371,8 +441,6 @@ namespace LoowooTech.Stock
             this.dataGridView2.DataSource = dataTable;
 
         }
-
-
         private void btnXJ_Click(object sender, EventArgs e)
         {
             var folder = System.IO.Path.Combine(_dataPath, "2栅格图件", "县级成果");
@@ -381,7 +449,6 @@ namespace LoowooTech.Stock
             form.ShowDialog(this);
 
         }
-
         private void btnZJ_Click(object sender, EventArgs e)
         {
             var folder = System.IO.Path.Combine(_dataPath, "2栅格图件", "乡镇级成果");
@@ -389,7 +456,6 @@ namespace LoowooTech.Stock
             var form = new FileViewForm(files, "乡镇级成果查看");
             form.ShowDialog(this);
         }
-
         private void btnExcel_Click(object sender, EventArgs e)
         {
             var folder = System.IO.Path.Combine(_dataPath, "3统计表格");
@@ -397,7 +463,6 @@ namespace LoowooTech.Stock
             var form = new FileViewForm(files, "统计表格查看");
             form.ShowDialog(this);
         }
-
         private void btnWorkWord_Click(object sender, EventArgs e)
         {
             foreach(var item in _docs)
@@ -408,7 +473,6 @@ namespace LoowooTech.Stock
                 }
             }
         }
-
         private void btnTechnique_Click(object sender, EventArgs e)
         {
             foreach (var item in _docs)
@@ -420,14 +484,12 @@ namespace LoowooTech.Stock
             }
         }
         public bool IsAttribute { get; set; }
-
         private void btnAttributeSearch_Click(object sender, EventArgs e)
         {
             var form = new SelectForm();
             form.Show(this);
             IsAttribute = true;
         }
-
         private List<Models.FeatureValue> _featureValues { get; set; } = new List<Models.FeatureValue>
         {
              new Models.FeatureValue { Name="XZCDM",Title="行政村代码"},
@@ -437,10 +499,11 @@ namespace LoowooTech.Stock
              new Models.FeatureValue { Name="MJ",Title="面积"},
              new Models.FeatureValue { Name="BZ",Title="备注"}
         };
-        public void Search(string whereClause)
+        public DataTable Search(string whereClause)
         {
             var dataTable = new DataTable();
-            foreach(var item in _featureValues)
+            dataTable.Columns.Add("序号");
+            foreach (var item in _featureValues)
             {
                 dataTable.Columns.Add(item.Title);
             }
@@ -459,12 +522,15 @@ namespace LoowooTech.Stock
                     var sqlText = sb.ToString();
                     command.CommandText = sqlText;
                     var reader = command.ExecuteReader();
+                    var row = 1;
                     while (reader.Read())
                     {
                         datarow = dataTable.NewRow();
-                        for(var i = 0; i < _featureValues.Count; i++)
+                        datarow["序号"] = row;
+                        for (var i = 0; i < _featureValues.Count; i++)
                         {
                             var feature = _featureValues[i];
+                            
                             if (reader[i] != null)
                             {
                                 var val = reader[i].ToString();
@@ -491,15 +557,16 @@ namespace LoowooTech.Stock
                          
                         }
                         dataTable.Rows.Add(datarow);
-
+                        row++;
                     }
 
                 }
                 connection.Close();
             }
-            this.dataGridView1.DataSource = dataTable;
-            this.ExportExcelbutton.Enabled = true;
-            this.dataGridView2.DataSource = null;
+            return dataTable;
+            //this.dataGridView1.DataSource = dataTable;
+            //this.ExportExcelbutton.Enabled = true;
+            //this.dataGridView2.DataSource = null;
         }
 
         private void dataGridView2_DoubleClick_1(object sender, EventArgs e)
@@ -550,7 +617,7 @@ namespace LoowooTech.Stock
         private SimpleMarkerSymbolClass simpleMarkerSymbol { get; set; }
         private SimpleFillSymbolClass simpleFillSymbol { get; set; }
 
-        private void Center(string TBBH,string XZCDM)
+        public void Center(string TBBH,string XZCDM)
         {
             var queryFilter = new QueryFilterClass();
             queryFilter.WhereClause = string.Format("XZCDM = '{0}' AND TBBH = '{1}'", XZCDM, TBBH);
@@ -633,5 +700,137 @@ namespace LoowooTech.Stock
             ExportExcel ex = new ExportExcel();
             ex.ExportToExcel(dataGridView1);
         }
+
+        private void btnAddLayer_Click(object sender, EventArgs e)
+        {
+            var cmd = new ControlsAddDataCommandClass();
+            cmd.OnCreate(this.axMapControl1.Object);
+            cmd.OnClick();
+        }
+
+        private ILayer _curLayer { get; set; }
+
+        private void PopupContextMenu(int x, int y)
+        {
+            var layer = _curLayer;
+            mnuUp.Enabled = layer != null;
+            mnuDown.Enabled = layer != null;
+            mnuRemove.Enabled = layer != null;
+            //mnuSymbol.Enabled = layer != null;
+            contextMenuStrip1.Show(new System.Drawing.Point { X = x + 8, Y = y + 168 });
+        }
+
+        private void 符合设置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_curLayer == null) return;
+
+            var PSheet = new ComPropertySheetClass();
+            PSheet.HideHelpButton = true;
+
+            ISet PSet = new SetClass();
+            PSet.Add(_curLayer);
+            PSheet.ClearCategoryIDs();
+            PSheet.AddCategoryID(new UIDClass());
+
+            PSheet.AddPage(new ESRI.ArcGIS.CartoUI.LayerDrawingPropertyPageClass());
+            PSheet.Title = "显示属性设置";
+            if (PSheet.CanEdit(PSet))
+            {
+                if (PSheet.EditProperties(PSet, 0))
+                {
+                    axTOCControl1.Refresh();
+                }
+            }
+        }
+        private void axTOCControl1_OnMouseUp_1(object sender, ITOCControlEvents_OnMouseUpEvent e)
+        {
+
+        }
+
+        private void axTOCControl1_OnMouseUp(object sender, ESRI.ArcGIS.Controls.ITOCControlEvents_OnMouseUpEvent e)
+        {
+            if (e.button == 2)
+            {
+                IBasicMap map = null;
+                ILayer layer = null;
+                object other = null;
+                object index = null;
+                esriTOCControlItem item = esriTOCControlItem.esriTOCControlItemNone;
+
+                axTOCControl1.HitTest(e.x, e.y, ref item, ref map, ref layer, ref other, ref index);
+                if (item == esriTOCControlItem.esriTOCControlItemLayer)
+                {
+                    if (layer is IAnnotationSublayer)
+                    {
+                        _curLayer = null;
+                    }
+                    else
+                    {
+                        _curLayer = layer;
+                    }
+                }
+                else
+                {
+                    _curLayer = null;
+                }
+
+                PopupContextMenu(e.x, e.y);
+
+            }
+        }
+
+        private void mnuUP_Click(object sender, EventArgs e)
+        {
+            IMap pMap = this.axMapControl1.ActiveView.FocusMap;
+            if (_curLayer != null)
+            {
+
+                ILayer pTempLayer;
+                for (int i = 1; i < pMap.LayerCount; i++)
+                {
+                    pTempLayer = pMap.get_Layer(i);
+                    if (pTempLayer == _curLayer)
+                    {
+                        pMap.MoveLayer(_curLayer, i - 1);
+                        axMapControl1.ActiveView.Refresh();
+                        axTOCControl1.Update();
+
+                    }
+
+                }
+            }
+        }
+
+        private void mnuDown_Click(object sender, EventArgs e)
+        {
+            IMap pMap = this.axMapControl1.ActiveView.FocusMap;
+            if (_curLayer != null)
+            {
+
+                ILayer pTempLayer;
+                for (int i = 0; i < pMap.LayerCount - 1; i++)
+                {
+                    pTempLayer = pMap.get_Layer(i);
+                    if (pTempLayer == _curLayer)
+                    {
+                        pMap.MoveLayer(_curLayer, i + 1);
+                        axMapControl1.ActiveView.Refresh();
+                        axTOCControl1.Update();
+                        return;
+                    }
+
+                }
+            }
+        }
+
+        private void mnuRemove_Click(object sender, EventArgs e)
+        {
+            if (_curLayer == null) return;
+            axMapControl1.ActiveView.FocusMap.DeleteLayer(_curLayer);
+            axMapControl1.ActiveView.Refresh();
+            axTOCControl1.Update();
+        }
+
+    
     }
 }

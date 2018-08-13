@@ -34,6 +34,7 @@
             this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanel2 = new System.Windows.Forms.RibbonPanel();
             this.btnOpen = new System.Windows.Forms.RibbonButton();
+            this.btnAddLayer = new System.Windows.Forms.RibbonButton();
             this.ribbonPanel1 = new System.Windows.Forms.RibbonPanel();
             this.btnZoomIn2 = new System.Windows.Forms.RibbonButton();
             this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
@@ -60,24 +61,32 @@
             this.lblCoords = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPath = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.ExportExcelbutton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuUp = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRemove = new System.Windows.Forms.ToolStripMenuItem();
+            this.符合设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPan = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -106,7 +115,7 @@
             this.ribbon1.OrbDropDown.Size = new System.Drawing.Size(527, 72);
             this.ribbon1.OrbDropDown.TabIndex = 0;
             this.ribbon1.OrbImage = null;
-            this.ribbon1.OrbStyle = System.Windows.Forms.RibbonOrbStyle.Office_2013;
+            this.ribbon1.OrbStyle = System.Windows.Forms.RibbonOrbStyle.Office_2010;
             this.ribbon1.OrbVisible = false;
             this.ribbon1.RibbonTabFont = new System.Drawing.Font("Trebuchet MS", 9F);
             this.ribbon1.Size = new System.Drawing.Size(1214, 126);
@@ -128,6 +137,7 @@
             // ribbonPanel2
             // 
             this.ribbonPanel2.Items.Add(this.btnOpen);
+            this.ribbonPanel2.Items.Add(this.btnAddLayer);
             this.ribbonPanel2.Text = "成果操作";
             // 
             // btnOpen
@@ -136,6 +146,14 @@
             this.btnOpen.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnOpen.SmallImage")));
             this.btnOpen.Text = "打开成果";
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            // 
+            // btnAddLayer
+            // 
+            this.btnAddLayer.Enabled = false;
+            this.btnAddLayer.Image = global::LoowooTech.Stock.Properties.Resources.Add_32x32;
+            this.btnAddLayer.SmallImage = global::LoowooTech.Stock.Properties.Resources.Add_32x32;
+            this.btnAddLayer.Text = "加载图层";
+            this.btnAddLayer.Click += new System.EventHandler(this.btnAddLayer_Click);
             // 
             // ribbonPanel1
             // 
@@ -224,7 +242,7 @@
             this.btnIdentity2.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Large;
             this.btnIdentity2.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnIdentity2.SmallImage")));
             this.btnIdentity2.Tag = "Identity";
-            this.btnIdentity2.Text = "普通查询";
+            this.btnIdentity2.Text = "通用查询";
             this.btnIdentity2.Click += new System.EventHandler(this.ToolButton_Click);
             // 
             // btnIdentity3
@@ -347,7 +365,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.axMapControl1);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer3);
             this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.splitContainer1.Panel1MinSize = 400;
             // 
@@ -360,13 +378,42 @@
             this.splitContainer1.SplitterDistance = 968;
             this.splitContainer1.TabIndex = 13;
             // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 3);
+            this.splitContainer3.Name = "splitContainer3";
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.axTOCControl1);
+            this.splitContainer3.Panel1MinSize = 100;
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.axMapControl1);
+            this.splitContainer3.Panel2MinSize = 400;
+            this.splitContainer3.Size = new System.Drawing.Size(968, 599);
+            this.splitContainer3.SplitterDistance = 175;
+            this.splitContainer3.TabIndex = 1;
+            // 
+            // axTOCControl1
+            // 
+            this.axTOCControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.axTOCControl1.Location = new System.Drawing.Point(0, 0);
+            this.axTOCControl1.Name = "axTOCControl1";
+            this.axTOCControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControl1.OcxState")));
+            this.axTOCControl1.Size = new System.Drawing.Size(175, 599);
+            this.axTOCControl1.TabIndex = 0;
+            this.axTOCControl1.OnMouseUp += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseUpEventHandler(this.axTOCControl1_OnMouseUp);
+            // 
             // axMapControl1
             // 
             this.axMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.axMapControl1.Location = new System.Drawing.Point(0, 3);
+            this.axMapControl1.Location = new System.Drawing.Point(0, 0);
             this.axMapControl1.Name = "axMapControl1";
             this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
-            this.axMapControl1.Size = new System.Drawing.Size(968, 599);
+            this.axMapControl1.Size = new System.Drawing.Size(789, 599);
             this.axMapControl1.TabIndex = 0;
             // 
             // splitContainer2
@@ -389,7 +436,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.ExportExcelbutton);
             this.groupBox1.Controls.Add(this.dataGridView1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -399,18 +445,6 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "调查单元图斑属性信息";
-            // 
-            // ExportExcelbutton
-            // 
-            this.ExportExcelbutton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ExportExcelbutton.Enabled = false;
-            this.ExportExcelbutton.Location = new System.Drawing.Point(3, 284);
-            this.ExportExcelbutton.Name = "ExportExcelbutton";
-            this.ExportExcelbutton.Size = new System.Drawing.Size(236, 23);
-            this.ExportExcelbutton.TabIndex = 1;
-            this.ExportExcelbutton.Text = "导出调查单元图斑信息";
-            this.ExportExcelbutton.UseVisualStyleBackColor = true;
-            this.ExportExcelbutton.Click += new System.EventHandler(this.button1_Click);
             // 
             // dataGridView1
             // 
@@ -422,7 +456,6 @@
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(236, 290);
             this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
             // groupBox2
             // 
@@ -468,20 +501,40 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem2});
+            this.mnuUp,
+            this.mnuDown,
+            this.mnuRemove,
+            this.符合设置ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 16);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 92);
             // 
-            // toolStripMenuItem1
+            // mnuUp
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(57, 6);
+            this.mnuUp.Name = "mnuUp";
+            this.mnuUp.Size = new System.Drawing.Size(124, 22);
+            this.mnuUp.Text = "上移";
+            this.mnuUp.Click += new System.EventHandler(this.mnuUP_Click);
             // 
-            // toolStripMenuItem2
+            // mnuDown
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(57, 6);
+            this.mnuDown.Name = "mnuDown";
+            this.mnuDown.Size = new System.Drawing.Size(124, 22);
+            this.mnuDown.Text = "下移";
+            this.mnuDown.Click += new System.EventHandler(this.mnuDown_Click);
+            // 
+            // mnuRemove
+            // 
+            this.mnuRemove.Name = "mnuRemove";
+            this.mnuRemove.Size = new System.Drawing.Size(124, 22);
+            this.mnuRemove.Text = "移除图层";
+            this.mnuRemove.Click += new System.EventHandler(this.mnuRemove_Click);
+            // 
+            // 符合设置ToolStripMenuItem
+            // 
+            this.符合设置ToolStripMenuItem.Name = "符合设置ToolStripMenuItem";
+            this.符合设置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.符合设置ToolStripMenuItem.Text = "符号设置";
+            this.符合设置ToolStripMenuItem.Click += new System.EventHandler(this.符合设置ToolStripMenuItem_Click);
             // 
             // btnPan
             // 
@@ -511,6 +564,11 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -553,10 +611,6 @@
         private System.Windows.Forms.ToolStripStatusLabel lblPath;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
 
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-
         public ESRI.ArcGIS.Controls.AxMapControl axMapControl1;
         private System.Windows.Forms.RibbonButton btnIdentity3;
         private System.Windows.Forms.RibbonPanel ribbonPanel3;
@@ -572,7 +626,13 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         public System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        public System.Windows.Forms.Button ExportExcelbutton;
+        public System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private ESRI.ArcGIS.Controls.AxTOCControl axTOCControl1;
+        private System.Windows.Forms.RibbonButton btnAddLayer;
+        private System.Windows.Forms.ToolStripMenuItem 符合设置ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuUp;
+        private System.Windows.Forms.ToolStripMenuItem mnuDown;
+        private System.Windows.Forms.ToolStripMenuItem mnuRemove;
     }
 }
