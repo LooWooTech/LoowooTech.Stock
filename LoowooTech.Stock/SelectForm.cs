@@ -96,6 +96,8 @@ namespace LoowooTech.Stock
            
             var whereClause = sb.ToString();
             var dataTable= Father.Search(whereClause);
+            var sum = Father.SearchArea(whereClause);
+            this.label4.Text = Math.Round(sum, 2).ToString();
             this.dataGridView1.DataSource = dataTable;
             this.Locationbutton.Enabled = this.dataGridView1.DataSource != null;
             this.Detailbutton.Enabled = this.dataGridView1.DataSource != null;
@@ -104,8 +106,8 @@ namespace LoowooTech.Stock
 
         private void Locationbutton_Click(object sender, EventArgs e)
         {
-            var TBBH = dataGridView1.CurrentRow.Cells[2].Value.ToString();
-            var XZCDM = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            var TBBH = dataGridView1.CurrentRow.Cells[3].Value.ToString();
+            var XZCDM = dataGridView1.CurrentRow.Cells[1].Value.ToString();
             if (!string.IsNullOrEmpty(TBBH) && !string.IsNullOrEmpty(XZCDM))
             {
                 _father.Center(TBBH, XZCDM);
@@ -114,8 +116,8 @@ namespace LoowooTech.Stock
 
         private void Detailbutton_Click(object sender, EventArgs e)
         {
-            var TBBH = dataGridView1.CurrentRow.Cells[2].Value.ToString();
-            var XZCDM = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            var TBBH = dataGridView1.CurrentRow.Cells[3].Value.ToString();
+            var XZCDM = dataGridView1.CurrentRow.Cells[1].Value.ToString();
             if (!string.IsNullOrEmpty(TBBH) && !string.IsNullOrEmpty(XZCDM))
             {
                 _father.Search(XZCDM,TBBH);

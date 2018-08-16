@@ -499,6 +499,36 @@ namespace LoowooTech.Stock
              new Models.FeatureValue { Name="MJ",Title="面积"},
              new Models.FeatureValue { Name="BZ",Title="备注"}
         };
+
+        public double SearchArea(string whereClause)
+        {
+            using (var connection = new OleDbConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    var sb = new StringBuilder("Select SUM(MJ) FROM DCDYTB");
+                    if (!string.IsNullOrEmpty(whereClause))
+                    {
+                        sb.AppendFormat(" WHERE {0}", whereClause);
+                    }
+
+                    command.CommandText = sb.ToString();
+                    var obj = command.ExecuteScalar();
+                    if (obj != null)
+                    {
+                        double a = .0;
+                        if (double.TryParse(obj.ToString(), out a))
+                        {
+                            return a;
+                        }
+                    }
+                }
+                connection.Close();
+            }
+
+            return 0.0;
+        }
         public DataTable Search(string whereClause)
         {
             var dataTable = new DataTable();
@@ -627,7 +657,7 @@ namespace LoowooTech.Stock
                 var tlayer = this.axMapControl1.Map.get_Layer(i);
                 if(tlayer is IFeatureLayer)
                 {
-                    if((tlayer as IFeatureLayer).Name == "DCDYTB")
+                    if((tlayer as IFeatureLayer).Name == "调查单元图斑")
                     {
                         featureLayer = tlayer as IFeatureLayer;
                         break;

@@ -97,6 +97,26 @@ namespace LoowooTech.Stock.ToolForms
             }
         }
 
+        private void SearchJYXJSYD(string filePath)
+        {
+            using (var connection=new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", filePath)))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    var viewSQL = "SELECT * from (SELECT MJ,XZCDM,XZCMC,TBBH,XZCDM+TBBH as AA FROM DCDYTB) as A LEFT JOIN (SELECT TDYT,JSYDMJ,XZCDM+TBBH as BB FROM JYXJSYD) as B on A.AA=B.BB";
+                    var View1= string.Format("SELECT XZCDM,TBBH,TDYT FROM ({0}) WHERE TDYT is not null ", viewSQL);
+                    //command.CommandText = View1;
+                    var updateSQL = string.Format("UPDATE A SET  A.TDYT=B.TDYT FROM DCDYTB as A,{0} as B where A.XZCDM=B.XZCDM AND A.TBBH=B.TBBH",View1);
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                    }
+                }
+            }
+        }
+
         private void Search(string filePath)
         {
             using (var connection=new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", filePath)))
@@ -116,14 +136,15 @@ namespace LoowooTech.Stock.ToolForms
                     OleDbDataReader reader = null;
                     List<string> temp = null;
                     a = 0;
-                    obj = Gain(connection, string.Format("Select COUNT(*) FROM CLZJD where XZCDM = '{0}' AND TBBH = '{1}'", item.XZCDM, item.TBBH));
-                    if (obj != null&&int.TryParse(obj.ToString(),out a)&&a>0)
+                    reader = Read(connection, string.Format("Select TDYT FROM JYXJSYD where XZCDM = '{0}' AND TBBH = '{1}'", item.XZCDM, item.TBBH));
+                    temp = GetValues(reader, 0);
+                    if (temp.Count > 0)
                     {
-                        YT.Add("宅基地");
+                        YT.AddRange(temp);
                     }
                     else
                     {
-                        reader = Read(connection, string.Format("Select TDYT FROM JYXJSYD where XZCDM = '{0}' AND TBBH = '{1}'", item.XZCDM, item.TBBH));
+                        reader = Read(connection, string.Format("Select TDYT FROM GGGL_GGFWSSYD where XZCDM = '{0}' AND TBBH = '{1}'", item.XZCDM, item.TBBH));
                         temp = GetValues(reader, 0);
                         if (temp.Count > 0)
                         {
@@ -131,7 +152,7 @@ namespace LoowooTech.Stock.ToolForms
                         }
                         else
                         {
-                            reader = Read(connection, string.Format("Select TDYT FROM GGGL_GGFWSSYD where XZCDM = '{0}' AND TBBH = '{1}'", item.XZCDM, item.TBBH));
+                            reader = Read(connection, string.Format("Select TDYT FROM QTCLJSYD where XZCDM = '{0}' AND TBBH = '{1}'", item.XZCDM, item.TBBH));
                             temp = GetValues(reader, 0);
                             if (temp.Count > 0)
                             {
@@ -139,15 +160,15 @@ namespace LoowooTech.Stock.ToolForms
                             }
                             else
                             {
-                                reader = Read(connection, string.Format("Select TDYT FROM QTCLJSYD where XZCDM = '{0}' AND TBBH = '{1}'", item.XZCDM, item.TBBH));
-                                temp = GetValues(reader, 0);
-                                if (temp.Count > 0)
+                                obj = Gain(connection, string.Format("Select COUNT(*) FROM CLZJD where XZCDM = '{0}' AND TBBH = '{1}'", item.XZCDM, item.TBBH));
+                                if (obj != null && int.TryParse(obj.ToString(), out a) && a > 0)
                                 {
-                                    YT.AddRange(temp);
+                                    YT.Add("宅基地");
                                 }
                             }
                         }
                     }
+                 
 
                     if (YT.Count > 0)
                     {
@@ -201,6 +222,11 @@ namespace LoowooTech.Stock.ToolForms
                 }
             }
             return list;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
