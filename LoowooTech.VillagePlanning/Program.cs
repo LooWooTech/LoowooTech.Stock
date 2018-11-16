@@ -1,39 +1,26 @@
-﻿using ESRI.ArcGIS;
-using ESRI.ArcGIS.esriSystem;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Threading;
+using System.Linq;
 using System.Windows.Forms;
+using ESRI.ArcGIS;
+using ESRI.ArcGIS.esriSystem;
 
-namespace LoowooTech.Stock
+namespace LoowooTech.VillagePlanning
 {
     static class Program
     {
-
-        private static MainForm _form;
-        private static AdvanceForm _form2;
-
-        public static LicenseInitializer m_AOLicenseInitializer = new LicenseInitializer();
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            //if (!RuntimeManager.Bind(ProductCode.Engine))
-            //{
-            //    if (!RuntimeManager.Bind(ProductCode.Desktop))
-            //    {
-            //        MessageBox.Show("当前机器上无法找到ArcGIS授权");
-            //        return;
-            //    }
-            //}
-
             if (!RuntimeManager.Bind(ProductCode.Desktop))
             {
                 if (!RuntimeManager.Bind(ProductCode.Engine))
                 {
-                    MessageBox.Show("当前机器上无法找到ArcGIS授权");
+                    MessageBox.Show("当前基期上无法找到ArcGIS授权！");
                     return;
                 }
             }
@@ -42,19 +29,10 @@ namespace LoowooTech.Stock
                 Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
                 Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                m_AOLicenseInitializer.InitializeApplication(new esriLicenseProductCode[] { esriLicenseProductCode.esriLicenseProductCodeEngineGeoDB,esriLicenseProductCode.esriLicenseProductCodeAdvanced }, new esriLicenseExtensionCode[] { esriLicenseExtensionCode.esriLicenseExtensionCodeSpatialAnalyst });
-                //m_AOLicenseInitializer.InitializeApplication(new esriLicenseProductCode[] { esriLicenseProductCode.esriLicenseProductCodeAdvanced,esriLicenseProductCode.esriLicenseProductCodeEngineGeoDB }, new esriLicenseExtensionCode[] { esriLicenseExtensionCode.esriLicenseExtensionCodeSpatialAnalyst });
-                var load = new LoadForm();
-                load.Show();
-                Application.DoEvents();
-                _form = new MainForm();
-                //_form2 = new AdvanceForm();
-                Application.Run(_form);
-                m_AOLicenseInitializer.ShutdownApplication();
-            }
-            catch (Exception ex)
+
+
+
+            }catch(Exception ex)
             {
                 string str = "";
                 string strDateInfo = "出现应用程序未处理的异常：" + DateTime.Now.ToString() + "\r\n";
@@ -73,15 +51,30 @@ namespace LoowooTech.Stock
                 WriteLog(str);
                 MessageBox.Show("发生未处理异常，请及时联系软件维护人员！", "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainForm());
         }
 
-        static void LoadForm()
+        static void WriteLog(string str)
         {
-            _form = new MainForm();
+            var folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\LoowooTech" + "\\VillagePlanning";
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
+            using (StreamWriter sw = new StreamWriter(folder + "\\log.txt", true))
+            {
+                sw.WriteLine(string.Format("[{0:yyyyMMdd HH:mm:ss}]", DateTime.Now));
+                sw.WriteLine(str);
+                sw.WriteLine("---------------------------------------------------------");
+                sw.Close();
+            }
         }
 
-       
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
 
@@ -119,27 +112,5 @@ namespace LoowooTech.Stock
             WriteLog(str);
             MessageBox.Show("发生未处理异常，请及时联系软件维护人员！", "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-        /// <summary>
-        /// 写文件
-        /// </summary>
-        /// <param name="str"></param>
-        static void WriteLog(string str)
-        {
-            var folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\LoowooTech";
-            if (!Directory.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-            }
-
-            using (StreamWriter sw = new StreamWriter(folder + "\\log.txt", true))
-            {
-                sw.WriteLine(string.Format("[{0:yyyyMMdd HH:mm:ss}]", DateTime.Now));
-                sw.WriteLine(str);
-                sw.WriteLine("---------------------------------------------------------");
-                sw.Close();
-            }
-        }
-
-      
     }
 }
