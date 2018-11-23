@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Config>
+  <Folders>
+    <Folder Name="1.规划文档数据">
+      <File Regex="{XZQ}县{XZZ}{XZC}{m}村土地利用规划批复.pdf" Name="村土地利用规划批复.pdf"></File>
+    </Folder>
+    <Folder Name="2.规划表格数据">
+      <File Regex="表F1.村土地利用规划目标表.xlsx" Name="表F1.村土地利用规划目标表.xlsx"></File>
+      <File Regex="表F2.土地利用结构调整表.xlsx" Name="表F2.土地利用结构调整表.xlsx"></File>
+      <File Regex="表F3.建设用地情况调整表.xlsx" Name="表F3.建设用地情况调整表.xlsx"></File>
+      <File Regex="表F4.耕地情况调整表.xlsx" Name="表F4.耕地情况调整表.xlsx"></File>
+      <File Regex="表F5.规划保障措施表.xlsx" Name="表F5.规划保障措施表.xlsx"></File>
+    </Folder>
+    <Folder Name="3.规划图形数据">
+      <File Regex="{XZC}{m}村土地利用规划空间数据库.mdb" Name="村土地利用规划空间数据库.mdb"></File>
+    </Folder>
+    <Folder Name="4.图像文件">
+      <File Regex="{XZQ}县{XZZ}{XZC}{n}村土地利用规划图.jpg" Name="村土地利用规划图.jpg"></File>
+      <File Regex="{XZQ}县{XZZ}{XZC}{n}村土地利用现状图.jpg" Name="村土地利用现状图.jpg"></File>
+    </Folder>
+    <Folder Name="5.电子数据说明">
+      <File Regex="元数据.xml" Name="元数据.xml"></File>
+      <File Regex="电子数据说明.txt" Name="电子数据说明.txt"></File>
+    </Folder>
+    <Folder Name="6.其他数据">
+      <File Regex="行政区划代码表.xls" Name="行政区划代码表.xls"></File>
+    </Folder>
+  </Folders>
+  <Tables>
+    <Table Name="JQDLTB" Class="" Title="基期地类图斑要素属性结构表" IsSpace="true" Topo="">
+      <Field Index="1" Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
+      <Field Index="2" Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
+      <Field Index="3" Name="TBBH" Title="图斑编号" Length="8" Type="Char"></Field>
+      <Field Index="4" Name="XZQDM" Title="行政区代码" Length="12" Type="Char"></Field>
+      <Field Index="5" Name="DLMC" Title="地类名称" Length="30" Type="Char"></Field>
+      <Field Index="6" Name="TBMJ" Title="图斑面积" Length="16" Type="Float"></Field>
+      <Field Index="7" Name="TBDLMJ" Title="图斑地类面积" Length="16" Type="Float"></Field>
+      <Field Index="8" Name="DLBZ" Title="地类备注" Length="2" Type="Char"></Field>
+      <Field Index="9" Name="DLDM" Title="地类代码" Length="4" Type="Char"></Field>
+      <Field Index="10" Name="SQBM" Title="权属单位代码" Length="12" Type="Char"></Field>
+      <Field Index="11" Name="SQMC" Title="权属单位名称" Length="30" Type="Char"></Field>
+      <Field Index="12" Name="XZQMC" Title="行政区名称" Length="30" Type="Char"></Field>
+      <Field Index="13" Name="QSXZ" Title="权属性质" Length="2" Type="Char"></Field>
+      <Field Index="14" Name="PDJB" Title="坡度级别" Length="1" Type="Char"></Field>
+      <Field Index="15" Name="TKXS" Title="田坎系数" Length="5" Type="Float"></Field>
+      <Field Index="16" Name="KKSM" Title="应扣田坎计算面积" Length="15" Type="Float"></Field>
+      <Field Index="17" Name="PZWH" Title="批准文号" Length="50" Type="Char"></Field>
+      <Field Index="18" Name="ZHLX" Title="基数转换类型" Length="30" Type="Char"></Field>
+      <Field Index="19" Name="HQRQ" Title="规划期限" Length="" Type="Date"></Field>
+    </Table>
+    <Table Name="GHYT" Class="" Title="规划用途要素属性结构表" IsSpace="true" Topo="">
+      <Field Index="1" Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
+      <Field Index="2" Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
+      <Field Index="3" Name="XZQDM" Title="行政区代码" Length="12" Type="Char"></Field>
+      <Field Index="4" Name="XZQMC" Title="行政区名称" Length="30" Type="Char"></Field>
+      <Field Index="5" Name="YTDKBH" Title="用途地块编号" Length="12" Type="Char"></Field>
+      <Field Index="6" Name="GHYTDM" Title="规划用途代码" Length="6" Type="Char"></Field>
+      <Field Index="7" Name="GHYTBM" Title="规划用途编码" Length="25" Type="Char"></Field>
+      <Field Index="8" Name="GHYTMC" Title="规划用途名称" Length="25" Type="Char"></Field>
+      <Field Index="9" Name="MJ" Title="面积" Length="20" Type="Float"></Field>
+      <Field Index="10" Name="JMJ" Title="净面积" Length="20" Type="Float"></Field>
+      <Field Index="11" Name="BZ" Title="备注" Length="90" Type="Char"></Field>
+      <Field Index="12" Name="JNLX" Title="基本农田类型" Length="1" Type="Char"></Field>
+      <Field Index="13" Name="PZWH" Title="批准文号" Length="30" Type="Char"></Field>
+      <Field Index="14" Name="HQRQ" Title="规划期限" Length="" Type="Date"></Field>
+      <Field Index="15" Name="XZNTLX" Title="新增农田类型" Length="1" Type="Char"></Field>
+      <Field Index="16" Name="CJJX" Title="拆旧建新情况" Length="2" Type="Char"></Field>
+      <Field Index="17" Name="JBNTZBQ" Title="基本农田整备区" Length="2" Type="Char"></Field>
+    </Table>
+    <Table Name="TDGHDL" Class="" Title="土地规划地类要素属性结构表" IsSpace="true" Topo="">
+      <Field Index="1" Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
+      <Field Index="2" Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
+      <Field Index="3" Name="TBBH" Title="图斑编号" Length="8" Type="Char"></Field>
+      <Field Index="4" Name="GHDLMC" Title="规划地类名称" Length="30" Type="Char"></Field>
+      <Field Index="5" Name="GHDLMJ" Title="规划地类面积" Length="16" Type="Float"></Field>
+      <Field Index="6" Name="SM" Title="说明" Length="200" Type="Char"></Field>
+      <Field Index="7" Name="XZQDM" Title="行政区代码" Length="12" Type="Char"></Field>
+      <Field Index="8" Name="GHDLDM" Title="规划地类代码" Length="4" Type="Char"></Field>
+      <Field Index="9" Name="XZQMC" Title="行政区名称" Length="30" Type="Char"></Field>
+      <Field Index="10" Name="SQBM" Title="权属单位代码" Length="12" Type="Char"></Field>
+      <Field Index="11" Name="SQMC" Title="权属单位名称" Length="30" Type="Char"></Field>
+      <Field Index="12" Name="QSXZ" Title="权属性质" Length="2" Type="Char"></Field>
+      <Field Index="13" Name="HQRQ" Title="规划期限" Length="" Type="Date"></Field>
+    </Table>
+    <Table Name="JSYDGZQ" Class="" Title="建设用地管制区属性结构表" IsSpace="true" Topo="">
+      <Field Index="1" Name="BSM" Title="标识码" Length="10" Type="Int"></Field>
+      <Field Index="2" Name="YSDM" Title="要素代码" Length="10" Type="Char"></Field>
+      <Field Index="3" Name="GZQLXDM" Title="管制区类型代码" Length="3" Type="Char"></Field>
+      <Field Index="4" Name="GZQMJ" Title="管制区面积" Length="16" Type="Float"></Field>
+      <Field Index="5" Name="SM" Title="说明" Length="200" Type="Char"></Field>
+      <Field Index="6" Name="XZQDM" Title="行政区代码" Length="12" Type="Char"></Field>
+    </Table>
+  </Tables>
+  <GHYTs>
+    <GHYT Name="基本农田" Code="G11">
+      <GHYTDM Name="示范区基本农田" Code="G111" BM="A1"></GHYTDM>
+      <GHYTDM Name="一般基本农田" Code="G112" BM="A2"></GHYTDM>
+    </GHYT>
+    <GHYT Name="一般农田" Code="N11">
+      <GHYTDM Name="一般农田" Code="N111" BM="B1"></GHYTDM>
+      <GHYTDM Name="新增一般农田" Code="N112" BM="B2"></GHYTDM>
+    </GHYT>
+    <GHYT Name="园地" Code="12">
+      <GHYTDM Name="园地" Code="X12" BM=""></GHYTDM>
+      <GHYTDM Name="新增园地" Code="G12" BM=""></GHYTDM>
+    </GHYT>
+    <GHYT Name="林地" Code="13">
+      <GHYTDM Name="生态林" Code="X131" BM=""></GHYTDM>
+      <GHYTDM Name="新增生态林" Code="G131" BM=""></GHYTDM>
+      <GHYTDM Name="商品林" Code="X132" BM=""></GHYTDM>
+      <GHYTDM Name="新增商品林" Code="G132" BM=""></GHYTDM>
+    </GHYT>
+    <GHYT Name="其他农用地" Code="15">
+      <GHYTDM Name="设施农用地" Code="X151" BM=""></GHYTDM>
+      <GHYTDM Name="农村道路" Code="X152" BM=""></GHYTDM>
+      <GHYTDM Name="坑塘水面" Code="X153" BM=""></GHYTDM>
+      <GHYTDM Name="农田水利用地" Code="X154" BM=""></GHYTDM>
+      <GHYTDM Name="田坎" Code="X155" BM=""></GHYTDM>
+      <GHYTDM Name="新增设施农用地" Code="G151" BM=""></GHYTDM>
+      <GHYTDM Name="新增农村道路" Code="G152" BM=""></GHYTDM>
+      <GHYTDM Name="新增坑塘水面" Code="G153" BM=""></GHYTDM>
+      <GHYTDM Name="新增农田水利用地" Code="G154" BM=""></GHYTDM>
+      <GHYTDM Name="新增田坎" Code="G155" BM=""></GHYTDM>
+    </GHYT>
+    <GHYT Name="城乡建设用地" Code="21">
+      <GHYTDM Name="城镇用地" Code="X211" BM=""></GHYTDM>
+      <GHYTDM Name="宅基地" Code="X2121" BM=""></GHYTDM>
+      <GHYTDM Name="公共服务设施用地" Code="X2122" BM=""></GHYTDM>
+      <GHYTDM Name="基础设施用地" Code="X2123" BM=""></GHYTDM>
+      <GHYTDM Name="景观与绿化用地" Code="X2125" BM=""></GHYTDM>
+      <GHYTDM Name="村内交通用地" Code="X2126" BM=""></GHYTDM>
+      <GHYTDM Name="经营性建设用地" Code="X2124" BM=""></GHYTDM>
+      <GHYTDM Name="采矿用地" Code="X213" BM=""></GHYTDM>
+      <GHYTDM Name="新增城镇用地" Code="G211" BM="D1"></GHYTDM>
+      <GHYTDM Name="新增宅基地" Code="G2121" BM="D21"></GHYTDM>
+      <GHYTDM Name="新增公共服务设施用地" Code="G2122" BM="D22"></GHYTDM>
+      <GHYTDM Name="新增基础设施用地" Code="G2123" BM="D23"></GHYTDM>
+      <GHYTDM Name="新增景观与绿化用地" Code="G2125" BM="D25"></GHYTDM>
+      <GHYTDM Name="新增村内交通用地" Code="G2126" BM="D26"></GHYTDM>
+      <GHYTDM Name="新增经营性建设用地" Code="G2124" BM="D24"></GHYTDM>
+      <GHYTDM Name="新增采矿用地" Code="G213" BM="D3"></GHYTDM>
+    </GHYT>
+    <GHYT Name="交通水利用地" Code="22">
+      <GHYTDM Name="对外交通用地" Code="X221" BM=""></GHYTDM>
+      <GHYTDM Name="水利设施用地" Code="X226" BM=""></GHYTDM>
+      <GHYTDM Name="新增对外交通用地" Code="G221" BM="D5"></GHYTDM>
+      <GHYTDM Name="新增水利设施用地" Code="G226" BM="D10"></GHYTDM>
+    </GHYT>
+    <GHYT Name="其他建设用地" Code="23">
+      <GHYTDM Name="风景名胜设施用地" Code="X231" BM=""></GHYTDM>
+      <GHYTDM Name="特殊用地" Code="X232" BM=""></GHYTDM>
+      <GHYTDM Name="新增风景名胜设施用地" Code="G231" BM="D12"></GHYTDM>
+      <GHYTDM Name="新增特殊用地" Code="G232" BM="D13"></GHYTDM>
+    </GHYT>
+    <GHYT Name="水域" Code="31">
+      <GHYTDM Name="水域" Code="X31" BM=""></GHYTDM>
+      <GHYTDM Name="新增水域" Code="G31" BM=""></GHYTDM>
+    </GHYT>
+    <GHYT Name="自然保留地" Code="32">
+      <GHYTDM Name="自然保留地" Code="X32" BM=""></GHYTDM>
+    </GHYT>
+  </GHYTs>
+  
+  <Rules>
+    <Category Name="成果完整性">
+      <Rule ID="1101" Title="目录及文件规范性" Class="FileFolderStandardRule2" Name="LoowooTech.Stock.Rules"></Rule>
+    </Category>
+    <Category Name="基本检查">
+      
+    </Category>
+  </Rules>
+</Config>

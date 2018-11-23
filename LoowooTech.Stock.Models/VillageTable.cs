@@ -5,14 +5,13 @@ using System.Text;
 
 namespace LoowooTech.Stock.Models
 {
-    public class StockTable
+    public class VillageTable
     {
         public string Name { get; set; }
         public string Title { get; set; }
         public bool IsSpace { get; set; }
-        public string Type { get; set; }
-        public List<Field> Fields { get; set; }
-    }
+        public bool Topo { get; set; }
 
-    
+        public List<VillageField> Fields { get; set; }
+    }
 }

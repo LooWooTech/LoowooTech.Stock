@@ -10,6 +10,9 @@ namespace LoowooTech.VillagePlanning
 {
     static class Program
     {
+
+        private static MainForm _form { get; set; }
+        public static LicenseInitializer m_AOLicenseInitializer { get; set; } = new LicenseInitializer();
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -30,9 +33,18 @@ namespace LoowooTech.VillagePlanning
                 Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                m_AOLicenseInitializer.InitializeApplication(new esriLicenseProductCode[] { esriLicenseProductCode.esriLicenseProductCodeEngineGeoDB, esriLicenseProductCode.esriLicenseProductCodeAdvanced }, new esriLicenseExtensionCode[] { esriLicenseExtensionCode.esriLicenseExtensionCodeSpatialAnalyst });
 
-
-            }catch(Exception ex)
+                var load = new LoadForm();
+                load.Show();
+                Application.DoEvents();
+                _form = new MainForm();
+                Application.Run(_form);
+                m_AOLicenseInitializer.ShutdownApplication();
+            }
+            catch(Exception ex)
             {
                 string str = "";
                 string strDateInfo = "出现应用程序未处理的异常：" + DateTime.Now.ToString() + "\r\n";
@@ -51,11 +63,6 @@ namespace LoowooTech.VillagePlanning
                 WriteLog(str);
                 MessageBox.Show("发生未处理异常，请及时联系软件维护人员！", "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
         }
 
         static void WriteLog(string str)

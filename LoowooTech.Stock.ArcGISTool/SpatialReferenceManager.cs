@@ -110,5 +110,14 @@ namespace LoowooTech.Stock.ArcGISTool
         {
             return CreateSpatialReference(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Coordinate Systems/Projected Coordinate Systems/Gauss Kruger/Xian 1980/Xian 1980 3 Degree GK Zone 40.prj"));
         }
+
+        /// <summary>
+        /// 获取2000坐标系文件对应的 坐标系信息
+        /// </summary>
+        /// <returns></returns>
+        public static ISpatialReference Get2000SpatialReference()
+        {
+            return CreateSpatialReference(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CGCS2000 3 Degree GK Zone 40.prj"));
+        }
     }
 }

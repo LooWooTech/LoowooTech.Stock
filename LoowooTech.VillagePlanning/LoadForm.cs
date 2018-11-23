@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace LoowooTech.VillagePlanning
 {
@@ -14,6 +7,16 @@ namespace LoowooTech.VillagePlanning
         public LoadForm()
         {
             InitializeComponent();
+            _instance = this;
+        }
+
+        private static LoadForm _instance { get; set; }
+        public static LoadForm Instance
+        {
+            get
+            {
+                return _instance;
+            }
         }
     }
 }

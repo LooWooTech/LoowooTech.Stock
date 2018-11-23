@@ -77,6 +77,7 @@
     <Compile Include="CollectValue.cs" />
     <Compile Include="ContinuousRule.cs" />
     <Compile Include="CoordinateRule.cs" />
+    <Compile Include="CoordinateRule2.cs" />
     <Compile Include="DirectoryTool.cs" />
     <Compile Include="ExcelBase.cs" />
     <Compile Include="ExcelEight.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="ExcelValueCreateRule.cs" />
     <Compile Include="ExcelValueLogicRule.cs" />
     <Compile Include="FileFolderStandardRule.cs" />
+    <Compile Include="FileFolderStandardRule2.cs" />
     <Compile Include="FileOpenRule.cs" />
     <Compile Include="GatherTool.cs" />
     <Compile Include="GatherTool2.cs" />
@@ -101,12 +103,15 @@
     <Compile Include="IMerge.cs" />
     <Compile Include="IResult.cs" />
     <Compile Include="ITable.cs" />
+    <Compile Include="LayersCompleteRule.cs" />
     <Compile Include="MergeTool.cs" />
+    <Compile Include="MetadataRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultComplete.cs" />
     <Compile Include="RuleManager.cs" />
     <Compile Include="SplinterRule.cs" />
     <Compile Include="StructureRule.cs" />
+    <Compile Include="StructureRule2.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="TableBase.cs" />
     <Compile Include="TableHeart.cs" />
@@ -115,7 +120,10 @@
     <Compile Include="TBBHRule.cs" />
     <Compile Include="TopologyRule.cs" />
     <Compile Include="ValueBaseRule.cs" />
+    <Compile Include="ValueBaseRule2.cs" />
+    <Compile Include="ValueManageRule.cs" />
     <Compile Include="ValueRule.cs" />
+    <Compile Include="ValueRule2.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="VectorBase.cs" />
     <Compile Include="VectorRule.cs" />

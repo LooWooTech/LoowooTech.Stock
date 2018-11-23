@@ -83,6 +83,7 @@
     <Compile Include="PdfHelper2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionManager.cs" />
+    <Compile Include="QuestionManager2.cs" />
     <Compile Include="ReaderHelper.cs" />
     <Compile Include="XmlClass.cs" />
     <Compile Include="XmlManager.cs" />

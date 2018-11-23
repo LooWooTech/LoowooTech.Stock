@@ -70,6 +70,7 @@
     <Compile Include="Arguments.cs" />
     <Compile Include="ExcelValueCompareTool.cs" />
     <Compile Include="FieldStructureTool.cs" />
+    <Compile Include="FieldStructureTool2.cs" />
     <Compile Include="FileFolder.cs" />
     <Compile Include="FileStandard.cs" />
     <Compile Include="FileTool.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="TableDCDYTB.cs" />
     <Compile Include="ValueAboveTool.cs" />
     <Compile Include="ValueBaseTool.cs" />
+    <Compile Include="ValueBaseTool2.cs" />
     <Compile Include="ValueCombinationTool.cs" />
     <Compile Include="ValueCompareTool.cs" />
     <Compile Include="ValueCountTool.cs" />
@@ -88,9 +90,11 @@
     <Compile Include="ValueFunctionTool.cs" />
     <Compile Include="ValueLessTool.cs" />
     <Compile Include="ValueNullTool.cs" />
+    <Compile Include="ValueNullTool2.cs" />
     <Compile Include="ValueRangeTool.cs" />
     <Compile Include="ValueMathTool.cs" />
     <Compile Include="GainAreaTool.cs" />
+    <Compile Include="ValueRangeTool2.cs" />
     <Compile Include="ValueUniqueTool.cs" />
     <Compile Include="ValueWhereTool.cs" />
   </ItemGroup>

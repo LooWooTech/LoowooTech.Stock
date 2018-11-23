@@ -14,6 +14,25 @@ namespace LoowooTech.Stock.ArcGISTool
 {
     public static class ArcGISManager
     {
+        public static List<string> CheckCoordinate2(IWorkspace workspace,List<string> tables)
+        {
+            var list = new List<string>();
+            foreach(var table in tables)
+            {
+                var featureClass = workspace.GetFeatureClass(table);
+                if (featureClass != null)
+                {
+                    var spatialReference = SpatialReferenceManager.GetSpatialReference(featureClass);
+                    if (spatialReference.Name.Trim() != ParameterManager2.SpatialReference.Name.Trim())
+                    {
+                        list.Add(table);
+                    }
+                }
+            }
+
+            return list;
+        }
+
         public static void CheckCoordinate(string className,string ruleName)
         {
             var info = string.Empty;

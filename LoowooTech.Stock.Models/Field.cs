@@ -66,6 +66,9 @@ namespace LoowooTech.Stock.Models
         SmallDateTime=135,
         VarChar=200,
         Text=201,
-        Image=205
+        Image=205,
+
+
+        Date=2000
     }
 }

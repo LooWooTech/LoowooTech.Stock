@@ -15,5 +15,10 @@ namespace LoowooTech.VillagePlanning
         {
             InitializeComponent();
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            LoadForm.Instance.Close();
+        }
     }
 }

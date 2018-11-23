@@ -14,8 +14,9 @@ namespace LoowooTech.Stock.Tool
         //public string Folder { get { return _folder; }set { _folder = value; } }
         private List<string> _files { get; set; }
         public List<string> Files { get { return _files; }set { _files = value; } }
-        private ConcurrentBag<string> _list { get; set; }
-        public ConcurrentBag<string> List { get { return _list == null ? _list = new ConcurrentBag<string>() : _list; } }
+        private List<string> _list { get; set; } = new List<string>();
+        public List<string> List { get { return _list; } }
+
         private void Check(string filePath)
         {
             //var array = new string[] { filePath, filePath.Replace("(", "（").Replace(")", "）") };
@@ -51,6 +52,36 @@ namespace LoowooTech.Stock.Tool
                 {
                     var fullPath = str.Replace("{Name}", ParameterManager.District).Replace("{Code}", ParameterManager.Code);
                     Check(fullPath);
+                }
+            }
+        }
+
+
+        public void Check2()
+        {
+            foreach(var file in Files)
+            {
+                var str = file.Replace("{XZQ}", ParameterManager2.Country).Replace("{XZZ}", ParameterManager2.Village);
+                if (str.Contains("{n}"))
+                {
+                    foreach(var xzc in ParameterManager2.XZCList)
+                    {
+                        var fullPath = str.Replace("{n}", xzc.XZCMC);
+                        Check(fullPath);
+                    }
+                }else if (str.Contains("{m}"))
+                {
+                    var sb = new StringBuilder();
+                    foreach(var xzc in ParameterManager2.XZCList)
+                    {
+                        sb.Append(xzc.XZCMC);
+                    }
+                    var fullPath = str.Replace("{m}", sb.ToString());
+                    Check(fullPath);
+                }
+                else
+                {
+                    Check(str);
                 }
             }
         }
