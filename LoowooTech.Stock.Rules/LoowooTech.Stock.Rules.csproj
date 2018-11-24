@@ -121,6 +121,7 @@
     <Compile Include="TopologyRule.cs" />
     <Compile Include="ValueBaseRule.cs" />
     <Compile Include="ValueBaseRule2.cs" />
+    <Compile Include="AttributeRule.cs" />
     <Compile Include="ValueManageRule.cs" />
     <Compile Include="ValueRule.cs" />
     <Compile Include="ValueRule2.cs" />

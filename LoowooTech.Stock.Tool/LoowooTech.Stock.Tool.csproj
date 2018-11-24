@@ -89,12 +89,14 @@
     <Compile Include="ValueCurrectTool.cs" />
     <Compile Include="ValueFunctionTool.cs" />
     <Compile Include="ValueLessTool.cs" />
+    <Compile Include="ValueMathTool2.cs" />
     <Compile Include="ValueNullTool.cs" />
     <Compile Include="ValueNullTool2.cs" />
     <Compile Include="ValueRangeTool.cs" />
     <Compile Include="ValueMathTool.cs" />
     <Compile Include="GainAreaTool.cs" />
     <Compile Include="ValueRangeTool2.cs" />
+    <Compile Include="ValueRegexTool.cs" />
     <Compile Include="ValueUniqueTool.cs" />
     <Compile Include="ValueWhereTool.cs" />
   </ItemGroup>

@@ -76,6 +76,9 @@ namespace LoowooTech.Stock.ArcGISTool
         public static string XZQExcelFilePath { get { return System.IO.Path.Combine(Folder, "6.其他数据", "行政区划代码表.xls"); } }
         private static List<XZC> _XZCList { get; set; }
         public static List<XZC> XZCList { get { return _XZCList; } }
+        private static Dictionary<string,string> _xzcDict { get; set; }
+
+        public static Dictionary<string,string> XZCDict { get { return XZCList.ToDictionary(e => e.XZCDM, e => e.XZCMC); } }
 
         /// <summary>
         /// 行政村列表 字符串格式
@@ -333,6 +336,8 @@ namespace LoowooTech.Stock.ArcGISTool
         /// </summary>
         public static Dictionary<string,string> GHYTDL { get { return _GHYTDL; } }
 
+        
+
         private static Dictionary<string, string> _JSZHLX { get; set; } = new Dictionary<string, string>
         {
             {"A","可调整地类"},
@@ -463,7 +468,7 @@ namespace LoowooTech.Stock.ArcGISTool
 
         private static Dictionary<string, string> _JSYDGZQ { get; set; } = new Dictionary<string, string>
         {
-            {"010","允许建设区" },{"020","有条件建设区"},
+            {"010","允许建设区" },{"021","有条件建设区"},
             {"030","限制建设用地区" },{"040","禁止建设用地区"},
             {"041","自然保护区核心区" },{"042","森林公园"},
             {"043","地质公园" },{"044","列入省级以上保护名录野生动植物自然栖息地"},

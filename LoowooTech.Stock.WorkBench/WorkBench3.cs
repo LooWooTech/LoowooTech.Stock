@@ -28,6 +28,7 @@ namespace LoowooTech.Stock.WorkBench
             _rules.Add(new LayersCompleteRule());//2018-11-21
             _rules.Add(new CoordinateRule2());//2018-11-22
             _rules.Add(new StructureRule2());//2018-11-22
+            _rules.Add(new ValueManageRule());//2018-11-24
 
 
         }
