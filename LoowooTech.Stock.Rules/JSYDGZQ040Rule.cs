@@ -1,0 +1,105 @@
+﻿using LoowooTech.Stock.ArcGISTool;
+using LoowooTech.Stock.Common;
+using LoowooTech.Stock.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace LoowooTech.Stock.Rules
+{
+    public class JSYDGZQ040Rule:ArcGISBaseTool,Models.IRule
+    {
+        public override string RuleName { get { return "禁止建设区一致性检查"; } }
+        public override string ID { get { return "6005"; } }
+        public override CheckProject2 CheckProject { get { return CheckProject2.村规划是否落实乡规划禁止建设区; } }
+        public bool Space { get { return true; } }
+        public void Check()
+        {
+            if (System.IO.File.Exists(ParameterManager2.XGH) == false)
+            {
+                return;
+            }
+            if(ExtractJSYDGZQ("GZQLXDM = '040'") == false)//提取村规划中的禁止建设区
+            {
+                return;
+            }
+
+            var temps = ParameterManager2.XZCList.Select(e => string.Format("XZQDM = '{0}'", e.XZCDM)).ToArray();
+            var where = string.Join(" OR ", temps);
+            if (ArcExtensions2.Select(string.Format("{0}\\{1}", ParameterManager2.XGH, "XZQ"), string.Format("{0}\\{1}", MdbFilePath, "XZQ"), where) == false)
+            {
+                QuestionManager2.Add(new Question2
+                {
+                    Code = ID,
+                    Name = RuleName,
+                    CheckProject = CheckProject,
+                    Description = string.Format("提取行政区矢量数据失败！")
+                });
+                return ;
+            }
+            if(ArcExtensions2.Select(string.Format("{0}\\{1}",ParameterManager2.XGH,"JSYDGZQ"),string.Format("{0}\\{1}",MdbFilePath,"JSYDGZQ_X"),"GZQLXDM = '040'") == false)
+            {
+                QuestionManager2.Add(new Question2
+                {
+                    Code = ID,
+                    Name = RuleName,
+                    CheckProject = CheckProject,
+                    Description = string.Format("提取乡规划中禁止建设区数据失败")
+                });
+                return;
+            }
+
+
+
+
+
+            if (ArcExtensions2.Clip(string.Format("{0}\\{1}", MdbFilePath, "JSYDGZQ_X"), string.Format("{0}\\{1}", MdbFilePath, "XZQ"), string.Format("{0}\\{1}", MdbFilePath, "JSYDGZQ_X_XZQ"), ParameterManager2.Tolerance) == false)
+            {
+                QuestionManager2.Add(new Question2
+                {
+                    Code = ID,
+                    Name = RuleName,
+                    CheckProject = CheckProject,
+                    Description = string.Format("提取行政区范围内的乡规划中的建设用地管制区数据失败")
+                });
+                return;
+            }
+
+            if (ArcExtensions2.Erase(string.Format("{0}\\{1}", MdbFilePath, "JSYDGZQ_X_XZQ"), string.Format("{0}\\{1}", MdbFilePath, "JSYDGZQ"),string.Format("{0}\\{1}",MdbFilePath,"JSYDGZQ_Erase"), ParameterManager2.Tolerance) == false)
+            {
+                QuestionManager2.Add(new Question2
+                {
+                    Code = ID,
+                    Name = RuleName,
+                    CheckProject = CheckProject,
+                    Description = string.Format("乡规划中禁止建设区数据Erase村规划中禁止建设区数据失败")
+                });
+
+            }
+            else
+            {
+                var sql = "SELECT COUNT(*) FROM JSYDGZQ_Erase";
+                var obj = SearchRecord(MdbFilePath, sql);
+                if (obj != null)
+                {
+                    var count = 0;
+                    if(int.TryParse(obj.ToString(),out count))
+                    {
+                        if (count > 0)
+                        {
+                            QuestionManager2.Add(new Question2
+                            {
+                                Code = ID,
+                                Name = RuleName,
+                                CheckProject = CheckProject,
+                                Description = string.Format("村规划禁止建设区范围小于乡规划禁止建设区范围")
+                            });
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}

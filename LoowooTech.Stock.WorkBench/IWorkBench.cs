@@ -36,6 +36,15 @@ namespace LoowooTech.Stock.WorkBench
 
     public delegate void ProgramProgressHandler(object sender, ProgressEventArgs e);
 
+    public interface IWorkBench2
+    {
+        event ProgramProgressHandler OnProgramProcess;
+        string Folder { get; set; }
+        string ReportPath { get; set; }
+        string ReportPDFPath { get; set; }
+
+    }
+
     public interface IWorkBench
     {
         /// <summary>

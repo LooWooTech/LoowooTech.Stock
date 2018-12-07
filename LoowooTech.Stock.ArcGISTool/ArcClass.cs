@@ -1,6 +1,7 @@
 ﻿using ESRI.ArcGIS.ConversionTools;
 using ESRI.ArcGIS.DataSourcesFile;
 using ESRI.ArcGIS.DataSourcesGDB;
+using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessor;
@@ -157,6 +158,43 @@ namespace LoowooTech.Stock.ArcGISTool
             }
 
             return true;
+        }
+
+        public static double GainArea(IFeatureClass featureClass,string whereClause=null)
+        {
+            IQueryFilter queryFilter = new QueryFilterClass();
+            queryFilter.WhereClause = whereClause;
+            IFeatureCursor featureCursor = featureClass.Search(queryFilter, false);
+            IFeature feature = featureCursor.NextFeature();
+
+            var sum = .0;
+            while (feature != null)
+            {
+                IArea area = feature as IArea;
+                sum += area.Area;
+
+                feature = featureCursor.NextFeature();
+            }
+
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+
+            return sum;
+        }
+        public static int GetRecord(IFeatureClass featureClass,string whereClause,string field)
+        {
+            IQueryFilter queryFilter = new QueryFilterClass();
+            queryFilter.WhereClause = whereClause;
+            IFeatureCursor featureCursor = featureClass.Search(queryFilter, false);
+            ICursor cursor = featureCursor as ICursor;
+            IDataStatistics dataStatistics = new DataStatisticsClass();
+            dataStatistics.Cursor = cursor;
+            dataStatistics.Field = field;
+            IStatisticsResults statisticsResults = dataStatistics.Statistics;
+
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(cursor);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+
+            return statisticsResults.Count;
         }
     }
 }

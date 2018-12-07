@@ -54,6 +54,7 @@
     <Compile Include="StockFile.cs" />
     <Compile Include="CollectTable.cs" />
     <Compile Include="StockTable.cs" />
+    <Compile Include="Tolerance.cs" />
     <Compile Include="Value.cs" />
     <Compile Include="VillageField.cs" />
     <Compile Include="VillageMessage.cs" />

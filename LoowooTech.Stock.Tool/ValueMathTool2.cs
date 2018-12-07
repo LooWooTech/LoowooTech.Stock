@@ -52,6 +52,7 @@ namespace LoowooTech.Stock.Tool
                                 Messages2.Add(new Models.VillageMessage
                                 {
                                     Value = keyValue,
+                                    CheckValue=value1+";"+value2,
                                     Description = string.Format("【{0}={1}】对应的数据不符合【{2}】", Key, keyValue, Name),
                                     WhereClause = string.Format("[{0}] = '{1}'", Key, keyValue)
                                 });

@@ -36,7 +36,15 @@ namespace LoowooTech.Stock.ArcGISTool
             _Files = null;
             _connection = null;
             _workspace = null;
+            _initFolder = null;
         }
+
+        private static string _initFolder { get; set; }
+
+        /// <summary>
+        /// 初始化路径
+        /// </summary>
+        public static string InitFolder { get { return string.IsNullOrEmpty(_initFolder) ? _initFolder = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TEMPS", DateTime.Now.Date.ToString("yyyy-MM-dd-HH-mm-ss")) : _initFolder; } }
 
         private static string _country { get; set; }
 
@@ -246,6 +254,20 @@ namespace LoowooTech.Stock.ArcGISTool
         /// </summary>
         public static string MDBFilePath { get { return System.IO.Path.Combine(Folder, "3.规划图形数据", string.Format("{0}村土地利用规划空间数据库.mdb",XZCString)); } }
 
+
+        private static string _TDLYXZ { get; set; }
+
+        /// <summary>
+        /// 土地利用现状数据库文件
+        /// </summary>
+        public static string TDLYXZ { get { return _TDLYXZ; } set { _TDLYXZ = value; } }
+
+        private static string _XGH { get; set; }
+        /// <summary>
+        /// 乡规划数据库文件路径
+        /// </summary>
+        public static string XGH { get { return _XGH; } set { _XGH = value; } }
+
         private static string _connectString { get { return string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", MDBFilePath); } }
 
         private static OleDbConnection _connection { get; set; }
@@ -309,7 +331,7 @@ namespace LoowooTech.Stock.ArcGISTool
 
         private static IWorkspace _workspace { get; set; }
         /// <summary>
-        /// 矢量数据库  workspace
+        /// 矢量数据库  workspace  能不用 就不用 千万不要调用
         /// </summary>
         public static IWorkspace WorkSpace { get { return _workspace == null ? _workspace = MDBFilePath.OpenAccessFileWorkSpace() : _workspace; } }
 
@@ -480,6 +502,44 @@ namespace LoowooTech.Stock.ArcGISTool
         /// 建设用地管制区类型代码表
         /// </summary>
         public static Dictionary<string,string> JSYDGZQ { get { return _JSYDGZQ; } }
+        private static double? _absolute { get; set; }
+        /// <summary>
+        /// 绝对值 具体数值
+        /// </summary>
+        public static double? Absolute { get { return _absolute.HasValue ? _absolute.Value : _absolute = GetValue("/Config/Calculator/Area", "Absolute"); } }
+        private static  double? _relative { get; set; }
+        /// <summary>
+        /// 相对值  百分比
+        /// </summary>
+        public static double? Relative { get { return _relative.HasValue ? _relative.Value : _relative = GetValue("/Config/Calculator/Area", "Relative"); } }
+
+        private static string _tolerance { get; set; }
+        public static string Tolerance { get { return string.IsNullOrEmpty(_tolerance) ? _tolerance = GetString("/Config/Calculator/Area", "Tolerance") : _tolerance; } }
+        private static double? GetValue(string path,string attributeName)
+        {
+            var str = GetString(path, attributeName);
+            if (string.IsNullOrEmpty(str) == false)
+            {
+                var a = .0;
+                if ( double.TryParse(str, out a))
+                {
+                    return a;
+                }
+            }
+            return null;
+        }
+        private static string GetString(string path,string attributeName)
+        {
+            var node = _configXml.SelectSingleNode(path);
+            if (node != null)
+            {
+                if (node.Attributes[attributeName] != null)
+                {
+                    return node.Attributes[attributeName].Value;
+                }
+            }
+            return string.Empty;
+        }
 
     }
 }

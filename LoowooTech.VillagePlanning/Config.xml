@@ -160,7 +160,10 @@
       <GHYTDM Name="自然保留地" Code="X32" BM=""></GHYTDM>
     </GHYT>
   </GHYTs>
-  
+
+  <Calculator>
+    <Area Relative="0.02" Absolute="20" Tolerance="0.0001 METERS"></Area>
+  </Calculator>
   <Rules>
     <Category Name="成果完整性">
       <Rule ID="1101" Title="目录及文件规范性" Class="FileFolderStandardRule2" Name="LoowooTech.Stock.Rules"></Rule>

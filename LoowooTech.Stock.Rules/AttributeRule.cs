@@ -35,6 +35,19 @@ namespace LoowooTech.Stock.Rules
             _tools.Add(new ValueMathTool2 { TableName = "JQDLTB", CheckKeyFieldName = "DLDM", CheckValueFieldName = "DLMC", Key = _key, CurrentDict = ParameterManager2.GHYTDL, ID = "", RelationName = "JQDLTB" });
             _tools.Add(new ValueMathTool2 { TableName = "TDGHDL", CheckKeyFieldName = "GHDLDM", CheckValueFieldName = "GHDLMC", Key = _key, CurrentDict = ParameterManager2.GHYTDL, ID = "", RelationName = "TDGHDL" });
             _tools.Add(new ValueMathTool2 { TableName = "GHYT", CheckKeyFieldName = "GHYTDM", CheckValueFieldName = "GHYTMC", Key = _key, CurrentDict = ParameterManager2.SeconGHYTs.ToDictionary(e => e.Code, e => e.Name), ID = "", RelationName = "GHYT" });
+            _tools.Add(new ValueRegexTool { TableName = "GHYT", CheckFiledName = "GHYTDM", WhereClause = "CJJX = 'C1' OR CJJX = 'C2'", RegexStrings = new string[] { "^X2*$" }, ID = "", RelationName = "GHYT" });
+            _tools.Add(new ValueRegexTool { TableName = "GHYT", CheckFiledName = "GHYTDM", WhereClause = "CJJX = 'E1' OR CJJX = 'E2'", RegexStrings = new string[] { "N111", "^X18$", "^X3*$" }, ID = "", RelationName = "GHYT" });
+
+            #endregion
+
+            #region 编号唯一性检查
+            _tools.Add(new ValueUniqueTool2 { TableName = "JQDLTB", CheckFieldName = "TBBH", GroupByFieldName = "XZQDM", ID = "", RelationName = "JQDLTB" });
+            _tools.Add(new ValueUniqueTool2 { TableName = "TDGHDL", CheckFieldName = "TBBH", GroupByFieldName = "XZQDM", ID = "", RelationName = "TDGHDL" });
+            #endregion
+
+            #region 权属单位代码名称一致性检查
+
+
 
             #endregion
         }

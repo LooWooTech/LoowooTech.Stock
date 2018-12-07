@@ -40,11 +40,11 @@ namespace LoowooTech.Stock.Rules
             #endregion
 
             #region 6、规划用户中为基本农田并且基本农田类型为2时，批准必填 并且是"浙"开头
-            _tools.Add(new ValueNullTool2 { TableName = "GHYT", CheckFields = new string[] { "PZWH" }, Key = _key, WhereClause = "(GHYTDM = 'G111' OR GHYTDM = 'G112') AND JZLX = '2'", Is_Nullable = false, RegexString="^浙*$", ID = "", RelationName = "GHYT" });
+            _tools.Add(new ValueNullTool2 { TableName = "GHYT", CheckFields = new string[] { "PZWH" }, Key = _key, WhereClause = "( GHYTDM = 'G111' OR GHYTDM = 'G112') AND JZLX = '2'", Is_Nullable = false, RegexString="^浙*$", ID = "", RelationName = "GHYT" });
             #endregion
 
             #region 7、规划用途编码  当规划用代码为G2*、N11*、 G11*的时候 需要填写规划用途编码
-            _tools.Add(new ValueRangeTool2 { TableName = "GHYT", CheckFieldName = "GHYTBM", Key = _key, Values = ParameterManager2.SeconGHYTs.Where(e => !string.IsNullOrEmpty(e.BM)).Select(e => e.BM).ToArray(),WhereClause="GHYTDM LIKE 'G11*' OR GHYTDM LIKE 'N11*' OR GHYTDM LIEK 'G2*'" ID = "", RelationName = "GHYT" });
+            _tools.Add(new ValueRangeTool2 { TableName = "GHYT", CheckFieldName = "GHYTBM", Key = _key, Values = ParameterManager2.SeconGHYTs.Where(e => !string.IsNullOrEmpty(e.BM)).Select(e => e.BM).ToArray(),WhereClause="GHYTDM LIKE 'G11*' OR GHYTDM LIKE 'N11*' OR GHYTDM LIEK 'G2*'", ID = "", RelationName = "GHYT" });
             #endregion
             #region 8、用途地块编号
 

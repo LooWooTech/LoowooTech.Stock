@@ -66,9 +66,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AClassRule.cs" />
+    <Compile Include="AreaRule.cs" />
     <Compile Include="BaseResult.cs" />
+    <Compile Include="BClassRule.cs" />
     <Compile Include="BSMRule.cs" />
+    <Compile Include="CClassRule.cs" />
     <Compile Include="CESHI.cs" />
+    <Compile Include="ClassBaseTool.cs" />
     <Compile Include="ClassNine.cs" />
     <Compile Include="CollectDataTool.cs" />
     <Compile Include="CollectExcelTool.cs" />
@@ -79,6 +84,7 @@
     <Compile Include="CoordinateRule.cs" />
     <Compile Include="CoordinateRule2.cs" />
     <Compile Include="DirectoryTool.cs" />
+    <Compile Include="EClassRule.cs" />
     <Compile Include="ExcelBase.cs" />
     <Compile Include="ExcelEight.cs" />
     <Compile Include="ExcelFive.cs" />
@@ -93,16 +99,24 @@
     <Compile Include="ExcelValueCollectRule.cs" />
     <Compile Include="ExcelValueCreateRule.cs" />
     <Compile Include="ExcelValueLogicRule.cs" />
+    <Compile Include="FClassRule.cs" />
     <Compile Include="FileFolderStandardRule.cs" />
     <Compile Include="FileFolderStandardRule2.cs" />
     <Compile Include="FileOpenRule.cs" />
     <Compile Include="GatherTool.cs" />
     <Compile Include="GatherTool2.cs" />
+    <Compile Include="GHYTBaseTool.cs" />
+    <Compile Include="GHYTJQDLTBRule.cs" />
+    <Compile Include="GHYTJSYDGZQRule.cs" />
+    <Compile Include="GHYTRule.cs" />
+    <Compile Include="GHYTTDGHDLRule.cs" />
     <Compile Include="ICollect.cs" />
     <Compile Include="IExcel.cs" />
     <Compile Include="IMerge.cs" />
     <Compile Include="IResult.cs" />
     <Compile Include="ITable.cs" />
+    <Compile Include="JClassRule.cs" />
+    <Compile Include="JQXZRule.cs" />
     <Compile Include="LayersCompleteRule.cs" />
     <Compile Include="MergeTool.cs" />
     <Compile Include="MetadataRule.cs" />
@@ -110,6 +124,7 @@
     <Compile Include="ResultComplete.cs" />
     <Compile Include="RuleManager.cs" />
     <Compile Include="SplinterRule.cs" />
+    <Compile Include="SplinterRule2.cs" />
     <Compile Include="StructureRule.cs" />
     <Compile Include="StructureRule2.cs" />
     <Compile Include="Table.cs" />
@@ -119,6 +134,7 @@
     <Compile Include="TBAreaRule.cs" />
     <Compile Include="TBBHRule.cs" />
     <Compile Include="TopologyRule.cs" />
+    <Compile Include="TopologyRule2.cs" />
     <Compile Include="ValueBaseRule.cs" />
     <Compile Include="ValueBaseRule2.cs" />
     <Compile Include="AttributeRule.cs" />
@@ -130,6 +146,7 @@
     <Compile Include="VectorRule.cs" />
     <Compile Include="WriteCollectTool.cs" />
     <Compile Include="XZCDMRule.cs" />
+    <Compile Include="YJJBNTRule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoowooTech.Stock.ArcGISTool\LoowooTech.Stock.ArcGISTool.csproj">

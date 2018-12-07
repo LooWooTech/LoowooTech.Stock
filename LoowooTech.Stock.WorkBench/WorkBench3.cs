@@ -9,7 +9,7 @@ using System.Text;
 
 namespace LoowooTech.Stock.WorkBench
 {
-    public class WorkBench3:IWorkBench
+    public class WorkBench3:IWorkBench2
     {
         public event ProgramProgressHandler OnProgramProcess;
 
@@ -23,13 +23,36 @@ namespace LoowooTech.Stock.WorkBench
         private List<IRule> _rules { get; set; } = new List<IRule>();
         private void InitRules()
         {
-            _rules.Add(new FileFolderStandardRule2());//2018-11-21
-            _rules.Add(new MetadataRule());
-            _rules.Add(new LayersCompleteRule());//2018-11-21
-            _rules.Add(new CoordinateRule2());//2018-11-22
-            _rules.Add(new StructureRule2());//2018-11-22
-            _rules.Add(new ValueManageRule());//2018-11-24
+            _rules.Add(new FileFolderStandardRule2());//2018-11-21目录级文件规范性
+            _rules.Add(new MetadataRule());//   元数据
+            _rules.Add(new LayersCompleteRule());//2018-11-21图层完整性
+            _rules.Add(new CoordinateRule2());//2018-11-22数学基础
+            _rules.Add(new StructureRule2());//2018-11-22结构符合性
+            _rules.Add(new ValueManageRule());//2018-11-24值符合性
+            _rules.Add(new AttributeRule());//2018-11-26属性正确性
+            _rules.Add(new AreaRule());//2018-11-30//面积一致性
+            _rules.Add(new TopologyRule2());//2018-11-29 拓扑关系
+            _rules.Add(new SplinterRule2());//2018-11-27 碎片多边形
 
+            _rules.Add(new JQXZRule());//2018-11-30
+
+            _rules.Add(new AClassRule());//2018-12-3
+            _rules.Add(new BClassRule());//2018-12-3
+            _rules.Add(new CClassRule());//2018-12-3
+            _rules.Add(new EClassRule());//
+
+            _rules.Add(new FClassRule());//2018-12-5
+            _rules.Add(new JClassRule());//2018-12-5
+
+            _rules.Add(new GHYTJQDLTBRule());//2018-12-5
+            _rules.Add(new GHYTTDGHDLRule());//2018-12-6
+            _rules.Add(new GHYTJSYDGZQRule());//2018-12-6
+            _rules.Add(new GHYTRule());//2018-12-6
+
+            _rules.Add(new YJJBNTRule());//2018-12-7
+            _rules.Add(new SFQYJJBNTRule());//2018-12-7
+            _rules.Add(new JSYDGZQ040Rule());//2018-12-7
+            _rules.Add(new JSYDGZQ020Rule());//2018-12-7
 
         }
 

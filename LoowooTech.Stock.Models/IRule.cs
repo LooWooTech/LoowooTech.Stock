@@ -11,5 +11,6 @@ namespace LoowooTech.Stock.Models
         string RuleName { get;  }
         bool Space { get; }
         void Check();
+       
     }
 }
