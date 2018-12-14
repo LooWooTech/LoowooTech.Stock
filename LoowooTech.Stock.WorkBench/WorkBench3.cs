@@ -34,11 +34,13 @@ namespace LoowooTech.Stock.WorkBench
             _rules.Add(new TopologyRule2());//2018-11-29 拓扑关系
             _rules.Add(new SplinterRule2());//2018-11-27 碎片多边形
 
-            _rules.Add(new JQXZRule());//2018-11-30
+            _rules.Add(new JQXZRule());//2018-11-30  基期与现状数据对比
 
-            _rules.Add(new AClassRule());//2018-12-3
-            _rules.Add(new BClassRule());//2018-12-3
-            _rules.Add(new CClassRule());//2018-12-3
+            _rules.Add(new JQZHQHRule());//2018-12-11 基数转换前后地类转换关系正确性
+
+            _rules.Add(new AClassRule());//2018-12-3  A类转换逻辑一致性
+            _rules.Add(new BClassRule());//2018-12-3 B类转换逻辑一致性
+            _rules.Add(new CClassRule());//2018-12-3 C 类转换逻辑一致性
             _rules.Add(new EClassRule());//
 
             _rules.Add(new FClassRule());//2018-12-5
@@ -56,13 +58,51 @@ namespace LoowooTech.Stock.WorkBench
 
         }
 
+        private List<int> _IDs { get; set; }
+        public List<int> IDs { get { return _IDs; } set { _IDs = value; } }
+        public List<Question2> Results { get { return QuestionManager2.Questions; } }
+
         public void Program()
         {
-            ParameterManager2.Init(Folder);
+            QuestionManager2.Questions.Clear();
             if (Init() == false)
             {
                 OutputMessage("00", "初始化失败，即将退出质检", ProgressResultTypeEnum.Fail);
                 return;
+            }
+
+            foreach(var id in IDs)
+            {
+                var rule = _rules.FirstOrDefault(e => e.ID == id.ToString());
+                if (rule != null)
+                {
+                    var sb = new StringBuilder(rule.RuleName);
+                    var result = ProgressResultTypeEnum.Pass;
+                    try
+                    {
+                        rule.Check();
+                    }catch(AggregateException ae)
+                    {
+                        foreach (var exp in ae.InnerExceptions)
+                        {
+                            sb.Append(exp.Message + "\r\n");
+                        }
+                        result = ProgressResultTypeEnum.Fail;
+                    }catch(Exception ex)
+                    {
+                        sb.Append(ex.ToString());
+                        result = ProgressResultTypeEnum.Fail;
+                    }
+                    if (result != ProgressResultTypeEnum.Pass)
+                    {
+                        QuestionManager2.Add(new Question2 { Code = rule.ID, Name = rule.RuleName, Description = sb.ToString() });
+                    }
+
+                    if (OutputMessage(rule.ID, sb.ToString(), result) == true)
+                    {
+                        break;
+                    }
+                }
             }
 
         }
@@ -92,12 +132,13 @@ namespace LoowooTech.Stock.WorkBench
                 OutputMessage("00", "无法获取矢量mdb数据文件", ProgressResultTypeEnum.Fail);
                 return false;
             }
-
+            InitRules();
             return true;
         }
 
         private bool OutputMessage(string code, string message, ProgressResultTypeEnum result)
         {
+            QuestionManager2.Add(new Question2 { Code = code, Description = message });
             return OutputMessage(new ProgressEventArgs { Code = code, Message = message, Result = result });
         }
         private bool OutputMessage(ProgressEventArgs e)

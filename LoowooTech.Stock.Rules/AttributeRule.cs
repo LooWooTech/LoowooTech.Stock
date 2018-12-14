@@ -43,11 +43,16 @@ namespace LoowooTech.Stock.Rules
             #region 编号唯一性检查
             _tools.Add(new ValueUniqueTool2 { TableName = "JQDLTB", CheckFieldName = "TBBH", GroupByFieldName = "XZQDM", ID = "", RelationName = "JQDLTB" });
             _tools.Add(new ValueUniqueTool2 { TableName = "TDGHDL", CheckFieldName = "TBBH", GroupByFieldName = "XZQDM", ID = "", RelationName = "TDGHDL" });
+            _tools.Add(new ValueUniqueTool2 { TableName = "GHYT", CheckFieldName = "YTDKBH", GroupByFieldName = "XZQDM", ID = "", RelationName = "GHYT" });
             #endregion
 
             #region 权属单位代码名称一致性检查
 
-
+            if (ParameterManager2.QSList != null && ParameterManager2.QSList.Count > 0)
+            {
+                _tools.Add(new ValueMathTool2 { TableName = "JQDLTB", CheckKeyFieldName = "SQBM", CheckValueFieldName = "SQMC", Key = _key, CurrentDict = ParameterManager2.QSDict, ID = "", RelationName = "JQDLTB" });
+                _tools.Add(new ValueMathTool2 { TableName = "TDGHDL", CheckKeyFieldName = "SQBM", CheckValueFieldName = "SQMC", Key = _key, CurrentDict = ParameterManager2.QSDict, ID = "", RelationName = "TDGHDL" });
+            }
 
             #endregion
         }

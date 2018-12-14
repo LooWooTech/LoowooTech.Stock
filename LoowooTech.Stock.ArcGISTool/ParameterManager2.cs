@@ -21,7 +21,36 @@ namespace LoowooTech.Stock.ArcGISTool
         /// </summary>
         public static string Folder { get { return _folder; } set { _folder = value; } }
 
+        private static string _TDLYXZ { get; set; }
+
+        /// <summary>
+        /// 土地利用现状数据库文件
+        /// </summary>
+        public static string TDLYXZ { get { return _TDLYXZ; } set { _TDLYXZ = value; } }
+
+        private static string _XGH { get; set; }
+        /// <summary>
+        /// 乡规划数据库文件路径
+        /// </summary>
+        public static string XGH { get { return _XGH; } set { _XGH = value; } }
+
+        private static string _NZY { get; set; }
+        /// <summary>
+        /// 农转用
+        /// </summary>
+        public static string NZY { get { return _NZY; } set { _NZY = value; } }
+
+        private static string _GD { get; set; }
+        /// <summary>
+        /// 新曾耕地
+        /// </summary>
+        public static string GD { get { return _GD; } set { _GD = value; } }
+
+
+
+
         private static XmlDocument _configXml { get; set; }
+        public static XmlDocument ConfigXml { get { return _configXml; } }
 
         static ParameterManager2()
         {
@@ -42,9 +71,9 @@ namespace LoowooTech.Stock.ArcGISTool
         private static string _initFolder { get; set; }
 
         /// <summary>
-        /// 初始化路径
+        /// 初始化路径  存放质检中间过程中生成的文件
         /// </summary>
-        public static string InitFolder { get { return string.IsNullOrEmpty(_initFolder) ? _initFolder = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TEMPS", DateTime.Now.Date.ToString("yyyy-MM-dd-HH-mm-ss")) : _initFolder; } }
+        public static string InitFolder { get { return string.IsNullOrEmpty(_initFolder) ? _initFolder = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TEMPS", string.Format("{0}-{1}-{2}-{3}", DateTime.Now.Date.ToString("yyyy-MM-dd"),Country,Village,XZCString) ) : _initFolder; } }
 
         private static string _country { get; set; }
 
@@ -69,7 +98,7 @@ namespace LoowooTech.Stock.ArcGISTool
             {
                 str = str.Replace(entry.XZCMC, "");
             }
-            var array = str.Replace("县", ",").Split(',');
+            var array = str.Replace("县", ",").Replace("区","").Split(',');
             if (array.Length == 2)
             {
                 _country = array[0];
@@ -147,7 +176,7 @@ namespace LoowooTech.Stock.ArcGISTool
                         }
                         else
                         {
-                            if (cell1.ToString().ToLower() == "行政区名称".ToLower() && cell2.ToString().ToLower() == "行政区代码".ToLower())
+                            if (cell1.ToString().ToLower() == "行政村名称".ToLower() && cell2.ToString().ToLower() == "行政村代码".ToLower())
                             {
                                 start = true;
                             }
@@ -166,7 +195,22 @@ namespace LoowooTech.Stock.ArcGISTool
             return false;
         }
 
+        private static List<XZC> _QSList { get; set; }
+        /// <summary>
+        /// 权属单位信息
+        /// </summary>
+        public static List<XZC> QSList { get { return _QSList; } }
+        /// <summary>
+        /// 权属单位代码与权属单位名称
+        /// </summary>
+        public static Dictionary<string,string> QSDict { get { return QSList.ToDictionary(e => e.XZCDM, e => e.XZCMC); } }
 
+        private static List<XZC> AnalyzeQS()
+        {
+            var list = new List<XZC>();
+
+            return list;
+        }
 
         private static List<string> _folders { get; set; }
         /// <summary>
@@ -255,18 +299,7 @@ namespace LoowooTech.Stock.ArcGISTool
         public static string MDBFilePath { get { return System.IO.Path.Combine(Folder, "3.规划图形数据", string.Format("{0}村土地利用规划空间数据库.mdb",XZCString)); } }
 
 
-        private static string _TDLYXZ { get; set; }
-
-        /// <summary>
-        /// 土地利用现状数据库文件
-        /// </summary>
-        public static string TDLYXZ { get { return _TDLYXZ; } set { _TDLYXZ = value; } }
-
-        private static string _XGH { get; set; }
-        /// <summary>
-        /// 乡规划数据库文件路径
-        /// </summary>
-        public static string XGH { get { return _XGH; } set { _XGH = value; } }
+   
 
         private static string _connectString { get { return string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", MDBFilePath); } }
 
@@ -541,5 +574,42 @@ namespace LoowooTech.Stock.ArcGISTool
             return string.Empty;
         }
 
+
+        private static Dictionary<string, string[]> _DLDY { get; set; } = new Dictionary<string, string[]> {
+            { "131",new string[]{ "031","032","033"} },//生态林>>>>>>>>>>>>>>>>有林地、灌木林地、其他林地
+            { "31",new string[]{"111","112","119" } },//  水域>>>>>>>>>>>>>>>>>河流水面、湖泊水面、冰川及永久积雪
+            { "32",new string[]{ "041","042","043","124","125","126","127"} },//自然保留地>>>>>>>>>>>>>>>>>>>>天然牧草地、人工牧草地、其他草地、盐碱地、沼泽地、沙地、裸地
+            { "111",new string[]{ "011"} },//水田>>>>>>>>>>>>>>>>>>>>>>>>>>>>>水田
+            { "113",new string[]{ "013"} },//旱地>>>>>>>>>>>>>>>>>>>>>>>>>>>>>旱地
+            { "12",new string[]{ "021","022","023"} },//园地>>>>>>>>>>>>>>>>>>>>果园、茶园、其他园地
+            { "132",new string[]{ "031", "032", "033"} },//商品林>>>>>>>>>>>>>>>>>>>>>>>>>>>有林地、灌木林地、其他林地
+            
+            { "151",new string[]{ "122"} },//设施农用地>>>>>>>>>>>>>>>>>>>>>>>>>>  设施农用地
+            { "152",new string[]{ "104"} },//农村道路>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>农村道路
+            { "153",new string[]{ "114"} },//坑塘水面>>>>>>>>>>>>>>>>>>>>>>>>>>>>>坑塘水面
+            { "154",new string[]{ "117"} },//农田水利用地>>>>>>>>>>>>>>>>>>>>>>>>>>沟渠
+            { "155",new string[]{ "123"} },//田坎>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>田坎
+
+            { "2121",new string[]{ "203"} },//宅基地>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>村庄
+            { "2122",new string[]{ "203"} },//公共服务设施用地>>>>>>>>>>>>>>>>>>>>>>>>村庄
+            { "2123",new string[]{ "203" } },//基础设施用地>>>>>>>>>>>>>>>>>>>>>>>>>>>村庄
+            { "2125",new string[]{ "203"} },//景观与绿化用地>>>>>>>>>>>>>>>>>>>>>>>>>>村庄
+            { "2126",new string[]{ "203"} },//村内交通用地>>>>>>>>>>>>>>>>>>>>>>>>>>>>村庄
+
+            { "2124",new string[]{ "203" } },//经营性建设用地>>>>>>>>>>>>>>>>>>>>>>>>>村庄
+
+            { "221",new string[]{ "101","102","105","106","107"} },//对外交通用地>>>>>>>>>>>>>>>>>>>>>>>>>>铁路用地、公路用地、机场用地、港口码头用地、管道运输用地
+            { "226",new string[]{ "113","118" } },//水利设施用地>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 水工建筑用地、 水库水面
+            { "213",new string[]{ "204"} },//采矿用地>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>采矿用地
+            { "231",new string[]{ "205"} },//风景名胜设施用地>>>>>>>>>>>>>>>>>>>>>>>风景名胜及特殊用地
+            { "232",new string[]{"205" } },//特殊用地>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>风景名胜及特殊用地
+
+            { "211",new string[]{ "201","202"} },//城镇用地>>>>>>>>>>>>>>>>>>>>>>>>城市、建制镇
+        };
+
+        /// <summary>
+        /// 地类代码  与二调 变更调查中的地类编码对应关系
+        /// </summary>
+        public static Dictionary<string,string[]> DLDY { get { return _DLDY; } }
     }
 }

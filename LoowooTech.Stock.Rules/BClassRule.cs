@@ -61,6 +61,8 @@ namespace LoowooTech.Stock.Rules
                
             }
 
+            
+
         }
     }
 }

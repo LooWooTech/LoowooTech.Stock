@@ -12,7 +12,7 @@ namespace LoowooTech.VillagePlanning
     {
 
         private static MainForm _form { get; set; }
-        public static LicenseInitializer m_AOLicenseInitializer { get; set; } = new LicenseInitializer();
+        public static LicenseInitializer m_AOLicenseInitializer = new LicenseInitializer();
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -23,7 +23,7 @@ namespace LoowooTech.VillagePlanning
             {
                 if (!RuntimeManager.Bind(ProductCode.Engine))
                 {
-                    MessageBox.Show("当前基期上无法找到ArcGIS授权！");
+                    MessageBox.Show("当前机器上无法找到ArcGIS授权！");
                     return;
                 }
             }

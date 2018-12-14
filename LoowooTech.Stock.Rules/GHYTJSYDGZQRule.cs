@@ -115,7 +115,7 @@ namespace LoowooTech.Stock.Rules
             }
             else
             {
-                if(ArcExtensions2.Select(string.Format("{0}\\{1}",MdbFilePath,"GHYT"),string.Format("{0}\\{1}",MdbFilePath,"JSYDGZQ_021"),"GZQLXDM = '021'") == false)
+                if(ArcExtensions2.Select(string.Format("{0}\\{1}",MdbFilePath,"GHYT"),string.Format("{0}\\{1}",MdbFilePath,"JSYDGZQ_021"),"GZQLXDM = '021' OR GZQLXDM = '020'") == false)
                 {
                     QuestionManager2.Add(new Question2
                     {

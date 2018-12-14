@@ -3,6 +3,7 @@ using LoowooTech.Stock.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -37,8 +38,19 @@ namespace LoowooTech.Stock.ArcGISTool
         /// <returns></returns>
         public string CopyFile(string sourceFile)
         {
+            if (System.IO.File.Exists(sourceFile) == false)
+            {
+                Console.Write("不存在文件："+sourceFile);
+            }
+            if (System.IO.Directory.Exists(ParameterManager2.InitFolder) == false)
+            {
+                Directory.CreateDirectory(ParameterManager2.InitFolder);
+            }
             var newFilePath = System.IO.Path.Combine(ParameterManager2.InitFolder, string.Format("temp-{0}.mdb", ID));
-            System.IO.File.Copy(sourceFile, newFilePath, true);
+
+            //var f = new FileInfo(sourceFile);
+            //f.CopyTo(newFilePath);
+            System.IO.File.Copy(sourceFile, newFilePath,true);
             return newFilePath;
         }
 
@@ -221,6 +233,8 @@ namespace LoowooTech.Stock.ArcGISTool
             }
             return list;
         }
+
+        
 
 
     }

@@ -42,6 +42,9 @@ namespace LoowooTech.Stock.WorkBench
         string Folder { get; set; }
         string ReportPath { get; set; }
         string ReportPDFPath { get; set; }
+        void Program();
+        List<Question2> Results { get; }
+        List<int> IDs { get; set; }
 
     }
 

@@ -99,6 +99,8 @@
     <Compile Include="ExcelValueCollectRule.cs" />
     <Compile Include="ExcelValueCreateRule.cs" />
     <Compile Include="ExcelValueLogicRule.cs" />
+    <Compile Include="F1ExcelRule.cs" />
+    <Compile Include="FBaseRule.cs" />
     <Compile Include="FClassRule.cs" />
     <Compile Include="FileFolderStandardRule.cs" />
     <Compile Include="FileFolderStandardRule2.cs" />
@@ -117,12 +119,17 @@
     <Compile Include="ITable.cs" />
     <Compile Include="JClassRule.cs" />
     <Compile Include="JQXZRule.cs" />
+    <Compile Include="JQZHQHRule.cs" />
+    <Compile Include="JSYDGZQ010Rule.cs" />
+    <Compile Include="JSYDGZQ020Rule.cs" />
+    <Compile Include="JSYDGZQ040Rule.cs" />
     <Compile Include="LayersCompleteRule.cs" />
     <Compile Include="MergeTool.cs" />
     <Compile Include="MetadataRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultComplete.cs" />
     <Compile Include="RuleManager.cs" />
+    <Compile Include="SFQYJJBNTRule.cs" />
     <Compile Include="SplinterRule.cs" />
     <Compile Include="SplinterRule2.cs" />
     <Compile Include="StructureRule.cs" />

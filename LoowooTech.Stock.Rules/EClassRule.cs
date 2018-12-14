@@ -1,6 +1,7 @@
 ﻿using LoowooTech.Stock.ArcGISTool;
 using LoowooTech.Stock.Common;
 using LoowooTech.Stock.Models;
+using LoowooTech.Stock.Tool;
 using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
@@ -17,6 +18,7 @@ namespace LoowooTech.Stock.Rules
         public bool Space { get { return true; } }
         public override void Check()
         {
+            Tools.Add(new ValueRangeTool2 { TableName = "JQDLTB", Key = "BSM", CheckFieldName = "DLDM", WhereClause = "ZHLX = 'E'", Values = new string[] { "232" }, RelationName = "JQDLTB", ID = "" });
             if(ExtractJQDLTB("ZHLX = 'E'") == true)
             {
                 var sql= "SELECT COUNT(*) FROM DLTB WHERE DLBM != '205'";

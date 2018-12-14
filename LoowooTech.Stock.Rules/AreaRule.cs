@@ -5,6 +5,7 @@ using LoowooTech.Stock.Models;
 using LoowooTech.Stock.Tool;
 using System;
 using System.Collections.Generic;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 
@@ -49,6 +50,37 @@ namespace LoowooTech.Stock.Rules
                     LocationClause = e.WhereClause,
                 }).ToList());
             }
+            #endregion
+
+            #region  规划用途净面积核对
+            if(ArcExtensions2.Select(string.Format("{0}\\{1}",MdbFilePath,"GHYT"),string.Format("{0}\\{1}",MdbFilePath,"GHYT_JBNT"),"GHYTDM = 'G111' OR GHYTDM = 'G112'") == false)
+            {
+                QuestionManager2.Add(new Question2
+                {
+                    Code = ID,
+                    Name = RuleName,
+                    CheckProject = CheckProject,
+                    Description = string.Format("提取规划用途层中的基本农田数据失败")
+                });
+            }
+            else
+            {
+                if (ArcExtensions2.Intersect(string.Format("{0}\\{1};{0}\\{2}", MdbFilePath, "GHYT_JBNT", "JQDLTB"), string.Format("{0}\\{1}", MdbFilePath, "GHYT_JBNT_Intersect"), ParameterManager2.Tolerance) == false)
+                {
+                    QuestionManager2.Add(new Question2
+                    {
+                        Code = ID,
+                        Name = RuleName,
+                        CheckProject = CheckProject,
+                        Description = string.Format("规划用途层中的基本农田数据与基期地类图斑数据相交Intersect失败")
+                    });
+                }
+                else
+                {
+                    CheckJMJ();
+                }
+            }
+
             #endregion
 
             IWorkspace workspace = MdbFilePath.OpenAccessFileWorkSpace();
@@ -195,6 +227,85 @@ namespace LoowooTech.Stock.Rules
             #endregion
 
 
+        
+
+
+        }
+
+        private void CheckJMJ()
+        {
+            var questions = new List<Question2>();
+            using (var connection = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", MdbFilePath)))
+            {
+                connection.Open();
+                var list = new List<GHYTJMJ>();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT BSM,MJ,JMJ FROM GHYT_JBNT";
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        list.Add(new GHYTJMJ
+                        {
+                            BSM = reader[0].ToString(),
+                            MJ = Math.Round(double.Parse(reader[1].ToString()),0),
+                            JMJ = Math.Round(double.Parse(reader[2].ToString()),0)
+                        });
+                    }
+                }
+                using(var command = connection.CreateCommand())
+                {
+                    foreach (var item in list)
+                    {
+                        var tt = new List<TKXSEntry>();
+                        command.CommandText = "SELECT TKXS,Shape_Area FROM GHYT_JBNT_Intersect";
+                        var reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            tt.Add(new TKXSEntry
+                            {
+                                TKXS = Math.Round(double.Parse(reader[0].ToString()),4),
+                                Area = double.Parse(reader[1].ToString())
+                            });
+                        }
+                        item.TKXSList = tt;
+
+                        var sum = tt.Sum(e => e.Area);
+                        var tkxs = .0;
+                        foreach(var t in tt)
+                        {
+                            tkxs += t.Area / sum * t.TKXS;
+                        }
+                        tkxs = Math.Round(tkxs, 4);
+                        var jmj = item.MJ * (1 - tkxs);
+                        var abs = Math.Abs(jmj - item.JMJ);
+                        var flag = false;
+                        if (ParameterManager2.Absolute.HasValue)
+                        {
+                            flag = abs < ParameterManager2.Absolute.Value;
+                        }
+                        if (ParameterManager2.Relative.HasValue)
+                        {
+                            var pp = abs / jmj;
+                            flag = pp < ParameterManager2.Relative.Value;
+                        }
+                        if (flag == false)
+                        {
+                            questions.Add(new Question2
+                            {
+                                Code = ID,
+                                Name = RuleName,
+                                CheckProject = CheckProject,
+                                Description = string.Format("[BSM = '{0}'] 对应的净面积填写误差不符合容差", item.BSM),
+                                LocationClause = string.Format("[BSM] = '{0}'", item.BSM)
+                            });
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            QuestionManager2.AddRange(questions);
+          
         }
 
 
